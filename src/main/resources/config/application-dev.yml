@@ -15,9 +15,10 @@
 
 logging:
     level:
-        ROOT: DEBUG
-        br.gov.mme: DEBUG
-        io.github.jhipster: DEBUG
+        ROOT: INFO
+        br.gov.mme: INFO
+        io.github.jhipster: INFO
+        org.springframework.security.ldap: DEBUG
 
 eureka:
     instance:
