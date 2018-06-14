@@ -1,7 +1,8 @@
 package br.gov.mme.web.rest.vm;
 
-import br.gov.mme.service.dto.UserDTO;
 import javax.validation.constraints.Size;
+
+import br.gov.mme.service.dto.UserDTO;
 
 /**
  * View Model extending the UserDTO, which is meant to be used in the user management UI.

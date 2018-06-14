@@ -1,9 +1,16 @@
 package br.gov.mme.repository;
 
-import br.gov.mme.SapedApp;
-import br.gov.mme.config.Constants;
-import br.gov.mme.config.audit.AuditEventConverter;
-import br.gov.mme.domain.PersistentAuditEvent;
+import static br.gov.mme.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,15 +23,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-import java.time.Instant;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static br.gov.mme.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
+import br.gov.mme.SapedApp;
+import br.gov.mme.config.Constants;
+import br.gov.mme.config.audit.AuditEventConverter;
+import br.gov.mme.domain.PersistentAuditEvent;
 
 /**
  * Test class for the CustomAuditEventRepository class.

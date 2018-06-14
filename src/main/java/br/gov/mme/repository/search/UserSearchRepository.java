@@ -1,7 +1,8 @@
 package br.gov.mme.repository.search;
 
-import br.gov.mme.domain.User;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+
+import br.gov.mme.domain.User;
 
 /**
  * Spring Data Elasticsearch repository for the User entity.

@@ -1,16 +1,12 @@
 package br.gov.mme.service;
 
-import br.gov.mme.config.CacheConfiguration;
-import br.gov.mme.domain.Authority;
-import br.gov.mme.domain.User;
-import br.gov.mme.repository.AuthorityRepository;
-import br.gov.mme.config.Constants;
-import br.gov.mme.repository.UserRepository;
-import br.gov.mme.repository.search.UserSearchRepository;
-import br.gov.mme.security.AuthoritiesConstants;
-import br.gov.mme.security.SecurityUtils;
-import br.gov.mme.service.util.RandomUtil;
-import br.gov.mme.service.dto.UserDTO;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +18,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import br.gov.mme.config.Constants;
+import br.gov.mme.domain.Authority;
+import br.gov.mme.domain.User;
+import br.gov.mme.repository.AuthorityRepository;
+import br.gov.mme.repository.UserRepository;
+import br.gov.mme.repository.search.UserSearchRepository;
+import br.gov.mme.security.AuthoritiesConstants;
+import br.gov.mme.security.SecurityUtils;
+import br.gov.mme.service.dto.UserDTO;
+import br.gov.mme.service.util.RandomUtil;
 
 /**
  * Service class for managing users.

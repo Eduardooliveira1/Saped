@@ -1,20 +1,24 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.service.AuditEventService;
-import br.gov.mme.web.rest.util.PaginationUtil;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.List;
+import br.gov.mme.service.AuditEventService;
+import br.gov.mme.web.rest.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for getting the audit events.

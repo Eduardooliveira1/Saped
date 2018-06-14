@@ -1,11 +1,11 @@
 package br.gov.mme.service;
 
-import br.gov.mme.SapedApp;
-import br.gov.mme.config.Constants;
-import br.gov.mme.domain.User;
-import br.gov.mme.repository.UserRepository;
-import br.gov.mme.service.dto.UserDTO;
-import br.gov.mme.service.util.RandomUtil;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -18,12 +18,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import br.gov.mme.SapedApp;
+import br.gov.mme.config.Constants;
+import br.gov.mme.domain.User;
+import br.gov.mme.repository.UserRepository;
+import br.gov.mme.service.dto.UserDTO;
+import br.gov.mme.service.util.RandomUtil;
 
 /**
  * Test class for the UserResource REST controller.

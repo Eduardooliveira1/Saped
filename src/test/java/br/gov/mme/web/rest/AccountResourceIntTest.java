@@ -1,20 +1,22 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.config.Constants;
-import br.gov.mme.SapedApp;
-import br.gov.mme.domain.Authority;
-import br.gov.mme.domain.User;
-import br.gov.mme.repository.AuthorityRepository;
-import br.gov.mme.repository.UserRepository;
-import br.gov.mme.security.AuthoritiesConstants;
-import br.gov.mme.service.MailService;
-import br.gov.mme.service.dto.UserDTO;
-import br.gov.mme.web.rest.errors.ExceptionTranslator;
-import br.gov.mme.web.rest.vm.KeyAndPasswordVM;
-import br.gov.mme.web.rest.vm.ManagedUserVM;
-import br.gov.mme.service.UserService;
-import org.apache.commons.lang3.RandomStringUtils;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,18 +32,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.Instant;
-import java.time.LocalDate;
 
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import br.gov.mme.SapedApp;
+import br.gov.mme.config.Constants;
+import br.gov.mme.domain.Authority;
+import br.gov.mme.domain.User;
+import br.gov.mme.repository.AuthorityRepository;
+import br.gov.mme.repository.UserRepository;
+import br.gov.mme.security.AuthoritiesConstants;
+import br.gov.mme.service.MailService;
+import br.gov.mme.service.UserService;
+import br.gov.mme.service.dto.UserDTO;
+import br.gov.mme.web.rest.errors.ExceptionTranslator;
+import br.gov.mme.web.rest.vm.KeyAndPasswordVM;
+import br.gov.mme.web.rest.vm.ManagedUserVM;
 
 /**
  * Test class for the AccountResource REST controller.

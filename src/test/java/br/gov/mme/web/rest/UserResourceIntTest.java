@@ -1,18 +1,24 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.SapedApp;
-import br.gov.mme.config.CacheConfiguration;
-import br.gov.mme.domain.Authority;
-import br.gov.mme.domain.User;
-import br.gov.mme.repository.UserRepository;
-import br.gov.mme.repository.search.UserSearchRepository;
-import br.gov.mme.security.AuthoritiesConstants;
-import br.gov.mme.service.MailService;
-import br.gov.mme.service.UserService;
-import br.gov.mme.service.dto.UserDTO;
-import br.gov.mme.service.mapper.UserMapper;
-import br.gov.mme.web.rest.errors.ExceptionTranslator;
-import br.gov.mme.web.rest.vm.ManagedUserVM;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,15 +35,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import br.gov.mme.SapedApp;
+import br.gov.mme.domain.Authority;
+import br.gov.mme.domain.User;
+import br.gov.mme.repository.UserRepository;
+import br.gov.mme.repository.search.UserSearchRepository;
+import br.gov.mme.security.AuthoritiesConstants;
+import br.gov.mme.service.MailService;
+import br.gov.mme.service.UserService;
+import br.gov.mme.service.dto.UserDTO;
+import br.gov.mme.service.mapper.UserMapper;
+import br.gov.mme.web.rest.errors.ExceptionTranslator;
+import br.gov.mme.web.rest.vm.ManagedUserVM;
 
 /**
  * Test class for the UserResource REST controller.

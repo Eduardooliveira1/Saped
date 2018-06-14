@@ -7,8 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.ldap.userdetails.LdapUserDetails;
 
-import br.gov.mme.security.AuthoritiesConstants;
-
 /**
  * Utility class for Spring Security.
  */

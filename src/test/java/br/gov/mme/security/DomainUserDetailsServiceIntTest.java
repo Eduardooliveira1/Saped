@@ -1,8 +1,8 @@
 package br.gov.mme.security;
 
-import br.gov.mme.SapedApp;
-import br.gov.mme.domain.User;
-import br.gov.mme.repository.UserRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Locale;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -15,9 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Locale;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import br.gov.mme.SapedApp;
+import br.gov.mme.domain.User;
+import br.gov.mme.repository.UserRepository;
 
 /**
  * Test class for DomainUserDetailsService.
