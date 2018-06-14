@@ -1,10 +1,13 @@
 package br.gov.mme.security;
 
+import java.util.Optional;
+
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.ldap.userdetails.LdapUserDetails;
 
-import java.util.Optional;
+import br.gov.mme.security.AuthoritiesConstants;
 
 /**
  * Utility class for Spring Security.
