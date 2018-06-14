@@ -1,7 +1,7 @@
 ######################
 # Project Specific
 ######################
-/target/www/**
+**/target/**
 /src/test/javascript/coverage/
 /src/test/javascript/PhantomJS*/
 
@@ -111,7 +111,7 @@ Desktop.ini
 ######################
 # Directories
 ######################
-/bin/
+*/bin/*
 /deploy/
 
 ######################
