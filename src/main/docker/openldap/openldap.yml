@@ -47,8 +47,6 @@ services:
       PHPLDAPADMIN_HTTPS: "false"
     ports:
       - "9980:80"
-    depends_on:
-      - openldap
 
 networks:
   funasa-local:

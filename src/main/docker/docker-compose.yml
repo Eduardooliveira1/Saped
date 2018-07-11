@@ -1,0 +1,50 @@
+#-------------------------------------------------------------------------------
+# Note for using the rate-limiting:
+#   The comment part won't be copied if you use the subgenerator docker-compose
+#   you have to manually copy it
+#-------------------------------------------------------------------------------
+version: '2'
+services:
+  saped-registry:
+    extends:
+      file: registry/jhipster-registry.yml
+      service: jhipster-registry
+    networks:
+      - mme-local
+    container_name: saped-registry
+  saped-mssql:
+    extends:
+      file: mssql/mssql.yml
+      service: saped-mssql
+    networks:
+      - mme-local
+    container_name: saped-mssql
+  saped-elasticsearch:
+    extends:
+      file: elasticsearch/elasticsearch.yml
+      service: saped-elasticsearch
+    networks:
+      - mme-local
+    container_name: saped-elasticsearch
+  saped-openldap:
+    extends:
+      file: openldap/openldap.yml
+      service: openldap
+    networks:
+      - mme-local
+    container_name: saped-openldap
+  saped-openldap-cliente:
+    extends:
+      file: openldap/openldap.yml
+      service: phpldapadmin
+    networks:
+      - mme-local
+    container_name: saped-openldap-cliente
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "saped-openldap"
+    depends_on:
+      - saped-openldap
+
+networks:
+  mme-local:
+
