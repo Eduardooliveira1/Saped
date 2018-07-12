@@ -114,6 +114,10 @@ jhipster:
     ribbon:
         display-on-active-profiles: dev
 
+
+liquibase:
+  enabled: false
+
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

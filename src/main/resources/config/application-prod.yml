@@ -34,7 +34,7 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:sqlserver://localhost:1433;database=saped
+        url: jdbc:sqlserver://localhost:1433;database=db_saped
         username: SA
         password: yourStrong(!)Password
         hikari:
@@ -74,8 +74,6 @@ spring:
             discovery:
                 enabled: true
 
-liquibase:
-    contexts: prod
 
 # ===================================================================
 # To enable SSL, generate a certificate using:

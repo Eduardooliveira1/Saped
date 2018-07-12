@@ -40,7 +40,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:sqlserver://localhost:1433;database=saped
+        url: jdbc:sqlserver://localhost:1433;database=db_saped
         username: SA
         password: yourStrong(!)Password
         hikari:
@@ -81,9 +81,6 @@ spring:
         locator:
             discovery:
                 enabled: true
-
-liquibase:
-    contexts: dev
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
