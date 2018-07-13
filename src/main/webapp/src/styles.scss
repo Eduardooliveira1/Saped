@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 $verdeEscuro: #10785F;
+$backgroundColor: #2E3E3D;
 
 .layout-container .topbar {
     background: #eaeaea; /* Old Browsers */
@@ -69,7 +70,7 @@ $verdeEscuro: #10785F;
 }
 
 body{
-    background-color: #2E3E3D;
+    background-color: $backgroundColor;
 }
 .layout-container .layout-main .layout-content{
     background: #eaeaea; /* Old Browsers */
@@ -105,6 +106,10 @@ body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout
 
 .layout-wrapper.layout-compact .layout-container.menu-layout-horizontal .layout-main {
     height: calc(100% - 75px);
+}
+
+.splash-screen {
+    background-color: $backgroundColor;
 }
 
 
