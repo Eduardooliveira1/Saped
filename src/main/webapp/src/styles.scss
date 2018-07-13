@@ -48,4 +48,23 @@ $verdeEscuro: #10785F;
     }
 }
 
+.layout-container.menu-layout-horizontal .layout-menu{
+    background: #396C69;
+}
+.layout-container .ultima-menu{
+    width: 82%;
+    margin: auto;
+}
+
+.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a.active-menuitem-routerlink{
+    color: #fff;
+    font-weight: bold;
+}
+.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li.active-menuitem > a {
+    background-color: #e8e8e8;
+}
+
+.active-menuitem-submenu ul{
+    border-top: solid 3px #D96A25;
+}
 
