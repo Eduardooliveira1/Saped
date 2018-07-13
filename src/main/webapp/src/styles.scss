@@ -68,3 +68,43 @@ $verdeEscuro: #10785F;
     border-top: solid 3px #D96A25;
 }
 
+body{
+    background-color: #2E3E3D;
+}
+.layout-container .layout-main .layout-content{
+    background: #eaeaea; /* Old Browsers */
+    background: -webkit-linear-gradient(top,#fff,#eaeaea); /*Safari 5.1-6*/
+    background: -o-linear-gradient(top,#fff,#eaeaea); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(top,#fff,#eaeaea); /*Fx 3.6-15*/
+    background: linear-gradient(to bottom, #fff, #eaeaea); /*Standard*/
+    width: 80%;
+    margin: auto;
+   /* height: 100%;
+    height: -moz-available;          !* WebKit-based browsers will ignore this. *!
+    height: -webkit-fill-available;  !* Mozilla-based browsers will ignore this. *!
+    height: fill-available;*/
+}
+
+html, body {
+    height: 100%;
+}
+
+body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout-container{
+    height: 100%;
+}
+
+@media (min-width: 1025px) {
+    .layout-wrapper.layout-compact .layout-container.menu-layout-horizontal .layout-main {
+        height: calc(100% - 110px) !important;
+    }
+}
+
+.layout-container .layout-main .layout-content{
+    height: calc(100% - 36px);
+}
+
+.layout-wrapper.layout-compact .layout-container.menu-layout-horizontal .layout-main {
+    height: calc(100% - 75px);
+}
+
+

@@ -5,8 +5,10 @@ import { LoginComponent } from './login/login.component';
 import { LoginSuccessComponent } from './login-success/login-success.component';
 import { LogoutComponent } from './logout/logout.component';
 import { DiarioErrosComponent } from './diario-erros/diario-erros.component';
+import {InicioComponent} from "./inicio/inicio.component";
 
 export const routes: Routes = [
+  { path: '', component: InicioComponent },
   { path: 'login', component: LoginComponent },
   { path: 'login-success', component: LoginSuccessComponent },
   { path: 'logout', component: LogoutComponent },
