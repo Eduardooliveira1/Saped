@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+$verdeEscuro: #10785F;
+
+.layout-container .topbar {
+    background: #eaeaea; /* Old Browsers */
+    background: -webkit-linear-gradient(top,#fff,#eaeaea); /*Safari 5.1-6*/
+    background: -o-linear-gradient(top,#fff,#eaeaea); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(top,#fff,#eaeaea); /*Fx 3.6-15*/
+    background: linear-gradient(to bottom, #fff, #eaeaea); /*Standard*/
+}
+
+.layout-container.menu-layout-horizontal .topbar .topbar-left {
+    background: none;
+}
+
+.layout-container .topbar .logo {
+    background: none;
+    display: flex;
+    height: 100%;
+    width: 440px;
+    h1 {
+        color: $verdeEscuro;
+        margin: auto 0;
+        padding: 10px;
+        padding-left: 15px;
+        font-size: 35px;
+        border-right: 1px solid $verdeEscuro;
+    }
+}
+
+.layout-container .topbar .topbar-left {
+    padding: 0;
+}
+
+.nome-sistema {
+    padding-left: 10px;
+    margin: auto;
+    h4 {
+        color: $verdeEscuro;
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+    }
+    h3{
+       color: $verdeEscuro;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+

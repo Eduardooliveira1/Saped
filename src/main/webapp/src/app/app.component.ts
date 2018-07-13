@@ -18,7 +18,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   layoutCompact: boolean = true;
 
-  layoutMode: MenuOrientation = MenuOrientation.STATIC;
+  layoutMode: MenuOrientation = MenuOrientation.HORIZONTAL;
 
   darkMenu: boolean = false;
 
