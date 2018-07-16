@@ -88,8 +88,4 @@ public class SapedApp {
             env.getActiveProfiles());
     }
 
-    @GetMapping("/")
-    public String index() {
-        return "Welcome to the home page!";
-    }
 }
