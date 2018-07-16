@@ -19,13 +19,6 @@ services:
     networks:
       - mme-local
     container_name: saped-mssql
-  saped-elasticsearch:
-    extends:
-      file: elasticsearch/elasticsearch.yml
-      service: saped-elasticsearch
-    networks:
-      - mme-local
-    container_name: saped-elasticsearch
   saped-openldap:
     extends:
       file: openldap/openldap.yml
