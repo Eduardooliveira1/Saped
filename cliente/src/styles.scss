@@ -70,17 +70,19 @@ $backgroundColor: #2E3E3D;
    color: #e8e8e8;
 }
 
-.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a:hover{
+.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a:hover, .layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li.active-menuitem > a{
    border-bottom: #d96a25 solid 3px;
    background: none;
    color: #fff;
 }
 
+
+
 .layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a.active-menuitem-routerlink:hover{
     color: #ffffff;  
 }
 
-.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a:hover i {
+.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a:hover i, .layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li.active-menuitem > a i {
     color: #fff;
  }
 
@@ -88,12 +90,13 @@ $backgroundColor: #2E3E3D;
     margin-top: 0;
 }
 
-.active-menuitem-submenu ul{
-    border-top: solid 3px #D96A25;
+.layout-wrapper.layout-compact .layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > ul{
+    top: 36px;
 }
 
 body{
     background-color: $backgroundColor;
+    font-family: "Roboto","Helvetica Neue",sans-serif;
 }
 .layout-container .layout-main .layout-content{
     background: #eaeaea; /* Old Browsers */
@@ -103,14 +106,11 @@ body{
     background: linear-gradient(to bottom, #fff, #eaeaea); /*Standard*/
     width: 80%;
     margin: auto;
-   /* height: 100%;
-    height: -moz-available;          !* WebKit-based browsers will ignore this. *!
-    height: -webkit-fill-available;  !* Mozilla-based browsers will ignore this. *!
-    height: fill-available;*/
 }
 
 html, body {
     height: 100%;
+    font-family: "Open Sans";
 }
 
 body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout-container{
