@@ -60,9 +60,20 @@ $backgroundColor: #2E3E3D;
 .layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a.active-menuitem-routerlink{
     color: #fff;
     font-weight: bold;
+    border-bottom: #d96a25 solid 3px
 }
 .layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li.active-menuitem > a {
     background-color: #e8e8e8;
+}
+
+.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a:hover{
+   border-bottom: #d96a25 solid 3px;
+   background: none;
+   color: #fff;
+}
+
+.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a:hover i {
+    color: #ffffff;
 }
 
 .active-menuitem-submenu ul{
@@ -116,6 +127,13 @@ body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout
     padding-right: 23px;
     padding-top: 7px;
     color: #ffffff;
+}
+.titulo-pagina{
+    width: 100%;
+    color: #646464;
+    border-bottom: solid 1px;
+    padding-bottom: 3px;
+    font-weight: 500;
 }
 
 
