@@ -76,6 +76,10 @@ $backgroundColor: #2E3E3D;
     color: #ffffff;
 }
 
+.layout-container.menu-layout-horizontal .layout-menu ul.ultima-menu > li > a i {
+    margin-top: 0;
+}
+
 .active-menuitem-submenu ul{
     border-top: solid 3px #D96A25;
 }
