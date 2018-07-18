@@ -13,6 +13,7 @@ import { ButtonModule, DataTableModule } from 'primeng/primeng';
     RouterModule.forChild(pessoaJuridicaRoute),
     FormsModule,
     ButtonModule,
+    DataTableModule
   ],
   declarations: [PessoaJuridicaListComponent]
 })
