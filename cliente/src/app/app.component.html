@@ -19,9 +19,9 @@
               <app-menu [reset]="resetMenu"></app-menu>
             </div>
             <div class="ui-g-1">
-                <a class="notificacoes" (click)="panelNotificacoes.toggle($event)">
-                    <i class="topbar-icon material-icons">notifications</i>
-                  </a>
+              <a class="notificacoes" (click)="panelNotificacoes.toggle($event)">
+                <i class="topbar-icon material-icons">notifications</i>
+              </a>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
   </div>
 </div>
 
-<p-overlayPanel #panelNotificacoes [appendTo]="'body'" [styleClass]="'painel-notificacoes'">
+<p-overlayPanel #panelNotificacoes [styleClass]="'painel-notificacoes'">
   <div class="notificacoes-header ui-g">
     <div class="ui-g-10">
       <label class="titulo-notificacoes">Notificações</label>
