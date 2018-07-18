@@ -139,7 +139,7 @@ body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout
 }
 .notificacoes{
     float: right;
-    padding-right: 23px;
+    padding-right: 13px;
     padding-top: 7px;
     color: #ffffff;
     cursor: pointer;
@@ -169,13 +169,23 @@ body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout
         color:$verdeEscuro;
     }
 }
+
+.notificacoes-content{
+    height: 250px;
+    
+}
+
 .painel-notificacoes{
     border: solid 2px $verdeEscuro !important;
     border-radius: 25px;
     border-radius: 6px !important;
     margin-top: 10px;
     width: 25%;
-    left: 66.5% !important;
+    left: 67.4% !important;
+
+    .ui-overlaypanel-content {
+        padding: 3px 5px;
+    }
 }
 
 .painel-notificacoes:after,
