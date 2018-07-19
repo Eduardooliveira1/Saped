@@ -17,7 +17,7 @@
 </div>
 <div class="ui-g">
   <div class="ui-g-12">
-    <p-dataTable [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true" (onLazyLoad)="pesquisar($event)" [lazy]="true"
+    <p-dataTable #dataTable sortField="nomeFantasia" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true" (onLazyLoad)="pesquisar()" [lazy]="true"
       [totalRecords]="result?.totalElements" [value]="result?.content" emptyMessage="Nenhum resultado encontrado.">
       <p-column field="cnpj" header="CNPJ">
         <ng-template let-col let-row="rowData" pTemplate="body">

@@ -4,7 +4,7 @@ export class Pageable {
     sort: string;
 
     constructor(page: number, size: number) {
-        this.page = page * .1;
+        this.page = Math.round(page);
         this.size = size;
     }
 
