@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { PessoaJuridicaListComponent } from './pessoa-juridica-list/pessoa-juridica-list.component';
 import { RouterModule } from '@angular/router';
 import { ButtonModule, DataTableModule } from 'primeng/primeng';
+import { PessoaJuridicaService } from './pessoa-juridica.service';
 
 
 @NgModule({
@@ -15,6 +16,9 @@ import { ButtonModule, DataTableModule } from 'primeng/primeng';
     ButtonModule,
     DataTableModule
   ],
-  declarations: [PessoaJuridicaListComponent]
+  declarations: [PessoaJuridicaListComponent],
+  providers:[
+      PessoaJuridicaService
+  ]
 })
 export class PessoaJuridicaModule { }
