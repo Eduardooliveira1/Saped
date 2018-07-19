@@ -3,6 +3,8 @@ import { Pageable } from '../../util/pageable-request';
 import { PessoaJuridicaService } from '../pessoa-juridica.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { IfObservable } from 'rxjs/observable/IfObservable';
+import { faUserFriends, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core'
 
 @Component({
   selector: 'app-pessoa-juridica-list',
@@ -15,6 +17,10 @@ export class PessoaJuridicaListComponent implements OnInit {
   filtro: string;
   ultimoFiltro: string;
 
+  faUserFriends = faUserFriends;
+  faEdit = faEdit;
+  faTrashAlt = faTrashAlt;
+  
   constructor(private pessoaJuridicaService: PessoaJuridicaService) { }
 
   ngOnInit() {
