@@ -25,7 +25,7 @@ export class PessoaJuridicaListComponent implements OnInit {
   faUserFriends = faUserFriends;
   faEdit = faEdit;
   faTrashAlt = faTrashAlt;
-  
+
   constructor(private pessoaJuridicaService: PessoaJuridicaService) { }
 
   ngOnInit() {
@@ -35,19 +35,19 @@ export class PessoaJuridicaListComponent implements OnInit {
     if (this.filtro && this.filtro.length >= 3) {
       this.ultimoFiltro = this.filtro;
       this.pesquisar(0);
-    }else if(!this.filtro || this.filtro.length == 0 && this.ultimoFiltro){
-        this.filtro = null;
-        this.ultimoFiltro = null;
-        this.pesquisar(0);
+    } else if (!this.filtro || this.filtro.length == 0 && this.ultimoFiltro) {
+      this.filtro = null;
+      this.ultimoFiltro = null;
+      this.pesquisar(0);
     }
   }
 
-  pesquisar(page?:number) {
+  pesquisar(page?: number) {
 
     const tabela = this.dataTable;
 
-    let pageable = new Pageable(page ? page : tabela.first / tabela.rows,tabela.rows);
-    pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField); 
+    let pageable = new Pageable(page ? page : tabela.first / tabela.rows, tabela.rows);
+    pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
       .subscribe(result => {
