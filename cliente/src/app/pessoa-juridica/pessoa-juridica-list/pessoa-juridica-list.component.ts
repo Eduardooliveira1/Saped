@@ -31,7 +31,7 @@ export class PessoaJuridicaListComponent implements OnInit {
   ngOnInit() {
   }
 
-  filtrar(value) {
+  filtrar() {
     if (this.filtro && this.filtro.length >= 3) {
       this.ultimoFiltro = this.filtro;
       this.dataTable.first = 0;
@@ -44,8 +44,7 @@ export class PessoaJuridicaListComponent implements OnInit {
     }
   }
 
-  pesquisar(page?: number) {
-
+  pesquisar() {
     let pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
