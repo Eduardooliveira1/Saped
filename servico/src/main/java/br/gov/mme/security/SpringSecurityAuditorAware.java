@@ -1,9 +1,8 @@
 package br.gov.mme.security;
 
+import br.gov.mme.config.Constants;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
-
-import br.gov.mme.config.Constants;
 
 /**
  * Implementation of AuditorAware based on Spring Security.
