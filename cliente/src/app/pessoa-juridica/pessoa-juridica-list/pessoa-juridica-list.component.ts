@@ -34,19 +34,19 @@ export class PessoaJuridicaListComponent implements OnInit {
   filtrar(value) {
     if (this.filtro && this.filtro.length >= 3) {
       this.ultimoFiltro = this.filtro;
-      this.pesquisar(0);
+      this.dataTable.first = 0;
+      this.pesquisar();
     } else if (!this.filtro || this.filtro.length == 0 && this.ultimoFiltro) {
       this.filtro = null;
       this.ultimoFiltro = null;
-      this.pesquisar(0);
+      this.dataTable.first = 0;
+      this.pesquisar();
     }
   }
 
   pesquisar(page?: number) {
 
-    const tabela = this.dataTable;
-
-    let pageable = new Pageable(page ? page : tabela.first / tabela.rows, tabela.rows);
+    let pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
