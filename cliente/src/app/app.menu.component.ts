@@ -78,7 +78,6 @@ export class AppMenuComponent implements OnInit {
                 </ul>
             </li>
         </ng-template>
-        <a class="notificacoes" href="#" *ngIf="root"><i class="topbar-icon material-icons">notifications</i></a>
     `,
     animations: [
         trigger('children', [

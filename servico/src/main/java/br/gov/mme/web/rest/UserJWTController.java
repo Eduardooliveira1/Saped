@@ -1,7 +1,10 @@
 package br.gov.mme.web.rest;
 
-import javax.validation.Valid;
-
+import br.gov.mme.security.jwt.JWTConfigurer;
+import br.gov.mme.security.jwt.TokenProvider;
+import br.gov.mme.web.rest.vm.LoginVM;
+import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import br.gov.mme.security.jwt.JWTConfigurer;
-import br.gov.mme.security.jwt.TokenProvider;
-import br.gov.mme.web.rest.vm.LoginVM;
+import javax.validation.Valid;
 
 /**
  * Controller to authenticate users.

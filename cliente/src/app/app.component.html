@@ -1,8 +1,7 @@
 <div class="layout-wrapper" [ngClass]="{'layout-compact':layoutCompact}" (click)="onLayoutClick()">
   <ng-progress></ng-progress>
   <basis-block-ui></basis-block-ui>
-  <div #layoutContainer class="layout-container"
-      [ngClass]="{'menu-layout-static': !isOverlay(),
+  <div #layoutContainer class="layout-container" [ngClass]="{'menu-layout-static': !isOverlay(),
       'menu-layout-overlay': isOverlay(),
       'layout-menu-overlay-active': overlayMenuActive,
       'menu-layout-horizontal': isHorizontal(),
@@ -15,7 +14,16 @@
     <div class="layout-menu" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick($event)">
       <div #layoutMenuScroller class="nano">
         <div class="nano-content menu-scroll-content">
-          <app-menu [reset]="resetMenu"></app-menu>
+          <div class="menu-container">
+            <div class="ui-g-11">
+              <app-menu [reset]="resetMenu"></app-menu>
+            </div>
+            <div class="ui-g-1">
+              <a class="notificacoes" (click)="panelNotificacoes.toggle($event)">
+                <i class="topbar-icon material-icons">notifications</i>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -30,3 +38,19 @@
     <div class="layout-mask"></div>
   </div>
 </div>
+
+<p-overlayPanel #panelNotificacoes [styleClass]="'painel-notificacoes'">
+  <div class="notificacoes-header ui-g">
+    <div class="ui-g-10">
+      <label class="titulo-notificacoes">Notificações</label>
+    </div>
+    <div class="ui-g-2">
+      <a (click)="panelNotificacoes.hide($event)" class="fechar-notificacoes">
+        <i class="material-icons">close</i>
+      </a>
+    </div>
+  </div>
+  <div class="notificacoes-content ">
+
+  </div>
+</p-overlayPanel>
