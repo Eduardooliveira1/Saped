@@ -1,8 +1,7 @@
 package br.gov.mme.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import br.gov.mme.domain.Authority;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Spring Data JPA repository for the Authority entity.

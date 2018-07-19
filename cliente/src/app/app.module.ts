@@ -51,7 +51,7 @@ import { InicioComponent } from './inicio/inicio.component';
     AppSharedModule.forRoot(),
     AccessbilityModule.forRoot(),
     PageNotificationModule.forRoot(),
-    BlockUiModule.forRoot()
+    BlockUiModule.forRoot(),
     /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
   ],
   declarations: [
@@ -76,6 +76,6 @@ import { InicioComponent } from './inicio/inicio.component';
     BreadcrumbService,
     ConfirmationService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

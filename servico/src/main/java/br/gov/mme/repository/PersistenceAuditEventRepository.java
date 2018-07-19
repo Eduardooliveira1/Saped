@@ -1,13 +1,12 @@
 package br.gov.mme.repository;
 
-import java.time.Instant;
-import java.util.List;
-
+import br.gov.mme.domain.PersistentAuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.gov.mme.domain.PersistentAuditEvent;
+import java.time.Instant;
+import java.util.List;
 
 /**
  * Spring Data JPA repository for the PersistentAuditEvent entity.

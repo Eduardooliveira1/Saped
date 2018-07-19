@@ -1,16 +1,15 @@
 package br.gov.mme.web.rest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import br.gov.mme.config.DefaultProfileUtil;
+import io.github.jhipster.config.JHipsterProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.mme.config.DefaultProfileUtil;
-import io.github.jhipster.config.JHipsterProperties;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Resource to return information about the currently running Spring profiles.
