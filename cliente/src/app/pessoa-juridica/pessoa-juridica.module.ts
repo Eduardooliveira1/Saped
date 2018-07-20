@@ -6,7 +6,8 @@ import { PessoaJuridicaListComponent } from './pessoa-juridica-list/pessoa-jurid
 import { RouterModule } from '@angular/router';
 import { ButtonModule, DataTableModule } from 'primeng/primeng';
 import { PessoaJuridicaService } from './pessoa-juridica.service';
-
+import {Ng2BRPipesModule} from 'ng2-brpipes';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -14,11 +15,14 @@ import { PessoaJuridicaService } from './pessoa-juridica.service';
     RouterModule.forChild(pessoaJuridicaRoute),
     FormsModule,
     ButtonModule,
-    DataTableModule
+    DataTableModule,
+    Ng2BRPipesModule,
+    FontAwesomeModule
   ],
   declarations: [PessoaJuridicaListComponent],
   providers:[
       PessoaJuridicaService
-  ]
+  ],
+  exports: [Ng2BRPipesModule]
 })
 export class PessoaJuridicaModule { }

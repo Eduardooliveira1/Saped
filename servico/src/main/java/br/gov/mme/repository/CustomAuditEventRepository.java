@@ -1,10 +1,8 @@
 package br.gov.mme.repository;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import br.gov.mme.config.Constants;
+import br.gov.mme.config.audit.AuditEventConverter;
+import br.gov.mme.domain.PersistentAuditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.audit.AuditEvent;
@@ -13,9 +11,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.mme.config.Constants;
-import br.gov.mme.config.audit.AuditEventConverter;
-import br.gov.mme.domain.PersistentAuditEvent;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An implementation of Spring Boot's AuditEventRepository.
