@@ -1,9 +1,5 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.util.PaginationUtil;
-import com.codahale.metrics.annotation.Timed;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
