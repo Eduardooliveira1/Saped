@@ -1,33 +1,40 @@
 package br.gov.mme.web.rest;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import java.time.LocalDateTime;
-
 import javax.persistence.EntityManager;
 
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import br.gov.mme.SapedApp;
-import br.gov.mme.domain.Pessoa;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.repository.PessoaJuridicaRepository;
+import br.gov.mme.utils.ConstUtilsForTests;
+import br.gov.mme.utils.FuncUtilsForTests;
+import br.gov.mme.utils.ObjectsUtilsForTests;
 
 
 /**
- * Test class for the ProfileInfoResource REST controller.
+ * Test class for the PessoaJuridica REST controller.
  *
- * @see ProfileInfoResource
+ * @see PessoaJuridicaResource
  **/
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = SapedApp.class)
 public class PessoaJuridicaResourceIntTest {
+
+	@ClassRule
+	public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
+
+	@Rule
+	public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
     @Autowired
     private PessoaJuridicaRepository pessoaJuridicaRepository;
@@ -37,34 +44,35 @@ public class PessoaJuridicaResourceIntTest {
 
     PessoaJuridica pessoaJuridica;
 
-    private MockMvc restProfileMockMvc;
+	private MockMvc restPessoaJuridicaMockMvc;
 
+	private static final String GET_PJS = "/api/pessoas-juridicas";
 
     public static PessoaJuridica createEntity(EntityManager em){
         PessoaJuridica pessoaJuridica = new PessoaJuridica();
-        Pessoa pessoa = new Pessoa();
-        pessoa.setDataCadastro(LocalDateTime.now());
-        em.persist(pessoa);
-        em.flush();
-        pessoaJuridica.setPessoa(pessoa);
-        pessoaJuridica.setCnpj("11111111111111");
-        pessoaJuridica.setNomeFantasia("DEFAULT_NOME");
-        pessoaJuridica.setRazaoSocial("DEFAULT_RAZAO_SOCIAL");
-        pessoaJuridica.setSigla("DEFAULT_SIGLA");
+		pessoaJuridica.setPessoa(ObjectsUtilsForTests.getDefaultPessoa());
+		pessoaJuridica.setCnpj(ConstUtilsForTests.DEFAULT_STRING_TAM_14);
+		pessoaJuridica.setNomeFantasia(ConstUtilsForTests.DEFAULT_STRING_TAM_9);
+		pessoaJuridica.setRazaoSocial(ConstUtilsForTests.DEFAULT_STRING_TAM_9);
+		pessoaJuridica.setSigla(ConstUtilsForTests.DEFAULT_STRING_TAM_9);
         return pessoaJuridica;
     }
 
     @Before
     public void setup(){
+		MockitoAnnotations.initMocks(this);
+
+		LogsResource logsResource = new LogsResource();
+		this.restPessoaJuridicaMockMvc = MockMvcBuilders.standaloneSetup(logsResource).build();
+
+		this.pessoaJuridicaRepository.deleteAll();
 		pessoaJuridica = createEntity(this.em);
     }
 
     @Test
     public void listarPessoasJuridicasTest() throws Exception{
         this.pessoaJuridicaRepository.saveAndFlush(pessoaJuridica);
-		restProfileMockMvc.perform(get("/api/pessoas-juridicas/"));
-
+		FuncUtilsForTests.performGet(restPessoaJuridicaMockMvc, GET_PJS);
     }
-
 
 }

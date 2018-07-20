@@ -1,5 +1,11 @@
 package br.gov.mme.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
@@ -7,12 +13,12 @@ import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaListaMapper;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * Service Implementation for managing PessoaJuridica.
+ *
+ */
 @Service
 @Transactional
 public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
