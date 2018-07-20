@@ -1,5 +1,7 @@
 package br.gov.mme.web.rest;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import javax.persistence.EntityManager;
 
 import org.junit.Before;
@@ -9,17 +11,22 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.mme.SapedApp;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.repository.PessoaJuridicaRepository;
+import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.utils.ConstUtilsForTests;
 import br.gov.mme.utils.FuncUtilsForTests;
 import br.gov.mme.utils.ObjectsUtilsForTests;
+import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 
 /**
@@ -39,8 +46,20 @@ public class PessoaJuridicaResourceIntTest {
     @Autowired
     private PessoaJuridicaRepository pessoaJuridicaRepository;
 
+	@Autowired
+	private PessoaJuridicaService pessoaJuridicaService;
+
     @Autowired
     private EntityManager em;
+
+	@Autowired
+	private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+
+	@Autowired
+	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
+	@Autowired
+	private ExceptionTranslator exceptionTranslator;
 
     PessoaJuridica pessoaJuridica;
 
@@ -62,17 +81,21 @@ public class PessoaJuridicaResourceIntTest {
     public void setup(){
 		MockitoAnnotations.initMocks(this);
 
-		LogsResource logsResource = new LogsResource();
-		this.restPessoaJuridicaMockMvc = MockMvcBuilders.standaloneSetup(logsResource).build();
+		PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService);
 
-		this.pessoaJuridicaRepository.deleteAll();
+		this.restPessoaJuridicaMockMvc = MockMvcBuilders.standaloneSetup(pessoaJuridicaResource)
+				.setCustomArgumentResolvers(this.pageableArgumentResolver).setControllerAdvice(this.exceptionTranslator)
+				.setMessageConverters(this.jacksonMessageConverter).build();
+		this.em.clear();
+		this.pessoaJuridicaRepository.deleteAllInBatch();
 		pessoaJuridica = createEntity(this.em);
     }
 
     @Test
+	@Transactional
     public void listarPessoasJuridicasTest() throws Exception{
         this.pessoaJuridicaRepository.saveAndFlush(pessoaJuridica);
-		FuncUtilsForTests.performGet(restPessoaJuridicaMockMvc, GET_PJS);
+		FuncUtilsForTests.performGet(restPessoaJuridicaMockMvc, GET_PJS).andDo(print());
     }
 
 }

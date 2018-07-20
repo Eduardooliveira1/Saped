@@ -22,7 +22,7 @@ import br.gov.mme.web.rest.util.PaginationUtil;
  * @see PessoaJuridicaService
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/")
 public class PessoaJuridicaResource {
 
     private final PessoaJuridicaService pessoaJuridicaService;
