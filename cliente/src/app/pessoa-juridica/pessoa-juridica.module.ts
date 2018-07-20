@@ -8,6 +8,7 @@ import { ButtonModule, DataTableModule } from 'primeng/primeng';
 import { PessoaJuridicaService } from './pessoa-juridica.service';
 import {Ng2BRPipesModule} from 'ng2-brpipes';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PessoaJuridicaFormComponent } from './pessoa-juridica-form/pessoa-juridica-form.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     Ng2BRPipesModule,
     FontAwesomeModule
   ],
-  declarations: [PessoaJuridicaListComponent],
+  declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent],
   providers:[
       PessoaJuridicaService
   ],

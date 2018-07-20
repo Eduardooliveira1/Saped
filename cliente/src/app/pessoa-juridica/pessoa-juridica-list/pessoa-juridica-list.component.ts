@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Pageable } from '../../util/pageable-request';
 import { PessoaJuridicaService } from '../pessoa-juridica.service';
@@ -26,7 +27,8 @@ export class PessoaJuridicaListComponent implements OnInit {
   faEdit = faEdit;
   faTrashAlt = faTrashAlt;
 
-  constructor(private pessoaJuridicaService: PessoaJuridicaService) { }
+  constructor(private pessoaJuridicaService: PessoaJuridicaService,
+  private router : Router) { }
 
   ngOnInit() {
   }
@@ -53,4 +55,9 @@ export class PessoaJuridicaListComponent implements OnInit {
         this.result = result.json();
       });
   }
+
+  novaEmpresa(){
+    this.router.navigateByUrl('pessoa-juridica/cadastro');
+  }
+
 }
