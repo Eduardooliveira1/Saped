@@ -12,11 +12,13 @@ public abstract class ConstUtilsForTests {
 	private ConstUtilsForTests() {
 	}
 
-	public static final String DEFAULT_STRING_TAM_14 = "11111111111111";
-
 	public static final String DEFAULT_STRING_TAM_9 = "aaaaaaaaa";
 
-	public static final FlStatus DEFAULT_FL_STATUS = FlStatus.N;
+	public static final String UPDATED_STRING_TAM_9 = "bbbbbbbbb";
+
+	public static final FlStatus DEFAULT_FL_STATUS = FlStatus.S;
+
+	public static final FlStatus UPDATED_FL_STATUS = FlStatus.N;
 
 	public static final LocalDateTime DEFAULT_DATE_TIME = LocalDateTime.now();
 
