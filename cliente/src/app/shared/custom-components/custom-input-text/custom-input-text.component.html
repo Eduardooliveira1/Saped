@@ -1,0 +1,13 @@
+<input type="text"
+       pInputText
+       [class]="getDefaultClass()"
+       [readonly]="readonly"
+       [value]="getValue()"
+       [maxLength]="maxLength"
+       [pattern]="pattern"
+       (input)="onChange($event)"
+       (blur)="setTouched()"/>
+<label *ngIf="showLabel" class="float-label">{{label}}</label>
+<div *ngIf="showErrorMessage && hasError()" class="ui-message ui-messages-error">
+    {{errorMessage}}
+</div>

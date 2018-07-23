@@ -1,6 +1,110 @@
 <h2 class="titulo-pagina">
   {{tituloPagina}}
 </h2>
-<h3 class="subtitulo-pagina">
+<form [formGroup]="form">
+  <h3 class="subtitulo-pagina">
     Dados
-</h3>
+  </h3>
+
+  <div class="ui-g form-group">
+    <div class="ui-g-12 ui-md-4">
+      <span class="md-inputfield">
+        <p-inputMask formControlName="cnpj" id="cnpj" [(ngModel)]="pessoaJuridica.cnpj" mask="99.999.999/9999-99" slotChar=" " [autoClear]="false"
+          [unmask]="true"></p-inputMask>
+        <label for="cnpj">CNPJ</label>
+
+        <div *ngIf="cnpjInvalido() " class="ui-message ui-messages-error">
+          {{getMessagemErroCnpj()}}
+        </div>
+
+      </span>
+    </div>
+  </div>
+  <div class="ui-g form-group">
+    <div class="ui-g-12 ui-md-4">
+      <span class="md-inputfield">
+        <app-custom-input-text [maxLength]="20" [label]="'Sigla da Empresa'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
+          formControlName="sigla" [(ngModel)]="pessoaJuridica.sigla"></app-custom-input-text>
+      </span>
+    </div>
+  </div>
+  <div class="ui-g form-group">
+    <div class="ui-g-12 ui-md-6">
+      <span class="md-inputfield">
+        <app-custom-input-text [maxLength]="100" [label]="'Razão Social'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
+          formControlName="razaoSocial" [(ngModel)]="pessoaJuridica.razaoSocial"></app-custom-input-text>
+      </span>
+    </div>
+  </div>
+  <div class="ui-g form-group">
+    <div class="ui-g-12 ui-md-6">
+      <span class="md-inputfield">
+        <app-custom-input-text [maxLength]="100" [label]="'Nome Fantasia'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
+          formControlName="nomeFantasia" [(ngModel)]="pessoaJuridica.nomeFantasia"></app-custom-input-text>
+      </span>
+    </div>
+  </div>
+
+  <h3 class="subtitulo-pagina">
+    Endereço
+  </h3>
+
+  <div class="ui-g form-group">
+    <div class="ui-g-12 ui-md-4">
+      <div class="labeled-dropdown filled ui-md-12">
+        <p-dropdown [required]="true" [showClear]="true" [options]="tiposEndereco" placeholder="Selecione"></p-dropdown>
+        <label class="float-label">Tipo de Endereço</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g form-group">
+    <div class="ui-g-12 ui-md-2">
+      <span class="md-inputfield">
+        <p-inputMask formControlName="cep" id="cep" mask="99.999-999" slotChar=" " [autoClear]="false" [unmask]="true"></p-inputMask>
+        <label for="cep">CEP</label>
+      </span>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <span class="md-inputfield">
+        <app-custom-input-text [maxLength]="100" [label]="'Município'" formControlName="municipio"></app-custom-input-text>
+      </span>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <span class="md-inputfield">
+        <app-custom-input-text [maxLength]="100" [label]="'Bairro'" formControlName="bairro"></app-custom-input-text>
+      </span>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <div class="labeled-dropdown filled ui-md-12">
+        <p-dropdown [required]="true" [showClear]="true" [options]="ufs" placeholder="Selecione"></p-dropdown>
+        <label class="float-label">UF</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g form-group">
+
+    <div class="ui-g-12 ui-md-6">
+      <span class="md-inputfield">
+        <app-custom-input-text [maxLength]="255" [label]="'Endereço'" formControlName="endereco"></app-custom-input-text>
+      </span>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <span class="md-inputfield">
+        <app-custom-input-text [maxLength]="100" [label]="'Complemento'" formControlName="complemento"></app-custom-input-text>
+      </span>
+    </div>
+  </div>
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="ui-g-12 ui-md-12 ui-lg-1 float-right">
+        <button pButton type="button" (click)="salvarPessoaJuridica()" label="Salvar"></button>
+      </div>
+    </div>
+
+  </div>
+
+
+</form>
