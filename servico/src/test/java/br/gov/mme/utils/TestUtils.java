@@ -28,9 +28,9 @@ public abstract class TestUtils {
 
 	public static final String UPDATED_STRING_TAM_9 = "bbbbbbbbb";
 
-	public static final String DEFAULT_VALID_CNPJ = "11111111111111";
+	public static final String DEFAULT_VALID_CNPJ = "87772272000198";
 
-	public static final String UPDATED_VALID_CNPJ = "22222222222222";
+	public static final String UPDATED_VALID_CNPJ = "83645050000153";
 
 	public static final LocalDateTime DATE_TIME_NOW = LocalDateTime.now();
 

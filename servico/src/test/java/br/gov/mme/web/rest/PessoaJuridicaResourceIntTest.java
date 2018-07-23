@@ -106,8 +106,8 @@ public class PessoaJuridicaResourceIntTest {
 
 	@Test
 	@Transactional
-	public void listarPessoasJuridicasTest() throws Exception {
-		PessoaJuridica pessoaJuridicaFlStatusN = createEntity(this.em);
+	public void listarPessoasJuridicas() throws Exception {
+		PessoaJuridica pessoaJuridicaFlStatusN = createDiferentEntity(this.em);
 		pessoaJuridicaFlStatusN.getPessoa().setStatus(FlStatus.N);
 		this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaFlStatusN);
 		TestUtils.performGet(restPessoaJuridicaMockMvc, GET_PJS)
