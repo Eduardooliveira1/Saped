@@ -22,11 +22,10 @@ import org.springframework.util.MultiValueMap;
 
 import br.gov.mme.SapedApp;
 import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.enumerator.FlStatus;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.utils.ConstUtilsForTests;
-import br.gov.mme.utils.FuncUtilsForTests;
-import br.gov.mme.utils.ObjectsUtilsForTests;
+import br.gov.mme.utils.TestUtils;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 /**
@@ -68,17 +67,17 @@ public class PessoaJuridicaResourceIntTest {
 	private static final String GET_PJS = "/api/pessoas-juridicas";
 
 	public static PessoaJuridica createEntity(EntityManager em) {
-		return createEntityBase(em, ConstUtilsForTests.DEFAULT_STRING_TAM_9);
+		return createEntityBase(em, TestUtils.DEFAULT_STRING_TAM_9, TestUtils.DEFAULT_VALID_CNPJ);
 	}
 
 	public static PessoaJuridica createDiferentEntity(EntityManager em) {
-		return createEntityBase(em, ConstUtilsForTests.UPDATED_STRING_TAM_9);
+		return createEntityBase(em, TestUtils.UPDATED_STRING_TAM_9, TestUtils.UPDATED_VALID_CNPJ);
 	}
 
-	private static PessoaJuridica createEntityBase(EntityManager em, String nome) {
+	private static PessoaJuridica createEntityBase(EntityManager em, String nome, String cpf) {
 		PessoaJuridica pessoaJuridica = new PessoaJuridica();
-		pessoaJuridica.setPessoa(ObjectsUtilsForTests.getDefaultPessoa());
-		pessoaJuridica.setCnpj(String.valueOf(FuncUtilsForTests.getNextId()));
+		pessoaJuridica.setPessoa(TestUtils.getDefaultPessoa());
+		pessoaJuridica.setCnpj(cpf);
 		pessoaJuridica.setNomeFantasia(nome);
 		pessoaJuridica.setRazaoSocial(nome);
 		pessoaJuridica.setSigla(nome);
@@ -97,8 +96,8 @@ public class PessoaJuridicaResourceIntTest {
 
 		PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService);
 
-		restPessoaJuridicaMockMvc = FuncUtilsForTests.setupMockMvc(pessoaJuridicaResource, pageableArgumentResolver,
-				jacksonMessageConverter, exceptionTranslator);
+		restPessoaJuridicaMockMvc = TestUtils.setupMockMvc(pessoaJuridicaResource, pageableArgumentResolver,
+			jacksonMessageConverter, exceptionTranslator);
 
 		this.pessoaJuridicaRepository.deleteAll();
 		this.pessoaJuridicaRepository.flush();
@@ -109,14 +108,15 @@ public class PessoaJuridicaResourceIntTest {
 	@Transactional
 	public void listarPessoasJuridicasTest() throws Exception {
 		PessoaJuridica pessoaJuridicaFlStatusN = createEntity(this.em);
-		pessoaJuridicaFlStatusN.getPessoa().setStatus(ConstUtilsForTests.UPDATED_FL_STATUS);
+		pessoaJuridicaFlStatusN.getPessoa().setStatus(FlStatus.N);
 		this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaFlStatusN);
-		FuncUtilsForTests.performGet(restPessoaJuridicaMockMvc, GET_PJS)
-				.andExpect(jsonPath("$.content[0].cnpj").value(this.pessoaJuridica.getCnpj()))
-				.andExpect(jsonPath("$.content[0].sigla").value(this.pessoaJuridica.getSigla()))
-				.andExpect(jsonPath("$.content[0].nomeFantasia").value(this.pessoaJuridica.getNomeFantasia()))
-				.andExpect(jsonPath("$.content[0].razaoSocial").value(this.pessoaJuridica.getRazaoSocial()))
-				.andExpect(jsonPath("$.totalElements").value(1)).andExpect(jsonPath("$.numberOfElements").value(1));
+		TestUtils.performGet(restPessoaJuridicaMockMvc, GET_PJS)
+			.andExpect(jsonPath("$.content[0].cnpj").value(this.pessoaJuridica.getCnpj()))
+			.andExpect(jsonPath("$.content[0].sigla").value(this.pessoaJuridica.getSigla()))
+			.andExpect(jsonPath("$.content[0].nomeFantasia").value(this.pessoaJuridica.getNomeFantasia()))
+			.andExpect(jsonPath("$.content[0].razaoSocial").value(this.pessoaJuridica.getRazaoSocial()))
+			.andExpect(jsonPath("$.totalElements").value(1))
+			.andExpect(jsonPath("$.numberOfElements").value(1));
 	}
 
 	@Test
@@ -128,13 +128,12 @@ public class PessoaJuridicaResourceIntTest {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("query", pessoaJuridicaRetornada.getCnpj());
 
-		FuncUtilsForTests
-				.performGetWithParams(restPessoaJuridicaMockMvc, GET_PJS, params)
-				.andExpect(jsonPath("$.content[0].cnpj").value(pessoaJuridicaRetornada.getCnpj()))
-				.andExpect(jsonPath("$.content[0].nomeFantasia").value(pessoaJuridicaRetornada
-						.getNomeFantasia()))
-				.andExpect(jsonPath("$.totalElements").value(1))
-				.andExpect(jsonPath("$.numberOfElements").value(1));
+		TestUtils.performGetWithParams(restPessoaJuridicaMockMvc, GET_PJS, params)
+			.andExpect(jsonPath("$.content[0].cnpj").value(pessoaJuridicaRetornada.getCnpj()))
+			.andExpect(jsonPath("$.content[0].nomeFantasia").value(pessoaJuridicaRetornada
+					.getNomeFantasia()))
+			.andExpect(jsonPath("$.totalElements").value(1))
+			.andExpect(jsonPath("$.numberOfElements").value(1));
     }
 
 }
