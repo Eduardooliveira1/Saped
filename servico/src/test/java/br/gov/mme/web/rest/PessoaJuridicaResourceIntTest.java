@@ -70,7 +70,6 @@ public class PessoaJuridicaResourceIntTest {
 
 	public static PessoaJuridica createEntity(EntityManager em) {
 		return createEntityBase(em, ConstUtilsForTests.DEFAULT_STRING_TAM_9);
-
 	}
 
 	public static PessoaJuridica createDiferentEntity(EntityManager em) {
