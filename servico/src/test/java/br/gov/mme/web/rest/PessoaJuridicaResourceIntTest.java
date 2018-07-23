@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import br.gov.mme.SapedApp;
 import br.gov.mme.domain.PessoaJuridica;
@@ -125,11 +127,15 @@ public class PessoaJuridicaResourceIntTest {
 		PessoaJuridica pessoaJuridicaRetornada = createDiferentEntity(this.em);
 		this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaRetornada);
 
-		FuncUtilsForTests.performGet(restPessoaJuridicaMockMvc, GET_PJS, 
-				pessoaJuridicaRetornada.getNomeFantasia())
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("query", pessoaJuridicaRetornada.getCnpj());
+
+		FuncUtilsForTests
+				.performGetWithParams(restPessoaJuridicaMockMvc, GET_PJS, params)
 				.andDo(print())
 				.andExpect(jsonPath("$.content[0].cnpj").value(pessoaJuridicaRetornada.getCnpj()))
-				.andExpect(jsonPath("$.content[0].nomeFantasia").value(pessoaJuridicaRetornada.getNomeFantasia()))
+				.andExpect(jsonPath("$.content[0].nomeFantasia").value(pessoaJuridicaRetornada
+						.getNomeFantasia()))
 				.andExpect(jsonPath("$.totalElements").value(1))
 				.andExpect(jsonPath("$.numberOfElements").value(1));
     }
