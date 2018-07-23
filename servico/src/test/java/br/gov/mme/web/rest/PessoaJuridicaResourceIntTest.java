@@ -1,7 +1,6 @@
 package br.gov.mme.web.rest;
 
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import javax.persistence.EntityManager;
@@ -131,7 +130,6 @@ public class PessoaJuridicaResourceIntTest {
 
 		FuncUtilsForTests
 				.performGetWithParams(restPessoaJuridicaMockMvc, GET_PJS, params)
-				.andDo(print())
 				.andExpect(jsonPath("$.content[0].cnpj").value(pessoaJuridicaRetornada.getCnpj()))
 				.andExpect(jsonPath("$.content[0].nomeFantasia").value(pessoaJuridicaRetornada
 						.getNomeFantasia()))
