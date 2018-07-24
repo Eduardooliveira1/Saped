@@ -30,7 +30,7 @@ public class CaixaPostalComunitariaFaixaNumero implements Serializable {
     @Size(max = 6)
     private String nrIicial;
 
-    @Column(name = "nr_Inicial", length = 6)
+    @Column(name = "nr_Final", length = 6)
     @Size(max = 6)
     private String nrFinal;
 
