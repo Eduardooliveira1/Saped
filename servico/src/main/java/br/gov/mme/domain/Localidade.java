@@ -1,6 +1,7 @@
 package br.gov.mme.domain;
 
 import br.gov.mme.enumeration.FlStatus;
+import br.gov.mme.enumeration.TpLocalidade;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,7 +46,7 @@ public class Localidade implements Serializable {
 
     @Column(name = "tp_localidade")
     @Enumerated(EnumType.STRING)
-    private FlStatus tipoLocalidade;
+    private TpLocalidade tipoLocalidade;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_Localidade_Subordinada")
@@ -108,11 +109,11 @@ public class Localidade implements Serializable {
         return this;
     }
 
-    public FlStatus getTipoLocalidade() {
+    public TpLocalidade getTipoLocalidade() {
         return tipoLocalidade;
     }
 
-    public Localidade setTipoLocalidade(FlStatus tipoLocalidade) {
+    public Localidade setTipoLocalidade(TpLocalidade tipoLocalidade) {
         this.tipoLocalidade = tipoLocalidade;
         return this;
     }
