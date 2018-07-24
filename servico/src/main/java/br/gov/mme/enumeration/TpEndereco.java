@@ -5,6 +5,7 @@ import br.gov.mme.service.util.EnumSerializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.stream.Stream;
 
 @JsonSerialize(using = EnumSerializer.class)
