@@ -6,6 +6,7 @@ import { PessoaJuridicaFormComponent } from './pessoa-juridica-form/pessoa-jurid
 
 export const pessoaJuridicaRoute: Routes = [
     { path: '', component: PessoaJuridicaListComponent },
-    { path: 'cadastro', component: PessoaJuridicaFormComponent }
+    { path: 'cadastro', component: PessoaJuridicaFormComponent },
+    { path: 'editar/:id', component: PessoaJuridicaFormComponent }
 ];
 

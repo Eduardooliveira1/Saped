@@ -60,4 +60,8 @@ export class PessoaJuridicaListComponent implements OnInit {
     this.router.navigateByUrl('pessoa-juridica/cadastro');
   }
 
+  editarEmpresa(id){
+    this.router.navigateByUrl('pessoa-juridica/editar/'+id);
+  }
+
 }
