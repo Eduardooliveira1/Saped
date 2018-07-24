@@ -1,3 +1,4 @@
+import { PageNotificationService } from '@basis/angular-components';
 import { MensagensUtils } from './../../util/mensagens-util';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import { Router } from '@angular/router';
@@ -23,8 +24,6 @@ export class PessoaJuridicaListComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
 
-  mensagensUtil: MensagensUtils;
-
   result: Page<PessoaJuridicaLista>;
   filtro: string;
   ultimoFiltro: string;
@@ -34,10 +33,10 @@ export class PessoaJuridicaListComponent implements OnInit {
   faTrashAlt = faTrashAlt;
 
   constructor(private pessoaJuridicaService: PessoaJuridicaService,
-  private router : Router) { }
+  private router : Router,
+  private pageNotificationService: PageNotificationService) { }
 
   ngOnInit() {
-    this.mensagensUtil = new MensagensUtils;
   }
 
   filtrar() {
@@ -54,16 +53,17 @@ export class PessoaJuridicaListComponent implements OnInit {
   }
 
   pesquisar() {
-    this.blockUI.start(this.mensagensUtil.CARREGANDO);
     let pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
+    this.blockUI.start(MensagensUtils.CARREGANDO);
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
       .subscribe(result => {
         this.blockUI.stop();
         this.result = result.json();
       }, error =>{
         this.blockUI.stop();
+        this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
       });
   }
 

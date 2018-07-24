@@ -1,12 +1,22 @@
 import { Injectable } from "@angular/core";
 
 export class MensagensUtils {
-    REGISTRO_SALVO ="Salvo com Sucesso.";
-    PREENCHA_CAMPOS_OBRIGATORIOS ="Preencha os campos obrigatórios.";
-    CAMPO_OBRIGATORIO ="Campo obrigatório.";
-    CARREGANDO="Carregando...";
-    SALVANDO="Salvando...";
-    CNPJ_INVALIDO ="CNPJ inválido."
+   
+    /**
+     * globais
+     */
+   
+    public static CAMPO_OBRIGATORIO ='Campo obrigatório.';
+    public static CARREGANDO='Carregando...';
+    public static ERRO_CARREGAR_DADOS='Erro ao carregar dados';
+    public static PREENCHA_CAMPOS_OBRIGATORIOS ='Preencha os campos obrigatórios.';
+    public static REGISTRO_SALVO ='Salvo com Sucesso.';
+    public static SALVANDO='Salvando...';
+
+    /**
+     * pessoa jurídica
+     */
+    public static CNPJ_INVALIDO ='CNPJ inválido.';
     
 
 }
