@@ -1,3 +1,5 @@
+import { MensagensUtils } from './../../util/mensagens-util';
+import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Pageable } from '../../util/pageable-request';
@@ -19,6 +21,10 @@ export class PessoaJuridicaListComponent implements OnInit {
 
   @ViewChild('dataTable') dataTable: DataTable;
 
+  @BlockUI() blockUI: NgBlockUI;
+
+  mensagensUtil: MensagensUtils;
+
   result: Page<PessoaJuridicaLista>;
   filtro: string;
   ultimoFiltro: string;
@@ -31,6 +37,7 @@ export class PessoaJuridicaListComponent implements OnInit {
   private router : Router) { }
 
   ngOnInit() {
+    this.mensagensUtil = new MensagensUtils;
   }
 
   filtrar() {
@@ -47,12 +54,16 @@ export class PessoaJuridicaListComponent implements OnInit {
   }
 
   pesquisar() {
+    this.blockUI.start(this.mensagensUtil.CARREGANDO);
     let pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
       .subscribe(result => {
+        this.blockUI.stop();
         this.result = result.json();
+      }, error =>{
+        this.blockUI.stop();
       });
   }
 

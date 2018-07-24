@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ValidateCnpj } from '../../shared/validators/cnpj.validator';
 import { PageNotificationService } from '@basis/angular-components';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-pessoa-juridica-form',
@@ -18,6 +19,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./pessoa-juridica-form.component.css']
 })
 export class PessoaJuridicaFormComponent implements OnInit {
+
+
+  @BlockUI() blockUI: NgBlockUI;
 
   tituloPagina = "Cadastrar Pessoa Jurídica"
   pessoaJuridica: PessoaJuridicaCadastro;
@@ -29,8 +33,6 @@ export class PessoaJuridicaFormComponent implements OnInit {
 
   customUtil: CustomUtils;
   mensagensUtil: MensagensUtils
-
-  msgPadraoCampoObrigatorio = "Campo Obrigatório.";
 
   private routeSub: Subscription;
 
@@ -52,8 +54,12 @@ export class PessoaJuridicaFormComponent implements OnInit {
 
     this.routeSub = this.route.params.subscribe(params => {
       if (params['id']) {
+        this.blockUI.start(this.mensagensUtil.CARREGANDO);
         this.tituloPagina = "Editar Pessoa Jurídica";
-        this.pessoaJuridicaService.obter(params['id']).subscribe(result => this.pessoaJuridica = result);
+        this.pessoaJuridicaService.obter(params['id']).subscribe(result => {
+          this.blockUI.stop();
+          this.pessoaJuridica = result
+        });
       }
     });
 
@@ -82,9 +88,9 @@ export class PessoaJuridicaFormComponent implements OnInit {
 
   getMessagemErroCnpj() {
     if (this.form.get('cnpj').errors.required) {
-      return this.msgPadraoCampoObrigatorio;
+      return this.mensagensUtil.CAMPO_OBRIGATORIO;
     } else {
-      return 'CNPJ inválido.';
+      return this.mensagensUtil.CNPJ_INVALIDO;
     }
   }
 
@@ -97,7 +103,6 @@ export class PessoaJuridicaFormComponent implements OnInit {
   salvarPessoaJuridica() {
 
     this.submitedForm = true;
-
     if (this.form.valid) {
       if (this.pessoaJuridica.id) {
         this.subscribeToSaveResponse(this.pessoaJuridicaService.atualizar(this.pessoaJuridica));
@@ -111,13 +116,15 @@ export class PessoaJuridicaFormComponent implements OnInit {
   }
 
   private subscribeToSaveResponse(result: Observable<PessoaJuridicaCadastro>) {
+    this.blockUI.start(this.mensagensUtil.SALVANDO);
     result.subscribe((res: PessoaJuridicaCadastro) => {
+      this.blockUI.stop();
       this.pessoaJuridica = res;
       this.pageNotificationService.addSuccessMessage(this.mensagensUtil.REGISTRO_SALVO);
     }, (res) => {
+      this.blockUI.stop();
       this.pageNotificationService.addErrorMessage(res.json().title);
     });
   }
-
 
 }
