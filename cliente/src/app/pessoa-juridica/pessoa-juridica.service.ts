@@ -4,7 +4,7 @@ import { HttpService } from '@basis/angular-components';
 import { environment } from './../../environments/environment.prod';
 import { Injectable } from "@angular/core";
 import { Pageable } from '../util/pageable-request';
-import { RequestOptions } from '@angular/http';
+import { RequestOptions, Response } from '@angular/http';
 
 @Injectable()
 export class PessoaJuridicaService {
@@ -32,7 +32,14 @@ export class PessoaJuridicaService {
 
     atualizar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
         const copy = this.convert(pessoaJuridica);
-        return this.http.put(this.resourceUrl, copy).map((res) => {
+        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
+            const jsonResponse = res.json();
+            return this.convertItemFromServer(jsonResponse);
+        });
+    }
+
+    obter(id: number): Observable<PessoaJuridicaCadastro> {
+        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
         });

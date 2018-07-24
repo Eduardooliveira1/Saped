@@ -2,12 +2,21 @@ package br.gov.mme.service.dto;
 
 public class PessoaJuridicaListaDTO {
 
+    private Long id;
     private String cnpj;
     private String sigla;
     private String nomeFantasia;
     private String razaoSocial;
 
     public PessoaJuridicaListaDTO(String cnpj, String sigla, String nomeFantasia, String razaoSocial) {
+        this.cnpj = cnpj;
+        this.sigla = sigla;
+        this.nomeFantasia = nomeFantasia;
+        this.razaoSocial = razaoSocial;
+    }
+
+    public PessoaJuridicaListaDTO(Long id, String cnpj, String sigla, String nomeFantasia, String razaoSocial) {
+        this.id = id;
         this.cnpj = cnpj;
         this.sigla = sigla;
         this.nomeFantasia = nomeFantasia;
@@ -50,6 +59,15 @@ public class PessoaJuridicaListaDTO {
 
     public PessoaJuridicaListaDTO setRazaoSocial(String razaoSocial) {
         this.razaoSocial = razaoSocial;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public PessoaJuridicaListaDTO setId(Long id) {
+        this.id = id;
         return this;
     }
 }

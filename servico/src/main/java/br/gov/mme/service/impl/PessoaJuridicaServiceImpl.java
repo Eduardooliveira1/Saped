@@ -24,6 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * 
+ * Service Implementation for managing PessoaJuridica.
+ *
+ */
+
 @Service
 @Transactional
 public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
@@ -82,5 +88,10 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
         pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
+    }
+
+    @Override
+    public PessoaJuridicaCadastroDTO obterPordId(Long id) {
+        return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));
     }
 }

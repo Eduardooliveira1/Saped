@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,11 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * REST controller for managing PessoaJuridicaResource.
+ *
+ * @see PessoaJuridicaService
+ */
 @RestController
 @RequestMapping("/api/")
 public class PessoaJuridicaResource {
@@ -42,6 +48,13 @@ public class PessoaJuridicaResource {
         Page<PessoaJuridicaListaDTO> page = pessoaJuridicaService.listarPessoasJuridicas(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pessoas-juridicas");
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/pessoa-juridica/{id}")
+    @Timed
+    public ResponseEntity<PessoaJuridicaCadastroDTO> obterPessoaJuridica(@PathVariable("id") Long id) throws URISyntaxException {
+        PessoaJuridicaCadastroDTO result = pessoaJuridicaService.obterPordId(id);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/pessoa-juridica")

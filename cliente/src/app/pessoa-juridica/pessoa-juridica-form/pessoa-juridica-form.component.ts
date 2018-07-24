@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { PessoaJuridicaService } from './../pessoa-juridica.service';
 import { MensagensUtils } from './../../util/mensagens-util';
@@ -9,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ValidateCnpj } from '../../shared/validators/cnpj.validator';
 import { PageNotificationService } from '@basis/angular-components';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-pessoa-juridica-form',
@@ -30,10 +32,14 @@ export class PessoaJuridicaFormComponent implements OnInit {
 
   msgPadraoCampoObrigatorio = "Campo Obrigatório.";
 
+  private routeSub: Subscription;
+
   constructor(private formBuilder: FormBuilder,
     private enumService: EnumService,
     private pageNotificationService: PageNotificationService,
-    private pessoaJuridicaService: PessoaJuridicaService
+    private pessoaJuridicaService: PessoaJuridicaService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -41,11 +47,17 @@ export class PessoaJuridicaFormComponent implements OnInit {
     this.pessoaJuridica = new PessoaJuridicaCadastro();
     this.customUtil = new CustomUtils;
     this.mensagensUtil = new MensagensUtils;
-
     this.buildReactiveForm();
     this.getTiposEndereco();
-  }
 
+    this.routeSub = this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.tituloPagina = "Editar Pessoa Jurídica";
+        this.pessoaJuridicaService.obter(params['id']).subscribe(result => this.pessoaJuridica = result);
+      }
+    });
+
+  }
 
   buildReactiveForm() {
     this.form = this.formBuilder.group({
