@@ -1,19 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Pageable } from '../../util/pageable-request';
-import { PessoaJuridicaService } from '../pessoa-juridica.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { IfObservable } from 'rxjs/observable/IfObservable';
-import { faUserFriends, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { DataTable } from 'primeng/primeng';
-import { Page } from '../../util/page';
-import { PessoaJuridicaLista } from './pessoa-juridica-lista.model';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Pageable} from '../../util/pageable-request';
+import {PessoaJuridicaService} from '../pessoa-juridica.service';
+import {faEdit, faTrashAlt, faUserFriends} from '@fortawesome/free-solid-svg-icons';
+import {DataTable} from 'primeng/primeng';
+import {Page} from '../../util/page';
+import {PessoaJuridicaLista} from './pessoa-juridica-lista.model';
+import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import { Injectable} from '@angular/core';
+
 
 @Component({
   selector: 'app-pessoa-juridica-list',
   templateUrl: './pessoa-juridica-list.component.html',
   styleUrls: ['./pessoa-juridica-list.component.css']
 })
+@Injectable()
 export class PessoaJuridicaListComponent implements OnInit {
 
   @ViewChild('dataTable') dataTable: DataTable;
@@ -26,7 +28,11 @@ export class PessoaJuridicaListComponent implements OnInit {
   faEdit = faEdit;
   faTrashAlt = faTrashAlt;
 
-  constructor(private pessoaJuridicaService: PessoaJuridicaService) { }
+
+  constructor(private pessoaJuridicaService: PessoaJuridicaService,
+              private router: Router,
+              private toastrService: ToastrService) {
+  }
 
   ngOnInit() {
   }
@@ -53,4 +59,10 @@ export class PessoaJuridicaListComponent implements OnInit {
         this.result = result.json();
       });
   }
+
+  excluir(id) {
+    this.router.navigate(['/excluir', id])
+        .catch(() => {this.toastrService.error('Não foi possível excluir a Pessoa Jurídica.'); });
+    }
+
 }

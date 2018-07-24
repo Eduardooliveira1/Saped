@@ -6,15 +6,23 @@ public class PessoaJuridicaListaDTO {
     private String sigla;
     private String nomeFantasia;
     private String razaoSocial;
+	private Long id;
 
-    public PessoaJuridicaListaDTO(String cnpj, String sigla, String nomeFantasia, String razaoSocial) {
-        this.cnpj = cnpj;
-        this.sigla = sigla;
-        this.nomeFantasia = nomeFantasia;
-        this.razaoSocial = razaoSocial;
-    }
+	public PessoaJuridicaListaDTO() {
+		this(null, null, null, null, null);
+	}
 
-    public PessoaJuridicaListaDTO() {
+	public PessoaJuridicaListaDTO(String cnpj, String sigla, String nomeFantasia, String razaoSocial) {
+		this(cnpj, sigla, nomeFantasia, razaoSocial, null);
+	}
+
+	public PessoaJuridicaListaDTO(String cnpj, String sigla, String nomeFantasia, String razaoSocial,
+			Long id) {
+		this.cnpj = cnpj;
+		this.sigla = sigla;
+		this.nomeFantasia = nomeFantasia;
+		this.razaoSocial = razaoSocial;
+		this.id = id;
     }
 
     public String getCnpj() {
@@ -52,4 +60,13 @@ public class PessoaJuridicaListaDTO {
         this.razaoSocial = razaoSocial;
         return this;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

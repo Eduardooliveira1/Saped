@@ -19,4 +19,12 @@ public interface PessoaJuridicaService {
      */
     Page<PessoaJuridicaListaDTO> listarPessoasJuridicas(String filtro,Pageable pageable);
 
+	/**
+	 * Exclui a pessoa Jurídica da lista de visualização.
+	 *
+	 * @param id
+	 * @return
+	 */
+	void excluirPessoaJuridica(Long id);
+
 }

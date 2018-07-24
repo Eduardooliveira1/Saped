@@ -1,9 +1,9 @@
-import { Routes, RouterModule } from '@angular/router';
-import { ModuleWithProviders } from '@angular/core';
+import {Routes} from '@angular/router';
 
-import { PessoaJuridicaListComponent } from './pessoa-juridica-list/pessoa-juridica-list.component'
+import {PessoaJuridicaListComponent} from './pessoa-juridica-list/pessoa-juridica-list.component';
 
 export const pessoaJuridicaRoute: Routes = [
-    { path: '', component: PessoaJuridicaListComponent }
+    { path: '', component: PessoaJuridicaListComponent },
+    { path: '/excluir/:id', component: PessoaJuridicaListComponent }
 ];
 

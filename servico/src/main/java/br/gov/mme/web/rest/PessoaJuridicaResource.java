@@ -6,6 +6,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,4 +40,12 @@ public class PessoaJuridicaResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pessoas-juridicas");
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
     }
+
+	@PostMapping("/pessoas-juridicas/excluir")
+	@Timed
+	public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(
+			@PathVariable Long id) {
+		pessoaJuridicaService.excluirPessoaJuridica(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

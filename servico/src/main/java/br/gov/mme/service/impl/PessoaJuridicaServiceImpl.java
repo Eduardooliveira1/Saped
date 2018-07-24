@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.enumerator.FlStatus;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
@@ -37,4 +39,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
            return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil.preparaStringLike(filtro), PaginationUtil.ignoreCase(pageable));
         }
     }
+
+	@Override
+	@Transactional
+	public void excluirPessoaJuridica(Long id) {
+		PessoaJuridica pessoa = this.pessoaJuridicaRepository.findOne(id);
+		pessoa.getPessoa().setStatus(FlStatus.N);
+		pessoaJuridicaRepository.saveAndFlush(pessoa);
+	}
 }

@@ -35,7 +35,7 @@
           <a class="link-editar">
               <fa-icon [icon]="faEdit"></fa-icon>
           </a>
-          <a class="link-remover">
+          <a class="link-remover" (click) = "excluir(row.id)">
               <fa-icon [icon]="faTrashAlt"></fa-icon>
           </a>
         </ng-template>
