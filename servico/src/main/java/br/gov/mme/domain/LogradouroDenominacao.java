@@ -30,7 +30,7 @@ public class LogradouroDenominacao implements Serializable {
     private Integer ordem;
 
     @Size(max = 36)
-    @Column(name="no_Denominacao", length = 36)
+    @Column(name="no_Tipo_Logradouro", length = 36)
     private String nomeTipoLogradouro;
 
     @Size(max = 150)
