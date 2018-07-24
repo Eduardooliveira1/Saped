@@ -68,10 +68,6 @@ public class Logradouro implements Serializable {
     @Enumerated(EnumType.STRING)
     private TpStatusLogradouro tipoStatusLogradouro;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_Localidade_Subordinada")
-    private Logradouro localidadeSubordinada;
-
     @Column(name = "no_Abreviado", length = 150)
     @Size(max = 150)
     private String nomeAbreviado;
@@ -167,15 +163,6 @@ public class Logradouro implements Serializable {
 
     public Logradouro setTipoStatusLogradouro(TpStatusLogradouro tipoStatusLogradouro) {
         this.tipoStatusLogradouro = tipoStatusLogradouro;
-        return this;
-    }
-
-    public Logradouro getLocalidadeSubordinada() {
-        return localidadeSubordinada;
-    }
-
-    public Logradouro setLocalidadeSubordinada(Logradouro localidadeSubordinada) {
-        this.localidadeSubordinada = localidadeSubordinada;
         return this;
     }
 
