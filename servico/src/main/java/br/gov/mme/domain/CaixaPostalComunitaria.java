@@ -1,11 +1,7 @@
 package br.gov.mme.domain;
 
-import br.gov.mme.enumeration.FlStatus;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,13 +12,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "td_Bairro")
-public class Bairro implements Serializable {
+@Table(name = "td_Caixa_Postal_Comunitaria")
+public class CaixaPostalComunitaria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "pk_Bairro")
+    @Column(name = "pk_Caixa_Postal_Comunitaria")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,14 +31,17 @@ public class Bairro implements Serializable {
     @NotNull
     private Localidade localidade;
 
-    @Column(name = "no_bairro", length = 72)
+    @Column(name = "no_Caixa_Postal_Comunitaria", length = 72)
     @Size(max = 72)
-    @NotNull
-    private String nomeBairro;
+    private String nomeCaixaPostalComunitaria;
 
-    @Column(name = "no_Abreviado", length = 36)
-    @Size(max = 36)
-    private String nomeAbreviado;
+    @Column(name = "ed_endereco", length = 300)
+    @Size(max = 300)
+    private String endereco;
+
+    @Column(name = "nr_Cep", length = 8)
+    @Size(max = 8)
+    private String cep;
 
     @NotNull
     @Column(name = "nr_Versao_Dne")
@@ -52,7 +51,7 @@ public class Bairro implements Serializable {
         return id;
     }
 
-    public Bairro setId(Long id) {
+    public CaixaPostalComunitaria setId(Long id) {
         this.id = id;
         return this;
     }
@@ -61,7 +60,7 @@ public class Bairro implements Serializable {
         return uf;
     }
 
-    public Bairro setUf(Uf uf) {
+    public CaixaPostalComunitaria setUf(Uf uf) {
         this.uf = uf;
         return this;
     }
@@ -70,26 +69,35 @@ public class Bairro implements Serializable {
         return localidade;
     }
 
-    public Bairro setLocalidade(Localidade localidade) {
+    public CaixaPostalComunitaria setLocalidade(Localidade localidade) {
         this.localidade = localidade;
         return this;
     }
 
-    public String getNomeBairro() {
-        return nomeBairro;
+    public String getNomeCaixaPostalComunitaria() {
+        return nomeCaixaPostalComunitaria;
     }
 
-    public Bairro setNomeBairro(String nomeBairro) {
-        this.nomeBairro = nomeBairro;
+    public CaixaPostalComunitaria setNomeCaixaPostalComunitaria(String nomeCaixaPostalComunitaria) {
+        this.nomeCaixaPostalComunitaria = nomeCaixaPostalComunitaria;
         return this;
     }
 
-    public String getNomeAbreviado() {
-        return nomeAbreviado;
+    public String getEndereco() {
+        return endereco;
     }
 
-    public Bairro setNomeAbreviado(String nomeAbreviado) {
-        this.nomeAbreviado = nomeAbreviado;
+    public CaixaPostalComunitaria setEndereco(String endereco) {
+        this.endereco = endereco;
+        return this;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public CaixaPostalComunitaria setCep(String cep) {
+        this.cep = cep;
         return this;
     }
 
@@ -97,7 +105,7 @@ public class Bairro implements Serializable {
         return versaoDne;
     }
 
-    public Bairro setVersaoDne(Integer versaoDne) {
+    public CaixaPostalComunitaria setVersaoDne(Integer versaoDne) {
         this.versaoDne = versaoDne;
         return this;
     }
