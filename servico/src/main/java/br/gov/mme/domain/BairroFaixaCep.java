@@ -23,7 +23,7 @@ public class BairroFaixaCep implements Serializable {
 
     @MapsId
     @OneToOne(optional = false)
-    @JoinColumn(name = "fk_Pessoa_Juridica", referencedColumnName = "pk_Pessoa")
+    @JoinColumn(name = "fk_Bairro", referencedColumnName = "pk_Bairro")
     private Bairro bairro;
 
     @Size(max = 8)
