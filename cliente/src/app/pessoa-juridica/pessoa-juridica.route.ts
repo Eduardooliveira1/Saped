@@ -4,6 +4,6 @@ import {PessoaJuridicaListComponent} from './pessoa-juridica-list/pessoa-juridic
 
 export const pessoaJuridicaRoute: Routes = [
     { path: '', component: PessoaJuridicaListComponent },
-    { path: '/excluir/:id', component: PessoaJuridicaListComponent }
+    { path: '/excluir/:id', component: PessoaJuridicaListComponent}
 ];
 

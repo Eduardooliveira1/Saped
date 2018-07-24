@@ -1,8 +1,11 @@
 package br.gov.mme.service.dto;
 
-public class PessoaJuridicaListaDTO {
+import java.io.Serializable;
 
-    private String cnpj;
+public class PessoaJuridicaListaDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private String cnpj;
     private String sigla;
     private String nomeFantasia;
     private String razaoSocial;

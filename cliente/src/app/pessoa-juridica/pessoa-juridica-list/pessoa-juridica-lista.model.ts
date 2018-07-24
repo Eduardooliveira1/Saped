@@ -4,7 +4,8 @@ export class PessoaJuridicaLista {
         public cnpj?: string,
         public sigla?: string,
         public nomeFantasia?: string,
-        public razaoSocial?: string
+        public razaoSocial?: string,
+        public id?: number
     ) {
 
     }

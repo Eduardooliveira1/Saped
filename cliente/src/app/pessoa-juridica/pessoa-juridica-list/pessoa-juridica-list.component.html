@@ -27,18 +27,21 @@
       <p-column field="sigla" header="Sigla"></p-column>
       <p-column field="nomeFantasia" header="Nome Fantasia"></p-column>
       <p-column field="razaoSocial" header="Razão Social"></p-column>
+      <p-column>field="id" header="" [hidden]="!col.visibility"</p-column>
       <p-column header="" styleClass="col-acoes">
+        <div class="ui-g-6">
         <ng-template let-col let-row="rowData" pTemplate="body">
-          <a class="link-representantes">
+          <a class="link-representantes" >
               <fa-icon [icon]="faUserFriends"></fa-icon>
           </a>
           <a class="link-editar">
               <fa-icon [icon]="faEdit"></fa-icon>
           </a>
-          <a class="link-remover" (click) = "excluir(row.id)">
-              <fa-icon [icon]="faTrashAlt"></fa-icon>
+          <a class="link-remover ng-click">
+            <fa-icon [icon]="faTrashAlt" (click)="excluir(row.id)"></fa-icon>
           </a>
         </ng-template>
+        </div>
       </p-column>
     </p-dataTable>
   </div>

@@ -51,7 +51,7 @@ export class PessoaJuridicaListComponent implements OnInit {
   }
 
   pesquisar() {
-    let pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
+    const pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
@@ -60,9 +60,8 @@ export class PessoaJuridicaListComponent implements OnInit {
       });
   }
 
-  excluir(id) {
-    this.router.navigate(['/excluir', id])
-        .catch(() => {this.toastrService.error('Não foi possível excluir a Pessoa Jurídica.'); });
-    }
+  excluir(id: number) {
+    this.pessoaJuridicaService.apagarPessoa(id);
+  }
 
 }

@@ -15,14 +15,20 @@ import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 @Repository
 public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, Long>, JpaSpecificationExecutor<PessoaJuridica> {
 
-    @Query("select new br.gov.mme.service.dto.PessoaJuridicaListaDTO(p.cnpj, p.sigla, p.nomeFantasia, p.razaoSocial) from PessoaJuridica p where p.pessoa.status = 'S'")
+	@Query("select new br.gov.mme.service.dto.PessoaJuridicaListaDTO(p.cnpj," +
+			  " p.sigla, p.nomeFantasia, p.razaoSocial, p.id)" +
+		  " from PessoaJuridica p" +
+		  " where p.pessoa.status = 'S'")
     Page<PessoaJuridicaListaDTO> listarPessoasJuridicas(Pageable pageable);
 
-    @Query("select new br.gov.mme.service.dto.PessoaJuridicaListaDTO(p.cnpj, p.sigla, p.nomeFantasia, p.razaoSocial) from PessoaJuridica p where p.pessoa.status = 'S' AND " +
-            "(lower(p.nomeFantasia) like lower(:filtro) " +
-            "OR lower(p.cnpj) like lower(:filtro)" +
-            "OR lower(p.razaoSocial) like lower(:filtro)" +
-            "OR lower(p.sigla) like lower(:filtro))")
+	@Query("select new br.gov.mme.service.dto.PessoaJuridicaListaDTO(" +
+			"p.cnpj, p.sigla, p.nomeFantasia, p.razaoSocial, p.id)" +
+		  " from PessoaJuridica p" +
+		  " where p.pessoa.status = 'S'" +
+		  	" AND (lower(p.nomeFantasia) like lower(:filtro)" +
+		   	" OR lower(p.cnpj) like lower(:filtro)" +
+		   	" OR lower(p.razaoSocial) like lower(:filtro)" +
+            " OR lower(p.sigla) like lower(:filtro))")
     Page<PessoaJuridicaListaDTO
             > listarPessoasJuridicasComFiltro(@Param("filtro") String filtro, Pageable pageable);
 

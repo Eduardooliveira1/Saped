@@ -6,9 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.domain.Pessoa;
 import br.gov.mme.enumerator.FlStatus;
 import br.gov.mme.repository.PessoaJuridicaRepository;
+import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.web.rest.util.PaginationUtil;
@@ -25,8 +26,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     private final PessoaJuridicaRepository pessoaJuridicaRepository;
 
-    public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository) {
+	private final PessoaRepository pessoaRepository;
+
+	public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
+			PessoaRepository pessoaRepository) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
+		this.pessoaRepository = pessoaRepository;
     }
 
     @Override
@@ -43,8 +48,8 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 	@Override
 	@Transactional
 	public void excluirPessoaJuridica(Long id) {
-		PessoaJuridica pessoa = this.pessoaJuridicaRepository.findOne(id);
-		pessoa.getPessoa().setStatus(FlStatus.N);
-		pessoaJuridicaRepository.saveAndFlush(pessoa);
+		Pessoa pessoa = pessoaRepository.getPessoa(id);
+		pessoa.setStatus(FlStatus.N);
+		pessoaRepository.saveAndFlush(pessoa);
 	}
 }

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +40,7 @@ public class PessoaJuridicaResource {
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
     }
 
-	@PostMapping("/pessoas-juridicas/excluir")
+	@GetMapping("/pessoas-juridicas/excluir/{id}")
 	@Timed
 	public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(
 			@PathVariable Long id) {
