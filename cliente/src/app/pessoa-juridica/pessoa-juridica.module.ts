@@ -1,3 +1,4 @@
+import { MensagensUtils } from './../util/mensagens-util';
 import { EnumService } from './../shared/enum.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { pessoaJuridicaRoute } from './pessoa-juridica.route';

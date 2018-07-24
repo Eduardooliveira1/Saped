@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs/Observable';
+import { PessoaJuridicaService } from './../pessoa-juridica.service';
+import { MensagensUtils } from './../../util/mensagens-util';
 import { CustomUtils } from './../../util/custom-utils';
 import { SelectItem } from 'primeng/primeng';
 import { EnumService } from './../../shared/enum.service';
@@ -23,17 +26,22 @@ export class PessoaJuridicaFormComponent implements OnInit {
   ufs: SelectItem[];
 
   customUtil: CustomUtils;
+  mensagensUtil: MensagensUtils
 
   msgPadraoCampoObrigatorio = "Campo Obrigatório.";
 
   constructor(private formBuilder: FormBuilder,
     private enumService: EnumService,
-    private pageNotificationService: PageNotificationService) { }
+    private pageNotificationService: PageNotificationService,
+    private pessoaJuridicaService: PessoaJuridicaService
+  ) { }
 
   ngOnInit() {
 
     this.pessoaJuridica = new PessoaJuridicaCadastro();
     this.customUtil = new CustomUtils;
+    this.mensagensUtil = new MensagensUtils;
+
     this.buildReactiveForm();
     this.getTiposEndereco();
   }
@@ -70,20 +78,33 @@ export class PessoaJuridicaFormComponent implements OnInit {
 
   getTiposEndereco() {
     this.enumService.listarEnum("tipos-endereco").subscribe(result => {
-      this.tiposEndereco =  this.customUtil.entityToDropDown(result,'descricao','id');
+      this.tiposEndereco = this.customUtil.entityToDropDown(result, 'descricao', 'id');
     })
   }
 
-  salvarPessoaJuridica(){
-    
+  salvarPessoaJuridica() {
+
     this.submitedForm = true;
 
-    if(this.form.valid){
-
-    }else{
-      this.pageNotificationService.addErrorMessage('Preencha os campos obrigatórios.');
+    if (this.form.valid) {
+      if (this.pessoaJuridica.id) {
+        this.subscribeToSaveResponse(this.pessoaJuridicaService.atualizar(this.pessoaJuridica));
+      } else {
+        this.subscribeToSaveResponse(this.pessoaJuridicaService.cadastrar(this.pessoaJuridica));
+      }
+    } else {
+      this.pageNotificationService.addErrorMessage(this.mensagensUtil.PREENCHA_CAMPOS_OBRIGATORIOS);
       return;
     }
+  }
+
+  private subscribeToSaveResponse(result: Observable<PessoaJuridicaCadastro>) {
+    result.subscribe((res: PessoaJuridicaCadastro) => {
+      this.pessoaJuridica = res;
+      this.pageNotificationService.addSuccessMessage(this.mensagensUtil.REGISTRO_SALVO);
+    }, (res) => {
+      this.pageNotificationService.addErrorMessage(res.json().title);
+    });
   }
 
 
