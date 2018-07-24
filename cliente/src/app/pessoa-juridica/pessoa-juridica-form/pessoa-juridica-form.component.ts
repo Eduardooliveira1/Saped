@@ -5,6 +5,7 @@ import { PessoaJuridicaCadastro } from './../pessoa-juridica-cadastro.model';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ValidateCnpj } from '../../shared/validators/cnpj.validator';
+import { PageNotificationService } from '@basis/angular-components';
 
 @Component({
   selector: 'app-pessoa-juridica-form',
@@ -26,7 +27,8 @@ export class PessoaJuridicaFormComponent implements OnInit {
   msgPadraoCampoObrigatorio = "Campo Obrigatório.";
 
   constructor(private formBuilder: FormBuilder,
-    private enumService: EnumService) { }
+    private enumService: EnumService,
+    private pageNotificationService: PageNotificationService) { }
 
   ngOnInit() {
 
@@ -54,8 +56,8 @@ export class PessoaJuridicaFormComponent implements OnInit {
   cnpjInvalido() {
     return this.form != null
       && this.form.get('cnpj').errors
-      && this.form.get('cnpj').dirty
-      && this.form.get('cnpj').errors.validCnpj;
+      && this.form.get('cnpj').errors.validCnpj
+      && (this.form.get('cnpj').dirty || this.submitedForm);
   }
 
   getMessagemErroCnpj() {
@@ -70,6 +72,18 @@ export class PessoaJuridicaFormComponent implements OnInit {
     this.enumService.listarEnum("tipos-endereco").subscribe(result => {
       this.tiposEndereco =  this.customUtil.entityToDropDown(result,'descricao','id');
     })
+  }
+
+  salvarPessoaJuridica(){
+    
+    this.submitedForm = true;
+
+    if(this.form.valid){
+
+    }else{
+      this.pageNotificationService.addErrorMessage('Preencha os campos obrigatórios.');
+      return;
+    }
   }
 
 
