@@ -1,10 +1,10 @@
 package br.gov.mme.enumeration;
 
-public interface PersistentEnum<T> {
+public interface ConverterEnum<T> {
 
     String name();
 
-    String getCodigo();
+    String getId();
 
     String getDescricao();
 }

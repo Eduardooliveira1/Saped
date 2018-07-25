@@ -1,6 +1,6 @@
 package br.gov.mme.service.impl;
 
-import br.gov.mme.enumeration.PersistentEnum;
+import br.gov.mme.enumeration.ConverterEnum;
 import br.gov.mme.enumeration.TpEndereco;
 import br.gov.mme.service.EnumerationService;
 import br.gov.mme.service.dto.EnumerationDTO;
@@ -23,7 +23,7 @@ public class EnumerationServiceImpl implements EnumerationService {
     @Override
     public List<EnumerationDTO> getAllTipoEndereco() {
         List<EnumerationDTO> enumerationDTOList = new ArrayList<>();
-        for (PersistentEnum<?> enumConstant : TpEndereco.class.getEnumConstants()) {
+        for (ConverterEnum<?> enumConstant : TpEndereco.class.getEnumConstants()) {
             enumerationDTOList.add(enumerationMapper.toDto(enumConstant));
         }
         return enumerationDTOList;

@@ -16,7 +16,9 @@ export class MensagensUtils {
     /**
      * pessoa jurídica
      */
+    public static CADASTRAR_PJ ='Cadastrar Pessoa Jurídica';
     public static CNPJ_INVALIDO ='CNPJ inválido.';
+    public static EDITAR_PJ ='Editar Pessoa Jurídica';
     
 
 }

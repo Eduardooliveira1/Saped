@@ -25,34 +25,26 @@ export class PessoaJuridicaService {
     cadastrar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
         const copy = this.convert(pessoaJuridica);
         return this.http.post(this.resourceUrl, copy).map((res) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
+            return res.json();
         });
     }
 
     atualizar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
         const copy = this.convert(pessoaJuridica);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
+            return res.json();
         });
     }
 
     obter(id: number): Observable<PessoaJuridicaCadastro> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
+            return res.json();
         });
     }
 
     private convert(pessoaJuridica: PessoaJuridicaCadastro): PessoaJuridicaCadastro {
         const copy: PessoaJuridicaCadastro = Object.assign({}, pessoaJuridica);
         return copy;
-    }
-
-    private convertItemFromServer(json: any): PessoaJuridicaCadastro {
-        const entity: PessoaJuridicaCadastro = Object.assign(new PessoaJuridicaCadastro(), json);
-        return entity;
     }
 
 }

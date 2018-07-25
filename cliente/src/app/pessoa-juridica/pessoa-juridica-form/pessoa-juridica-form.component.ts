@@ -23,7 +23,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
 
-  tituloPagina = "Cadastrar Pessoa Jurídica"
+  tituloPagina = MensagensUtils.CADASTRAR_PJ;
   pessoaJuridica: PessoaJuridicaCadastro;
 
   form: FormGroup;
@@ -50,7 +50,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
     this.routeSub = this.route.params.subscribe(params => {
       if (params['id']) {
         this.blockUI.start(MensagensUtils.CARREGANDO);
-        this.tituloPagina = "Editar Pessoa Jurídica";
+        this.tituloPagina = MensagensUtils.EDITAR_PJ;
         this.pessoaJuridicaService.obter(params['id']).subscribe(result => {
           this.blockUI.stop();
           this.pessoaJuridica = result
@@ -60,7 +60,6 @@ export class PessoaJuridicaFormComponent implements OnInit {
         });
       }
     });
-
   }
 
   buildReactiveForm() {
@@ -93,8 +92,8 @@ export class PessoaJuridicaFormComponent implements OnInit {
   }
 
   getTiposEndereco() {
-    this.enumService.listarEnum("tipos-endereco").subscribe(result => {
-      this.tiposEndereco = CustomUtils.entityToDropDown(result, 'descricao', 'id');
+    this.enumService.listarEnum(EnumService.SERVICO_TIPO_ENDERECO).subscribe(result => {
+      this.tiposEndereco = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO, CustomUtils.CAMPO_VALOR_PADRAO);
     })
   }
 

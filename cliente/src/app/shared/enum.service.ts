@@ -9,6 +9,8 @@ export class EnumService{
 
     resourceUrl = environment.apiUrl+"/enumerations/";
     constructor(private http: HttpService) {}
+
+    public static SERVICO_TIPO_ENDERECO = 'tipos-endereco';
     
     listarEnum(nomeEnum: String, callback?: any){
         return this.http.get(this.resourceUrl+nomeEnum).map(res=>{

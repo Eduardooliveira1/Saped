@@ -9,21 +9,21 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.stream.Stream;
 
 @JsonSerialize(using = EnumSerializer.class)
-public enum TpEndereco  implements PersistentEnum<TpEndereco> {
+public enum TpEndereco  implements ConverterEnum<TpEndereco> {
     CB("CB","Cobrança"),CM("CM","Comercial");
 
-    private String codigo;
+    private String id;
 
     private String descricao;
 
-    TpEndereco(String codigo, String descricao) {
-        this.codigo = codigo;
+    TpEndereco(String id, String descricao) {
+        this.id = id;
         this.descricao = descricao;
     }
 
     @Override
-    public String getCodigo() {
-        return this.codigo;
+    public String getId() {
+        return this.id;
     }
 
     @Override
@@ -31,17 +31,17 @@ public enum TpEndereco  implements PersistentEnum<TpEndereco> {
         return this.descricao;
     }
 
-    public static TpEndereco fromCodigo(String codigo) {
-        final String t = codigo.trim().toUpperCase();
+    public static TpEndereco fromId(String id) {
+        final String t = id.trim().toUpperCase();
         return Stream.of(TpEndereco.values())
-                .filter(e -> e.getCodigo().equals(t))
+                .filter(e -> e.getId().equals(t))
                 .findFirst()
                 .orElseGet(null);
     }
 
     @JsonCreator()
-    public static TpEndereco simNao(@JsonProperty("codigo") String codigo) {
-        return codigo == null ? null : TpEndereco.valueOf(codigo);
+    public static TpEndereco simNao(@JsonProperty("id") String id) {
+        return id == null ? null : TpEndereco.valueOf(id);
     }
 
 }
