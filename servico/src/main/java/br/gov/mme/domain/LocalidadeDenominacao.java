@@ -26,20 +26,16 @@ public class LocalidadeDenominacao implements Serializable {
     @JoinColumn(name = "fk_Localidade", referencedColumnName = "fk_Localidade")
     private Localidade localidade;
 
-    @Column(name="nr_ordem")
+    @Column(name = "nr_ordem")
     private Integer ordem;
 
     @Size(max = 72)
-    @Column(name="no_Denominacao", length = 72)
-    private String nomeDenominacao;
+    @Column(name = "no_Denominacao", length = 72)
+    private String nomeDenominacaoLocalidade;
 
     @NotNull
     @Column(name = "nr_Versao_Dne")
     private Integer versaoDne;
-
-    public Long getId() {
-        return id;
-    }
 
     public LocalidadeDenominacao setId(Long id) {
         this.id = id;
@@ -48,6 +44,10 @@ public class LocalidadeDenominacao implements Serializable {
 
     public Localidade getLocalidade() {
         return localidade;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public LocalidadeDenominacao setLocalidade(Localidade localidade) {
@@ -64,12 +64,12 @@ public class LocalidadeDenominacao implements Serializable {
         return this;
     }
 
-    public String getNomeDenominacao() {
-        return nomeDenominacao;
+    public String getNomeDenominacaoLocalidade() {
+        return nomeDenominacaoLocalidade;
     }
 
-    public LocalidadeDenominacao setNomeDenominacao(String nomeDenominacao) {
-        this.nomeDenominacao = nomeDenominacao;
+    public LocalidadeDenominacao setNomeDenominacaoLocalidade(String nomeDenominacaoLocalidade) {
+        this.nomeDenominacaoLocalidade = nomeDenominacaoLocalidade;
         return this;
     }
 

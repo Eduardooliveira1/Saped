@@ -39,28 +39,29 @@ public class Bairro implements Serializable {
 
     @Column(name = "no_Abreviado", length = 36)
     @Size(max = 36)
-    private String nomeAbreviado;
+    private String nomeAbreviadoBairro;
 
     @NotNull
     @Column(name = "nr_Versao_Dne")
     private Integer versaoDne;
 
-    public Long getId() {
-        return id;
+    public Uf getUf() {
+        return uf;
     }
+
 
     public Bairro setId(Long id) {
         this.id = id;
         return this;
     }
 
-    public Uf getUf() {
-        return uf;
-    }
-
     public Bairro setUf(Uf uf) {
         this.uf = uf;
         return this;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Localidade getLocalidade() {
@@ -81,12 +82,12 @@ public class Bairro implements Serializable {
         return this;
     }
 
-    public String getNomeAbreviado() {
-        return nomeAbreviado;
+    public String getNomeAbreviadoBairro() {
+        return nomeAbreviadoBairro;
     }
 
-    public Bairro setNomeAbreviado(String nomeAbreviado) {
-        this.nomeAbreviado = nomeAbreviado;
+    public Bairro setNomeAbreviadoBairro(String nomeAbreviadoBairro) {
+        this.nomeAbreviadoBairro = nomeAbreviadoBairro;
         return this;
     }
 

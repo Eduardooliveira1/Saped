@@ -26,20 +26,17 @@ public class BairroDenominacao implements Serializable {
     @JoinColumn(name = "fk_Bairro", referencedColumnName = "pk_Bairro")
     private Bairro bairro;
 
-    @Column(name="nr_ordem")
+    @Column(name = "nr_ordem")
     private Integer ordem;
 
     @Size(max = 72)
-    @Column(name="no_Denominacao", length = 72)
-    private String nomeDenominacao;
+    @Column(name = "no_Denominacao", length = 72)
+    private String nomeDenominacaoBairro;
 
     @NotNull
     @Column(name = "nr_Versao_Dne")
     private Integer versaoDne;
 
-    public Long getId() {
-        return id;
-    }
 
     public BairroDenominacao setId(Long id) {
         this.id = id;
@@ -49,6 +46,11 @@ public class BairroDenominacao implements Serializable {
     public Bairro getBairro() {
         return bairro;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 
     public BairroDenominacao setBairro(Bairro bairro) {
         this.bairro = bairro;
@@ -64,12 +66,12 @@ public class BairroDenominacao implements Serializable {
         return this;
     }
 
-    public String getNomeDenominacao() {
-        return nomeDenominacao;
+    public String getNomeDenominacaoBairro() {
+        return nomeDenominacaoBairro;
     }
 
-    public BairroDenominacao setNomeDenominacao(String nomeDenominacao) {
-        this.nomeDenominacao = nomeDenominacao;
+    public BairroDenominacao setNomeDenominacaoBairro(String nomeDenominacaoBairro) {
+        this.nomeDenominacaoBairro = nomeDenominacaoBairro;
         return this;
     }
 
