@@ -25,9 +25,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * 
  * Service Implementation for managing PessoaJuridica.
- *
  */
 
 @Service
@@ -54,10 +52,10 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     @Transactional(readOnly = true)
     public Page<PessoaJuridicaListaDTO> listarPessoasJuridicas(String filtro, Pageable pageable) {
 
-        if( StringUtils.isBlank(filtro)){
-            return  pessoaJuridicaRepository.listarPessoasJuridicas(PaginationUtil.ignoreCase(pageable));
-        }else{
-           return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil.preparaStringLike(filtro), PaginationUtil.ignoreCase(pageable));
+        if (StringUtils.isBlank(filtro)) {
+            return pessoaJuridicaRepository.listarPessoasJuridicas(PaginationUtil.ignoreCase(pageable));
+        } else {
+            return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil.preparaStringLike(filtro), PaginationUtil.ignoreCase(pageable));
         }
     }
 
@@ -66,21 +64,20 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
         PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.findByCnpj(pessoaJuridicaDto.getCnpj());
 
-        if(Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId())){
+        if (Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId())) {
             throw new BadRequestAlertException(EMPRESA_JA_CADASTRADA, PessoaJuridicaResource.ENTITY_NAME, "cnpjexiste");
         }
 
-        if(!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())){
+        if (!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())) {
             throw new BadRequestAlertException(CNPJ_INVALIDO, PessoaJuridicaResource.ENTITY_NAME, "cnpjinvalido");
         }
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
 
 
-
-        if(Objects.isNull(pessoaJuridicaDto.getId())){
+        if (Objects.isNull(pessoaJuridicaDto.getId())) {
             pessoaJuridica.setPessoa(new Pessoa().setStatus(FlStatus.S).setDataCadastro(LocalDateTime.now()));
-        }else{
+        } else {
             pessoaJuridica.setPessoa(pessoaRepository.findOne(pessoaJuridicaDto.getId()));
         }
 
@@ -91,5 +88,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     @Override
     public PessoaJuridicaCadastroDTO obterPordId(Long id) {
         return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));
+    }
+
+    @Override
+    public void excluirPessoaJuridica(Long id) {
+        Pessoa pessoa = pessoaRepository.findOne(id);
+        pessoa.setStatus(FlStatus.N);
+        pessoaRepository.save(pessoa);
     }
 }
