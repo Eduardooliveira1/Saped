@@ -76,6 +76,15 @@ public class Logradouro implements Serializable {
     @Column(name = "nr_Versao_Dne")
     private Integer versaoDne;
 
+    public String getNomeLogradouro() {
+        return nomeLogradouro;
+    }
+
+    public Logradouro setNomeLogradouro(String nomeLogradouro) {
+        this.nomeLogradouro = nomeLogradouro;
+        return this;
+    }
+
     public Long getId() {
         return id;
     }
@@ -85,14 +94,6 @@ public class Logradouro implements Serializable {
         return this;
     }
 
-    public Uf getUf() {
-        return uf;
-    }
-
-    public Logradouro setUf(Uf uf) {
-        this.uf = uf;
-        return this;
-    }
 
     public Localidade getLocalidade() {
         return localidade;
@@ -100,6 +101,15 @@ public class Logradouro implements Serializable {
 
     public Logradouro setLocalidade(Localidade localidade) {
         this.localidade = localidade;
+        return this;
+    }
+
+    public Uf getUf() {
+        return uf;
+    }
+
+    public Logradouro setUf(Uf uf) {
+        this.uf = uf;
         return this;
     }
 
@@ -121,14 +131,6 @@ public class Logradouro implements Serializable {
         return this;
     }
 
-    public String getNomeLogradouro() {
-        return nomeLogradouro;
-    }
-
-    public Logradouro setNomeLogradouro(String nomeLogradouro) {
-        this.nomeLogradouro = nomeLogradouro;
-        return this;
-    }
 
     public String getComplemento() {
         return complemento;
