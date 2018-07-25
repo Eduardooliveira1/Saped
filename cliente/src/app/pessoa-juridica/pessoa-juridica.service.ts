@@ -42,6 +42,10 @@ export class PessoaJuridicaService {
         });
     }
 
+    remover(id: number): Observable<Response> {
+        return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
     private convert(pessoaJuridica: PessoaJuridicaCadastro): PessoaJuridicaCadastro {
         const copy: PessoaJuridicaCadastro = Object.assign({}, pessoaJuridica);
         return copy;

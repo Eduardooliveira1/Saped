@@ -35,7 +35,7 @@
           <a class="link-editar" (click)="editarEmpresa(row.id)">
               <fa-icon [icon]="faEdit"></fa-icon>
           </a>
-          <a class="link-remover">
+          <a class="link-remover" (click)="removerEmpresa(row.id)">
               <fa-icon [icon]="faTrashAlt"></fa-icon>
           </a>
         </ng-template>
@@ -43,3 +43,5 @@
     </p-dataTable>
   </div>
 </div>
+
+<p-confirmDialog></p-confirmDialog>

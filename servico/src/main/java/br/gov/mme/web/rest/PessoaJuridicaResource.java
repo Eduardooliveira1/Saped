@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,5 +84,13 @@ public class PessoaJuridicaResource {
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
+    }
+
+    @DeleteMapping("/pessoa-juridica/{id}")
+    @Timed
+    public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(
+            @PathVariable("id") Long id) {
+        pessoaJuridicaService.excluirPessoaJuridica(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

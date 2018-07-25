@@ -35,4 +35,11 @@ public interface PessoaJuridicaService {
 
     PessoaJuridicaCadastroDTO obterPordId(Long id);
 
+
+    /**
+     * remover pessoa juridica
+     * @param id
+     */
+    public void excluirPessoaJuridica(Long id);
+
 }
