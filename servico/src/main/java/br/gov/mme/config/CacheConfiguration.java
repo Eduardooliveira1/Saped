@@ -43,13 +43,13 @@ public class CacheConfiguration {
 
     private static final String DEV_PROFILE = "Application is running with the \"dev\" profile, Hazelcast cluster will only work with localhost instances";
 
-    @Value("${application.ip.localhost}")
     private String localhost;
 
     public CacheConfiguration(Environment env, ServerProperties serverProperties, DiscoveryClient discoveryClient) {
         this.env = env;
         this.serverProperties = serverProperties;
         this.discoveryClient = discoveryClient;
+        this.localhost = env.getProperty("application.ip.localhost");
     }
 
     @Autowired(required = false)
