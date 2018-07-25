@@ -127,9 +127,4 @@ liquibase:
 # http://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-mensagens:
-  empresa-ja-cadastrada: "Esta empresa já está cadastrada no sistema."
-  cnpj-invalido: "CNPJ inválido."
-  registro-salvo: "Salvo com sucesso"
-
 application:

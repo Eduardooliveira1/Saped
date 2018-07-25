@@ -9,7 +9,7 @@ import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
-import br.gov.mme.service.util.ValidaCnpj;
+import br.gov.mme.service.util.ValidatorUtils;
 import br.gov.mme.web.rest.PessoaJuridicaResource;
 import br.gov.mme.web.rest.errors.BadRequestAlertException;
 import br.gov.mme.web.rest.util.PaginationUtil;
@@ -40,11 +40,9 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
 
-    @Value("${mensagens.empresa-ja-cadastrada}")
-    private String EMPRESA_JA_CADASTRADA;
+    private String EMPRESA_JA_CADASTRADA = "Esta empresa já está cadastrada no sistema.";
 
-    @Value("${mensagens.cnpj-invalido}")
-    private String CNPJ_INVALIDO;
+    private String CNPJ_INVALIDO = "CNPJ inválido.";
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository, PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
@@ -72,7 +70,7 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
             throw new BadRequestAlertException(EMPRESA_JA_CADASTRADA, PessoaJuridicaResource.ENTITY_NAME, "cnpjexiste");
         }
 
-        if(!ValidaCnpj.isCNPJ(pessoaJuridicaDto.getCnpj())){
+        if(!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())){
             throw new BadRequestAlertException(CNPJ_INVALIDO, PessoaJuridicaResource.ENTITY_NAME, "cnpjinvalido");
         }
 
