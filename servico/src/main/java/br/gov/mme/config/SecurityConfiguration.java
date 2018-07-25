@@ -3,6 +3,7 @@ package br.gov.mme.config;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.BeanInitializationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -40,6 +41,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final CorsFilter corsFilter;
 
     private final SecurityProblemSupport problemSupport;
+
+    @Value("${application.url.ldap}")
+    String ldap;
 
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder,
             UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter,
@@ -102,31 +106,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // .groupSearchBase("cn=Users,dc=desenv,dc=basis,dc=intern")
                 // .groupSearchFilter("grupos={0}")
 
-                .contextSource().url("ldap://172.20.1.50")
+                .contextSource().url(ldap)
                 // .managerDn("sAMAccountName=servico.bau,cn=Users,dc=desenv,dc=basis,dc=intern")
                 // .managerPassword("seg@2018")
                 .and().passwordCompare()
                 // .passwordEncoder(new LdapShaPasswordEncoder())
                 .passwordAttribute("userPassword");
     }
-    // TESTE OPENLDAP LOCAL
-    // @Override
-    // protected void configure(AuthenticationManagerBuilder auth) throws Exception
-    // {
-    // auth
-    // .ldapAuthentication()
-    // .userSearchFilter("userid={0}")
-    // .userSearchBase("dc=example,dc=org")
-    // .groupSearchBase("dc=example,dc=org")
-    // .groupSearchFilter("grupos={0}")
-    // .contextSource()
-    // .url("ldap://localhost:9389")
-    // .managerDn("cn=admin,dc=example,dc=org")
-    // .managerPassword("admin")
-    // .and()
-    // .passwordCompare()
-    // .passwordEncoder(new LdapShaPasswordEncoder())
-    // .passwordAttribute("userPassword");
-    // }
-
 }
