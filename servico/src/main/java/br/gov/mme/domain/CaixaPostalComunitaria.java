@@ -47,13 +47,14 @@ public class CaixaPostalComunitaria implements Serializable {
     @Column(name = "nr_Versao_Dne")
     private Integer versaoDne;
 
-    public Long getId() {
-        return id;
-    }
 
     public CaixaPostalComunitaria setId(Long id) {
         this.id = id;
         return this;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Uf getUf() {
@@ -65,13 +66,14 @@ public class CaixaPostalComunitaria implements Serializable {
         return this;
     }
 
-    public Localidade getLocalidade() {
-        return localidade;
-    }
 
     public CaixaPostalComunitaria setLocalidade(Localidade localidade) {
         this.localidade = localidade;
         return this;
+    }
+
+    public Localidade getLocalidade() {
+        return localidade;
     }
 
     public String getNomeCaixaPostalComunitaria() {
