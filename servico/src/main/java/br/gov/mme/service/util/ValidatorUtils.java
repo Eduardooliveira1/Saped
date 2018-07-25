@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public final class ValidatorUtils {
 
-    private static Logger LOGGER;
+    private static Logger LOGGER = Logger.getLogger(ValidatorUtils.class.getName());
 
     private ValidatorUtils() {
 

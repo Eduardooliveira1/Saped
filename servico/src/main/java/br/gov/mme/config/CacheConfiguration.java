@@ -115,7 +115,7 @@ public class CacheConfiguration {
         config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
         for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
             String clusterMember = springProfile ? new StringBuilder(localhost).append(":")
-                    .append(new Integer(instance.getPort() + 5701).toString()).toString()
+                    .append(String.valueOf(instance.getPort() + 5701)).toString()
                     : new StringBuilder(instance.getHost()).append(":5701").toString();
             config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
         }
