@@ -41,6 +41,11 @@ public class CacheConfiguration {
 
     private Registration registration;
 
+    private static final String DEV_PROFILE = "Application is running with the \"dev\" profile, Hazelcast cluster will only work with localhost instances";
+
+    @Value("${application.ip.localhost}")
+    private String localhost;
+
     public CacheConfiguration(Environment env, ServerProperties serverProperties, DiscoveryClient discoveryClient) {
         this.env = env;
         this.serverProperties = serverProperties;
@@ -80,8 +85,6 @@ public class CacheConfiguration {
         return Hazelcast.newHazelcastInstance(config);
     }
 
-    @Value("${application.ip.localhost}")
-    String localhost;
     private void configureClustering(Config config) {
         // The serviceId is by default the application's name, see Spring Boot's
         // eureka.instance.appname property
@@ -89,8 +92,7 @@ public class CacheConfiguration {
         log.debug("Configuring Hazelcast clustering for instanceId: {}", serviceId);
         // In development, everything goes through 127.0.0.1, with a different port
         if (env.acceptsProfiles(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)) {
-            log.debug("Application is running with the \"dev\" profile, Hazelcast "
-                    + "cluster will only work with localhost instances");
+            log.debug(DEV_PROFILE);
             System.setProperty("hazelcast.local.localAddress", localhost);
             this.setNetworkingConfig(config, serviceId, true);
             // Production configuration, one host per instance all using port 5701
@@ -108,14 +110,13 @@ public class CacheConfiguration {
         config.getMapConfigs().put("br.gov.mme.domain.*", initializeDomainMapConfig(jHipsterProperties));
     }
 
-    private void setNetworkingConfig(Config config, String serviceId, boolean sprimgProfile) {
-        String profile = sprimgProfile ? "dev" : "prod";
+    private void setNetworkingConfig(Config config, String serviceId, boolean springProfile) {
         config.getNetworkConfig().setPort(serverProperties.getPort() + 5701);
         config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
         for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
-            String clusterMember = sprimgProfile ? "127.0.0.1:" + (instance.getPort() + 5701)
-                    : instance.getHost() + ":5701";
-            log.debug("Adding Hazelcast (" + profile + ") cluster member " + clusterMember);
+            String clusterMember = springProfile ? new StringBuilder(localhost).append(":")
+                    .append(new Integer(instance.getPort() + 5701).toString()).toString()
+                    : new StringBuilder(instance.getHost()).append(":5701").toString();
             config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
         }
     }
