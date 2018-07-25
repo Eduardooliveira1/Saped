@@ -11,7 +11,7 @@
   </div>
   <div class="ui-g-6">
     <div class="ui-g-12 ui-md-12 ui-lg-4 float-right">
-      <button pButton type="button" label="Nova Empresa" [icon]="'ui-icon-plus'"></button>
+      <button pButton type="button" (click)="novaEmpresa()" label="Nova Empresa" [icon]="'ui-icon-plus'"></button>
     </div>
   </div>
 </div>
@@ -32,7 +32,7 @@
           <a class="link-representantes">
               <fa-icon [icon]="faUserFriends"></fa-icon>
           </a>
-          <a class="link-editar">
+          <a class="link-editar" (click)="editarEmpresa(row.id)">
               <fa-icon [icon]="faEdit"></fa-icon>
           </a>
           <a class="link-remover">

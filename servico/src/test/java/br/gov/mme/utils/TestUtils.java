@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.time.LocalDateTime;
 
+import br.gov.mme.enumeration.FlStatus;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -14,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.MultiValueMap;
 
 import br.gov.mme.domain.Pessoa;
-import br.gov.mme.enumerator.FlStatus;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 public abstract class TestUtils {
