@@ -98,10 +98,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(
-        name = "jhi_user_authority",
-        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+    @JoinTable(name = "jhi_user_authority", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "authority_name", referencedColumnName = "name") })
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
@@ -204,11 +203,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     }
 
     public Set<Authority> getAuthorities() {
-		return this.authorities;
+        return this.authorities;
     }
 
     public void setAuthorities(Set<Authority> authorities) {
-		this.authorities = (authorities == null) ? new HashSet<>() : authorities;
+        this.authorities = (authorities == null) ? new HashSet<>() : authorities;
     }
 
     @Override
@@ -231,15 +230,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated='" + activated + '\'' +
-            ", langKey='" + langKey + '\'' +
-            ", activationKey='" + activationKey + '\'' +
-            "}";
+        return "User{" + "login='" + login + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
+                + '\'' + ", email='" + email + '\'' + ", imageUrl='" + imageUrl + '\'' + ", activated='" + activated
+                + '\'' + ", langKey='" + langKey + '\'' + ", activationKey='" + activationKey + '\'' + "}";
     }
 }

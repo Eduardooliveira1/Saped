@@ -24,13 +24,14 @@ import org.zalando.problem.spring.web.advice.validation.ConstraintViolationProbl
 import br.gov.mme.web.rest.util.HeaderUtil;
 
 /**
- * Controller advice to translate the server side exceptions to client-friendly json structures.
- * The error response follows RFC7807 - Problem Details for HTTP APIs (https://tools.ietf.org/html/rfc7807)
+ * Controller advice to translate the server side exceptions to client-friendly
+ * json structures. The error response follows RFC7807 - Problem Details for
+ * HTTP APIs (https://tools.ietf.org/html/rfc7807)
  */
 @ControllerAdvice
 public class ExceptionTranslator implements ProblemHandling {
 
-	private static final String MESSAGE = "message";
+    private static final String MESSAGE = "message";
 
     /**
      * Post-process Problem payload to add the message key for front-end if needed
@@ -49,62 +50,54 @@ public class ExceptionTranslator implements ProblemHandling {
         return setBuilderCauses(entity, problem, builder);
     }
 
-	private ResponseEntity<Problem> setBuilderCauses(ResponseEntity<Problem> entity, Problem problem,
-			ProblemBuilder builder) {
-		if (problem instanceof ConstraintViolationProblem) {
-            builder
-                .with("violations", ((ConstraintViolationProblem) problem).getViolations())
-                .with(MESSAGE, ErrorConstants.ERR_VALIDATION);
+    private ResponseEntity<Problem> setBuilderCauses(ResponseEntity<Problem> entity, Problem problem,
+            ProblemBuilder builder) {
+        if (problem instanceof ConstraintViolationProblem) {
+            builder.with("violations", ((ConstraintViolationProblem) problem).getViolations()).with(MESSAGE,
+                    ErrorConstants.ERR_VALIDATION);
             return new ResponseEntity<>(builder.build(), entity.getHeaders(), entity.getStatusCode());
         } else {
-            builder
-                .withCause(((DefaultProblem) problem).getCause())
-                .withDetail(problem.getDetail())
-                .withInstance(problem.getInstance());
+            builder.withCause(((DefaultProblem) problem).getCause()).withDetail(problem.getDetail())
+                    .withInstance(problem.getInstance());
             problem.getParameters().forEach(builder::with);
-			if (!problem.getParameters().containsKey(MESSAGE) && problem.getStatus() != null) {
-				builder.with(MESSAGE, "error.http." + problem.getStatus().getStatusCode());
+            if (!problem.getParameters().containsKey(MESSAGE) && problem.getStatus() != null) {
+                builder.with(MESSAGE, "error.http." + problem.getStatus().getStatusCode());
             }
             return new ResponseEntity<>(builder.build(), entity.getHeaders(), entity.getStatusCode());
         }
-	}
+    }
 
-	private ProblemBuilder buildProblem(NativeWebRequest request, Problem problem) {
-		return Problem.builder()
-            .withType(Problem.DEFAULT_TYPE.equals(problem.getType()) ? ErrorConstants.DEFAULT_TYPE : problem.getType())
-            .withStatus(problem.getStatus())
-            .withTitle(problem.getTitle())
-            .with("path", request.getNativeRequest(HttpServletRequest.class).getRequestURI());
-	}
+    private ProblemBuilder buildProblem(NativeWebRequest request, Problem problem) {
+        return Problem.builder()
+                .withType(Problem.DEFAULT_TYPE.equals(problem.getType()) ? ErrorConstants.DEFAULT_TYPE
+                        : problem.getType())
+                .withStatus(problem.getStatus()).withTitle(problem.getTitle())
+                .with("path", request.getNativeRequest(HttpServletRequest.class).getRequestURI());
+    }
 
     @Override
-    public ResponseEntity<Problem> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @Nonnull NativeWebRequest request) {
+    public ResponseEntity<Problem> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            @Nonnull NativeWebRequest request) {
         BindingResult result = ex.getBindingResult();
         List<FieldErrorVM> fieldErrors = result.getFieldErrors().stream()
-            .map(f -> new FieldErrorVM(f.getObjectName(), f.getField(), f.getCode()))
-            .collect(Collectors.toList());
+                .map(f -> new FieldErrorVM(f.getObjectName(), f.getField(), f.getCode())).collect(Collectors.toList());
 
-        Problem problem = Problem.builder()
-            .withType(ErrorConstants.CONSTRAINT_VIOLATION_TYPE)
-            .withTitle("Method argument not valid")
-            .withStatus(defaultConstraintViolationStatus())
-				.with(MESSAGE, ErrorConstants.ERR_VALIDATION)
-            .with("fieldErrors", fieldErrors)
-            .build();
+        Problem problem = Problem.builder().withType(ErrorConstants.CONSTRAINT_VIOLATION_TYPE)
+                .withTitle("Method argument not valid").withStatus(defaultConstraintViolationStatus())
+                .with(MESSAGE, ErrorConstants.ERR_VALIDATION).with("fieldErrors", fieldErrors).build();
         return create(ex, problem, request);
     }
 
     @ExceptionHandler(BadRequestAlertException.class)
-    public ResponseEntity<Problem> handleBadRequestAlertException(BadRequestAlertException ex, NativeWebRequest request) {
-		return create(ex, request, HeaderUtil.createFailureAlert(ex.getEntityName(), ex.getMessage()));
+    public ResponseEntity<Problem> handleBadRequestAlertException(BadRequestAlertException ex,
+            NativeWebRequest request) {
+        return create(ex, request, HeaderUtil.createFailureAlert(ex.getEntityName(), ex.getMessage()));
     }
 
     @ExceptionHandler(ConcurrencyFailureException.class)
     public ResponseEntity<Problem> handleConcurrencyFailure(ConcurrencyFailureException ex, NativeWebRequest request) {
-        Problem problem = Problem.builder()
-            .withStatus(Status.CONFLICT)
-				.with(MESSAGE, ErrorConstants.ERR_CONCURRENCY_FAILURE)
-            .build();
+        Problem problem = Problem.builder().withStatus(Status.CONFLICT)
+                .with(MESSAGE, ErrorConstants.ERR_CONCURRENCY_FAILURE).build();
         return create(ex, problem, request);
     }
 }

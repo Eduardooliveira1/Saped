@@ -45,7 +45,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 
     private MetricRegistry metricRegistry;
 
-	public WebConfigurer(Environment env, JHipsterProperties jHipsterProperties) {
+    public WebConfigurer(Environment env, JHipsterProperties jHipsterProperties) {
 
         this.env = env;
         this.jHipsterProperties = jHipsterProperties;
@@ -56,7 +56,8 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         if (env.getActiveProfiles().length != 0) {
             log.info("Web application configuration, using profiles: {}", (Object[]) env.getActiveProfiles());
         }
-        EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
+        EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD,
+                DispatcherType.ASYNC);
         initMetrics(servletContext, disps);
         log.info("Web application fully configured");
     }
@@ -74,17 +75,16 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         container.setMimeMappings(mappings);
 
         /*
-         * Enable HTTP/2 for Undertow - https://twitter.com/ankinson/status/829256167700492288
-         * HTTP/2 requires HTTPS, so HTTP requests will fallback to HTTP/1.1.
-         * See the JHipsterProperties class and your application-*.yml configuration files
-         * for more information.
+         * Enable HTTP/2 for Undertow -
+         * https://twitter.com/ankinson/status/829256167700492288 HTTP/2 requires HTTPS,
+         * so HTTP requests will fallback to HTTP/1.1. See the JHipsterProperties class
+         * and your application-*.yml configuration files for more information.
          */
-        if (jHipsterProperties.getHttp().getVersion().equals(JHipsterProperties.Http.Version.V_2_0) &&
-            container instanceof UndertowEmbeddedServletContainerFactory) {
+        if (jHipsterProperties.getHttp().getVersion().equals(JHipsterProperties.Http.Version.V_2_0)
+                && container instanceof UndertowEmbeddedServletContainerFactory) {
 
             ((UndertowEmbeddedServletContainerFactory) container)
-                .addBuilderCustomizers(builder ->
-                    builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
+                    .addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
         }
     }
 
@@ -93,21 +93,19 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
      */
     private void initMetrics(ServletContext servletContext, EnumSet<DispatcherType> disps) {
         log.debug("Initializing Metrics registries");
-        servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE,
-            metricRegistry);
-        servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY,
-            metricRegistry);
+        servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE, metricRegistry);
+        servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY, metricRegistry);
 
         log.debug("Registering Metrics Filter");
         FilterRegistration.Dynamic metricsFilter = servletContext.addFilter("webappMetricsFilter",
-            new InstrumentedFilter());
+                new InstrumentedFilter());
 
         metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
         metricsFilter.setAsyncSupported(true);
 
         log.debug("Registering Metrics Servlet");
-        ServletRegistration.Dynamic metricsAdminServlet =
-            servletContext.addServlet("metricsServlet", new MetricsServlet());
+        ServletRegistration.Dynamic metricsAdminServlet = servletContext.addServlet("metricsServlet",
+                new MetricsServlet());
 
         metricsAdminServlet.addMapping("/management/metrics/*");
         metricsAdminServlet.setAsyncSupported(true);

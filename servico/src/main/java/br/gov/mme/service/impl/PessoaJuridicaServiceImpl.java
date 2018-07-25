@@ -38,11 +38,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
 
-	private static final String EMPRESA_JA_CADASTRADA = "Esta empresa já está cadastrada no sistema.";
+    private static final String EMPRESA_JA_CADASTRADA = "Esta empresa já está cadastrada no sistema.";
 
-	private static final String CNPJ_INVALIDO = "CNPJ inválido.";
+    private static final String CNPJ_INVALIDO = "CNPJ inválido.";
 
-    public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository, PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
+    public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
+            PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.pessoaJuridicaMapper = pessoaJuridicaMapper;
         this.pessoaRepository = pessoaRepository;
@@ -55,7 +56,8 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         if (StringUtils.isBlank(filtro)) {
             return pessoaJuridicaRepository.listarPessoasJuridicas(PaginationUtil.ignoreCase(pageable));
         } else {
-            return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil.preparaStringLike(filtro), PaginationUtil.ignoreCase(pageable));
+            return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil.preparaStringLike(filtro),
+                    PaginationUtil.ignoreCase(pageable));
         }
     }
 
@@ -73,7 +75,6 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         }
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
-
 
         if (Objects.isNull(pessoaJuridicaDto.getId())) {
             pessoaJuridica.setPessoa(new Pessoa().setStatus(FlStatus.S).setDataCadastro(LocalDateTime.now()));

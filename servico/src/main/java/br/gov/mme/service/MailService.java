@@ -52,12 +52,12 @@ public class MailService {
 
     @Async
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
-        log.debug("Send email[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
-            isMultipart, isHtml, to, subject, content);
+        log.debug("Send email[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}", isMultipart,
+                isHtml, to, subject, content);
 
         // Prepare message using a Spring helper
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		try {
+        try {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
             message.setTo(to);
             message.setFrom(jHipsterProperties.getMail().getFrom());
@@ -65,12 +65,12 @@ public class MailService {
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
             log.debug("Sent email to User '{}'", to);
-		} catch (MessagingException e) {
+        } catch (MessagingException e) {
             if (log.isDebugEnabled()) {
                 log.warn("Email could not be sent to user '{}'", to, e);
             } else {
                 log.warn("Email could not be sent to user '{}': {}", to, e.getMessage());
-			}
+            }
         }
     }
 

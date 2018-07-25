@@ -26,15 +26,12 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-
     private final AuthorityRepository authorityRepository;
 
-
-	public UserService(UserRepository userRepository, AuthorityRepository authorityRepository) {
+    public UserService(UserRepository userRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
     }
-
 
     @Transactional(readOnly = true)
     public Page<UserDTO> getAllManagedUsers(Pageable pageable) {

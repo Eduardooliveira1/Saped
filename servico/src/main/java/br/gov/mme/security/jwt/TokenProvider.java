@@ -1,13 +1,12 @@
 package br.gov.mme.security.jwt;
 
-import io.github.jhipster.config.JHipsterProperties;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,11 +16,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.stream.Collectors;
+import io.github.jhipster.config.JHipsterProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class TokenProvider {
@@ -44,19 +46,17 @@ public class TokenProvider {
 
     @PostConstruct
     public void init() {
-        this.secretKey =
-            jHipsterProperties.getSecurity().getAuthentication().getJwt().getSecret();
+        this.secretKey = jHipsterProperties.getSecurity().getAuthentication().getJwt().getSecret();
 
-        this.tokenValidityInMilliseconds =
-            1000 * jHipsterProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
-        this.tokenValidityInMillisecondsForRememberMe =
-            1000 * jHipsterProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSecondsForRememberMe();
+        this.tokenValidityInMilliseconds = 1000
+                * jHipsterProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
+        this.tokenValidityInMillisecondsForRememberMe = 1000 * jHipsterProperties.getSecurity().getAuthentication()
+                .getJwt().getTokenValidityInSecondsForRememberMe();
     }
 
     public String createToken(Authentication authentication, boolean rememberMe) {
-        String authorities = authentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining(","));
+        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
         Date validity;
@@ -66,23 +66,15 @@ public class TokenProvider {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
 
-        return Jwts.builder()
-            .setSubject(authentication.getName())
-            .claim(AUTHORITIES_KEY, authorities)
-            .signWith(SignatureAlgorithm.HS512, secretKey)
-            .setExpiration(validity)
-            .compact();
+        return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.HS512, secretKey).setExpiration(validity).compact();
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parser()
-            .setSigningKey(secretKey)
-            .parseClaimsJws(token)
-            .getBody();
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 
-        Collection<? extends GrantedAuthority> authorities =
-            Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                .map(SimpleGrantedAuthority::new)
+        Collection<? extends GrantedAuthority> authorities = Arrays
+                .stream(claims.get(AUTHORITIES_KEY).toString().split(",")).map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
         User principal = new User(claims.getSubject(), "", authorities);
@@ -94,11 +86,10 @@ public class TokenProvider {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException |  MalformedJwtException | ExpiredJwtException 
-        		| UnsupportedJwtException e) {
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException e) {
             log.info("Invalid JWT signature.");
             log.trace("Invalid JWT signature trace: {}", e);
-        }  catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             log.info("JWT token compact of handler are invalid.");
             log.trace("JWT token compact of handler are invalid trace: {}", e);
         }

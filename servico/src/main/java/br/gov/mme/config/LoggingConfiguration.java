@@ -46,8 +46,10 @@ public class LoggingConfiguration {
 
     private final JHipsterProperties jHipsterProperties;
 
-    public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-        @Autowired(required = false) EurekaInstanceConfigBean eurekaInstanceConfigBean, JHipsterProperties jHipsterProperties) {
+    public LoggingConfiguration(@Value("${spring.application.name}") String appName,
+            @Value("${server.port}") String serverPort,
+            @Autowired(required = false) EurekaInstanceConfigBean eurekaInstanceConfigBean,
+            JHipsterProperties jHipsterProperties) {
         this.appName = appName;
         this.serverPort = serverPort;
         this.eurekaInstanceConfigBean = eurekaInstanceConfigBean;
@@ -74,12 +76,14 @@ public class LoggingConfiguration {
         logstashAppender.setContext(context);
         String customFields = "{\"app_name\":\"" + appName + "\",\"app_port\":\"" + serverPort + "\"}";
 
-        // More documentation is available at: https://github.com/logstash/logstash-logback-encoder
-        LogstashEncoder logstashEncoder=new LogstashEncoder();
+        // More documentation is available at:
+        // https://github.com/logstash/logstash-logback-encoder
+        LogstashEncoder logstashEncoder = new LogstashEncoder();
         // Set the Logstash appender config from JHipster properties
         logstashEncoder.setCustomFields(customFields);
         // Set the Logstash appender config from JHipster properties
-        logstashAppender.addDestinations(new InetSocketAddress(jHipsterProperties.getLogging().getLogstash().getHost(),jHipsterProperties.getLogging().getLogstash().getPort()));
+        logstashAppender.addDestinations(new InetSocketAddress(jHipsterProperties.getLogging().getLogstash().getHost(),
+                jHipsterProperties.getLogging().getLogstash().getPort()));
 
         ShortenedThrowableConverter throwableConverter = new ShortenedThrowableConverter();
         startLogStash(logstashAppender, customFields, logstashEncoder, throwableConverter);
@@ -91,26 +95,27 @@ public class LoggingConfiguration {
         context.getLogger("ROOT").addAppender(asyncLogstashAppender);
     }
 
-	private void startAsyncLogStash(LoggerContext context, LogstashTcpSocketAppender logstashAppender,
-			AsyncAppender asyncLogstashAppender) {
-		asyncLogstashAppender.setContext(context);
+    private void startAsyncLogStash(LoggerContext context, LogstashTcpSocketAppender logstashAppender,
+            AsyncAppender asyncLogstashAppender) {
+        asyncLogstashAppender.setContext(context);
         asyncLogstashAppender.setName(ASYNC_LOGSTASH_APPENDER_NAME);
         asyncLogstashAppender.setQueueSize(jHipsterProperties.getLogging().getLogstash().getQueueSize());
         asyncLogstashAppender.addAppender(logstashAppender);
         asyncLogstashAppender.start();
-	}
+    }
 
-	private void startLogStash(LogstashTcpSocketAppender logstashAppender, String customFields,
-			LogstashEncoder logstashEncoder, ShortenedThrowableConverter throwableConverter) {
-		throwableConverter.setRootCauseFirst(true);
+    private void startLogStash(LogstashTcpSocketAppender logstashAppender, String customFields,
+            LogstashEncoder logstashEncoder, ShortenedThrowableConverter throwableConverter) {
+        throwableConverter.setRootCauseFirst(true);
         logstashEncoder.setThrowableConverter(throwableConverter);
         logstashEncoder.setCustomFields(customFields);
 
         logstashAppender.setEncoder(logstashEncoder);
         logstashAppender.start();
-	}
+    }
 
-    // Configure a log filter to remove "metrics" logs from all appenders except the "LOGSTASH" appender
+    // Configure a log filter to remove "metrics" logs from all appenders except the
+    // "LOGSTASH" appender
     private void setMetricsMarkerLogbackFilter(LoggerContext context) {
         log.info("Filtering metrics logs from all appenders except the {} appender", LOGSTASH_APPENDER_NAME);
         EvaluatorFilter<ILoggingEvent> metricsFilter = startMetrics(context);
@@ -128,8 +133,8 @@ public class LoggingConfiguration {
         }
     }
 
-	private EvaluatorFilter<ILoggingEvent> startMetrics(LoggerContext context) {
-		OnMarkerEvaluator onMarkerMetricsEvaluator = new OnMarkerEvaluator();
+    private EvaluatorFilter<ILoggingEvent> startMetrics(LoggerContext context) {
+        OnMarkerEvaluator onMarkerMetricsEvaluator = new OnMarkerEvaluator();
         onMarkerMetricsEvaluator.setContext(context);
         onMarkerMetricsEvaluator.addMarker("metrics");
         onMarkerMetricsEvaluator.start();
@@ -138,13 +143,14 @@ public class LoggingConfiguration {
         metricsFilter.setEvaluator(onMarkerMetricsEvaluator);
         metricsFilter.setOnMatch(FilterReply.DENY);
         metricsFilter.start();
-		return metricsFilter;
-	}
+        return metricsFilter;
+    }
 
     /**
-     * Logback configuration is achieved by configuration file and API.
-     * When configuration file change is detected, the configuration is reset.
-     * This listener ensures that the programmatic configuration is also re-applied after reset.
+     * Logback configuration is achieved by configuration file and API. When
+     * configuration file change is detected, the configuration is reset. This
+     * listener ensures that the programmatic configuration is also re-applied after
+     * reset.
      */
     class LogbackLoggerContextListener extends ContextAwareBase implements LoggerContextListener {
 

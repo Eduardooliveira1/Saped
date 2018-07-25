@@ -55,12 +55,12 @@ public class ProfileInfoResource {
         private String ribbonEnv;
 
         ProfileInfoVM(String[] activeProfiles, String ribbonEnv) {
-			this.activeProfiles = activeProfiles.clone();
+            this.activeProfiles = activeProfiles.clone();
             this.ribbonEnv = ribbonEnv;
         }
 
         public String[] getActiveProfiles() {
-			return activeProfiles.clone();
+            return activeProfiles.clone();
         }
 
         public String getRibbonEnv() {
