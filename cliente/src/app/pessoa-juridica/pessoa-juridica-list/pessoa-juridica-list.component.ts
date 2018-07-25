@@ -82,9 +82,14 @@ export class PessoaJuridicaListComponent implements OnInit {
       acceptLabel: MensagensUtils.SIM,
       rejectLabel: MensagensUtils.NAO,
       accept: () => {
+        this.blockUI.start(MensagensUtils.CARREGANDO);
         this.pessoaJuridicaService.remover(id).subscribe(() => {
+          this.blockUI.stop();
           this.pesquisar();
           this.pageNotificationService.addDeleteMsg();
+        }, error=>{
+          this.blockUI.stop();
+          this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_EXCLUIR_REGISTRO);
         })
       }
     });
