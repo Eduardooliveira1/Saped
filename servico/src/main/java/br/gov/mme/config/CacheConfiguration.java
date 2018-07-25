@@ -88,16 +88,14 @@ public class CacheConfiguration {
                 config.getNetworkConfig().setPort(serverProperties.getPort() + 5701);
                 config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
                 for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
-                    String clusterMember = "127.0.0.1:" + (instance.getPort() + 5701);
-                    log.debug("Adding Hazelcast (dev) cluster member " + clusterMember);
+                    String clusterMember = new StringBuilder("127.0.0.1:").append(String.valueOf(instance.getPort() + 5701)).toString();
                     config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
                 }
             } else { // Production configuration, one host per instance all using port 5701
                 config.getNetworkConfig().setPort(5701);
                 config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
                 for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
-                    String clusterMember = instance.getHost() + ":5701";
-                    log.debug("Adding Hazelcast (prod) cluster member " + clusterMember);
+                    String clusterMember = new StringBuilder(instance.getHost()).append(":5701").toString();
                     config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
                 }
             }
