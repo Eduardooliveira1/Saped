@@ -1,5 +1,14 @@
 package br.gov.mme.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.mme.domain.Pessoa;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.enumeration.FlStatus;
@@ -14,15 +23,6 @@ import br.gov.mme.web.rest.PessoaJuridicaResource;
 import br.gov.mme.web.rest.errors.BadRequestAlertException;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * Service Implementation for managing PessoaJuridica.
@@ -38,11 +38,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
 
-    private String EMPRESA_JA_CADASTRADA = "Esta empresa já está cadastrada no sistema.";
+    private static final String EMPRESA_JA_CADASTRADA = "Esta empresa já está cadastrada no sistema.";
 
-    private String CNPJ_INVALIDO = "CNPJ inválido.";
+    private static final String CNPJ_INVALIDO = "CNPJ inválido.";
 
-    public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository, PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
+    public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
+            PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.pessoaJuridicaMapper = pessoaJuridicaMapper;
         this.pessoaRepository = pessoaRepository;
@@ -55,7 +56,8 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         if (StringUtils.isBlank(filtro)) {
             return pessoaJuridicaRepository.listarPessoasJuridicas(PaginationUtil.ignoreCase(pageable));
         } else {
-            return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil.preparaStringLike(filtro), PaginationUtil.ignoreCase(pageable));
+            return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil.preparaStringLike(filtro),
+                    PaginationUtil.ignoreCase(pageable));
         }
     }
 
@@ -73,7 +75,6 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         }
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
-
 
         if (Objects.isNull(pessoaJuridicaDto.getId())) {
             pessoaJuridica.setPessoa(new Pessoa().setStatus(FlStatus.S).setDataCadastro(LocalDateTime.now()));

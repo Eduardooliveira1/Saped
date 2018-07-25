@@ -1,16 +1,19 @@
 package br.gov.mme.service.dto;
 
-import br.gov.mme.config.Constants;
-import br.gov.mme.domain.Authority;
-import br.gov.mme.domain.User;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.Instant;
-import java.util.Set;
-import java.util.stream.Collectors;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+import br.gov.mme.config.Constants;
+import br.gov.mme.domain.Authority;
+import br.gov.mme.domain.User;
 
 /**
  * A DTO representing a user, with his authorities.
@@ -69,9 +72,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
-        this.authorities = user.getAuthorities().stream()
-            .map(Authority::getName)
-            .collect(Collectors.toSet());
+        this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
     public Long getId() {
@@ -171,28 +172,19 @@ public class UserDTO {
     }
 
     public Set<String> getAuthorities() {
-        return authorities;
+        return this.authorities;
     }
 
     public void setAuthorities(Set<String> authorities) {
-        this.authorities = authorities;
+        this.authorities = (authorities == null) ? new HashSet<>() : authorities;
     }
 
     @Override
     public String toString() {
-        return "UserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
-            "}";
+        return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
+                + '\'' + ", email='" + email + '\'' + ", imageUrl='" + imageUrl + '\'' + ", activated=" + activated
+                + ", langKey='" + langKey + '\'' + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+                + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate
+                + ", authorities=" + authorities + "}";
     }
 }
