@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PessoaJuridicaListComponent } from './pessoa-juridica-list/pessoa-juridica-list.component';
 import { RouterModule } from '@angular/router';
-import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule } from 'primeng/primeng';
+import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
 import { PessoaJuridicaService } from './pessoa-juridica.service';
 import {Ng2BRPipesModule} from 'ng2-brpipes';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -26,11 +26,12 @@ import { CustomComponentsModule } from '../shared/custom-components/custom-compo
     InputMaskModule,
     ReactiveFormsModule,
     DropdownModule,
-    BlockUIModule
+    BlockUIModule,
+    ConfirmDialogModule
   ],
   declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent],
   providers:[
-      PessoaJuridicaService, EnumService
+      PessoaJuridicaService, EnumService, ConfirmationService
   ],
   exports: [Ng2BRPipesModule]
 })

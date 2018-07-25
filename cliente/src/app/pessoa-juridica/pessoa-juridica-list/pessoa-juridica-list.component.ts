@@ -9,7 +9,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { faUserFriends, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { DataTable } from 'primeng/primeng';
+import { DataTable, ConfirmationService } from 'primeng/primeng';
 import { Page } from '../../util/page';
 import { PessoaJuridicaLista } from './pessoa-juridica-lista.model';
 
@@ -33,8 +33,9 @@ export class PessoaJuridicaListComponent implements OnInit {
   faTrashAlt = faTrashAlt;
 
   constructor(private pessoaJuridicaService: PessoaJuridicaService,
-  private router : Router,
-  private pageNotificationService: PageNotificationService) { }
+    private router: Router,
+    private pageNotificationService: PageNotificationService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
   }
@@ -61,18 +62,32 @@ export class PessoaJuridicaListComponent implements OnInit {
       .subscribe(result => {
         this.blockUI.stop();
         this.result = result.json();
-      }, error =>{
+      }, error => {
         this.blockUI.stop();
         this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
       });
   }
 
-  novaEmpresa(){
+  novaEmpresa() {
     this.router.navigateByUrl('pessoa-juridica/cadastro');
   }
 
-  editarEmpresa(id){
-    this.router.navigateByUrl('pessoa-juridica/editar/'+id);
+  editarEmpresa(id) {
+    this.router.navigateByUrl('pessoa-juridica/editar/' + id);
+  }
+
+  removerEmpresa(id) {
+    this.confirmationService.confirm({
+      message: MensagensUtils.CONFIRMACAO_EXCLUSAO,
+      acceptLabel: MensagensUtils.SIM,
+      rejectLabel: MensagensUtils.NAO,
+      accept: () => {
+        this.pessoaJuridicaService.remover(id).subscribe(() => {
+          this.pesquisar();
+          this.pageNotificationService.addDeleteMsg();
+        })
+      }
+    });
   }
 
 }
