@@ -9,10 +9,7 @@ public class PessoaJuridicaListaDTO {
     private String razaoSocial;
 
     public PessoaJuridicaListaDTO(String cnpj, String sigla, String nomeFantasia, String razaoSocial) {
-        this.cnpj = cnpj;
-        this.sigla = sigla;
-        this.nomeFantasia = nomeFantasia;
-        this.razaoSocial = razaoSocial;
+        this(null, cnpj, sigla, nomeFantasia, razaoSocial);
     }
 
     public PessoaJuridicaListaDTO(Long id, String cnpj, String sigla, String nomeFantasia, String razaoSocial) {
