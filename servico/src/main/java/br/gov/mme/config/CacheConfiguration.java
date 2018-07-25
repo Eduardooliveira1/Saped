@@ -75,7 +75,7 @@ public class CacheConfiguration {
         if (this.registration == null) {
             log.warn("No discovery service is set up, Hazelcast cannot create a cluster.");
         } else {
-            ConfigureHazelcast(config);
+            configureHazelcast(config);
 
         }
         config.getMapConfigs().put("default", initializeDefaultMapConfig());
