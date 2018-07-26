@@ -1,6 +1,6 @@
 package br.gov.mme.web.rest;
 
-class ProfileInfoVM {
+public class ProfileInfoVM {
 
     private String[] activeProfiles;
 
