@@ -93,13 +93,13 @@ public class CacheConfiguration {
             log.debug("Application is running with the \"dev\" profile, Hazelcast cluster will only work with localhost instances");
 
             System.setProperty("hazelcast.local.localAddress", "127.0.0.1");
-            config.getNetworkConfig().setPort(serverProperties.getPort() + 5701);
-            config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
+            config.getNetworkConfig().setPort(serverProperties.getPort() + 5701).getJoin().getTcpIpConfig().setEnabled(true);
             for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
                 String clusterMember = new StringBuilder("127.0.0.1:").append(String.valueOf(instance.getPort() + 5701)).toString();
                 config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
             }
-        } else { // Production configuration, one host per instance all using port 5701
+         // Production configuration, one host per instance all using port 5701
+        } else {
             config.getNetworkConfig().setPort(5701);
             config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
             for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
