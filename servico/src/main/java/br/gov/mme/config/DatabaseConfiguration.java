@@ -1,11 +1,13 @@
 package br.gov.mme.config;
 
-import javax.sql.DataSource;
-
+import io.github.jhipster.config.JHipsterConstants;
+import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
+import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -14,9 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import io.github.jhipster.config.JHipsterConstants;
-import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
-import liquibase.integration.spring.SpringLiquibase;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories("br.gov.mme.repository")
@@ -28,16 +28,18 @@ public class DatabaseConfiguration {
 
     private final Environment env;
 
-    public DatabaseConfiguration(Environment env) {
+    private final CacheManager cacheManager;
+
+    public DatabaseConfiguration(Environment env, CacheManager cacheManager) {
         this.env = env;
+        this.cacheManager = cacheManager;
     }
 
     @Bean
-    public SpringLiquibase liquibase(@Qualifier("taskExecutor") TaskExecutor taskExecutor, DataSource dataSource,
-            LiquibaseProperties liquibaseProperties) {
+    public SpringLiquibase liquibase(@Qualifier("taskExecutor") TaskExecutor taskExecutor,
+                                     DataSource dataSource, LiquibaseProperties liquibaseProperties) {
 
-        // Use liquibase.integration.spring.SpringLiquibase if you don't want Liquibase
-        // to start asynchronously
+        // Use liquibase.integration.spring.SpringLiquibase if you don't want Liquibase to start asynchronously
         SpringLiquibase liquibase = new AsyncSpringLiquibase(taskExecutor, env);
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog("classpath:config/liquibase/master.xml");
@@ -51,5 +53,9 @@ public class DatabaseConfiguration {
             log.debug("Configuring Liquibase");
         }
         return liquibase;
+    }
+
+    public CacheManager getCacheManager() {
+        return cacheManager;
     }
 }
