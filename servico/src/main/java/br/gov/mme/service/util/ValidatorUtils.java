@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public final class ValidatorUtils {
 
-    private static Logger LOGGER = Logger.getLogger(ValidatorUtils.class.getName());
+    private static Logger logger = Logger.getLogger(ValidatorUtils.class.getName());
 
     private ValidatorUtils() {
 
@@ -35,7 +35,7 @@ public final class ValidatorUtils {
                 return (true);
             }
         } catch (InputMismatchException erro) {
-            LOGGER.throwing("ValidatorUtils", "cnpjValido", erro);
+            logger.throwing(ValidatorUtils.class.getName(), "cnpjValido", erro);
         }
         return (false);
     }
@@ -60,11 +60,11 @@ public final class ValidatorUtils {
     }
 
     private static int convertePeso(int peso) {
-        peso++;
-        if (peso == 10) {
+        int pesoAux = peso + 1;
+        if (pesoAux == 10) {
             return 2;
         }
-        return peso;
+        return pesoAux;
     }
 
     private static int calculaPeso(String cnpj, int pos) {

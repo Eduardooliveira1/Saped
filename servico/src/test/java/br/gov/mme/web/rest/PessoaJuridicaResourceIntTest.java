@@ -3,9 +3,6 @@ package br.gov.mme.web.rest;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import javax.persistence.EntityManager;
-
-import br.gov.mme.enumeration.FlStatus;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -23,6 +20,7 @@ import org.springframework.util.MultiValueMap;
 
 import br.gov.mme.SapedApp;
 import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.utils.TestUtils;
@@ -49,9 +47,6 @@ public class PessoaJuridicaResourceIntTest {
 	private PessoaJuridicaService pessoaJuridicaService;
 
 	@Autowired
-	private EntityManager em;
-
-	@Autowired
 	private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
 	@Autowired
@@ -66,15 +61,15 @@ public class PessoaJuridicaResourceIntTest {
 
 	private static final String GET_PJS = "/api/pessoas-juridicas";
 
-	public static PessoaJuridica createEntity(EntityManager em) {
-		return createEntityBase(em, TestUtils.DEFAULT_STRING_TAM_9, TestUtils.DEFAULT_VALID_CNPJ);
+    public static PessoaJuridica createEntity() {
+        return createEntityBase(TestUtils.DEFAULT_STRING_TAM_9, TestUtils.DEFAULT_VALID_CNPJ);
 	}
 
-	public static PessoaJuridica createDiferentEntity(EntityManager em) {
-		return createEntityBase(em, TestUtils.UPDATED_STRING_TAM_9, TestUtils.UPDATED_VALID_CNPJ);
+    public static PessoaJuridica createDiferentEntity() {
+        return createEntityBase(TestUtils.UPDATED_STRING_TAM_9, TestUtils.UPDATED_VALID_CNPJ);
 	}
 
-	private static PessoaJuridica createEntityBase(EntityManager em, String nome, String cpf) {
+    private static PessoaJuridica createEntityBase(String nome, String cpf) {
 		PessoaJuridica pessoaJuridica = new PessoaJuridica();
 		pessoaJuridica.setPessoa(TestUtils.getDefaultPessoa());
 		pessoaJuridica.setCnpj(cpf);
@@ -101,13 +96,13 @@ public class PessoaJuridicaResourceIntTest {
 
 		this.pessoaJuridicaRepository.deleteAll();
 		this.pessoaJuridicaRepository.flush();
-		pessoaJuridica = createEntity(this.em);
+        pessoaJuridica = createEntity();
 	}
 
 	@Test
 	@Transactional
 	public void listarPessoasJuridicas() throws Exception {
-		PessoaJuridica pessoaJuridicaFlStatusN = createDiferentEntity(this.em);
+        PessoaJuridica pessoaJuridicaFlStatusN = createDiferentEntity();
 		pessoaJuridicaFlStatusN.getPessoa().setStatus(FlStatus.N);
 		this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaFlStatusN);
 		TestUtils.performGet(restPessoaJuridicaMockMvc, GET_PJS)
@@ -122,7 +117,7 @@ public class PessoaJuridicaResourceIntTest {
 	@Test
 	@Transactional
 	public void listarPessoasJuridicasPorNomeFantasia() throws Exception {
-		PessoaJuridica pessoaJuridicaRetornada = createDiferentEntity(this.em);
+        PessoaJuridica pessoaJuridicaRetornada = createDiferentEntity();
 		this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaRetornada);
 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
