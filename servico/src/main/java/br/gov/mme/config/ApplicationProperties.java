@@ -25,14 +25,14 @@ public class ApplicationProperties {
 
     public static class Ip {
 
-        private String localhost;
+        private String localAddress;
 
-        public String getLocalhost() {
-            return localhost;
+        public String getLocalAddress() {
+            return localAddress;
         }
 
-        public void setLocalhost(String localhost) {
-            this.localhost = localhost;
+        public void setLocalAddress(String localAddress) {
+            this.localAddress = localAddress;
         }
 
     }

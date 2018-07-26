@@ -41,8 +41,8 @@ public class CacheConfiguration {
 
     private Registration registration;
 
-    @Value("${application.ip.localhost}")
-    private String localhost;
+    @Value("${application.ip.localAddress}")
+    private String localAddress;
 
     public CacheConfiguration(Environment env, ServerProperties serverProperties, DiscoveryClient discoveryClient) {
         this.env = env;
@@ -98,10 +98,10 @@ public class CacheConfiguration {
         if (env.acceptsProfiles(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)) {
             log.debug("Application is running with the \"dev\" profile, Hazelcast cluster will only work with localhost instances");
 
-            System.setProperty("hazelcast.local.localAddress", localhost);
+            System.setProperty("hazelcast.local.localAddress", localAddress);
             config.getNetworkConfig().setPort(serverProperties.getPort() + 5701).getJoin().getTcpIpConfig().setEnabled(true);
             for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
-                String clusterMember = new StringBuilder(localhost).append(":")
+                String clusterMember = new StringBuilder(localAddress).append(":")
                         .append(String.valueOf(instance.getPort() + 5701)).toString();
                 config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
             }
