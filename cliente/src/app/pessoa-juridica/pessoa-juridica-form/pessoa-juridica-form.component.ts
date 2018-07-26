@@ -31,6 +31,8 @@ export class PessoaJuridicaFormComponent implements OnInit {
   tiposEndereco: SelectItem[];
   ufs: SelectItem[];
 
+  msgPadraoCampoObrigatorio = MensagensUtils.CAMPO_OBRIGATORIO;
+
   private routeSub: Subscription;
 
   constructor(private formBuilder: FormBuilder,

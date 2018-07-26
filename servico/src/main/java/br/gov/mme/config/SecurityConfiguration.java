@@ -43,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final SecurityProblemSupport problemSupport;
 
     @Value("${application.url.ldap}")
-    String ldap;
+    private String ldap;
 
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder,
             UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter,
