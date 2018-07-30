@@ -1,0 +1,15 @@
+<label *ngIf="showLabel" class="float-label">{{label}}</label>
+<span class="md-inputfield">
+    <textarea autoResize="autoResize"
+              pInputTextarea
+              [readonly]="readonly"
+              [value]="getValue()"
+              [rows]="rows || ''"
+              [cols]="cols|| ''"
+              (input)="onChange($event)"
+              (blur)="setTouched()"></textarea>
+    <div *ngIf="showErrorMessage && hasError()" class="ui-message ui-messages-error">
+          {{errorMessage}}
+    </div>
+</span>
+

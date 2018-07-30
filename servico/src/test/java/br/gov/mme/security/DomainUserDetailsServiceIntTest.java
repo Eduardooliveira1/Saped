@@ -41,12 +41,12 @@ public class DomainUserDetailsServiceIntTest {
     @Autowired
     private UserDetailsService domainUserDetailsService;
 
-    private User userOne;
-    private User userTwo;
-    private User userThree;
-
     @Before
     public void init() {
+        User userOne;
+        User userTwo;
+        User userThree;
+        
         userOne = new User();
         userOne.setLogin(USER_ONE_LOGIN);
         userOne.setPassword(RandomStringUtils.random(60));

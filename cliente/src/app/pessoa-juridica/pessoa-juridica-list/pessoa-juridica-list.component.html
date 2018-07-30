@@ -5,13 +5,15 @@
 
   <div class="ui-g-6">
     <span class="md-inputfield ui-g-12 ui-md-12 ui-lg-8">
-      <input placeholder="Procurar" (input)="filtrar($event.target.value)" [(ngModel)]="filtro" type="text" pInputText class="ui-inputtext"
+      <input [placeholder]="" 
+      (input)="filtrar()" 
+      [(ngModel)]="filtro" type="text" pInputText class="ui-inputtext"
       />
     </span>
   </div>
   <div class="ui-g-6">
     <div class="ui-g-12 ui-md-12 ui-lg-4 float-right">
-      <button pButton type="button" label="Nova Empresa" [icon]="'ui-icon-plus'"></button>
+      <button pButton type="button" (click)="novaEmpresa()" label="Nova Empresa" [icon]="'ui-icon-plus'"></button>
     </div>
   </div>
 </div>
@@ -32,10 +34,10 @@
           <a class="link-representantes">
               <fa-icon [icon]="faUserFriends"></fa-icon>
           </a>
-          <a class="link-editar">
+          <a class="link-editar" (click)="editarEmpresa(row.id)">
               <fa-icon [icon]="faEdit"></fa-icon>
           </a>
-          <a class="link-remover">
+          <a class="link-remover" (click)="removerEmpresa(row.id)">
               <fa-icon [icon]="faTrashAlt"></fa-icon>
           </a>
         </ng-template>
@@ -43,3 +45,5 @@
     </p-dataTable>
   </div>
 </div>
+
+<p-confirmDialog></p-confirmDialog>

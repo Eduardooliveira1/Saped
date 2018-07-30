@@ -20,7 +20,7 @@ logging:
 spring:
     profiles:
         active: liquibase
-        include: dev
+
 
 liquibase:
     contexts: liquibase

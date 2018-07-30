@@ -32,12 +32,12 @@ public class DatabaseConfiguration {
 
     public DatabaseConfiguration(Environment env, CacheManager cacheManager) {
         this.env = env;
-    this.cacheManager = cacheManager;
+        this.cacheManager = cacheManager;
     }
 
     @Bean
     public SpringLiquibase liquibase(@Qualifier("taskExecutor") TaskExecutor taskExecutor,
-            DataSource dataSource, LiquibaseProperties liquibaseProperties) {
+                                     DataSource dataSource, LiquibaseProperties liquibaseProperties) {
 
         // Use liquibase.integration.spring.SpringLiquibase if you don't want Liquibase to start asynchronously
         SpringLiquibase liquibase = new AsyncSpringLiquibase(taskExecutor, env);
@@ -53,5 +53,9 @@ public class DatabaseConfiguration {
             log.debug("Configuring Liquibase");
         }
         return liquibase;
+    }
+
+    public CacheManager getCacheManager() {
+        return cacheManager;
     }
 }

@@ -1,3 +1,7 @@
+import { PageNotificationService } from '@basis/angular-components';
+import { MensagensUtils } from './../../util/mensagens-util';
+import { NgBlockUI, BlockUI } from 'ng-block-ui';
+import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Pageable } from '../../util/pageable-request';
 import { PessoaJuridicaService } from '../pessoa-juridica.service';
@@ -5,7 +9,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { faUserFriends, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { DataTable } from 'primeng/primeng';
+import { DataTable, ConfirmationService } from 'primeng/primeng';
 import { Page } from '../../util/page';
 import { PessoaJuridicaLista } from './pessoa-juridica-lista.model';
 
@@ -18,6 +22,8 @@ export class PessoaJuridicaListComponent implements OnInit {
 
   @ViewChild('dataTable') dataTable: DataTable;
 
+  @BlockUI() blockUI: NgBlockUI;
+
   result: Page<PessoaJuridicaLista>;
   filtro: string;
   ultimoFiltro: string;
@@ -26,7 +32,10 @@ export class PessoaJuridicaListComponent implements OnInit {
   faEdit = faEdit;
   faTrashAlt = faTrashAlt;
 
-  constructor(private pessoaJuridicaService: PessoaJuridicaService) { }
+  constructor(private pessoaJuridicaService: PessoaJuridicaService,
+    private router: Router,
+    private pageNotificationService: PageNotificationService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
   }
@@ -48,9 +57,42 @@ export class PessoaJuridicaListComponent implements OnInit {
     let pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
+    this.blockUI.start(MensagensUtils.CARREGANDO);
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
       .subscribe(result => {
+        this.blockUI.stop();
         this.result = result.json();
+      }, error => {
+        this.blockUI.stop();
+        this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
       });
   }
+
+  novaEmpresa() {
+    this.router.navigateByUrl('pessoa-juridica/cadastro');
+  }
+
+  editarEmpresa(id) {
+    this.router.navigateByUrl('pessoa-juridica/editar/' + id);
+  }
+
+  removerEmpresa(id) {
+    this.confirmationService.confirm({
+      message: MensagensUtils.CONFIRMACAO_EXCLUSAO,
+      acceptLabel: MensagensUtils.SIM,
+      rejectLabel: MensagensUtils.NAO,
+      accept: () => {
+        this.blockUI.start(MensagensUtils.CARREGANDO);
+        this.pessoaJuridicaService.remover(id).subscribe(() => {
+          this.blockUI.stop();
+          this.pesquisar();
+          this.pageNotificationService.addDeleteMsg();
+        }, error=>{
+          this.blockUI.stop();
+          this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_EXCLUIR_REGISTRO);
+        })
+      }
+    });
+  }
+
 }

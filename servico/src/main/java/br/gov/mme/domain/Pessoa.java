@@ -1,7 +1,7 @@
 package br.gov.mme.domain;
 
 
-import br.gov.mme.enumerator.FlStatus;
+import br.gov.mme.enumeration.FlStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

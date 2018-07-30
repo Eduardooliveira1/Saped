@@ -1,17 +1,11 @@
 package br.gov.mme.config;
 
-import com.hazelcast.config.Config;
-import com.hazelcast.config.EvictionPolicy;
-import com.hazelcast.config.ManagementCenterConfig;
-import com.hazelcast.config.MapConfig;
-import com.hazelcast.config.MaxSizeConfig;
-import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.HazelcastInstance;
-import io.github.jhipster.config.JHipsterConstants;
-import io.github.jhipster.config.JHipsterProperties;
+import javax.annotation.PreDestroy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -22,7 +16,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import javax.annotation.PreDestroy;
+import com.hazelcast.config.Config;
+import com.hazelcast.config.EvictionPolicy;
+import com.hazelcast.config.ManagementCenterConfig;
+import com.hazelcast.config.MapConfig;
+import com.hazelcast.config.MaxSizeConfig;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
+
+import io.github.jhipster.config.JHipsterConstants;
+import io.github.jhipster.config.JHipsterProperties;
 
 @Configuration
 @EnableCaching
@@ -37,6 +40,9 @@ public class CacheConfiguration {
     private final DiscoveryClient discoveryClient;
 
     private Registration registration;
+
+    @Value("${application.ip.localAddress}")
+    private String localAddress;
 
     public CacheConfiguration(Environment env, ServerProperties serverProperties, DiscoveryClient discoveryClient) {
         this.env = env;
@@ -58,8 +64,7 @@ public class CacheConfiguration {
     @Bean
     public CacheManager cacheManager(HazelcastInstance hazelcastInstance) {
         log.debug("Starting HazelcastCacheManager");
-        CacheManager cacheManager = new com.hazelcast.spring.cache.HazelcastCacheManager(hazelcastInstance);
-        return cacheManager;
+        return new com.hazelcast.spring.cache.HazelcastCacheManager(hazelcastInstance);
     }
 
     @Bean
@@ -76,31 +81,8 @@ public class CacheConfiguration {
         if (this.registration == null) {
             log.warn("No discovery service is set up, Hazelcast cannot create a cluster.");
         } else {
-            // The serviceId is by default the application's name, see Spring Boot's eureka.instance.appname property
-            String serviceId = registration.getServiceId();
-            log.debug("Configuring Hazelcast clustering for instanceId: {}", serviceId);
-            // In development, everything goes through 127.0.0.1, with a different port
-            if (env.acceptsProfiles(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)) {
-                log.debug("Application is running with the \"dev\" profile, Hazelcast " +
-                          "cluster will only work with localhost instances");
+            configureHazelcast(config);
 
-                System.setProperty("hazelcast.local.localAddress", "127.0.0.1");
-                config.getNetworkConfig().setPort(serverProperties.getPort() + 5701);
-                config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
-                for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
-                    String clusterMember = "127.0.0.1:" + (instance.getPort() + 5701);
-                    log.debug("Adding Hazelcast (dev) cluster member " + clusterMember);
-                    config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
-                }
-            } else { // Production configuration, one host per instance all using port 5701
-                config.getNetworkConfig().setPort(5701);
-                config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
-                for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
-                    String clusterMember = instance.getHost() + ":5701";
-                    log.debug("Adding Hazelcast (prod) cluster member " + clusterMember);
-                    config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
-                }
-            }
         }
         config.getMapConfigs().put("default", initializeDefaultMapConfig());
 
@@ -108,6 +90,29 @@ public class CacheConfiguration {
         config.setManagementCenterConfig(initializeDefaultManagementCenterConfig(jHipsterProperties));
         config.getMapConfigs().put("br.gov.mme.domain.*", initializeDomainMapConfig(jHipsterProperties));
         return Hazelcast.newHazelcastInstance(config);
+    }
+
+    private void configureHazelcast(Config config) {
+        String serviceId = registration.getServiceId();
+        log.debug("Configuring Hazelcast clustering for instanceId: {}", serviceId);
+        if (env.acceptsProfiles(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)) {
+            log.debug("Application is running with the \"dev\" profile, Hazelcast cluster will only work with localhost instances");
+
+            System.setProperty("hazelcast.local.localAddress", localAddress);
+            config.getNetworkConfig().setPort(serverProperties.getPort() + 5701).getJoin().getTcpIpConfig().setEnabled(true);
+            for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
+                String clusterMember = new StringBuilder(localAddress).append(":")
+                        .append(String.valueOf(instance.getPort() + 5701)).toString();
+                config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
+            }
+         // Production configuration, one host per instance all using port 5701
+        } else {
+            config.getNetworkConfig().setPort(5701).getJoin().getTcpIpConfig().setEnabled(true);
+            for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
+                String clusterMember = new StringBuilder(instance.getHost()).append(":5701").toString();
+                config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
+            }
+        }
     }
 
     private ManagementCenterConfig initializeDefaultManagementCenterConfig(JHipsterProperties jHipsterProperties) {

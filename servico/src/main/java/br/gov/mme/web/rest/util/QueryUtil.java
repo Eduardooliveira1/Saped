@@ -1,8 +1,12 @@
 package br.gov.mme.web.rest.util;
 
-public class QueryUtil {
+public final class QueryUtil {
 
-    public static String preparaStringLike(String texto){
+    private QueryUtil() {
+
+    }
+
+    public static String preparaStringLike(String texto) {
         StringBuilder sb = new StringBuilder("%").append(texto).append("%");
         return sb.toString();
     }

@@ -1,7 +1,10 @@
 package br.gov.mme.service;
 
-import br.gov.mme.domain.User;
-import io.github.jhipster.config.JHipsterProperties;
+import java.util.Locale;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import javax.mail.internet.MimeMessage;
-import java.util.Locale;
+import br.gov.mme.domain.User;
+import io.github.jhipster.config.JHipsterProperties;
 
 /**
  * Service for sending emails.
@@ -49,8 +52,8 @@ public class MailService {
 
     @Async
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
-        log.debug("Send email[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
-            isMultipart, isHtml, to, subject, content);
+        log.debug("Send email[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}", isMultipart,
+                isHtml, to, subject, content);
 
         // Prepare message using a Spring helper
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -62,7 +65,7 @@ public class MailService {
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
             log.debug("Sent email to User '{}'", to);
-        } catch (Exception e) {
+        } catch (MessagingException e) {
             if (log.isDebugEnabled()) {
                 log.warn("Email could not be sent to user '{}'", to, e);
             } else {
