@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
+import br.gov.mme.web.rest.errors.BadRequestAlertException;
 
 /**
  * Service Interface for managing PessoaJuridica.
@@ -41,6 +42,6 @@ public interface PessoaJuridicaService {
      * remover pessoa juridica
      * @param id
      */
-    void excluirPessoaJuridica(Long id);
+    void excluirPessoaJuridica(Long id) throws BadRequestAlertException;
 
 }

@@ -1,12 +1,12 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.errors.BadRequestAlertException;
-import br.gov.mme.web.rest.util.HeaderUtil;
-import br.gov.mme.web.rest.util.PaginationUtil;
-import com.codahale.metrics.annotation.Timed;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -22,9 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.codahale.metrics.annotation.Timed;
+
+import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.web.rest.errors.BadRequestAlertException;
+import br.gov.mme.web.rest.errors.ErrorKeys;
+import br.gov.mme.web.rest.util.HeaderUtil;
+import br.gov.mme.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing PessoaJuridicaResource.
@@ -38,6 +44,8 @@ public class PessoaJuridicaResource {
     private final PessoaJuridicaService pessoaJuridicaService;
 
     public static final String ENTITY_NAME = "pessoa-juridica";
+
+    private final Logger log = LoggerFactory.getLogger(PessoaJuridicaResource.class);
 
     public PessoaJuridicaResource(PessoaJuridicaService pessoaJuridicaService) {
         this.pessoaJuridicaService = pessoaJuridicaService;
@@ -63,7 +71,8 @@ public class PessoaJuridicaResource {
     public ResponseEntity<PessoaJuridicaCadastroDTO> cadastrarPessoaJuridica(@Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
 
         if (pessoaJuridica.getId() != null) {
-            throw new BadRequestAlertException("Um novo registro não pode ter um ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("Um novo registro nao pode ter um ID", ENTITY_NAME,
+                    ErrorKeys.ID_EXISTS.error());
         }
 
         PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
@@ -90,7 +99,12 @@ public class PessoaJuridicaResource {
     @Timed
     public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(
             @PathVariable("id") Long id) {
+        try {
         pessoaJuridicaService.excluirPessoaJuridica(id);
+        } catch (BadRequestAlertException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

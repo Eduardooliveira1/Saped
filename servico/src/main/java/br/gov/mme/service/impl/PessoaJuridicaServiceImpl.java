@@ -21,6 +21,7 @@ import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.util.ValidatorUtils;
 import br.gov.mme.web.rest.PessoaJuridicaResource;
 import br.gov.mme.web.rest.errors.BadRequestAlertException;
+import br.gov.mme.web.rest.errors.ErrorKeys;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
 
@@ -38,9 +39,14 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
 
-    private static final String EMPRESA_JA_CADASTRADA = "Esta empresa já está cadastrada no sistema.";
+    public static final String EMPRESA_JA_CADASTRADA = "Esta empresa ja esta cadastrada no sistema.";
 
-    private static final String CNPJ_INVALIDO = "CNPJ inválido.";
+    public static final String CNPJ_INVALIDO = "CNPJ invalido.";
+
+    public static final String ENTITY_NAME = "pessoa-juridica";
+    
+    public static final String PESSOA_NAO_CADASTRADA = 
+            "Nao e possivel excluir uma pessoa juridica inexistente!";
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
             PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
@@ -67,11 +73,13 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.findByCnpj(pessoaJuridicaDto.getCnpj());
 
         if (Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId())) {
-            throw new BadRequestAlertException(EMPRESA_JA_CADASTRADA, PessoaJuridicaResource.ENTITY_NAME, "cnpjexiste");
+            throw new BadRequestAlertException(EMPRESA_JA_CADASTRADA, PessoaJuridicaResource.ENTITY_NAME,
+                    ErrorKeys.CNPJ_EXISTS.error());
         }
 
         if (!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())) {
-            throw new BadRequestAlertException(CNPJ_INVALIDO, PessoaJuridicaResource.ENTITY_NAME, "cnpjinvalido");
+            throw new BadRequestAlertException(CNPJ_INVALIDO, PessoaJuridicaResource.ENTITY_NAME,
+                    ErrorKeys.CNPJ_INVALID.error());
         }
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
@@ -92,8 +100,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
 
     @Override
-    public void excluirPessoaJuridica(Long id) {
+    public void excluirPessoaJuridica(Long id) throws BadRequestAlertException {
         Pessoa pessoa = pessoaRepository.findOne(id);
+        if (pessoa == null) {
+            throw new BadRequestAlertException(PESSOA_NAO_CADASTRADA, 
+                    ENTITY_NAME, ErrorKeys.ID_INEXISTENT.error());
+        }
         pessoa.setStatus(FlStatus.N);
         pessoaRepository.save(pessoa);
     }
