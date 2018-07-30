@@ -180,4 +180,8 @@ public class LoggingConfiguration {
         }
     }
 
+    public EurekaInstanceConfigBean getEurekaInstanceConfigBean() {
+        return eurekaInstanceConfigBean;
+    }
+
 }

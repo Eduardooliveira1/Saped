@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.time.LocalDateTime;
 
-import br.gov.mme.enumeration.FlStatus;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -15,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.MultiValueMap;
 
 import br.gov.mme.domain.Pessoa;
+import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 public abstract class TestUtils {
@@ -36,19 +36,19 @@ public abstract class TestUtils {
 
 	// FUNÇÕES AUXILIARES:
 	
-	private static MockHttpServletRequestBuilder RESTGetComum(MockMvc mock,
+    private static MockHttpServletRequestBuilder RESTGetComum(
 			String path, Object... vars) {
 		return get(path, vars).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
         .content(new byte[0]);
 	}
 
 	public static ResultActions performGet(MockMvc mock, String path, Object... vars) throws Exception {
-		return mock.perform(RESTGetComum(mock, path, vars));
+        return mock.perform(RESTGetComum(path, vars));
 	}
 
 	public static ResultActions performGetWithParams(MockMvc mock, String path, 
 			MultiValueMap<String, String> params, Object... vars) throws Exception {
-		return mock.perform(RESTGetComum(mock, path, vars).params(params));
+        return mock.perform(RESTGetComum(path, vars).params(params));
 	}
 
 	public static MockMvc setupMockMvc(Object resource,

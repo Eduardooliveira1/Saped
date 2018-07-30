@@ -1,11 +1,13 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.SapedApp;
-import br.gov.mme.domain.User;
-import br.gov.mme.repository.UserRepository;
-import br.gov.mme.security.jwt.TokenProvider;
-import br.gov.mme.web.rest.errors.ExceptionTranslator;
-import br.gov.mme.web.rest.vm.LoginVM;
+import static org.hamcrest.Matchers.isEmptyString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,13 +20,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.hamcrest.Matchers.isEmptyString;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import br.gov.mme.SapedApp;
+import br.gov.mme.domain.User;
+import br.gov.mme.repository.UserRepository;
+import br.gov.mme.security.jwt.TokenProvider;
+import br.gov.mme.web.rest.errors.ExceptionTranslator;
+import br.gov.mme.web.rest.vm.LoginVM;
 
 /**
  * Test class for the UserJWTController REST controller.
@@ -52,6 +53,12 @@ public class UserJWTControllerIntTest {
 
     private MockMvc mockMvc;
 
+    private static final String ID_TOKEN = "$.id_token";
+
+    private static final String TEST = "test";
+
+    private static final String AUTHORIZATION = "Authorization";
+
     @Before
     public void setup() {
         UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager);
@@ -67,21 +74,20 @@ public class UserJWTControllerIntTest {
         user.setLogin("user-jwt-controller");
         user.setEmail("user-jwt-controller@example.com");
         user.setActivated(true);
-        user.setPassword(passwordEncoder.encode("test"));
+        user.setPassword(passwordEncoder.encode(TEST));
 
         userRepository.saveAndFlush(user);
 
         LoginVM login = new LoginVM();
         login.setUsername("user-jwt-controller");
-        login.setPassword("test");
+        login.setPassword(TEST);
         mockMvc.perform(post("/api/authenticate")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(login)))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id_token").isString())
-            .andExpect(jsonPath("$.id_token").isNotEmpty())
-            .andExpect(header().string("Authorization", not(nullValue())))
-            .andExpect(header().string("Authorization", not(isEmptyString())));
+                .andExpect(jsonPath(ID_TOKEN).isString()).andExpect(jsonPath(ID_TOKEN).isNotEmpty())
+                .andExpect(header().string(AUTHORIZATION, not(nullValue())))
+                .andExpect(header().string(AUTHORIZATION, not(isEmptyString())));
     }
 
     @Test
@@ -91,22 +97,21 @@ public class UserJWTControllerIntTest {
         user.setLogin("user-jwt-controller-remember-me");
         user.setEmail("user-jwt-controller-remember-me@example.com");
         user.setActivated(true);
-        user.setPassword(passwordEncoder.encode("test"));
+        user.setPassword(passwordEncoder.encode(TEST));
 
         userRepository.saveAndFlush(user);
 
         LoginVM login = new LoginVM();
         login.setUsername("user-jwt-controller-remember-me");
-        login.setPassword("test");
+        login.setPassword(TEST);
         login.setRememberMe(true);
         mockMvc.perform(post("/api/authenticate")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(login)))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id_token").isString())
-            .andExpect(jsonPath("$.id_token").isNotEmpty())
-            .andExpect(header().string("Authorization", not(nullValue())))
-            .andExpect(header().string("Authorization", not(isEmptyString())));
+                .andExpect(jsonPath(ID_TOKEN).isString()).andExpect(jsonPath(ID_TOKEN).isNotEmpty())
+                .andExpect(header().string(AUTHORIZATION, not(nullValue())))
+                .andExpect(header().string(AUTHORIZATION, not(isEmptyString())));
     }
 
     @Test
@@ -119,7 +124,7 @@ public class UserJWTControllerIntTest {
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(login)))
             .andExpect(status().isUnauthorized())
-            .andExpect(jsonPath("$.id_token").doesNotExist())
-            .andExpect(header().doesNotExist("Authorization"));
+                .andExpect(jsonPath(ID_TOKEN).doesNotExist())
+                .andExpect(header().doesNotExist(AUTHORIZATION));
     }
 }
