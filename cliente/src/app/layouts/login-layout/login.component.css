@@ -1,0 +1,73 @@
+.pagina-login{
+    background: #EBEAED;
+    width: 100%;
+    height: 100%;
+
+    background-image: url("/assets/layout/images/login/bg.jpg");
+    background-position: center;
+    background-size: 100% auto;
+}
+.form-login{
+    width: 25%;
+    height: 60%;
+    background-color:#FAFAFB;
+    position:absolute; 
+    left:0; right:0;
+    top:0; bottom:0;
+    margin:auto;
+    max-width:100%;
+    max-height:100%;
+    overflow:auto;
+    border: solid 1px;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+.form-login h1{
+    text-align: center;
+    font-size: 4.8em;
+    color: #10785F;
+    border-bottom: solid 1px #10785F;
+    padding-bottom: 30px;
+    margin: 36px 10px 0 10px;
+    font-weight: 900 !important;
+}
+
+.form-login h3{
+    text-align: center;
+    color: #10785F;
+    font-weight: normal;
+    padding: 0px;
+    margin: 0px;
+}
+
+.form-login h4{
+    color: #10785F;
+    border-bottom: solid 1px #10785F;
+    margin: 50px 10px 10px 10px;
+    font-weight: 900 !important;
+    font-size: 1.3em;
+}
+
+.esqueci-senha{
+    color: #14913F;
+    text-decoration: underline;
+    cursor: pointer;
+    line-height: 34px;
+}
+
+.btn-entrar{
+    width: 100%;
+    background: #008A34;
+}
+
+.login-botoes{
+    padding-top: 20px;
+}
+
+@media (max-width: 640px) {
+    .form-login{
+        width: 80% !important;
+        height: 90%
+    }
+}
