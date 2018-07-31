@@ -1,3 +1,4 @@
+import { SecuredLayoutComponent } from './layouts/secured-layout/secured-layout.component';
 import {Component, Input, OnInit, EventEmitter, ViewChild} from '@angular/core';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 import {Location} from '@angular/common';
@@ -110,7 +111,7 @@ export class AppSubMenuComponent {
 
     activeIndex: number;
 
-    constructor(public app: AppComponent) {
+    constructor(public app: SecuredLayoutComponent) {
     }
 
     itemClick(event: Event, item: MenuItem, index: number) {
