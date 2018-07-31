@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
-import br.gov.mme.web.rest.errors.BadRequestAlertException;
+import br.gov.mme.web.rest.errors.EntityNotFoundException;
+import br.gov.mme.web.rest.errors.IdAlreadyExistsException;
+import br.gov.mme.web.rest.errors.InvalidFieldException;
 
 /**
  * Service Interface for managing PessoaJuridica.
@@ -24,10 +26,14 @@ public interface PessoaJuridicaService {
 
     /**
      * Salva pessoa juridica
+     * 
      * @param pessoaJuridica
      * @return pessoa juridica salva
+     * @throws IdAlreadyExistsException
+     * @throws InvalidFieldException
      */
-    PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridica);
+    PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridica)
+            throws IdAlreadyExistsException, InvalidFieldException;
 
     /**
      * Obtem pessoa pessoa jurídica por id
@@ -40,8 +46,10 @@ public interface PessoaJuridicaService {
 
     /**
      * remover pessoa juridica
+     * 
      * @param id
+     * @throws EntityNotFoundException
      */
-    void excluirPessoaJuridica(Long id) throws BadRequestAlertException;
+    void excluirPessoaJuridica(Long id) throws EntityNotFoundException;
 
 }

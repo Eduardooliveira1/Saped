@@ -27,8 +27,10 @@ import com.codahale.metrics.annotation.Timed;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.errors.BadRequestAlertException;
+import br.gov.mme.web.rest.errors.EntityNotFoundException;
 import br.gov.mme.web.rest.errors.ErrorKeys;
+import br.gov.mme.web.rest.errors.IdAlreadyExistsException;
+import br.gov.mme.web.rest.errors.InvalidFieldException;
 import br.gov.mme.web.rest.util.HeaderUtil;
 import br.gov.mme.web.rest.util.PaginationUtil;
 
@@ -69,27 +71,31 @@ public class PessoaJuridicaResource {
     @PostMapping("/pessoa-juridica")
     @Timed
     public ResponseEntity<PessoaJuridicaCadastroDTO> cadastrarPessoaJuridica(@Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
+        try {
+            if (pessoaJuridica.getId() != null) {
+                throw new InvalidFieldException(PessoaJuridicaResource.ENTITY_NAME, ErrorKeys.CNPJ_INVALID);
+            }
+            PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
+            return ResponseEntity.created(new URI("/api/dirigentes/" + result.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId()
+                            .toString())).body(result);
 
-        if (pessoaJuridica.getId() != null) {
-            throw new BadRequestAlertException("Um novo registro nao pode ter um ID", ENTITY_NAME,
-                    ErrorKeys.ID_EXISTS.error());
+        } catch (IdAlreadyExistsException | InvalidFieldException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, e.getMessage()))
+                    .body(null);
         }
-
-        PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
-        return ResponseEntity.created(new URI("/api/dirigentes/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
     }
 
     @PutMapping("/pessoa-juridica")
     @Timed
-    public ResponseEntity<PessoaJuridicaCadastroDTO> atualizarPessoaJuridica(@Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
-
+    public ResponseEntity<PessoaJuridicaCadastroDTO> atualizarPessoaJuridica(
+            @Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica)
+            throws URISyntaxException, IdAlreadyExistsException, InvalidFieldException {
         if (pessoaJuridica.getId() == null) {
             return cadastrarPessoaJuridica(pessoaJuridica);
         }
-
-        PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
+            PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
@@ -101,9 +107,10 @@ public class PessoaJuridicaResource {
             @PathVariable("id") Long id) {
         try {
         pessoaJuridicaService.excluirPessoaJuridica(id);
-        } catch (BadRequestAlertException e) {
+        } catch (EntityNotFoundException e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, 
+                    e.getMessage())).body(null);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

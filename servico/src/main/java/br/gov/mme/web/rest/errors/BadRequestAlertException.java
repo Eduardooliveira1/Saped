@@ -1,11 +1,11 @@
 package br.gov.mme.web.rest.errors;
 
-import org.zalando.problem.AbstractThrowableProblem;
-import org.zalando.problem.Status;
-
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.zalando.problem.AbstractThrowableProblem;
+import org.zalando.problem.Status;
 
 public class BadRequestAlertException extends AbstractThrowableProblem {
 
@@ -31,6 +31,10 @@ public class BadRequestAlertException extends AbstractThrowableProblem {
 
     public String getErrorKey() {
         return errorKey;
+    }
+
+    public String getDefaultMessage() {
+        return super.getTitle();
     }
 
     private static Map<String, Object> getAlertParameters(String entityName, String errorKey) {

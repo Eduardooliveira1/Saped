@@ -34,10 +34,7 @@ import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
-import br.gov.mme.utils.ExceptionUtils;
-import br.gov.mme.utils.GenericException;
 import br.gov.mme.utils.TestUtils;
-import br.gov.mme.web.rest.errors.ErrorKeys;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 
@@ -88,7 +85,7 @@ public class PessoaJuridicaResourceIntTest {
     
     private static final String POST_PJ = API;
 
-    private static final String ID_JA_EXISTENTE = "Um novo registro nao pode ter um ID";
+    private static final String ID_JA_EXISTENTE = "Um novo registro não pode ter um ID";
 
     private static final String UPDATE_PJ = API;
 
@@ -110,18 +107,12 @@ public class PessoaJuridicaResourceIntTest {
 		return pessoaJuridica;
 	}
     
-    private ResultActions checkarDadosPJ(ResultActions resultActions, String array,
-            PessoaJuridica pessoaJuridica) throws GenericException {
-        try {
-            resultActions = resultActions
-             .andExpect(jsonPath(array + "cnpj").value(pessoaJuridica.getCnpj()))
-             .andExpect(jsonPath(array + "sigla").value(pessoaJuridica.getSigla()))
-             .andExpect(jsonPath(array + "nomeFantasia").value(pessoaJuridica.getNomeFantasia()))
-             .andExpect(jsonPath(array + "razaoSocial").value(pessoaJuridica.getRazaoSocial()));
-        }
-        catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
+    private ResultActions checkarDadosPJ(ResultActions resultActions, String array, PessoaJuridica pessoaJuridica)
+            throws Exception {
+        resultActions = resultActions.andExpect(jsonPath(array + "cnpj").value(pessoaJuridica.getCnpj()))
+                .andExpect(jsonPath(array + "sigla").value(pessoaJuridica.getSigla()))
+                .andExpect(jsonPath(array + "nomeFantasia").value(pessoaJuridica.getNomeFantasia()))
+                .andExpect(jsonPath(array + "razaoSocial").value(pessoaJuridica.getRazaoSocial()));
         return resultActions;
     }
 
@@ -147,172 +138,118 @@ public class PessoaJuridicaResourceIntTest {
     @SuppressWarnings("unused")
     private static Stream<Arguments> argsGetPJWithExceptions() {
         Object[][] params = new Object[][] {
-                { TestUtils.getPJCadastroWithId(), ID_JA_EXISTENTE, ErrorKeys.ID_EXISTS.error() },
-                { TestUtils.getPJCadastroWithCNPJExistent(),
-                        PessoaJuridicaServiceImpl.EMPRESA_JA_CADASTRADA, ErrorKeys.CNPJ_EXISTS.error() },
-                { TestUtils.getPJCadastroWithInvalidCNPJ(), PessoaJuridicaServiceImpl.CNPJ_INVALIDO,
-                        ErrorKeys.CNPJ_INVALID.error() }
+                { TestUtils.getPJCadastroWithId(), ID_JA_EXISTENTE, },
+                { TestUtils.getPJCadastroWithCNPJExistent(), PessoaJuridicaServiceImpl.EMPRESA_JA_CADASTRADA, },
+                { TestUtils.getPJCadastroWithInvalidCNPJ(), PessoaJuridicaServiceImpl.CNPJ_INVALIDO }
         };
         return Stream.of(Arguments.of(params[0]),
                 Arguments.of(params[1]),
                 Arguments.of(params[2]));
     }
 
-	@Test
-	@Transactional
-    public void listarPessoasJuridicas() throws GenericException {
-        try {
+    @Test
+    @Transactional
+    public void listarPessoasJuridicas() throws Exception {
         PessoaJuridica pessoaJuridicaFlStatusN = createDiferentEntity();
-		pessoaJuridicaFlStatusN.getPessoa().setStatus(FlStatus.N);
-		this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaFlStatusN);
+        pessoaJuridicaFlStatusN.getPessoa().setStatus(FlStatus.N);
+        this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaFlStatusN);
         checkarDadosPJ(TestUtils.performGet(restPessoaJuridicaMockMvc, GET_PJS), "$.content[0].", 
-                this.pessoaJuridica)
-                     .andExpect(jsonPath("$.totalElements").value(1))
-                            .andExpect(jsonPath("$.numberOfElements").value(1))
-                            .andExpect(status().isOk());
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
-	}
+                this.pessoaJuridica).andExpect(jsonPath("$.totalElements").value(1))
+        .andExpect(jsonPath("$.numberOfElements").value(1))
+        .andExpect(status().isOk());
+    }
 
-	@Test
-	@Transactional
-    public void listarPessoasJuridicasPorNomeFantasia() throws GenericException {
-        try {
+    @Test
+    @Transactional
+    public void listarPessoasJuridicasPorNomeFantasia() throws Exception {
         PessoaJuridica pessoaJuridicaRetornada = createDiferentEntity();
-		this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaRetornada);
+        this.multipleSaveAndFlush(this.pessoaJuridica, pessoaJuridicaRetornada);
 
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("query", pessoaJuridicaRetornada.getCnpj());
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("query", pessoaJuridicaRetornada.getCnpj());
 
-		TestUtils.performGetWithParams(restPessoaJuridicaMockMvc, GET_PJS, params)
-		    .andExpect(status().isOk())
-			.andExpect(jsonPath("$.content[0].cnpj").value(pessoaJuridicaRetornada.getCnpj()))
-			.andExpect(jsonPath("$.content[0].nomeFantasia").value(pessoaJuridicaRetornada
-					.getNomeFantasia()))
-			.andExpect(jsonPath("$.totalElements").value(1))
-			.andExpect(jsonPath("$.numberOfElements").value(1));
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
-    }
-
-    @Test
-	@Transactional
-    public void obterPessoaJuridica() throws GenericException {
-        try {
-	    this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
-
-            checkarDadosPJ(TestUtils.performGet(restPessoaJuridicaMockMvc, GET_PJ, 
-                    this.pessoaJuridica.getId()), "$.", this.pessoaJuridica)
-            .andExpect(status().isOk());
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
-	}
-
-    @Test
-    @Transactional
-    public void obterPessoaJuridicaNaoExistente() throws GenericException {
-        try {
-        assertEquals(TestUtils.performGet(restPessoaJuridicaMockMvc,
-                    GET_PJ, TestUtils.DEFAULT_INVALID_ID).andExpect(status().isOk()).andReturn()
-                .getResponse()
-                .getContentAsString(), "");
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
+        TestUtils.performGetWithParams(restPessoaJuridicaMockMvc, GET_PJS, params).andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].cnpj").value(pessoaJuridicaRetornada.getCnpj()))
+                .andExpect(jsonPath("$.content[0].nomeFantasia")
+                        .value(pessoaJuridicaRetornada.getNomeFantasia()))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.numberOfElements").value(1));
     }
 
     @Test
     @Transactional
-    public void exlcuirPessoaJuridica() throws GenericException {
-        try {
+    public void obterPessoaJuridica() throws Exception {
+        this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
+        checkarDadosPJ(TestUtils.performGet(restPessoaJuridicaMockMvc, GET_PJ, 
+                this.pessoaJuridica.getId()), "$.", this.pessoaJuridica).andExpect(status().isOk());
+    }
+
+    @Test
+    @Transactional
+    public void obterPessoaJuridicaNaoExistente() throws Exception {
+        assertEquals(TestUtils.performGet(restPessoaJuridicaMockMvc, GET_PJ, TestUtils.DEFAULT_INVALID_ID)
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString(), "");
+    }
+
+    @Test
+    @Transactional
+    public void exlcuirPessoaJuridica() throws Exception {
         this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
         TestUtils.performDelete(restPessoaJuridicaMockMvc, DEL_PJ, this.pessoaJuridica.getId())
                 .andExpect(status().isOk());
         assertEquals(this.pessoaJuridica.getPessoa().getStatus(), FlStatus.N);
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
     }
 
     @Test
     @Transactional
-    public void exlcuirPessoaJuridicaInexistente() throws GenericException {
-        try {
-        TestUtils.performDelete(restPessoaJuridicaMockMvc, DEL_PJ, TestUtils.DEFAULT_INVALID_ID)
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.entityName").value(ENTITY_NAME))
-                .andExpect(jsonPath("$.errorKey").value(ErrorKeys.ID_INEXISTENT.error()))
-                .andExpect(jsonPath("$.type").value(TestUtils.EXCPT_URL_TYPE))
-                    .andExpect(jsonPath("$.title").value(PessoaJuridicaServiceImpl.PESSOA_NAO_CADASTRADA));
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
+    public void exlcuirPessoaJuridicaInexistente() throws Exception {
+        TestUtils.performDeleteWithException(restPessoaJuridicaMockMvc, DEL_PJ,
+                PessoaJuridicaServiceImpl.PESSOA_NAO_CADASTRADA, PessoaJuridicaResource.ENTITY_NAME,
+                TestUtils.DEFAULT_INVALID_ID);
     }
 
     @Test
     @Transactional
-    public void adicionarPessoaJuridica() throws GenericException {
-        PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO = 
-                pessoaJuridicaMapper.toDto(this.pessoaJuridica);
-        try {
-            TestUtils.performPost(restPessoaJuridicaMockMvc, POST_PJ, pessoaJuridicaCadastroDTO);
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
+    public void adicionarPessoaJuridica() throws Exception {
+        PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO = pessoaJuridicaMapper.toDto(this.pessoaJuridica);
+        TestUtils.performPost(restPessoaJuridicaMockMvc, POST_PJ, pessoaJuridicaCadastroDTO);
     }
 
     @ParameterizedTest
     @Transactional
     @MethodSource("argsGetPJWithExceptions")
-    public void adicionarPessoaJuridicaWithExceptions(PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO, String error,
-            String errorKey)
-            throws GenericException {
-        try {
-            pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
-            TestUtils.performPost(restPessoaJuridicaMockMvc, POST_PJ, pessoaJuridicaCadastroDTO)
-            .andExpect(status().isBadRequest()).andExpect(jsonPath("$.entityName").value(ENTITY_NAME))
-                    .andExpect(jsonPath("$.errorKey").value(errorKey))
-            .andExpect(jsonPath("$.type").value(TestUtils.EXCPT_URL_TYPE))
-                    .andExpect(jsonPath("$.title").value(error));
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
+    public void adicionarPessoaJuridicaWithExceptions(PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO, 
+            String error) throws Exception {
+        pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
+        TestUtils.performPostWithExceptions(restPessoaJuridicaMockMvc, POST_PJ, pessoaJuridicaCadastroDTO, 
+                error, PessoaJuridicaResource.ENTITY_NAME);
     }
 
     @Test
     @Transactional
-    public void atualizarPessoaJuridicaCriandoNova() throws GenericException {
-        try {
-            PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO = pessoaJuridicaMapper.toDto(this.pessoaJuridica);
-            checkarDadosPJ(TestUtils.performPut(restPessoaJuridicaMockMvc, UPDATE_PJ, pessoaJuridicaCadastroDTO),
-                    "$.", this.pessoaJuridica)
-            .andExpect(status().isCreated());
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
+    public void atualizarPessoaJuridicaCriandoNova() throws Exception {
+        PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO = pessoaJuridicaMapper.toDto(this.pessoaJuridica);
+        checkarDadosPJ(TestUtils.performPut(restPessoaJuridicaMockMvc, UPDATE_PJ, 
+                pessoaJuridicaCadastroDTO), "$.",
+                this.pessoaJuridica).andExpect(status().isCreated());
     }
 
     @Test
     @Transactional
-    public void atualizarPessoaJuridicaExistente() throws GenericException {
-        try {
-            this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
-            Long id = this.pessoaJuridica.getId();
-            PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO = pessoaJuridicaMapper.toDto(this.pessoaJuridica);
-            pessoaJuridicaCadastroDTO.setRazaoSocial(TestUtils.UPDATED_STRING_TAM_9);
-            TestUtils.performPut(restPessoaJuridicaMockMvc, UPDATE_PJ, pessoaJuridicaCadastroDTO)
-                    .andExpect(status().isOk()).andExpect(jsonPath("$.id").value(id))
-                    .andExpect(jsonPath("$.cnpj").value(TestUtils.DEFAULT_VALID_CNPJ))
-                    .andExpect(jsonPath("$.sigla").value(TestUtils.DEFAULT_STRING_TAM_9))
-                    .andExpect(jsonPath("$.nomeFantasia").value(TestUtils.DEFAULT_STRING_TAM_9))
-                    .andExpect(jsonPath("$.razaoSocial").value(TestUtils.UPDATED_STRING_TAM_9));
+    public void atualizarPessoaJuridicaExistente() throws Exception {
+        this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
+        Long id = this.pessoaJuridica.getId();
+        PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO = pessoaJuridicaMapper.toDto(this.pessoaJuridica);
+        pessoaJuridicaCadastroDTO.setRazaoSocial(TestUtils.UPDATED_STRING_TAM_9);
+        TestUtils.performPut(restPessoaJuridicaMockMvc, UPDATE_PJ, pessoaJuridicaCadastroDTO)
+        .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id)).andExpect(jsonPath("$.cnpj")
+                        .value(TestUtils.DEFAULT_VALID_CNPJ))
+                .andExpect(jsonPath("$.sigla").value(TestUtils.DEFAULT_STRING_TAM_9))
+                .andExpect(jsonPath("$.nomeFantasia").value(TestUtils.DEFAULT_STRING_TAM_9))
+                .andExpect(jsonPath("$.razaoSocial").value(TestUtils.UPDATED_STRING_TAM_9));
 
-            assertEquals(this.pessoaJuridicaRepository.count(), 1);
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
+        assertEquals(this.pessoaJuridicaRepository.count(), 1);
     }
 
 }

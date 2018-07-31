@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +22,7 @@ import br.gov.mme.domain.Pessoa;
 import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.web.rest.TestUtil;
+import br.gov.mme.web.rest.errors.ErrorConstants;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 public final class TestUtils {
@@ -56,58 +59,42 @@ public final class TestUtils {
         .content(new byte[0]);
 	}
 
-    public static ResultActions performGet(MockMvc mock, String path, Object... vars) throws GenericException {
-        ResultActions result = null;
-        try {
-            result = mock.perform(RESTGetComum(path, vars));
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
-        return result;
-	}
-
-	public static ResultActions performGetWithParams(MockMvc mock, String path, 
-            MultiValueMap<String, String> params, Object... vars) throws GenericException {
-        ResultActions result = null;
-        try {
-            result = mock.perform(RESTGetComum(path, vars).params(params));
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
-        return result;
+    public static ResultActions performGet(MockMvc mock, String path, Object... vars) throws Exception {
+        return mock.perform(RESTGetComum(path, vars));
     }
 
-    public static ResultActions performPost(MockMvc mock, String apiDir, Object obj) throws GenericException {
-        ResultActions result = null;
-        try {
-            result = mock.perform(post(apiDir).contentType(TestUtil.APPLICATION_JSON_UTF8)
+    public static ResultActions performGetWithParams(MockMvc mock, String path, 
+            MultiValueMap<String, String> params, Object... vars) throws Exception {
+        return mock.perform(RESTGetComum(path, vars).params(params));
+    }
+
+    public static ResultActions performPost(MockMvc mock, String apiDir, Object obj) throws Exception {
+        return mock.perform(post(apiDir).contentType(TestUtil.APPLICATION_JSON_UTF8)
                     .content(TestUtil.convertObjectToJsonBytes(obj)));
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
-        return result;
     }
 
-    public static ResultActions performDelete(MockMvc mock, String path, Object... vars) throws GenericException {
-        ResultActions result = null;
-        try {
-            result = mock.perform(delete(path, vars).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public static ResultActions performPostWithExceptions(MockMvc mock, String
+    apiDir, Object obj, String exceptionMessage, String params) throws Exception {
+        return performPost(mock, apiDir, obj).andExpect(status().isBadRequest())
+                .andExpect(header().stringValues(ErrorConstants.APP_ERROR, exceptionMessage))
+                .andExpect(header().stringValues(ErrorConstants.APP_PARAMS, params));
+     }
+
+    public static ResultActions performDelete(MockMvc mock, String path, Object... vars) throws Exception {
+        return mock.perform(delete(path, vars).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                     .content(new byte[0]));
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
-        return result;
     }
 
-    public static ResultActions performPut(MockMvc mock, String apiDir, Object obj) throws GenericException {
-        ResultActions result = null;
-        try {
-            result = mock.perform(put(apiDir).contentType(TestUtil.APPLICATION_JSON_UTF8)
-                    .content(TestUtil.convertObjectToJsonBytes(obj)));
-        } catch (Exception e) {
-            throw ExceptionUtils.convertToGeneric(e);
-        }
-        return result;
+    public static ResultActions performDeleteWithException(MockMvc mock, String path, String exceptionMessage,
+            String params, Object... vars) throws Exception {
+        return performDelete(mock, path, vars).andExpect(status().isBadRequest())
+                .andExpect(header().stringValues(ErrorConstants.APP_ERROR, exceptionMessage))
+                .andExpect(header().stringValues(ErrorConstants.APP_PARAMS, params));
+    }
+
+    public static ResultActions performPut(MockMvc mock, String apiDir, Object obj) throws Exception {
+        return mock.perform(put(apiDir).contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(obj)));
     }
 
 	public static MockMvc setupMockMvc(Object resource,
