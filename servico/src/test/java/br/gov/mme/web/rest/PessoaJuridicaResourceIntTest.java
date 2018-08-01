@@ -253,7 +253,7 @@ public class PessoaJuridicaResourceIntTest {
     @ParameterizedTest
     @Transactional
     @MethodSource("argsPJWithExceptions")
-    public void atualizarPessoaJuridicaWithCException(PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO, 
+    public void atualizarPessoaJuridicaWithException(PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO, 
             String error) throws Exception {
         this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
         TestUtils.performPutWithExceptions(restPessoaJuridicaMockMvc, UPDATE_PJ, pessoaJuridicaCadastroDTO,
