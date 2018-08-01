@@ -33,10 +33,6 @@ public class BadRequestAlertException extends AbstractThrowableProblem {
         return errorKey;
     }
 
-    public String getDefaultMessage() {
-        return super.getTitle();
-    }
-
     private static Map<String, Object> getAlertParameters(String entityName, String errorKey) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("message", "error." + errorKey);

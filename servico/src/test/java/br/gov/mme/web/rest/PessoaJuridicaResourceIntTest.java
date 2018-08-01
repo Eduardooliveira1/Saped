@@ -28,11 +28,12 @@ import org.springframework.util.MultiValueMap;
 
 import br.gov.mme.SapedApp;
 import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.enumeration.EntityFields;
 import br.gov.mme.enumeration.FlStatus;
+import br.gov.mme.exceptions.ExceptionMessages;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.utils.TestUtils;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
@@ -83,9 +84,9 @@ public class PessoaJuridicaResourceIntTest {
     
     private static final String POST_PJ = API;
 
-    private static final String ID_JA_EXISTENTE = "Um novo registro não pode ter um ID";
-
     private static final String UPDATE_PJ = API;
+
+    private static final String ENTITY_NAME = PessoaJuridicaResource.ENTITY_NAME;
 
     public static PessoaJuridica createEntity() {
         return createEntityBase(TestUtils.DEFAULT_STRING_TAM_9, TestUtils.DEFAULT_VALID_CNPJ);
@@ -134,15 +135,14 @@ public class PessoaJuridicaResourceIntTest {
 	}
 
     @SuppressWarnings("unused")
-    private static Stream<Arguments> argsGetPJWithExceptions() {
+    private static Stream<Arguments> argsPJWithExceptions() {
         Object[][] params = new Object[][] {
-                { TestUtils.getPJCadastroWithId(), ID_JA_EXISTENTE, },
-                { TestUtils.getPJCadastroWithCNPJExistent(), PessoaJuridicaServiceImpl.EMPRESA_JA_CADASTRADA, },
-                { TestUtils.getPJCadastroWithInvalidCNPJ(), PessoaJuridicaServiceImpl.CNPJ_INVALIDO }
+                { TestUtils.getPJCadastroWithId(),
+                        ExceptionMessages.CREATE_EXISTENT_ID.message(ENTITY_NAME), },
+                { TestUtils.getPJCadastroWithInvalidCNPJ(), ExceptionMessages.CREATE_INVALID_FIELD
+                        .message(ENTITY_NAME, EntityFields.CNPJ.field()) }
         };
-        return Stream.of(Arguments.of(params[0]),
-                Arguments.of(params[1]),
-                Arguments.of(params[2]));
+        return Stream.of(Arguments.of(params[0]), Arguments.of(params[1]));
     }
 
     @Test
@@ -202,7 +202,7 @@ public class PessoaJuridicaResourceIntTest {
     @Transactional
     public void exlcuirPessoaJuridicaInexistente() throws Exception {
         TestUtils.performDeleteWithException(restPessoaJuridicaMockMvc, DEL_PJ,
-                PessoaJuridicaServiceImpl.PESSOA_NAO_CADASTRADA, PessoaJuridicaResource.ENTITY_NAME,
+                ExceptionMessages.DELETE_INEXISTENT_ID.message(ENTITY_NAME), ENTITY_NAME,
                 TestUtils.DEFAULT_INVALID_ID);
     }
 
@@ -215,12 +215,12 @@ public class PessoaJuridicaResourceIntTest {
 
     @ParameterizedTest
     @Transactional
-    @MethodSource("argsGetPJWithExceptions")
+    @MethodSource("argsPJWithExceptions")
     public void adicionarPessoaJuridicaWithExceptions(PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO, 
             String error) throws Exception {
         pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
         TestUtils.performPostWithExceptions(restPessoaJuridicaMockMvc, POST_PJ, pessoaJuridicaCadastroDTO, 
-                error, PessoaJuridicaResource.ENTITY_NAME);
+                error, ENTITY_NAME);
     }
 
     @Test
@@ -248,6 +248,16 @@ public class PessoaJuridicaResourceIntTest {
                 .andExpect(jsonPath("$.razaoSocial").value(TestUtils.UPDATED_STRING_TAM_9));
 
         assertEquals(this.pessoaJuridicaRepository.count(), 1);
+    }
+
+    @ParameterizedTest
+    @Transactional
+    @MethodSource("argsPJWithExceptions")
+    public void atualizarPessoaJuridicaWithCException(PessoaJuridicaCadastroDTO pessoaJuridicaCadastroDTO, 
+            String error) throws Exception {
+        this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
+        TestUtils.performPutWithExceptions(restPessoaJuridicaMockMvc, UPDATE_PJ, pessoaJuridicaCadastroDTO,
+                error, ENTITY_NAME);
     }
 
 }

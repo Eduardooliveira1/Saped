@@ -53,19 +53,26 @@ public final class TestUtils {
 
 	// FUNÇÕES AUXILIARES:
 	
-    private static MockHttpServletRequestBuilder RESTGetComum(
+    private static MockHttpServletRequestBuilder rESTGetComum(
 			String path, Object... vars) {
 		return get(path, vars).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
         .content(new byte[0]);
 	}
 
+    public static ResultActions exceptionResultAction(ResultActions response, 
+            String exceptionMessage, String params) throws Exception {
+        return response.andExpect(status().isBadRequest())
+                .andExpect(header().stringValues(ErrorConstants.APP_ERROR, exceptionMessage))
+                .andExpect(header().stringValues(ErrorConstants.APP_PARAMS, params));
+    }
+
     public static ResultActions performGet(MockMvc mock, String path, Object... vars) throws Exception {
-        return mock.perform(RESTGetComum(path, vars));
+        return mock.perform(rESTGetComum(path, vars));
     }
 
     public static ResultActions performGetWithParams(MockMvc mock, String path, 
             MultiValueMap<String, String> params, Object... vars) throws Exception {
-        return mock.perform(RESTGetComum(path, vars).params(params));
+        return mock.perform(rESTGetComum(path, vars).params(params));
     }
 
     public static ResultActions performPost(MockMvc mock, String apiDir, Object obj) throws Exception {
@@ -75,9 +82,7 @@ public final class TestUtils {
 
     public static ResultActions performPostWithExceptions(MockMvc mock, String
     apiDir, Object obj, String exceptionMessage, String params) throws Exception {
-        return performPost(mock, apiDir, obj).andExpect(status().isBadRequest())
-                .andExpect(header().stringValues(ErrorConstants.APP_ERROR, exceptionMessage))
-                .andExpect(header().stringValues(ErrorConstants.APP_PARAMS, params));
+        return exceptionResultAction(performPost(mock, apiDir, obj), exceptionMessage, params);
      }
 
     public static ResultActions performDelete(MockMvc mock, String path, Object... vars) throws Exception {
@@ -87,14 +92,17 @@ public final class TestUtils {
 
     public static ResultActions performDeleteWithException(MockMvc mock, String path, String exceptionMessage,
             String params, Object... vars) throws Exception {
-        return performDelete(mock, path, vars).andExpect(status().isBadRequest())
-                .andExpect(header().stringValues(ErrorConstants.APP_ERROR, exceptionMessage))
-                .andExpect(header().stringValues(ErrorConstants.APP_PARAMS, params));
+        return exceptionResultAction(performDelete(mock, path, vars), exceptionMessage, params);
     }
 
     public static ResultActions performPut(MockMvc mock, String apiDir, Object obj) throws Exception {
         return mock.perform(put(apiDir).contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(obj)));
+    }
+
+    public static ResultActions performPutWithExceptions(MockMvc mock, String apiDir, Object obj,
+            String exceptionMessage, String params) throws Exception {
+        return exceptionResultAction(performPut(mock, apiDir, obj), exceptionMessage, params);
     }
 
 	public static MockMvc setupMockMvc(Object resource,
