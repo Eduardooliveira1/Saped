@@ -73,8 +73,6 @@ public class PessoaJuridicaResourceIntTest {
 	
     private static final String API = "/api/pessoa-juridica";
 
-    private static final String ENTITY_NAME = "pessoa-juridica";
-
     private static final String REST_WITH_URL_PARAM = API + "/{id}";
 
     private static final String GET_PJS = "/api/pessoas-juridicas";

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 import br.gov.mme.web.rest.errors.EntityNotFoundException;
 import br.gov.mme.web.rest.errors.IdAlreadyExistsException;
 import br.gov.mme.web.rest.errors.InvalidFieldException;

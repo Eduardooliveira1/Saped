@@ -43,7 +43,7 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     public static final String EMPRESA_JA_CADASTRADA = "Esta empresa já está cadastrada no sistema.";
 
-    public static final String CNPJ_INVALIDO = "CNPJ invalido.";
+    public static final String CNPJ_INVALIDO = "CNPJ inválido.";
 
     public static final String ENTITY_NAME = "pessoa-juridica";
     
