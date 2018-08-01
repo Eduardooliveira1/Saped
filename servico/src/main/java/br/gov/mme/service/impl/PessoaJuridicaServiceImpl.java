@@ -111,4 +111,11 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         pessoa.setStatus(FlStatus.N);
         pessoaRepository.save(pessoa);
     }
+
+    @Override
+    public void verificaExistenciaNovaPJ(Long id) throws InvalidFieldException {
+        if (id != null) {
+            throw new InvalidFieldException(PessoaJuridicaResource.ENTITY_NAME, ErrorKeys.CNPJ_INVALID);
+        }
+    }
 }

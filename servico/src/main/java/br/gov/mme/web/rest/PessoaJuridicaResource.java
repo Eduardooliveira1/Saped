@@ -28,7 +28,6 @@ import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.web.rest.errors.EntityNotFoundException;
-import br.gov.mme.web.rest.errors.ErrorKeys;
 import br.gov.mme.web.rest.errors.IdAlreadyExistsException;
 import br.gov.mme.web.rest.errors.InvalidFieldException;
 import br.gov.mme.web.rest.util.HeaderUtil;
@@ -72,9 +71,7 @@ public class PessoaJuridicaResource {
     @Timed
     public ResponseEntity<PessoaJuridicaCadastroDTO> cadastrarPessoaJuridica(@Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
         try {
-            if (pessoaJuridica.getId() != null) {
-                throw new InvalidFieldException(PessoaJuridicaResource.ENTITY_NAME, ErrorKeys.CNPJ_INVALID);
-            }
+            pessoaJuridicaService.verificaExistenciaNovaPJ(pessoaJuridica.getId());
             PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
             return ResponseEntity.created(new URI("/api/dirigentes/" + result.getId()))
                     .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId()

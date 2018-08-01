@@ -51,4 +51,12 @@ public interface PessoaJuridicaService {
      */
     void excluirPessoaJuridica(Long id) throws EntityNotFoundException;
 
+    /**
+     * Verifica se a pessoa juridica existe
+     * 
+     * @param id
+     * @throws InvalidFieldException
+     */
+    void verificaExistenciaNovaPJ(Long id) throws InvalidFieldException;
+
 }
