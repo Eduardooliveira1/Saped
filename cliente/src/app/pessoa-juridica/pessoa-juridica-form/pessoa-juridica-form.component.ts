@@ -1,12 +1,13 @@
+import { PessoaRepresentanteListComponentComponent } from './../pessoa-representante-list-component/pessoa-representante-list-component.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { PessoaJuridicaService } from './../pessoa-juridica.service';
-import { MensagensUtils } from './../../util/mensagens-util';
-import { CustomUtils } from './../../util/custom-utils';
+import { PessoaJuridicaService } from '../pessoa-juridica.service';
+import { MensagensUtils } from '../../util/mensagens-util';
+import { CustomUtils } from '../../util/custom-utils';
 import { SelectItem } from 'primeng/primeng';
-import { EnumService } from './../../shared/enum.service';
-import { PessoaJuridicaCadastro } from './../pessoa-juridica-cadastro.model';
-import { Component, OnInit } from '@angular/core';
+import { EnumService } from '../../shared/enum.service';
+import { PessoaJuridicaCadastro } from '../pessoa-juridica-cadastro.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ValidateCnpj } from '../../shared/validators/cnpj.validator';
 import { PageNotificationService } from '@basis/angular-components';
@@ -20,6 +21,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 })
 export class PessoaJuridicaFormComponent implements OnInit {
 
+
+  @ViewChild("listaRepresentantes") listaRepresentantes: PessoaRepresentanteListComponentComponent;
 
   @BlockUI() blockUI: NgBlockUI;
 
@@ -56,10 +59,16 @@ export class PessoaJuridicaFormComponent implements OnInit {
         this.pessoaJuridicaService.obter(params['id']).subscribe(result => {
           this.blockUI.stop();
           this.pessoaJuridica = result
+
+          this.listaRepresentantes.setRepresentantes(this.pessoaJuridica.representantes);
+
         }, error=>{
           this.blockUI.stop();
           this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
         });
+      }else{
+        this.pessoaJuridica.representantes = [];
+        this.listaRepresentantes.setRepresentantes(this.pessoaJuridica.representantes);
       }
     });
   }
@@ -103,6 +112,8 @@ export class PessoaJuridicaFormComponent implements OnInit {
 
     this.submitedForm = true;
     if (this.form.valid) {
+      this.converteNotificacaoparaEnum();
+      this.pessoaJuridica.representantes=this.listaRepresentantes.getRepresentates();
       if (this.pessoaJuridica.id) {
         this.subscribeToSaveResponse(this.pessoaJuridicaService.atualizar(this.pessoaJuridica));
       } else {
@@ -126,4 +137,15 @@ export class PessoaJuridicaFormComponent implements OnInit {
     });
   }
 
+  converteNotificacaoparaEnum() {
+    for(let representante of this.pessoaJuridica.representantes) {
+      if(representante.notificacaoFront) {
+        representante.notificacao = 'S';
+      }
+      else {
+        representante.notificacao = 'N';
+      }
+    }
+  }
+  
 }

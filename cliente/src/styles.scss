@@ -231,6 +231,7 @@ body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout
 
 .float-right{
     float: right;
+    text-align: right;
 }
 body .ui-button, body .ui-datepicker-buttonpane > button{
     background: $verde2;
@@ -299,4 +300,42 @@ body .ui-paginator .ui-paginator-pages a.ui-state-active{
 }
 .labeled-dropdown .ui-multiselect .ui-multiselect-trigger {
     top: -1.5em;
+}
+
+body .ui-dialog .ui-dialog-titlebar 
+{
+    border-bottom: solid 1px #DBDBDB;
+}
+
+.teste {
+    border-bottom: solid 1px #DBDBDB;
+}
+body .ui-dialog .ui-dialog-titlebar {
+    color:#006A5D;
+    padding: 0em 1em;
+}
+
+.checkbox-notificacao-representante label{
+    left: 27px !important;
+}
+
+.float-right {
+    float: right;
+}
+
+.tirar-disco {
+
+    list-style-type: none;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0;
+    padding-left: 0px;
+}
+
+.check-notificacao {
+    margin-top: 6px;
+}
+
+.botao-adicionar-telefone {
+    color:#2C6C69;
 }

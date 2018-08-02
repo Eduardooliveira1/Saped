@@ -3,6 +3,8 @@ package br.gov.mme.service.impl;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import br.gov.mme.domain.Representante;
+import br.gov.mme.domain.Telefone;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -82,10 +84,36 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
             pessoaJuridica.setPessoa(pessoaRepository.findOne(pessoaJuridicaDto.getId()));
         }
 
+        atribuirRepresentantes(pessoaJuridica);
+
         pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
     }
 
+    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica){
+
+        for(Representante representante : pessoaJuridica.getRepresentantes()){
+            if(Objects.isNull(representante.getId())){
+                representante.getPessoa().setStatus(FlStatus.S);
+                representante.getPessoa().setDataCadastro(LocalDateTime.now());
+
+            }else{
+                representante.setPessoa(pessoaRepository.findOne(representante.getId()));
+            }
+
+            representante.setPessoaJuridica(pessoaJuridica);
+            atribuiPessoaaoTelefone(representante);
+        }
+
+    }
+
+    private void atribuiPessoaaoTelefone (Representante representante) {
+
+            for(Telefone telefone : representante.getTelefone()){
+                telefone.setPessoaRepresentante(representante);
+                telefone.setStatus(FlStatus.S);
+            }
+    }
     @Override
     public PessoaJuridicaCadastroDTO obterPordId(Long id) {
         return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));

@@ -1,5 +1,5 @@
 import { PageNotificationService } from '@basis/angular-components';
-import { MensagensUtils } from './../../util/mensagens-util';
+import { MensagensUtils } from '../../util/mensagens-util';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';

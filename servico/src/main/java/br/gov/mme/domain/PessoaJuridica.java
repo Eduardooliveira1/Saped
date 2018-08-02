@@ -1,16 +1,11 @@
 package br.gov.mme.domain;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_Pessoa_Juridica")
@@ -22,7 +17,7 @@ public class PessoaJuridica implements Serializable {
     private Long id;
 
     @MapsId
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_Pessoa_Juridica", referencedColumnName = "pk_Pessoa")
     private Pessoa pessoa;
 
@@ -49,6 +44,9 @@ public class PessoaJuridica implements Serializable {
     @Size(max = 300)
     @Column(name="ds_Senha_Acesso", length = 300)
     private String senhaAcesso;
+
+    @OneToMany(mappedBy = "pessoaJuridica",cascade = CascadeType.ALL, orphanRemoval=true)
+    List<Representante> representantes;
 
     public Long getId() {
         return id;
@@ -111,5 +109,13 @@ public class PessoaJuridica implements Serializable {
     public PessoaJuridica setSenhaAcesso(String senhaAcesso) {
         this.senhaAcesso = senhaAcesso;
         return this;
+    }
+
+    public List<Representante> getRepresentantes() {
+        return representantes;
+    }
+
+    public void setRepresentantes(List<Representante> representantes) {
+        this.representantes = representantes;
     }
 }
