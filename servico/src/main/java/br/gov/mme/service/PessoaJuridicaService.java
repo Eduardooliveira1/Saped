@@ -1,12 +1,14 @@
 package br.gov.mme.service;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 
 /**
  * Service Interface for managing PessoaJuridica.
@@ -42,5 +44,12 @@ public interface PessoaJuridicaService {
      * @param id
      */
     void excluirPessoaJuridica(Long id);
+
+    /**
+     * 
+     * @param file
+     * @return Arquivo exportado do relatório
+     */
+    FileOutputStream getExportFile(File file);
 
 }

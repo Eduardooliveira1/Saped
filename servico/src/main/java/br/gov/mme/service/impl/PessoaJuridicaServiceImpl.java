@@ -1,5 +1,8 @@
 package br.gov.mme.service.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -96,5 +99,10 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         Pessoa pessoa = pessoaRepository.findOne(id);
         pessoa.setStatus(FlStatus.N);
         pessoaRepository.save(pessoa);
+    }
+
+    @Override
+    public FileOutputStream getExportFile(File file) throws FileNotFoundException {
+        return new FileOutputStream(file);
     }
 }

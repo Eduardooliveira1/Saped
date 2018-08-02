@@ -1,12 +1,10 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.errors.BadRequestAlertException;
-import br.gov.mme.web.rest.util.HeaderUtil;
-import br.gov.mme.web.rest.util.PaginationUtil;
-import com.codahale.metrics.annotation.Timed;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -22,9 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.codahale.metrics.annotation.Timed;
+
+import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaRelatorioDTO;
+import br.gov.mme.web.rest.errors.BadRequestAlertException;
+import br.gov.mme.web.rest.util.HeaderUtil;
+import br.gov.mme.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing PessoaJuridicaResource.
@@ -92,5 +96,12 @@ public class PessoaJuridicaResource {
             @PathVariable("id") Long id) {
         pessoaJuridicaService.excluirPessoaJuridica(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/pessoa-juidica/exportar")
+    @Timed
+    public ResponseEntity<PessoaJuridicaRelatorioDTO> exportarRelatorio(
+            @Valid @RequestBody PessoaJuridicaRelatorioDTO filtros) {
+        return null;
     }
 }
