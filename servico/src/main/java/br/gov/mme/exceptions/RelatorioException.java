@@ -1,4 +1,4 @@
-package br.gov.mme.web.rest.errors;
+package br.gov.mme.exceptions;
 
 import net.sf.jasperreports.engine.JRException;
 
