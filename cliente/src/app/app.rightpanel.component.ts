@@ -1,5 +1,5 @@
+import { SecuredLayoutComponent } from './layouts/secured-layout/secured-layout.component';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { AppComponent } from './app.component';
 declare var jQuery: any;
 
 @Component({
@@ -66,7 +66,7 @@ export class AppRightPanelComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('rightPanelMenuScroller') rightPanelMenuScrollerViewChild: ElementRef;
 
-  constructor(public app: AppComponent) { }
+  constructor(public app: SecuredLayoutComponent) { }
 
   ngAfterViewInit() {
     this.rightPanelMenuScroller = <HTMLDivElement>this.rightPanelMenuScrollerViewChild.nativeElement;
