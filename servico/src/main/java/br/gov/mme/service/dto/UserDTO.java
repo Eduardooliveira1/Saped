@@ -1,19 +1,17 @@
 package br.gov.mme.service.dto;
 
+import br.gov.mme.config.Constants;
+import br.gov.mme.domain.Authority;
+import br.gov.mme.domain.User;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
-import br.gov.mme.config.Constants;
-import br.gov.mme.domain.Authority;
-import br.gov.mme.domain.User;
 
 /**
  * A DTO representing a user, with his authorities.

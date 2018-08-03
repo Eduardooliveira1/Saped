@@ -1,11 +1,9 @@
 package br.gov.mme.service.dto;
 
 import br.gov.mme.enumeration.FlNotificacao;
-import br.gov.mme.domain.Pessoa;
+import br.gov.mme.util.SapedUtil;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class PessoaRepresentanteCadastroDTO implements Serializable {
@@ -78,10 +76,10 @@ public class PessoaRepresentanteCadastroDTO implements Serializable {
     }
 
     public List<TelefoneDTO> getTelefone() {
-        return telefone;
+        return SapedUtil.instanciarLista(telefone);
     }
 
     public void setTelefone(List<TelefoneDTO> telefone) {
-        this.telefone = telefone;
+        this.telefone = SapedUtil.instanciarLista(telefone);
     }
 }

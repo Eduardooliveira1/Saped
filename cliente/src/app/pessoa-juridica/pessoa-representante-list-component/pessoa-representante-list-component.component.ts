@@ -110,9 +110,9 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
         accept: () => {
           const control = <FormArray>this.formDinamico.controls['itemRows'];
           if(!this.telefone[control.length-1].ddd || !this.telefone[control.length-1].telefone) {
-            this.removeUltimoItemDaListaTelefone(control.length-1);
+            this.removeUltimoItemDaListaTelefone();
           }
-
+          this.unificaTelefone(this.telefone);
           this.pessoaRepresentate.telefone = this.telefone;
           this.listaRepresentantes.push(this.pessoaRepresentate);
           this.pessoaRepresentate = new PessoaRepresentante();
@@ -132,7 +132,6 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
   }
 
   removerRepresentante(index) {
-
     this.confirmationService.confirm({
       message: MensagensUtils.REPRESENTANTE_CONFIRMACAO_EXCLUSAO,
       acceptLabel: MensagensUtils.SIM,
@@ -151,8 +150,14 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     this.formDinamico.reset();
 
   }
+  unificaTelefone( telefones: Telefone[] ) {
+    for(let tel of telefones)
+    {
+      tel.telefoneDdd = tel.ddd + tel.telefone;
+    }
+  }
 
-  removeUltimoItemDaListaTelefone(index: number) {
+  removeUltimoItemDaListaTelefone() {
     this.telefone.pop();
   }
 

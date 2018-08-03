@@ -217,7 +217,6 @@ body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout
     border-right: solid 12px transparent;
 }
 
-
 .painel-notificacoes:before{
     top: -15px;
     right: 3%;
@@ -232,6 +231,7 @@ body .layout-wrapper.layout-compact, body .layout-wrapper.layout-compact .layout
     float: right;
     text-align: right;
 }
+
 body .ui-button, body .ui-datepicker-buttonpane > button{
     background: $verde2;
 }
@@ -287,6 +287,7 @@ body .ui-paginator .ui-paginator-pages a.ui-state-active{
 .labeled-dropdown:hover p-dropdown>div, .labeled-dropdown:hover p-multiSelect>div {
     z-index: 2;
 }
+
 .labeled-dropdown .float-label {
     top: 1px;
     left: 5px;
@@ -297,6 +298,7 @@ body .ui-paginator .ui-paginator-pages a.ui-state-active{
     top: -12px;
     font-size: 12px;
 }
+
 .labeled-dropdown .ui-multiselect .ui-multiselect-trigger {
     top: -1.5em;
 }
@@ -306,9 +308,6 @@ body .ui-dialog .ui-dialog-titlebar
     border-bottom: solid 1px #DBDBDB;
 }
 
-.teste {
-    border-bottom: solid 1px #DBDBDB;
-}
 body .ui-dialog .ui-dialog-titlebar {
     color:#006A5D;
     padding: 0em 1em;
@@ -320,15 +319,6 @@ body .ui-dialog .ui-dialog-titlebar {
 
 .float-right {
     float: right;
-}
-
-.tirar-disco {
-
-    list-style-type: none;
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-right: 0;
-    padding-left: 0px;
 }
 
 .check-notificacao {

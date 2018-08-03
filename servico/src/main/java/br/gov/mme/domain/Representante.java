@@ -1,13 +1,24 @@
 package br.gov.mme.domain;
 
 
-import javax.persistence.*;
+import br.gov.mme.enumeration.FlNotificacao;
+import br.gov.mme.util.SapedUtil;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
-
-import br.gov.mme.enumeration.FlNotificacao;
 
 
 @Entity
@@ -95,10 +106,10 @@ public class Representante implements Serializable  {
     }
 
     public List<Telefone> getTelefone() {
-        return telefone;
+        return SapedUtil.instanciarLista(telefone);
     }
 
     public void setTelefone(List<Telefone> telefone) {
-        this.telefone = telefone;
+        this.telefone = SapedUtil.instanciarLista(telefone);
     }
 }

@@ -1,4 +1,6 @@
 package br.gov.mme.service.dto;
+import br.gov.mme.util.SapedUtil;
+
 import java.util.List;
 
 public class PessoaJuridicaCadastroDTO {
@@ -76,10 +78,11 @@ public class PessoaJuridicaCadastroDTO {
     }
 
     public List<PessoaRepresentanteCadastroDTO> getRepresentantes() {
-        return representantes;
+        return SapedUtil.instanciarLista(representantes);
     }
 
     public void setRepresentantes(List<PessoaRepresentanteCadastroDTO> representantes) {
-        this.representantes = representantes;
+
+        this.representantes = SapedUtil.instanciarLista(representantes);
     }
 }

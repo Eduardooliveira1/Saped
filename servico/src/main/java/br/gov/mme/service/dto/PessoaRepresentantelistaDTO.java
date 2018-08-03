@@ -1,9 +1,9 @@
 package br.gov.mme.service.dto;
-import br.gov.mme.domain.Pessoa;
-import br.gov.mme.enumeration.FlNotificacao;
-import java.util.List;
 
-import java.math.BigDecimal;
+import br.gov.mme.enumeration.FlNotificacao;
+import br.gov.mme.util.SapedUtil;
+
+import java.util.List;
 
 public class PessoaRepresentantelistaDTO {
 
@@ -73,10 +73,10 @@ public class PessoaRepresentantelistaDTO {
     }
 
     public List<TelefoneDTO> getTelefone() {
-        return telefone;
+        return SapedUtil.instanciarLista(telefone);
     }
 
     public void setTelefone(List<TelefoneDTO> telefone) {
-        this.telefone = telefone;
+        this.telefone = SapedUtil.instanciarLista(telefone);
     }
 }

@@ -1,5 +1,5 @@
 package br.gov.mme.service.dto;
-import br.gov.mme.enumeration.FlNotificacao;
+
 import br.gov.mme.enumeration.FlStatus;
 
 import java.math.BigDecimal;

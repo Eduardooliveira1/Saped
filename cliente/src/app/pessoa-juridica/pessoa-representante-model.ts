@@ -1,13 +1,14 @@
 import { Telefone } from './pessoa-representante-telefone';
 export class PessoaRepresentante{
+    id: number;
+    nome: string;
+    cargo: string;
+    email: string;
+    notificacao: string;
+    telefone: Telefone[];
+
     constructor(
-        public id?: number,
-        public nome?: string,
-        public cargo?: string,
-        public email?: string,
-        public notificacao?: string,
-        public telefone?: Telefone[],
     ){
-        
+        this.telefone = [];
     }
 }

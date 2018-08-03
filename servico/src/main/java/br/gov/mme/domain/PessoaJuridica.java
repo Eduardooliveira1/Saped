@@ -1,7 +1,17 @@
 package br.gov.mme.domain;
 
 
-import javax.persistence.*;
+import br.gov.mme.util.SapedUtil;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -23,29 +33,29 @@ public class PessoaJuridica implements Serializable {
 
     @NotNull
     @Size(max = 14)
-    @Column(name="co_Cnpj", length = 14)
+    @Column(name = "co_Cnpj", length = 14)
     private String cnpj;
 
     @NotNull
     @Size(max = 100)
-    @Column(name="no_Fantasia", length = 100)
+    @Column(name = "no_Fantasia", length = 100)
     private String nomeFantasia;
 
     @NotNull
     @Size(max = 100)
-    @Column(name="no_Razao_Social", length = 100)
+    @Column(name = "no_Razao_Social", length = 100)
     private String razaoSocial;
 
     @NotNull
     @Size(max = 20)
-    @Column(name="sg_Pessoa_Juridica", length = 20)
+    @Column(name = "sg_Pessoa_Juridica", length = 20)
     private String sigla;
 
     @Size(max = 300)
-    @Column(name="ds_Senha_Acesso", length = 300)
+    @Column(name = "ds_Senha_Acesso", length = 300)
     private String senhaAcesso;
 
-    @OneToMany(mappedBy = "pessoaJuridica",cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy = "pessoaJuridica", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Representante> representantes;
 
     public Long getId() {
@@ -112,10 +122,11 @@ public class PessoaJuridica implements Serializable {
     }
 
     public List<Representante> getRepresentantes() {
-        return representantes;
+        return SapedUtil.instanciarLista(representantes);
     }
 
     public void setRepresentantes(List<Representante> representantes) {
-        this.representantes = representantes;
+
+        this.representantes = SapedUtil.instanciarLista(representantes);
     }
 }
