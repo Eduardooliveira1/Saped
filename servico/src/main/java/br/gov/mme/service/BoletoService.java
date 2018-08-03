@@ -1,6 +1,5 @@
 package br.gov.mme.service;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import br.gov.mee.vo.BoletoRelatorioPagamentoVO;
@@ -15,6 +14,6 @@ public interface BoletoService {
 
     List<BoletoRelatorioPagamentoVO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro);
 
-    ByteArrayOutputStream getRelatorio(List<BoletoRelatorioPagamentoVO> voList);
+    BoletoRelatorioPagamentoVO getRelatorio(List<BoletoRelatorioPagamentoVO> voList);
 
 }

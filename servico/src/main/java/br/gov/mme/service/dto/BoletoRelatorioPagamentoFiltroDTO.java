@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import br.gov.mme.enumeration.TpStatusBoleto;
+import br.gov.mme.enumeration.TpBoleto;
 
 public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
 
@@ -21,7 +21,7 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
 
     private LocalDate dataVencimento;
 
-    private TpStatusBoleto tpBoleto;
+    private TpBoleto tpBoleto;
 
     public Set<Long> getIdsPessoasJuridicas() {
         return new HashSet<>(this.idsPessoasJuridicas);
@@ -54,11 +54,11 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
         this.dataVencimento = dataVencimento;
     }
 
-    public TpStatusBoleto getTpBoleto() {
+    public TpBoleto getTpBoleto() {
         return tpBoleto;
     }
 
-    public void setTpBoleto(TpStatusBoleto tpBoleto) {
+    public void setTpBoleto(TpBoleto tpBoleto) {
         this.tpBoleto = tpBoleto;
     }
 

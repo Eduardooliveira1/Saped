@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
-import br.gov.mme.enumeration.tpBoleto;
+import br.gov.mme.enumeration.TpBoleto;
 
 @Entity
 @Table(name = "tb_Boleto")
@@ -51,7 +51,7 @@ public class Boleto implements Serializable {
     @Column(name = "tp_Boleto", length = 2, columnDefinition = "char(2)")
     @Enumerated(EnumType.STRING)
     @NotNull
-    private tpBoleto tpBoleto;
+    private TpBoleto tpBoleto;
 
     @Digits(integer = 17, fraction = 0)
     @Column(name="nr_Nosso_Numero")
@@ -107,11 +107,11 @@ public class Boleto implements Serializable {
         this.anoReferencia = anoReferencia;
     }
 
-    public tpBoleto getTpBoleto() {
+    public TpBoleto getTpBoleto() {
         return tpBoleto;
     }
 
-    public void setTpBoleto(tpBoleto tpBoleto) {
+    public void setTpBoleto(TpBoleto tpBoleto) {
         this.tpBoleto = tpBoleto;
     }
 

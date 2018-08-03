@@ -4,19 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.gov.mme.enumeration.TpStatusBoleto;
-
 public class BoletoRelatorioPagamentoVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private Long id;
 
     private String cnpj;
 
     private String nomeFantasia;
 
-    private BigDecimal valor;
+    private BigDecimal valorBoleto;
 
     private String mesReferencia;
 
@@ -24,15 +20,7 @@ public class BoletoRelatorioPagamentoVO implements Serializable {
 
     private LocalDate dataSegundaVia;
 
-    private TpStatusBoleto status;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String statusBoleto;
 
     public String getCnpj() {
         return cnpj;
@@ -50,12 +38,12 @@ public class BoletoRelatorioPagamentoVO implements Serializable {
         this.nomeFantasia = nomeFantasia;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public BigDecimal getValorBoleto() {
+        return valorBoleto;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setValorBoleto(BigDecimal valorBoleto) {
+        this.valorBoleto = valorBoleto;
     }
 
     public String getMesReferencia() {
@@ -82,12 +70,12 @@ public class BoletoRelatorioPagamentoVO implements Serializable {
         this.dataSegundaVia = dataSegundaVia;
     }
 
-    public TpStatusBoleto getStatus() {
-        return status;
+    public String getStatusBoleto() {
+        return statusBoleto;
     }
 
-    public void setStatus(TpStatusBoleto status) {
-        this.status = status;
+    public void setStatusBoleto(String statusBoleto) {
+        this.statusBoleto = statusBoleto;
     }
 
 }

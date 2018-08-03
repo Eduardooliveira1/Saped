@@ -1,6 +1,5 @@
 package br.gov.mme.service.impl;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,10 +42,8 @@ public class BoletoServiceImp implements BoletoService{
     }
 
     @Override
-    public ByteArrayOutputStream getRelatorio(List<BoletoRelatorioPagamentoVO> voList) {
-        return new ByteArrayOutputStream();
+    public BoletoRelatorioPagamentoVO getRelatorio(List<BoletoRelatorioPagamentoVO> voList) {
+        return voList.get(0);
     }
-    
-
 
 }

@@ -3,13 +3,17 @@ package br.gov.mme.enumeration;
 /**
  * Status do Boleto
  */
-public enum TpStatusBoleto {
-    AV("AV"), AD("AD"), EM("EM"), PG("PG"), VE("VE");
+public enum TpBoleto {
+    AV("AV"), AD("AD"), EM("EM"), PG("PG"), VE("VE"), NO("NO");
 
     private final String status;
 
-    private TpStatusBoleto(String status) {
+    private TpBoleto(String status) {
         this.status = status;
+    }
+
+    public String status() {
+        return this.status;
     }
 
     @Override

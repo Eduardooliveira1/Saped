@@ -29,10 +29,10 @@ public class BoletoResource {
 
     @PostMapping("/boleto/export")
     @Timed
-    public ResponseEntity<byte[]> cadastrarPessoaJuridica(
+    public ResponseEntity<BoletoRelatorioPagamentoVO> cadastrarPessoaJuridica(
             @Valid @RequestBody BoletoRelatorioPagamentoFiltroDTO filtro) throws URISyntaxException {
         List<BoletoRelatorioPagamentoVO> dataRel = boletoService.converterFiltroToVO(filtro);
-        return ResponseEntity.accepted().body(boletoService.getRelatorio(dataRel).toByteArray());
+        return ResponseEntity.accepted().body(boletoService.getRelatorio(dataRel));
     }
 
 }
