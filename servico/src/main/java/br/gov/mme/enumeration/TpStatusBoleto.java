@@ -3,12 +3,12 @@ package br.gov.mme.enumeration;
 /**
  * Status do Boleto
  */
-public enum StatusPagamento {
-    P("Pago"), V("Vencido"), A_V("À vencer"), AD("Adiantado");
+public enum TpStatusBoleto {
+    AV("AV"), AD("AD"), EM("EM"), PG("PG"), VE("VE");
 
     private final String status;
 
-    private StatusPagamento(String status) {
+    private TpStatusBoleto(String status) {
         this.status = status;
     }
 

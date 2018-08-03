@@ -7,10 +7,10 @@ public class RelatorioException extends JRException {
     private static final long serialVersionUID = 1L;
 
     public static final String EXCPT_MESSAGE = "Ocorreu um erro ao exportar os dados.";
-    
-    public RelatorioException()
+
+    public RelatorioException(JRException e)
     {
-        super(EXCPT_MESSAGE);
+        super(EXCPT_MESSAGE, e);
     }
 
 }

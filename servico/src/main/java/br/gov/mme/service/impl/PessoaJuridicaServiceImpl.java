@@ -1,12 +1,11 @@
 package br.gov.mme.service.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.mme.domain.Pessoa;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.enumeration.FlStatus;
+import br.gov.mme.exceptions.CnpjInvalidoException;
+import br.gov.mme.exceptions.CreatePJWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
@@ -22,8 +24,6 @@ import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.util.ValidatorUtils;
-import br.gov.mme.web.rest.PessoaJuridicaResource;
-import br.gov.mme.web.rest.errors.BadRequestAlertException;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
 
@@ -41,9 +41,9 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
 
-    private static final String EMPRESA_JA_CADASTRADA = "Esta empresa já está cadastrada no sistema.";
+    public static final String ENTITY_NAME = "pessoa-juridica";
 
-    private static final String CNPJ_INVALIDO = "CNPJ inválido.";
+    private final Logger log = LoggerFactory.getLogger(PessoaJuridicaServiceImpl.class);
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
             PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
@@ -65,16 +65,17 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
 
     @Override
-    public PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridicaDto) {
+    public PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridicaDto)
+            throws CreatePJWithExistentIdException, CnpjInvalidoException {
 
         PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.findByCnpj(pessoaJuridicaDto.getCnpj());
 
         if (Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId())) {
-            throw new BadRequestAlertException(EMPRESA_JA_CADASTRADA, PessoaJuridicaResource.ENTITY_NAME, "cnpjexiste");
+            throw new CreatePJWithExistentIdException();
         }
 
         if (!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())) {
-            throw new BadRequestAlertException(CNPJ_INVALIDO, PessoaJuridicaResource.ENTITY_NAME, "cnpjinvalido");
+            throw new CnpjInvalidoException();
         }
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
@@ -95,26 +96,20 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
 
     @Override
-    public void excluirPessoaJuridica(Long id) {
+    public void excluirPessoaJuridica(Long id) throws DeleteInexistentPJException {
         Pessoa pessoa = pessoaRepository.findOne(id);
+        if (pessoa == null) {
+            throw new DeleteInexistentPJException();
+        }
         pessoa.setStatus(FlStatus.N);
         pessoaRepository.save(pessoa);
     }
 
+    @Override
     public void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException {
         if (id != null) {
             throw new CreatePJWithExistentIdException();
         }
     }
 
-    @Override
-    public FileOutputStream getExportFile(File file) {
-        try {
-            return new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
