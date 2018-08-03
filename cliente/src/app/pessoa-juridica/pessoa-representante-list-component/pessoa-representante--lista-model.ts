@@ -5,7 +5,6 @@ export class PessoaRepresentanteLista{
         public cargo?: string,
         public email?: string,
         public notificacao?: string,
-        public notificacaoFront?: boolean,
         public telefone?: Telefone,
     ){
         

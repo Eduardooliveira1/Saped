@@ -19,8 +19,8 @@
       <p-column field="email" header="E-mail"></p-column>
       <p-column field="notificacao" header="Notificação">
         <ng-template let-col let-row="rowData" pTemplate="body">
-                <p-checkbox [disabled]="true" [(ngModel)]="row.notificacaoFront" binary="true"></p-checkbox>
-          </ng-template>
+            <p-checkbox [disabled]="true" [ngModel]="row.notificacao == notificacaoAtivada" binary="true"></p-checkbox>
+        </ng-template>
      </p-column>
       <p-column  header="Telefone">
           <ng-template let-col let-row="rowData" pTemplate="body">
@@ -88,16 +88,14 @@
       
       <div class="ui-g-6 form-group check-notificacao">
         <span class="md-inputfield">
-          <p-checkbox label="Notificações" class="checkbox-notificacao-representante" formControlName="notificacoes"  [(ngModel)]="pessoaRepresentate.notificacaoFront" binary="true"></p-checkbox>
+          <p-checkbox label="Notificações" class="checkbox-notificacao-representante" formControlName="notificacoes"  [(ngModel)]="pessoaRepresentate.notificacaoFront" binary="true" (onChange)="onChangeNotificacao($event)"></p-checkbox>
         </span>  
       </div>
     </div>
     <p-footer class="footer float-right">
       <button type="button" class="ui-button-secondary" pButton  (click)="cancelar()" label="Cancelar"></button>
-      <button type="button" pButton icon="ui-icon-receipt" (click)="incluirRepresentante()" label="Incluir" ></button>
+      <button type="button" pButton icon="ui-icon-receipt" (click)="incluirRepresentante()" label="Incluir" value="Submeter" ></button>
     </p-footer>
   </form>
 </p-dialog>
-
-
 <p-confirmDialog></p-confirmDialog>

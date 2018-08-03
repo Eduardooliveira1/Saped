@@ -18,6 +18,8 @@ export class MensagensUtils {
     public static SALVANDO='Salvando...';
     public static SIM='Sim';
     public static EMAIL_VALIDO='Insira um e-mail válido.';
+    public static ENUM_NOTIFICACAO_SIM = 'S';
+    public static ENUM_NOTIFICACAO_NAO = 'N';
 
     /**
      * pessoa jurídica

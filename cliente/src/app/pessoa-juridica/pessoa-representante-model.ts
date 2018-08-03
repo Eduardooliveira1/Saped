@@ -6,7 +6,6 @@ export class PessoaRepresentante{
         public cargo?: string,
         public email?: string,
         public notificacao?: string,
-        public notificacaoFront?: boolean,
         public telefone?: Telefone[],
     ){
         

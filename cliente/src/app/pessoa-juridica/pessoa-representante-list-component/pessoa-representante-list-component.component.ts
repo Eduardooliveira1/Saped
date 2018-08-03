@@ -1,9 +1,9 @@
-import { PessoaRepresentante } from './../pessoa-representante-model';
-import { Telefone } from './../pessoa-representante-telefone';
-import { Component, OnInit } from '@angular/core';
+import { MensagensUtils } from '../../util/mensagens-util';
+import { PessoaRepresentante } from '../pessoa-representante-model';
+import { Telefone } from '../pessoa-representante-telefone';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { PageNotificationService } from '@basis/angular-components';
-import { MensagensUtils } from '../../util/mensagens-util';
 import { faTrashAlt,faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { ConfirmationService } from 'primeng/primeng';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
@@ -20,12 +20,11 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
 
   formDinamico: FormGroup;
-  items: any[] = [];
 
-  listaRepresentantes: PessoaRepresentante[] = [];
+  @Input() listaRepresentantes: PessoaRepresentante[];
   pessoaRepresentate: PessoaRepresentante;
   telefone: Telefone[] = [];
-
+  notificacaoAtivada = MensagensUtils.ENUM_NOTIFICACAO_SIM;
   mostrarModalInserirRepresetante = false;
   form: FormGroup;
   submitedForm = false;
@@ -44,7 +43,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     this.telefone =  [];
     this.telefone.push(new Telefone);
     this.buildReactiveForm();
-    this.builFormDinamico();
+    this.buildFormDinamico();
   }
 
   buildReactiveForm() {
@@ -56,13 +55,13 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     }, { updateOn: 'blur' });
   }
 
-  builFormDinamico() {
+  buildFormDinamico() {
     this.formDinamico = this.formBuilder.group({
-      itemRows: this.formBuilder.array([this.buildFormDinamico()])
+      itemRows: this.formBuilder.array([this.buildFormControlTelefone()])
     });
   }
 
-  buildFormDinamico() {
+  buildFormControlTelefone() {
     return this.formBuilder.group({
       ddd: new FormControl('',[Validators.required]),
       telefone: new FormControl('', [Validators.required]),
@@ -73,7 +72,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     const control = <FormArray>this.formDinamico.controls['itemRows'];
     if (this.telefoneIsValid()) {
       this.telefone.push(new Telefone);
-      control.push(this.buildFormDinamico());
+      control.push(this.buildFormControlTelefone());
     } else {
       this.pageNotificationService.addWarnMessage(MensagensUtils.REPRESENTANTE_INSERIR_TELEFONE);
     }
@@ -114,14 +113,13 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
             this.removeUltimoItemDaListaTelefone(control.length-1);
           }
 
-          this.unificaTelefone(this.telefone);
           this.pessoaRepresentate.telefone = this.telefone;
           this.listaRepresentantes.push(this.pessoaRepresentate);
           this.pessoaRepresentate = new PessoaRepresentante();
           this.telefone =  [];
           this.telefone.push(new Telefone);
           this.mostrarModalInserirRepresetante = false;
-          this.builFormDinamico();
+          this.buildFormDinamico();
         },
         reject: () => {
           this.mostrarModalInserirRepresetante = false;
@@ -133,12 +131,6 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     }
   }
 
-  setRepresentantes(representantes: PessoaRepresentante[]) {
-    
-  this.converteEnumparaBool(representantes);
-    this.listaRepresentantes = representantes;
-  }
-
   removerRepresentante(index) {
 
     this.confirmationService.confirm({
@@ -147,9 +139,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
       rejectLabel: MensagensUtils.NAO,
 
       accept: () => {
-        this.listaRepresentantes = jQuery.grep( this.listaRepresentantes, (n, i) => {
-          return i !== index;
-        }); 
+        this.listaRepresentantes.splice(index, 1); 
       }
     });
   }
@@ -158,33 +148,15 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     this.telefone = [];
     this.telefone.push(new Telefone);
     this.mostrarModalInserirRepresetante=false;
-    this.builFormDinamico();
-  }
+    this.formDinamico.reset();
 
-  unificaTelefone( telefones: Telefone[] ) {
-    for(let tel of telefones)
-    {
-      tel.telefoneDdd = tel.ddd + tel.telefone;
-    }
   }
 
   removeUltimoItemDaListaTelefone(index: number) {
     this.telefone.pop();
   }
 
-  converteEnumparaBool(representantes: PessoaRepresentante[]) {
-    for(let representante of  representantes) {
-      if(representante.notificacao == 'S') {
-        representante.notificacaoFront = true;
-      }
-      else {
-        representante.notificacaoFront = false;
-      }
-    }
+  onChangeNotificacao($event){
+    this.pessoaRepresentate.notificacao = $event ? MensagensUtils.ENUM_NOTIFICACAO_SIM : MensagensUtils.ENUM_NOTIFICACAO_NAO;
   }
-
-  getRepresentates() {
-    return this.listaRepresentantes;
-  }
-
 }
