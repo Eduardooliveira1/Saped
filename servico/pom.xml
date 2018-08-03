@@ -405,12 +405,6 @@
             <groupId>net.sourceforge.dynamicreports</groupId>
             <artifactId>dynamicreports-core</artifactId>
             <version>${dynamic-jasper.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jasperreports</artifactId>
-                    <groupId>net.sf.jasperreports</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
 	</dependencies>

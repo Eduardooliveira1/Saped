@@ -2,6 +2,8 @@ package br.gov.mme.exceptions;
 
 import java.io.FileNotFoundException;
 
+import br.gov.mme.service.util.ExceptionUtils;
+
 public class ReportFileException extends FileNotFoundException {
 
     private static final long serialVersionUID = 1L;
@@ -10,7 +12,7 @@ public class ReportFileException extends FileNotFoundException {
 
     public ReportFileException(FileNotFoundException e) {
         super(EXCPT_MESSAGE);
-        super.setStackTrace(e.getStackTrace());
+        ExceptionUtils.mergeStackTraces(e, this);
     }
 
 }

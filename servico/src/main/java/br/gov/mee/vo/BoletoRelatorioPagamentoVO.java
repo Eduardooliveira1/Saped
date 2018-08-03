@@ -6,9 +6,11 @@ import java.time.LocalDate;
 
 import br.gov.mme.enumeration.TpStatusBoleto;
 
-public class BoletoRelatorioPagamentoVO implements ReportVO, Serializable {
+public class BoletoRelatorioPagamentoVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private Long id;
 
     private String cnpj;
 
@@ -16,13 +18,21 @@ public class BoletoRelatorioPagamentoVO implements ReportVO, Serializable {
 
     private BigDecimal valor;
 
-    private LocalDate mesReferencia;
+    private String mesReferencia;
 
     private LocalDate dataVencimento;
 
     private LocalDate dataSegundaVia;
 
     private TpStatusBoleto status;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCnpj() {
         return cnpj;
@@ -48,11 +58,11 @@ public class BoletoRelatorioPagamentoVO implements ReportVO, Serializable {
         this.valor = valor;
     }
 
-    public LocalDate getMesReferencia() {
+    public String getMesReferencia() {
         return mesReferencia;
     }
 
-    public void setMesReferencia(LocalDate mesReferencia) {
+    public void setMesReferencia(String mesReferencia) {
         this.mesReferencia = mesReferencia;
     }
 
@@ -78,12 +88,6 @@ public class BoletoRelatorioPagamentoVO implements ReportVO, Serializable {
 
     public void setStatus(TpStatusBoleto status) {
         this.status = status;
-    }
-
-    @Override
-    public Object[] toArray() {
-        return new Object[] { cnpj, nomeFantasia, valor, mesReferencia, dataVencimento, 
-                dataSegundaVia, status };
     }
 
 }

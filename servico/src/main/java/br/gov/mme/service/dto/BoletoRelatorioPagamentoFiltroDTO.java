@@ -2,38 +2,35 @@ package br.gov.mme.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import br.gov.mme.enumeration.TpStatusBoleto;
 
 public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private String cnpj;
-
-    private String nomeFantasia;
+    
+    private Set<Long> idsPessoasJuridicas;
 
     private BigDecimal valor;
 
-    private LocalDate mesReferencia;
+    private BigInteger mesReferencia;
 
     private LocalDate dataVencimento;
 
-    private TpStatusBoleto status;
+    private TpStatusBoleto tpBoleto;
 
-    public String getCnpj() {
-        return cnpj;
+    public Set<Long> getIdsPessoasJuridicas() {
+        return new HashSet<>(this.idsPessoasJuridicas);
     }
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
+
+    public void setIdsPessoasJuridicas(Set<Long> idPessoasJuridicas) {
+        this.idsPessoasJuridicas = new HashSet<>(idPessoasJuridicas);
     }
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-    public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
-    }
+
     public BigDecimal getValor() {
         return valor;
     }
@@ -41,11 +38,11 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
         this.valor = valor;
     }
 
-    public LocalDate getMesReferencia() {
+    public BigInteger getMesReferencia() {
         return mesReferencia;
     }
 
-    public void setMesReferencia(LocalDate mesReferencia) {
+    public void setMesReferencia(BigInteger mesReferencia) {
         this.mesReferencia = mesReferencia;
     }
 
@@ -56,11 +53,13 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
     public void setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
-    public TpStatusBoleto getStatus() {
-        return status;
+
+    public TpStatusBoleto getTpBoleto() {
+        return tpBoleto;
     }
-    public void setStatus(TpStatusBoleto status) {
-        this.status = status;
+
+    public void setTpBoleto(TpStatusBoleto tpBoleto) {
+        this.tpBoleto = tpBoleto;
     }
 
 }

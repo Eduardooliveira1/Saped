@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -42,8 +40,6 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
 
     public static final String ENTITY_NAME = "pessoa-juridica";
-
-    private final Logger log = LoggerFactory.getLogger(PessoaJuridicaServiceImpl.class);
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
             PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
