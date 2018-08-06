@@ -44,14 +44,18 @@ public class Bairro implements Serializable {
     @Column(name = "nr_Versao_Dne")
     private Integer versaoDne;
 
+    public Bairro setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public Uf getUf() {
         return uf;
     }
 
 
-    public Bairro setId(Long id) {
-        this.id = id;
-        return this;
+    public Long getId() {
+        return id;
     }
 
     public Bairro setUf(Uf uf) {
@@ -59,8 +63,18 @@ public class Bairro implements Serializable {
         return this;
     }
 
-    public Long getId() {
-        return id;
+    public Bairro setVersaoDne(Integer versaoDne) {
+        this.versaoDne = versaoDne;
+        return this;
+    }
+
+    public Bairro setNomeAbreviadoBairro(String nomeAbreviadoBairro) {
+        this.nomeAbreviadoBairro = nomeAbreviadoBairro;
+        return this;
+    }
+
+    public String getNomeBairro() {
+        return nomeBairro;
     }
 
     public Localidade getLocalidade() {
@@ -72,8 +86,8 @@ public class Bairro implements Serializable {
         return this;
     }
 
-    public String getNomeBairro() {
-        return nomeBairro;
+    public Integer getVersaoDne() {
+        return versaoDne;
     }
 
     public Bairro setNomeBairro(String nomeBairro) {
@@ -83,19 +97,5 @@ public class Bairro implements Serializable {
 
     public String getNomeAbreviadoBairro() {
         return nomeAbreviadoBairro;
-    }
-
-    public Bairro setNomeAbreviadoBairro(String nomeAbreviadoBairro) {
-        this.nomeAbreviadoBairro = nomeAbreviadoBairro;
-        return this;
-    }
-
-    public Integer getVersaoDne() {
-        return versaoDne;
-    }
-
-    public Bairro setVersaoDne(Integer versaoDne) {
-        this.versaoDne = versaoDne;
-        return this;
     }
 }
