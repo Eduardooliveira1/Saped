@@ -53,7 +53,7 @@ public class Representante implements Serializable  {
     private FlNotificacao notificacao;
 
     @OneToMany(mappedBy = "pessoaRepresentante",cascade = CascadeType.ALL, orphanRemoval=true)
-    List<Telefone> telefone;
+    private List<Telefone> telefone;
 
     public Long getId() {
         return id;

@@ -28,7 +28,7 @@ public class PessoaRepresentanteCadastroDTO implements Serializable {
         this.cargo = cargo;
         this.notificacao = notificacao;
         this.email = email;
-        this.telefone = telefone;
+        this.telefone = SapedUtil.instanciarLista(telefone);
     }
 
     public PessoaRepresentanteCadastroDTO() {

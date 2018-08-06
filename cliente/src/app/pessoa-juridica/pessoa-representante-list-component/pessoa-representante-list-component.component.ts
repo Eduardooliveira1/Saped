@@ -112,7 +112,6 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
           if(!this.telefone[control.length-1].ddd || !this.telefone[control.length-1].telefone) {
             this.removeUltimoItemDaListaTelefone();
           }
-          this.unificaTelefone(this.telefone);
           this.pessoaRepresentate.telefone = this.telefone;
           this.listaRepresentantes.push(this.pessoaRepresentate);
           this.pessoaRepresentate = new PessoaRepresentante();
@@ -149,12 +148,6 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     this.mostrarModalInserirRepresetante=false;
     this.formDinamico.reset();
 
-  }
-  unificaTelefone( telefones: Telefone[] ) {
-    for(let tel of telefones)
-    {
-      tel.telefoneDdd = tel.ddd + tel.telefone;
-    }
   }
 
   removeUltimoItemDaListaTelefone() {
