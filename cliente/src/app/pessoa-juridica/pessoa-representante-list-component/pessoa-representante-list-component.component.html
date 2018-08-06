@@ -1,0 +1,101 @@
+<h3 class="subtitulo-pagina">
+  Contatos
+</h3>
+<div class="ui-g">
+  <div class="ui-g-12">
+    <div class="ui-g-12 ui-md-12 ui-lg-3 float-right">
+      <button pButton type="button" (click)="abrirModalRepresentante()" label="Novo Representante"></button>
+    </div>
+  </div>
+</div>
+
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-dataTable #dataTable sortField="nome" [immutable]="false" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true"  [lazy]="true"
+    [totalRecords]="listaRepresentantes.length"  [value]="listaRepresentantes" emptyMessage="Nenhum resultado encontrado.">
+      <p-column field="nome" header="Nome">
+      </p-column>
+      <p-column field="cargo" header="Cargo"></p-column>
+      <p-column field="email" header="E-mail"></p-column>
+      <p-column field="notificacao" header="Notificação">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+            <p-checkbox [disabled]="true" [ngModel]="row.notificacao == notificacaoAtivada" binary="true"></p-checkbox>
+        </ng-template>
+     </p-column>
+      <p-column  header="Telefone">
+          <ng-template let-col let-row="rowData" pTemplate="body">
+              <span *ngFor="let telefone of row.telefone">
+                  {{telefone.telefoneDdd | telefone}}
+              </span>
+        </ng-template>
+      </p-column>
+
+      <p-column header="" styleClass="col-acoes">
+          <ng-template let-col let-row="rowData" let-index="rowIndex" pTemplate="body">
+            <a class="link-remover" (click)="removerRepresentante(index)">
+                <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </a>
+          </ng-template>
+        </p-column>
+      
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog header="NOVO REPRESENTATE" [visible]="mostrarModalInserirRepresetante" [modal]="true" [closable]="false" [responsive]="true" [width]="450">
+  <form [formGroup]="form"*ngIf="mostrarModalInserirRepresetante">
+    <div class="ui-g-12 form-group">
+      <div class="ui-g-12">
+        <span class="md-inputfield">
+          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentate.nome" formControlName="nome"  [label]="'Nome'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
+        </span>  
+      </div>
+    </div>
+    <div class="ui-g-12 form-group">
+      <div class="ui-g-6">
+        <span class="md-inputfield">
+          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentate.cargo" formControlName="cargo" [label]="'Cargo'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
+        </span>  
+      </div>
+      <div class="ui-g-6 form-group">
+        <span class="md-inputfield">
+          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentate.email" [label]="'E-mail'" formControlName="email" [errorMessage]="msgEmailValido" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
+        </span>  
+      </div>
+    </div>
+    <div class="ui-g-12 form-group border-bottom">
+      <div class="ui-g-6">
+          <form [formGroup]="formDinamico">
+              <div formArrayName="itemRows">
+                <div *ngFor="let itemrow of formDinamico.controls.itemRows.controls; let i=index"  [formGroupName]="i">
+                    <div class="ui-g-4 form-group">
+                        <span class="md-inputfield">
+                          <p-inputMask mask="99" [(ngModel)]="telefone[i].ddd" placeholder="DDD" [required]="true" formControlName="ddd" ></p-inputMask>
+                        </span>  
+                      </div>
+                      <div class="ui-g-6 form-group">
+                        <span class="md-inputfield">
+                          <p-inputMask mask="99999-9999"  [(ngModel)]="telefone[i].telefone" placeholder="Telefone" [unmask]="true" formControlName="telefone" ></p-inputMask>
+                        </span>  
+                      </div>
+                </div>
+              </div>
+              <div class="ui-g-2">
+                  <i class="material-icons botao-adicionar-telefone" (click)="adicionarTelefone()">add_circle_outline</i>
+              </div>
+            </form>
+      </div>
+      
+      <div class="ui-g-6 form-group check-notificacao">
+        <span class="md-inputfield">
+          <p-checkbox label="Notificações" class="checkbox-notificacao-representante" formControlName="notificacoes"  [(ngModel)]="pessoaRepresentate.notificacaoFront" binary="true" (onChange)="onChangeNotificacao($event)"></p-checkbox>
+        </span>  
+      </div>
+    </div>
+    <p-footer class="footer float-right">
+      <button type="button" class="ui-button-secondary" pButton  (click)="cancelar()" label="Cancelar"></button>
+      <button type="button" pButton icon="ui-icon-receipt" (click)="incluirRepresentante()" label="Incluir" ></button>
+    </p-footer>
+  </form>
+</p-dialog>
+<p-confirmDialog></p-confirmDialog>

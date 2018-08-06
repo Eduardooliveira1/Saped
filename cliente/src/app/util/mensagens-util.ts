@@ -17,6 +17,9 @@ export class MensagensUtils {
     public static REGISTRO_SALVO ='Salvo com Sucesso.';
     public static SALVANDO='Salvando...';
     public static SIM='Sim';
+    public static EMAIL_VALIDO='Insira um e-mail válido.';
+    public static ENUM_NOTIFICACAO_SIM = 'S';
+    public static ENUM_NOTIFICACAO_NAO = 'N';
 
     /**
      * pessoa jurídica
@@ -25,5 +28,11 @@ export class MensagensUtils {
     public static CNPJ_INVALIDO ='CNPJ inválido.';
     public static EDITAR_PJ ='Editar Pessoa Jurídica';
     
+    /**
+     * pessoa representante
+     */
+    public static REPRESENTANTE_CONFIRMACAO_INCLUSAO = "Deseja inserir este representante?"
+    public static REPRESENTANTE_CONFIRMACAO_EXCLUSAO = "Realmente deseja excluir este representante?"
+    public static REPRESENTANTE_INSERIR_TELEFONE = "Por favor, preencha os campos DDD e telefone antes de adicionar outro."
 
 }

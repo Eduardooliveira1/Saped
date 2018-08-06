@@ -1,14 +1,11 @@
 import { PageNotificationService } from '@basis/angular-components';
-import { MensagensUtils } from './../../util/mensagens-util';
+import { MensagensUtils } from '../../util/mensagens-util';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Pageable } from '../../util/pageable-request';
 import { PessoaJuridicaService } from '../pessoa-juridica.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { IfObservable } from 'rxjs/observable/IfObservable';
 import { faUserFriends, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core'
 import { DataTable, ConfirmationService } from 'primeng/primeng';
 import { Page } from '../../util/page';
 import { PessoaJuridicaLista } from './pessoa-juridica-lista.model';

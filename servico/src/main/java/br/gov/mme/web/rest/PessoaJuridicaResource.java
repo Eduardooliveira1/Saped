@@ -1,10 +1,14 @@
 package br.gov.mme.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import javax.validation.Valid;
-
+import br.gov.mme.exceptions.CnpjInvalidoException;
+import br.gov.mme.exceptions.CreatePJWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentPJException;
+import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.web.rest.util.HeaderUtil;
+import br.gov.mme.web.rest.util.PaginationUtil;
+import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,16 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-
-import br.gov.mme.exceptions.CnpjInvalidoException;
-import br.gov.mme.exceptions.CreatePJWithExistentIdException;
-import br.gov.mme.exceptions.DeleteInexistentPJException;
-import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.util.HeaderUtil;
-import br.gov.mme.web.rest.util.PaginationUtil;
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * REST controller for managing PessoaJuridicaResource.
