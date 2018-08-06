@@ -25,7 +25,7 @@
       <p-column  header="Telefone">
           <ng-template let-col let-row="rowData" pTemplate="body">
               <span *ngFor="let telefone of row.telefone">
-                  {{telefone.telefoneDdd | telefone}}
+                  {{telefone.ddd.toString().concat(telefone.telefone) | telefone}}
               </span>
         </ng-template>
       </p-column>

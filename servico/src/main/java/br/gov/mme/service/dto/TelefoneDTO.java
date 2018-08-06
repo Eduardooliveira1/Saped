@@ -10,7 +10,6 @@ public class TelefoneDTO {
     private BigDecimal ddd;
     private BigDecimal telefone;
     private FlStatus status;
-    private String telefoneDdd;
 
     public TelefoneDTO() {
     }
@@ -58,11 +57,4 @@ public class TelefoneDTO {
         this.status = status;
     }
 
-    public String getTelefoneDdd() {
-        return this.ddd.toString()+this.telefone.toString();
-    }
-
-    public void setTelefoneDdd(String telefoneDdd) {
-        this.telefoneDdd = telefoneDdd;
-    }
 }
