@@ -9,14 +9,14 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
-			<textField>
-				<reportElement x="170" y="2" width="187" height="74" uuid="85e421d2-cbd6-40ce-be24-b847ca578f40"/>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="140" y="10" width="250" height="60" uuid="6ca57b48-7612-4d3e-8fa7-c3e818879abe"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="26"/>
 				</textElement>
-				<textFieldExpression><![CDATA[TESTE]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[TESTE]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

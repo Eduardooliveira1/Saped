@@ -12,9 +12,8 @@ public interface BoletoMapper {
 
     @Mappings({ @Mapping(target = "statusBoleto", source = "tpBoleto"),
             @Mapping(target = "cnpj", source = "boleto.pessoaJuridica.cnpj"),
-            @Mapping(target = "nomeFantasia", source = "boleto.pessoaJuridica.nomeFantasia") })
+            @Mapping(target = "nomeFantasia", source = "boleto.pessoaJuridica.nomeFantasia"),
+            @Mapping(target = "dataSegundaVia", source = "boleto.dataVencimento") })
     BoletoRelatorioPagamentoVO toVO(Boleto boleto);
-
-    Boleto toEntity(BoletoRelatorioPagamentoVO filtro);
 
 }

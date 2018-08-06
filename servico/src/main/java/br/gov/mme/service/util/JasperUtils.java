@@ -1,14 +1,14 @@
 package br.gov.mme.service.util;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import br.gov.mme.enumeration.ReportType;
 import br.gov.mme.exceptions.CheckedInvalidArgumentException;
-import br.gov.mme.web.rest.util.FilesUtil;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -23,30 +23,33 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 
-public class JasperUtils {
+public final class JasperUtils {
 
-    public ByteArrayOutputStream getReportData(String relPath, ReportType reportType, List<?> voList)
-            throws JRException, CheckedInvalidArgumentException, IOException {
-
-        JasperPrint jasperPrint = this.compileReport(relPath, voList);
-
-        File exportReportFile = new File((new StringBuilder("report").append(reportType)).toString());
-        this.exportReport(jasperPrint, exportReportFile, reportType);
-
-        return FilesUtil.fileToOutputStream(exportReportFile);
+    private JasperUtils() {
     }
 
-    private JasperPrint compileReport(String relPath, List<?> voList) throws JRException {
-        JasperDesign jrxmlSource = JRXmlLoader.load(relPath);
+    public static ByteArrayOutputStream getReportData(InputStream reportJxrml, ReportType reportType, List<?> voList)
+            throws JRException, CheckedInvalidArgumentException, IOException {
+
+        JasperPrint jasperPrint = compileReport(reportJxrml, voList);
+
+        ByteArrayOutputStream exportData = new ByteArrayOutputStream();
+        exportReport(jasperPrint, exportData, reportType);
+
+        return exportData;
+    }
+
+    private static JasperPrint compileReport(InputStream reportJxrml, List<?> voList) throws JRException {
+        JasperDesign jrxmlSource = JRXmlLoader.load(reportJxrml);
         JasperReport report = JasperCompileManager.compileReport(jrxmlSource);
         return JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(voList));
     }
 
-    private JRXlsExporter getExporter(JasperPrint jasperPrint, File exportReportFile) {
+    private static JRXlsExporter getExporter(JasperPrint jasperPrint, OutputStream exportData) {
         JRXlsExporter xlsExporter = new JRXlsExporter();
 
         xlsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-        xlsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(exportReportFile));
+        xlsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(exportData));
 
         SimpleXlsReportConfiguration xlsReportConfiguration = new SimpleXlsReportConfiguration();
 
@@ -55,11 +58,12 @@ public class JasperUtils {
         return xlsExporter;
     }
 
-    private void exportReport(JasperPrint jasperPrint, File exportReportFile, ReportType reportType)
+    private static void exportReport(JasperPrint jasperPrint, OutputStream exportData, ReportType reportType)
             throws JRException, CheckedInvalidArgumentException {
         switch (reportType) {
         case XLS:
-            this.getExporter(jasperPrint, exportReportFile).exportReport();
+            getExporter(jasperPrint, exportData).exportReport();
+            break;
         default:
             throw new CheckedInvalidArgumentException("Arquivo de tipo Inválido!");
         }
