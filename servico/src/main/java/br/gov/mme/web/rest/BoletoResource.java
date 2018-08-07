@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
-import br.gov.mee.vo.BoletoRelatorioPagamentoVO;
 import br.gov.mme.exceptions.CheckedInvalidArgumentException;
 import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
 import br.gov.mme.service.BoletoService;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
 import br.gov.mme.web.rest.util.HeaderUtil;
 
 @RestController
@@ -41,7 +41,7 @@ public class BoletoResource {
     @Timed
     public ResponseEntity<byte[]> cadastrarPessoaJuridica(
             @Valid @RequestBody BoletoRelatorioPagamentoFiltroDTO filtro) throws URISyntaxException {
-        List<BoletoRelatorioPagamentoVO> dataRel = boletoService.converterFiltroToVO(filtro);
+        List<BoletoRelatorioPagamentoDTO> dataRel = boletoService.converterFiltroToVO(filtro);
 
         try {
             return ResponseEntity.ok(boletoService.getRelatorio(dataRel));

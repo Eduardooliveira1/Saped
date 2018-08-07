@@ -2,6 +2,11 @@ package br.gov.mme.repository;
 
 import java.util.Set;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.gov.mme.domain.Boleto;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 
 @Repository
@@ -21,5 +27,13 @@ public interface BoletoRepository extends JpaRepository<Boleto, Long>, JpaSpecif
                  " or dataVencimento = :#{#filtro.dataVencimento}" + 
                  " or tpBoleto = :#{#filtro.tpBoleto}")
     Set<Boleto> listarPagamentosRelatorioExport(@Param("filtro") BoletoRelatorioPagamentoFiltroDTO filtro);
+
+    @Query("select new br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO(b.pessoaJuridica.cnpj," + 
+            " b.pessoaJuridica.nomeFantasia, b.valorBoleto, b.mesReferencia," + 
+          " b.dataVencimento, b.dataVencimento, tpBoleto)" + 
+          " from Boleto b" +
+          " where true = true")
+    @Enumerated(EnumType.STRING)
+    Page<BoletoRelatorioPagamentoDTO> listarPagamentosRelatorio(Pageable pageable);
 
 }

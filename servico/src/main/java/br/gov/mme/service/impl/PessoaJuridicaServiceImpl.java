@@ -28,7 +28,6 @@ import br.gov.mme.web.rest.util.QueryUtil;
 /**
  * Service Implementation for managing PessoaJuridica.
  */
-
 @Service
 @Transactional
 public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {

@@ -63,7 +63,7 @@ public class Boleto implements Serializable {
     @NotNull
     private BigDecimal valorBoleto;
 
-    @Column(name = "dt_Vencimento", columnDefinition = "DATE")
+    @Column(name = "dt_Vencimento")
     @NotNull
     private LocalDate dataVencimento;
 
@@ -71,80 +71,81 @@ public class Boleto implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public Boleto setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Boleto getBoletoAdiantamento() {
         return boletoAdiantamento;
     }
 
-    public void setBoletoAdiantamento(Boleto boletoAdiantamento) {
+    public Boleto setBoletoAdiantamento(Boleto boletoAdiantamento) {
         this.boletoAdiantamento = boletoAdiantamento;
+        return this;
     }
 
     public PessoaJuridica getPessoaJuridica() {
         return pessoaJuridica;
     }
 
-    public void setPessoaJuridica(PessoaJuridica pessoaJuridica) {
+    public Boleto setPessoaJuridica(PessoaJuridica pessoaJuridica) {
         this.pessoaJuridica = pessoaJuridica;
-    }
-
-    public BigInteger getMmReferencia() {
-        return mesReferencia;
-    }
-
-    public void setMmReferencia(BigInteger mmReferencia) {
-        this.mesReferencia = mmReferencia;
-    }
-
-    public BigInteger getAnoReferencia() {
-        return anoReferencia;
-    }
-
-    public void setAnoReferencia(BigInteger anoReferencia) {
-        this.anoReferencia = anoReferencia;
-    }
-
-    public TpBoleto getTpBoleto() {
-        return tpBoleto;
-    }
-
-    public void setTpBoleto(TpBoleto tpBoleto) {
-        this.tpBoleto = tpBoleto;
-    }
-
-    public BigInteger getNossoNumero() {
-        return nossoNumero;
-    }
-
-    public void setNossoNumero(BigInteger nossoNumero) {
-        this.nossoNumero = nossoNumero;
-    }
-
-    public BigDecimal getValorBoleto() {
-        return valorBoleto;
-    }
-
-    public void setValorBoleto(BigDecimal valorBoleto) {
-        this.valorBoleto = valorBoleto;
+        return this;
     }
 
     public BigInteger getMesReferencia() {
         return mesReferencia;
     }
 
-    public void setMesReferencia(BigInteger mesReferencia) {
+    public Boleto setMesReferencia(BigInteger mesReferencia) {
         this.mesReferencia = mesReferencia;
+        return this;
+    }
+
+    public BigInteger getAnoReferencia() {
+        return anoReferencia;
+    }
+
+    public Boleto setAnoReferencia(BigInteger anoReferencia) {
+        this.anoReferencia = anoReferencia;
+        return this;
+    }
+
+    public TpBoleto getTpBoleto() {
+        return tpBoleto;
+    }
+
+    public Boleto setTpBoleto(TpBoleto tpBoleto) {
+        this.tpBoleto = tpBoleto;
+        return this;
+    }
+
+    public BigInteger getNossoNumero() {
+        return nossoNumero;
+    }
+
+    public Boleto setNossoNumero(BigInteger nossoNumero) {
+        this.nossoNumero = nossoNumero;
+        return this;
+    }
+
+    public BigDecimal getValorBoleto() {
+        return valorBoleto;
+    }
+
+    public Boleto setValorBoleto(BigDecimal valorBoleto) {
+        this.valorBoleto = valorBoleto;
+        return this;
     }
 
     public LocalDate getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(LocalDate dataVencimento) {
+    public Boleto setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
+        return this;
     }
 
     @Override
