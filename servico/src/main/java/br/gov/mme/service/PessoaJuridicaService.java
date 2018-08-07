@@ -6,9 +6,9 @@ import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 /**
  * Service Interface for managing PessoaJuridica.
  * @see PessoaJuridicaServiceImpl
