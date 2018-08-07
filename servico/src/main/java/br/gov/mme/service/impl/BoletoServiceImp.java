@@ -53,7 +53,7 @@ public class BoletoServiceImp implements BoletoService{
         HashSet<Boleto> boletoHash = new HashSet<>(boletoRepository.listarPagamentosRelatorioExport(filtro));
         List<BoletoRelatorioPagamentoDTO> dadosRel = new ArrayList<>();
         boletoHash.forEach(boleto -> {
-            BoletoRelatorioPagamentoDTO instanciaRel = boletoMapper.toVO(boleto);
+            BoletoRelatorioPagamentoDTO instanciaRel = boletoMapper.toDTO(boleto);
             dadosRel.add(instanciaRel);
         });
         return dadosRel;
