@@ -1,14 +1,5 @@
 package br.gov.mme.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import br.gov.mme.config.Constants;
 import br.gov.mme.domain.Authority;
 import br.gov.mme.domain.User;
@@ -16,6 +7,14 @@ import br.gov.mme.repository.AuthorityRepository;
 import br.gov.mme.repository.UserRepository;
 import br.gov.mme.security.SecurityUtils;
 import br.gov.mme.service.dto.UserDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.

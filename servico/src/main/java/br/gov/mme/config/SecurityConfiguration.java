@@ -1,7 +1,8 @@
 package br.gov.mme.config;
 
-import javax.annotation.PostConstruct;
-
+import br.gov.mme.security.AuthoritiesConstants;
+import br.gov.mme.security.jwt.JWTConfigurer;
+import br.gov.mme.security.jwt.TokenProvider;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
-import br.gov.mme.security.AuthoritiesConstants;
-import br.gov.mme.security.jwt.JWTConfigurer;
-import br.gov.mme.security.jwt.TokenProvider;
+import javax.annotation.PostConstruct;
 
 @Configuration
 @Import(SecurityProblemSupport.class)

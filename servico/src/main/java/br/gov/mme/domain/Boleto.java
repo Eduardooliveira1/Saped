@@ -63,7 +63,7 @@ public class Boleto implements Serializable {
     @NotNull
     private BigDecimal valorBoleto;
 
-    @Column(name = "dt_Vencimento", columnDefinition = "DATE")
+    @Column(name = "dt_Vencimento")
     @NotNull
     private LocalDate dataVencimento;
 

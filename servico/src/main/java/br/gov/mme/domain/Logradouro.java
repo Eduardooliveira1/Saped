@@ -1,6 +1,6 @@
 package br.gov.mme.domain;
 
-import java.io.Serializable;
+import br.gov.mme.enumeration.TpStatusLogradouro;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import br.gov.mme.enumeration.TpStatusLogradouro;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "td_Logradouro")

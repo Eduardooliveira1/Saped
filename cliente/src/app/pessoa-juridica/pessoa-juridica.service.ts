@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { PessoaJuridicaCadastro } from './pessoa-juridica-cadastro.model';
 import { HttpService } from '@basis/angular-components';
-import { environment } from './../../environments/environment.prod';
+import { environment } from '../../environments/environment.prod';
 import { Injectable } from "@angular/core";
 import { Pageable } from '../util/pageable-request';
 import { RequestOptions, Response } from '@angular/http';
@@ -24,7 +24,7 @@ export class PessoaJuridicaService {
 
     cadastrar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
         const copy = this.convert(pessoaJuridica);
-        return this.http.post(this.resourceUrl, copy).map((res) => {
+        return this.http.post(this.resourceUrl, copy).map((res : Response) => {
             return res.json();
         });
     }
