@@ -10,5 +10,6 @@ export class PessoaRepresentante{
     constructor(
     ){
         this.telefone = [];
+        this.notificacao = 'N';
     }
 }
