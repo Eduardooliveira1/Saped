@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.mme.domain.Pessoa;
 import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.domain.Representante;
+import br.gov.mme.domain.Telefone;
 import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
@@ -75,16 +77,38 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
 
-        if (Objects.isNull(pessoaJuridicaDto.getId())) {
+        if (pessoaJuridicaDto.getId() == null) {
             pessoaJuridica.setPessoa(new Pessoa().setStatus(FlStatus.S).setDataCadastro(LocalDateTime.now()));
         } else {
             pessoaJuridica.setPessoa(pessoaRepository.findOne(pessoaJuridicaDto.getId()));
         }
 
+        atribuirRepresentantes(pessoaJuridica);
+
         pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
     }
 
+    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica){
+        for(Representante representante : pessoaJuridica.getRepresentantes()){
+            if(representante.getId() == null){
+                representante.getPessoa().setStatus(FlStatus.S);
+                representante.getPessoa().setDataCadastro(LocalDateTime.now());
+            }else {
+                representante.setPessoa(pessoaRepository.findOne(representante.getId()));
+            }
+
+            representante.setPessoaJuridica(pessoaJuridica);
+            atribuiPessoaaoTelefone(representante);
+        }
+    }
+
+    private void atribuiPessoaaoTelefone (Representante representante) {
+            for(Telefone telefone : representante.getTelefone()){
+                telefone.setPessoaRepresentante(representante);
+                telefone.setStatus(FlStatus.S);
+            }
+    }
     @Override
     public PessoaJuridicaCadastroDTO obterPordId(Long id) {
         return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));

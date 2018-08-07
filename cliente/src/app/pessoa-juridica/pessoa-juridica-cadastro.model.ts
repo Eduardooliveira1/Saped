@@ -1,11 +1,13 @@
+import { PessoaRepresentante } from './pessoa-representante-model';
 export class PessoaJuridicaCadastro{
-    constructor(
-        public id?: number,
-        public cnpj?: string,
-        public sigla?: string,
-        public nomeFantasia?: string,
-        public razaoSocial?: string
-    ){
-        
+    id: number;
+    cnpj: string;
+    sigla: string;
+    nomeFantasia: string;
+    razaoSocial: string;
+    representantes:PessoaRepresentante[];
+    
+    constructor(){
+        this.representantes = [];
     }
 }

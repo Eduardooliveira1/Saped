@@ -30,7 +30,6 @@ import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 import br.gov.mme.web.rest.util.HeaderUtil;
 import br.gov.mme.web.rest.util.PaginationUtil;
 
@@ -118,10 +117,4 @@ public class PessoaJuridicaResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/pessoa-juidica/exportar")
-    @Timed
-    public ResponseEntity<BoletoRelatorioPagamentoFiltroDTO> exportarRelatorio(
-            @Valid @RequestBody BoletoRelatorioPagamentoFiltroDTO filtros) {
-        return null;
-    }
 }
