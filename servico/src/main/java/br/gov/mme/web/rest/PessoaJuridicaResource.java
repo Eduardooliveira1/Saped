@@ -1,14 +1,10 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.exceptions.CnpjInvalidoException;
-import br.gov.mme.exceptions.CreatePJWithExistentIdException;
-import br.gov.mme.exceptions.DeleteInexistentPJException;
-import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.util.HeaderUtil;
-import br.gov.mme.web.rest.util.PaginationUtil;
-import com.codahale.metrics.annotation.Timed;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -34,12 +30,8 @@ import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 import br.gov.mme.web.rest.util.HeaderUtil;
 import br.gov.mme.web.rest.util.PaginationUtil;
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * REST controller for managing PessoaJuridicaResource.
@@ -125,10 +117,4 @@ public class PessoaJuridicaResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/pessoa-juidica/exportar")
-    @Timed
-    public ResponseEntity<BoletoRelatorioPagamentoFiltroDTO> exportarRelatorio(
-            @Valid @RequestBody BoletoRelatorioPagamentoFiltroDTO filtros) {
-        return null;
-    }
 }
