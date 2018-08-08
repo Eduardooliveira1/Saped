@@ -2,28 +2,13 @@ package br.gov.mme.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDate;
 
-import br.gov.mme.enumeration.TpBoleto;
+import br.com.basis.dynamicexports.pojo.ReportObject;
 
-public class BoletoRelatorioPagamentoDTO implements Serializable {
+public class BoletoRelatorioPagamentoDTO implements Serializable, ReportObject {
 
     private static final long serialVersionUID = 1L;
-
-    public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto, 
-            BigInteger mesReferencia, LocalDate dataVencimento, LocalDate dataSegundaVia, TpBoleto tpBoleto) {
-        this.cnpj = cnpj;
-        this.nomeFantasia = nomeFantasia;
-        this.valorBoleto = valorBoleto;
-        this.mesReferencia = mesReferencia;
-        this.dataVencimento = dataVencimento;
-        this.dataSegundaVia = dataSegundaVia;
-        this.tpBoleto = tpBoleto;
-    }
-    public BoletoRelatorioPagamentoDTO() {
-
-    }
 
     private String cnpj;
 
@@ -31,75 +16,68 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
 
     private BigDecimal valorBoleto;
 
-    private BigInteger mesReferencia;
+    private String mesReferencia;
 
     private LocalDate dataVencimento;
 
     private LocalDate dataSegundaVia;
 
-    private TpBoleto tpBoleto;
+    private String statusBoleto;
 
     public String getCnpj() {
         return cnpj;
     }
 
-    public BoletoRelatorioPagamentoDTO setCnpj(String cnpj) {
+    public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-        return this;
     }
 
     public String getNomeFantasia() {
         return nomeFantasia;
     }
 
-    public BoletoRelatorioPagamentoDTO setNomeFantasia(String nomeFantasia) {
+    public void setNomeFantasia(String nomeFantasia) {
         this.nomeFantasia = nomeFantasia;
-        return this;
     }
 
     public BigDecimal getValorBoleto() {
         return valorBoleto;
     }
 
-    public BoletoRelatorioPagamentoDTO setValorBoleto(BigDecimal valorBoleto) {
+    public void setValorBoleto(BigDecimal valorBoleto) {
         this.valorBoleto = valorBoleto;
-        return this;
     }
 
-    public BigInteger getMesReferencia() {
+    public String getMesReferencia() {
         return mesReferencia;
     }
 
-    public BoletoRelatorioPagamentoDTO setMesReferencia(BigInteger mesReferencia) {
+    public void setMesReferencia(String mesReferencia) {
         this.mesReferencia = mesReferencia;
-        return this;
     }
 
     public LocalDate getDataVencimento() {
         return dataVencimento;
     }
 
-    public BoletoRelatorioPagamentoDTO setDataVencimento(LocalDate dataVencimento) {
+    public void setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
-        return this;
     }
 
     public LocalDate getDataSegundaVia() {
         return dataSegundaVia;
     }
 
-    public BoletoRelatorioPagamentoDTO setDataSegundaVia(LocalDate dataSegundaVia) {
+    public void setDataSegundaVia(LocalDate dataSegundaVia) {
         this.dataSegundaVia = dataSegundaVia;
-        return this;
     }
 
-    public TpBoleto getTpBoleto() {
-        return tpBoleto;
+    public String getStatusBoleto() {
+        return statusBoleto;
     }
 
-    public BoletoRelatorioPagamentoDTO setTpBoleto(TpBoleto tpBoleto) {
-        this.tpBoleto = tpBoleto;
-        return this;
+    public void setStatusBoleto(String statusBoleto) {
+        this.statusBoleto = statusBoleto;
     }
 
 }
