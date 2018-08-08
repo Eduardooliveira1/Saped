@@ -1,10 +1,12 @@
-package br.gov.mee.vo;
+package br.gov.mme.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class BoletoRelatorioPagamentoVO implements Serializable {
+import br.com.basis.dynamicexports.pojo.ReportObject;
+
+public class BoletoRelatorioPagamentoDTO implements Serializable, ReportObject {
 
     private static final long serialVersionUID = 1L;
 

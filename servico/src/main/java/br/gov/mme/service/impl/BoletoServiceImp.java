@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.mee.vo.BoletoRelatorioPagamentoVO;
 import br.gov.mme.domain.Boleto;
 import br.gov.mme.enumeration.ReportType;
 import br.gov.mme.exceptions.CheckedInvalidArgumentException;
@@ -20,6 +19,7 @@ import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
 import br.gov.mme.repository.BoletoRepository;
 import br.gov.mme.service.BoletoService;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 import br.gov.mme.service.mapper.BoletoMapper;
 import br.gov.mme.service.util.JasperUtils;
@@ -47,18 +47,18 @@ public class BoletoServiceImp implements BoletoService{
     }
 
     @Override
-    public List<BoletoRelatorioPagamentoVO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro) {
+    public List<BoletoRelatorioPagamentoDTO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro) {
         HashSet<Boleto> boletoHash = new HashSet<>(boletoRepository.listarPagamentosRelatorioExport(filtro));
-        List<BoletoRelatorioPagamentoVO> dadosRel = new ArrayList<>();
+        List<BoletoRelatorioPagamentoDTO> dadosRel = new ArrayList<>();
         boletoHash.forEach(boleto -> {
-            BoletoRelatorioPagamentoVO instanciaRel = boletoMapper.toVO(boleto);
+            BoletoRelatorioPagamentoDTO instanciaRel = boletoMapper.toVO(boleto);
             dadosRel.add(instanciaRel);
         });
         return dadosRel;
     }
 
     @Override
-    public byte[] getRelatorio(List<BoletoRelatorioPagamentoVO> voList)
+    public byte[] getRelatorio(List<BoletoRelatorioPagamentoDTO> voList)
             throws CheckedInvalidArgumentException, RelatorioException, LeituraBufferException {
         try {
             return Base64.getEncoder()
