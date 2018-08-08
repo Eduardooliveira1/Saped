@@ -1,0 +1,64 @@
+<h2 class="titulo-pagina">
+  Cadastrar Cobranças
+</h2>
+<div class="ui-g-12">
+  <div class="ui-g-6">
+    <div class="ui-g-8">
+        <div class="ui-g-4">
+          <span>Empresa:</span>
+        </div>
+        <div class="ui-g-8">  
+          <p-dropdown [required]="true" [showClear]="true" [options]="tiposEndereco" placeholder="Selecione"></p-dropdown>
+        </div>
+    </div>
+    <div class="ui-g-4">
+      <div class="ui-g-4">
+          <span>ano:</span>
+        </div>
+        <div class="ui-g-8">
+            <p-dropdown [required]="true" [showClear]="true" [options]="tiposEndereco" placeholder="Selecione"></p-dropdown>
+        </div>
+    </div>
+  </div>
+  <div class="ui-g-6">
+    <div class="ui-g-5 centralizar">
+        <button pButton type="button" (click)="adiantarPagamento()" label="Adiantar Pagamento"></button>
+    </div>
+    <div class="ui-g-2">
+        <button pButton type="button" (click)="emitirTudo()" label="Emitir Tudo"></button>
+    </div>
+    <div class="ui-g-2">
+        <button pButton type="button" (click)="adiantarPagamento()" label="Exportar"></button>
+    </div>
+  </div>
+
+
+  <div class="ui-g-12">
+    <p-dataTable #dataTable  [immutable]="false" [rows]="12" [paginator]="true" [pageLinks]="3" [responsive]="true"  [lazy]="true"
+    [totalRecords]="listaCobrancas.length"  [value]="listaCobrancas" emptyMessage="Nenhum resultado encontrado.">
+      <p-column field="mesReferencia" header="Referência"></p-column>
+      <p-column field="dataVencimento" header="Data Vencimento"></p-column>
+      <p-column field="dataPagamento" header="Data Pagamento"></p-column>
+      <p-column field="dataSegundaVia" header="Data 2ª Via"></p-column>
+      <p-column field="valor" header="Valor">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <input id="input" type="text" size="11" pInputText [(ngModel)]="row.valor" > 
+        </ng-template>
+      </p-column>
+
+      <p-column field="gerar" header="Gerar">
+        <ng-template let-col let-row="rowData" let-row="rowData" pTemplate="body">
+          <button pButton type="button" (click)="gerarCobranca()" label="Emitir"></button>
+        </ng-template>
+      </p-column>
+      <p-column header="Ações">
+        <ng-template  let-index="Index"  pTemplate="body">
+          <i class="material-icons" (click)="imprimirCobranca(index)">print</i>
+          <i class="material-icons deletar-cobranca-icon" (click)="deletarCobranca(index)">highlight_off</i>
+        </ng-template>
+      </p-column>
+      <p-column field="status" header="Status"></p-column>
+    </p-dataTable>
+  </div>
+</div>
+ 
