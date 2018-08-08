@@ -11,6 +11,7 @@ export class EnumService{
     constructor(private http: HttpService) {}
 
     public static SERVICO_TIPO_ENDERECO = 'tipos-endereco';
+    public static SERVICO_LIST_NOMES_PJ = 'nomes-pessoas-juridicas';
     
     listarEnum(nomeEnum: String, callback?: any){
         return this.http.get(this.resourceUrl+nomeEnum).map(res=>{

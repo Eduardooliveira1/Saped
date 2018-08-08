@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {Page} from '../../util/page';
 import {Pageable} from '../../util/pageable-request';
-import {RelatorioPagamentoList} from './relatorio-pagamento-list.model';
+import {FiltroRelatorioPagamentos} from './filtro-relatorio-pagamento';
 import {RelatoriosService} from '../relatorios.service';
-import {ListaNomesPessoaJuridica} from '../../pessoa-juridica/lista-nomes-pessoa-juridica.model';
-import {NomePessoaJuridicaRelatorio} from './nome-pessoa-juridica-relatorio.model';
 import {CustomUtils} from '../../util/custom-utils';
 import { EnumService } from '../../shared/enum.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ValidateCnpj} from '../../shared/validators/cnpj.validator';
 
 
 @Component({
@@ -22,20 +22,24 @@ export class RelatorioPagamentoListComponent implements OnInit, OnChanges {
 
     @BlockUI() blockUI: NgBlockUI;
     @ViewChild('dataTable') dataTable: DataTable;
+    form: FormGroup;
 
-    result: Page<RelatorioPagamentoList>;
-    nomesPJ: ListaNomesPessoaJuridica[] = [];
-    nomesPJRelatorio: NomePessoaJuridicaRelatorio[] = [];
+    result: Page<FiltroRelatorioPagamentos>;
+    filtro: FiltroRelatorioPagamentos;
     dropDownNomePessoaJuridica: SelectItem[];
-
+    msgPadraoCampoObrigatorio = MensagensUtils.CAMPO_OBRIGATORIO;
+    submittedForm = false;
 
     constructor(private relatoriosService: RelatoriosService,
+                private formBuilder: FormBuilder,
                 private router: Router,
                 private pageNotificationService: PageNotificationService,
                 private enumService: EnumService) {
     }
 
     ngOnInit() {
+        this.filtro = new FiltroRelatorioPagamentos();
+        this.buildReactiveForm();
         this.ngOnChanges();
     }
 
@@ -58,32 +62,21 @@ export class RelatorioPagamentoListComponent implements OnInit, OnChanges {
             });
     }
 
-    listarNomes() {
-        this.blockUI.start(MensagensUtils.CARREGANDO);
-        this.relatoriosService.listarNomesPJs().subscribe(result => {
-            this.nomesPJ = result.json();
-        }, error => {
-            this.blockUI.stop();
-            this.pageNotificationService.addErrorMessage(error.toString() + MensagensUtils.ERRO_CARREGAR_DADOS);
-        });
-    }
-
     createDropDown() {
-        this.converterNomes();
-        this.nomesPJRelatorio.subscribe(result => {  CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_NOME,
-            CustomUtils.CAMPO_VALOR_PADRAO); } );
-        this.enumService.listarEnum(EnumService.SERVICO_TIPO_ENDERECO).subscribe(result => {
-            this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_NOME,
+        this.enumService.listarEnum(EnumService.SERVICO_LIST_NOMES_PJ).subscribe(result => {
+            this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
                 CustomUtils.CAMPO_VALOR_PADRAO);
         });
     }
 
-    converterNomes() {
-        this.listarNomes();
-        this.nomesPJ.forEach(nome => {
-            this.nomesPJRelatorio.push(new NomePessoaJuridicaRelatorio(nome.id, nome.cnpj
-                .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3') + ' - ' + nome.nomeFantasia));
-        });
+    buildReactiveForm() {
+        this.form = this.formBuilder.group({
+            idsPJs: new FormControl('', ),
+            valorBoleto: new FormControl('', ),
+            mesReferencia: new FormControl('', ),
+            dataVencimento: new FormControl('', )
+        }, { updateOn: 'blur' });
     }
+
 }
 

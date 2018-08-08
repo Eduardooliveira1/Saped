@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 import br.gov.mme.enumeration.TpBoleto;
+import br.gov.mme.util.SapedUtil;
 
 public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
 
@@ -24,11 +24,11 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
     private TpBoleto tpBoleto;
 
     public Set<Long> getIdsPessoasJuridicas() {
-        return new HashSet<>(this.idsPessoasJuridicas);
+        return SapedUtil.instanciarSet(this.idsPessoasJuridicas);
     }
 
     public void setIdsPessoasJuridicas(Set<Long> idPessoasJuridicas) {
-        this.idsPessoasJuridicas = new HashSet<>(idPessoasJuridicas);
+        this.idsPessoasJuridicas = SapedUtil.instanciarSet(idPessoasJuridicas);
     }
 
     public BigDecimal getValor() {

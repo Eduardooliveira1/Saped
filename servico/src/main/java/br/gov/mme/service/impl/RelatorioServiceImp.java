@@ -13,7 +13,7 @@ import br.gov.mme.exceptions.RelatorioException;
 import br.gov.mme.service.BoletoService;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.RelatorioService;
-import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoVO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
 
@@ -33,17 +33,17 @@ public class RelatorioServiceImp implements RelatorioService {
     }
 
     @Override
-    public Page<BoletoRelatorioPagamentoDTO> listarPagamentos(Pageable pageable) {
+    public Page<BoletoRelatorioPagamentoVO> listarPagamentos(Pageable pageable) {
         return boletoService.listarPagamentos(pageable);
     }
 
     @Override
-    public List<BoletoRelatorioPagamentoDTO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro) {
+    public List<BoletoRelatorioPagamentoVO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro) {
         return boletoService.converterFiltroToVO(filtro);
     }
 
     @Override
-    public byte[] getRelatorio(List<BoletoRelatorioPagamentoDTO> voList)
+    public byte[] getRelatorio(List<BoletoRelatorioPagamentoVO> voList)
             throws CheckedInvalidArgumentException, RelatorioException, LeituraBufferException {
         return boletoService.getRelatorio(voList);
     }

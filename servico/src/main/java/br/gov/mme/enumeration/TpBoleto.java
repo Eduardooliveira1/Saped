@@ -4,7 +4,7 @@ package br.gov.mme.enumeration;
  * Status do Boleto
  */
 public enum TpBoleto {
-    AV("AV"), AD("AD"), EM("EM"), PG("PG"), VE("VE"), NO("NO");
+    NO("NO"), SV("SV"), AD("AD");
 
     private final String status;
 

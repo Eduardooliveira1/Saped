@@ -21,7 +21,7 @@ import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
 import br.gov.mme.repository.BoletoRepository;
 import br.gov.mme.service.BoletoService;
-import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoVO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 import br.gov.mme.service.mapper.BoletoMapper;
 import br.gov.mme.service.util.JasperUtils;
@@ -49,18 +49,18 @@ public class BoletoServiceImp implements BoletoService{
     }
 
     @Override
-    public List<BoletoRelatorioPagamentoDTO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro) {
+    public List<BoletoRelatorioPagamentoVO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro) {
         HashSet<Boleto> boletoHash = new HashSet<>(boletoRepository.listarPagamentosRelatorioExport(filtro));
-        List<BoletoRelatorioPagamentoDTO> dadosRel = new ArrayList<>();
+        List<BoletoRelatorioPagamentoVO> dadosRel = new ArrayList<>();
         boletoHash.forEach(boleto -> {
-            BoletoRelatorioPagamentoDTO instanciaRel = boletoMapper.toDTO(boleto);
+            BoletoRelatorioPagamentoVO instanciaRel = boletoMapper.toDTO(boleto);
             dadosRel.add(instanciaRel);
         });
         return dadosRel;
     }
 
     @Override
-    public byte[] getRelatorio(List<BoletoRelatorioPagamentoDTO> voList)
+    public byte[] getRelatorio(List<BoletoRelatorioPagamentoVO> voList)
             throws CheckedInvalidArgumentException, RelatorioException, LeituraBufferException {
         try {
             return Base64.getEncoder()
@@ -75,7 +75,7 @@ public class BoletoServiceImp implements BoletoService{
     }
 
     @Override
-    public Page<BoletoRelatorioPagamentoDTO> listarPagamentos(Pageable pageable) {
+    public Page<BoletoRelatorioPagamentoVO> listarPagamentos(Pageable pageable) {
         return boletoRepository.listarPagamentosRelatorio(pageable);
         } 
 

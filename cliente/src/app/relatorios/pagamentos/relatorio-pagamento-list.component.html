@@ -1,16 +1,43 @@
 <body class="background-component-white">
-<h2 class="titulo-pagina title-color" >
-    Relatórios Pagamento
-</h2>
-<div class="ui-g">
+    <h2 class="titulo-pagina title-color">
+        Relatórios Pagamento
+    </h2>
 
-    <div class="ui-g-12 md-12 labeled-dropdown filled" >
-        <p-dropdown [required]="true" [showClear]="true" [options]="dropDownNomePessoaJuridica" placeholder="Selecione"></p-dropdown>
-    </div>
-    <div class="ui-g-6">
-        <div class="ui-g-12 ui-md-12 ui-lg-4 float-right">
-            <button pButton type="button" (click)="novaEmpresa()" label="Nova Empresa" [icon]="'ui-icon-plus'"></button>
+    <div class="ui-g-12 md-12">
+        <div class="ui-g-5 md-5 ">
+            Empresa:
         </div>
+        <div class="ui-g-2 md-2">
+          Data Vencimento:
+        </div>
+        <div class="ui-g-2 md-2">
+          Valor
+      </div>
+       <div class="ui-g-1 md-2">
+          Status
+      </div>
+       <div class="ui-g-2 md-2">
+          Mês Referência
+       </div>
     </div>
-</div>
+    <div class="ui-g-12 md-12">
+        <form [formGroup]="form">
+            <div class="ui-g-5 md-5 filled ui-multiselect-label-container">
+                <p-multiSelect  [options]="dropDownNomePessoaJuridica"  [defaultLabel] ="'selecione'"
+                                formControlName="idsPJs" ></p-multiSelect>
+            </div>
+            <span class="ui-g-2 md-2 md-inputfield">
+            <app-custom-input-text [maxLength]="100" [label]="'data Vencimento'" [errorMessage]="msgPadraoCampoObrigatorio"
+                                   [showErrorMessageAfterSubmitForm]="submittedForm" formControlName="dataVencimento"
+                                   [(ngModel)]="filtro.dataVencimento">
+            </app-custom-input-text>
+        </span>
+            <span class="ui-g-2 md-2 md-inputfield">
+            <app-custom-input-text [maxLength]="100" [label]="'Valor'" [errorMessage]="msgPadraoCampoObrigatorio"
+                                   [showErrorMessageAfterSubmitForm]="submittedForm" formControlName="valorBoleto"
+                                   [(ngModel)]="filtro.valorBoleto">
+            </app-custom-input-text>
+        </span>
+        </form>
+    </div>
 </body>

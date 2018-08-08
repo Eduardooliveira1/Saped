@@ -3,8 +3,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule,
-    ConfirmationService } from 'primeng/primeng';
+import {
+    ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule,
+    ConfirmationService, MultiSelectModule
+} from 'primeng/primeng';
 import {Ng2BRPipesModule} from 'ng2-brpipes';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CustomComponentsModule } from '../shared/custom-components/custom-components.module';
@@ -26,10 +28,11 @@ import {RelatoriosService} from './relatorios.service';
         ReactiveFormsModule,
         DropdownModule,
         BlockUIModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        MultiSelectModule
     ],
     declarations: [RelatorioPagamentoListComponent],
-    providers:[
+    providers: [
         RelatoriosService, EnumService, ConfirmationService
     ],
     exports: [Ng2BRPipesModule]

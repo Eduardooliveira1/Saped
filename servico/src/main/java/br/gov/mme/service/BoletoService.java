@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import br.gov.mme.exceptions.CheckedInvalidArgumentException;
 import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
-import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoVO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 /**
  * Service Interface for managing Boleto.
@@ -17,11 +17,11 @@ import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
  */
 public interface BoletoService {
 
-    List<BoletoRelatorioPagamentoDTO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro);
+    List<BoletoRelatorioPagamentoVO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro);
 
-    byte[] getRelatorio(List<BoletoRelatorioPagamentoDTO> voList)
+    byte[] getRelatorio(List<BoletoRelatorioPagamentoVO> voList)
             throws CheckedInvalidArgumentException, RelatorioException, LeituraBufferException;
 
-    Page<BoletoRelatorioPagamentoDTO> listarPagamentos(Pageable pageable);
+    Page<BoletoRelatorioPagamentoVO> listarPagamentos(Pageable pageable);
 
 }

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import br.gov.mme.exceptions.CheckedInvalidArgumentException;
 import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
-import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoVO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
 
@@ -20,11 +20,11 @@ import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
  */
 public interface RelatorioService {
 
-    Page<BoletoRelatorioPagamentoDTO> listarPagamentos(Pageable pageable);
+    Page<BoletoRelatorioPagamentoVO> listarPagamentos(Pageable pageable);
 
-    List<BoletoRelatorioPagamentoDTO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro);
+    List<BoletoRelatorioPagamentoVO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro);
 
-    byte[] getRelatorio(List<BoletoRelatorioPagamentoDTO> voList)
+    byte[] getRelatorio(List<BoletoRelatorioPagamentoVO> voList)
             throws CheckedInvalidArgumentException, RelatorioException, LeituraBufferException;
 
     Set<ListaNomePessoaJuridicaDTO> getNomesPessoasJuridicas();
