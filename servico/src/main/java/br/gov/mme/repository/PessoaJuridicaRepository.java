@@ -1,8 +1,7 @@
 package br.gov.mme.repository;
 
-import br.gov.mme.domain.PessoaJuridica;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +10,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 
 @Repository
 public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, Long>, JpaSpecificationExecutor<PessoaJuridica> {
@@ -29,6 +32,10 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
 
     @Query("select new br.gov.mme.service.dto.PessoaJuridicaCadastroDTO(p.id,p.cnpj, p.sigla, p.nomeFantasia, p.razaoSocial) from PessoaJuridica p where p.pessoa.status = 'S' and p.cnpj = :cnpj")
     PessoaJuridicaCadastroDTO findByCnpj(@Param("cnpj") String cnpj);
+
+    @Query("select new br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO(p.cnpj, p.nomeFantasia, p.id)"
+            + "from PessoaJuridica p")
+    Set<ListaNomePessoaJuridicaDTO> getPJNomeDTO();
 
 
 }

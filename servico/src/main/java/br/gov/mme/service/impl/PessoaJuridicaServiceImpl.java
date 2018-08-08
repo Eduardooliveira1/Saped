@@ -2,6 +2,7 @@ package br.gov.mme.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
@@ -129,6 +131,11 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         if (id != null) {
             throw new CreatePJWithExistentIdException();
         }
+    }
+
+    @Override
+    public Set<ListaNomePessoaJuridicaDTO> getNomesPessoasJuridicas() {
+        return pessoaJuridicaRepository.getPJNomeDTO();
     }
 
 }

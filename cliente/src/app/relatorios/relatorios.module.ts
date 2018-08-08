@@ -3,7 +3,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
+import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule,
+    ConfirmationService } from 'primeng/primeng';
 import {Ng2BRPipesModule} from 'ng2-brpipes';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CustomComponentsModule } from '../shared/custom-components/custom-components.module';

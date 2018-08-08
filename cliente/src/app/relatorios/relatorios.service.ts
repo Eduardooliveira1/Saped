@@ -7,13 +7,22 @@ import {HttpService} from '@basis/angular-components';
 @Injectable()
 export class RelatoriosService {
 
-    listPagamentosUrl = environment.apiUrl + '/pagamentos';
+    resourceUrl = environment.apiUrl + '/relatorios';
+    pagamentosUrl = this.resourceUrl + '/pagamentos';
+    listNomesPessoasJuridicas = this.resourceUrl + '/pessoas-juridicas';
+    exportPagamentos = this.pagamentosUrl + '/exportar';
 
     constructor(private http: HttpService) {
     }
 
     listarPagamentos(pageable: Pageable) {
         const options = new RequestOptions({ params: pageable });
-        return this.http.get(this.listPagamentosUrl, options);
+        return this.http.get(this.pagamentosUrl, options);
     }
+
+    listarNomesPJs() {
+        return this.http.get(this.listNomesPessoasJuridicas);
+    }
+
+
 }

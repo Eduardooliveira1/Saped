@@ -1,1 +1,16 @@
-<h1>TESTE</h1>
+<body class="background-component-white">
+<h2 class="titulo-pagina title-color" >
+    Relatórios Pagamento
+</h2>
+<div class="ui-g">
+
+    <div class="ui-g-12 md-12 labeled-dropdown filled" >
+        <p-dropdown [required]="true" [showClear]="true" [options]="dropDownNomePessoaJuridica" placeholder="Selecione"></p-dropdown>
+    </div>
+    <div class="ui-g-6">
+        <div class="ui-g-12 ui-md-12 ui-lg-4 float-right">
+            <button pButton type="button" (click)="novaEmpresa()" label="Nova Empresa" [icon]="'ui-icon-plus'"></button>
+        </div>
+    </div>
+</div>
+</body>
