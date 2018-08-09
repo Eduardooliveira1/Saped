@@ -1,6 +1,8 @@
 package br.gov.mme.enumeration;
 
-public enum FlNotificacao {
+import java.io.Serializable;
+
+public enum FlNotificacao implements Serializable {
     N(Boolean.FALSE),S(Boolean.TRUE);
     private final Boolean flag;
 

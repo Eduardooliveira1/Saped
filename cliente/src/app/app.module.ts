@@ -34,6 +34,7 @@ import { DiarioErrosComponent } from './diario-erros/diario-erros.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { SecuredLayoutComponent } from './layouts/secured-layout/secured-layout.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { CadastrarCobrancaComponent } from './cadastrar-cobranca/cadastrar-cobranca/cadastrar-cobranca.component';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -71,7 +72,7 @@ import { LoginLayoutComponent } from './layouts/login-layout/login-layout.compon
     DiarioErrosComponent,
     InicioComponent,
     SecuredLayoutComponent,
-    LoginLayoutComponent
+    LoginLayoutComponent,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

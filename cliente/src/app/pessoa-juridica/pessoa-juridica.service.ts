@@ -51,4 +51,10 @@ export class PessoaJuridicaService {
         return copy;
     }
 
+    listarTodas() {
+        return this.http.get(`${this.searchUrl}/${'todas'}`).map((res: Response) => {
+            return res.json();
+        });
+    }
+
 }
