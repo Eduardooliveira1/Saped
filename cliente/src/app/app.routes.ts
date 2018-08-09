@@ -14,7 +14,8 @@ export const routes: Routes = [
   { path: 'login-success', component: LoginSuccessComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'diario-erros', component: DiarioErrosComponent },
-  {path:  'pessoa-juridica',loadChildren: 'app/pessoa-juridica/pessoa-juridica.module#PessoaJuridicaModule'}
+  {path:  'pessoa-juridica',loadChildren: 'app/pessoa-juridica/pessoa-juridica.module#PessoaJuridicaModule'},
+  {path:  'comunicação',loadChildren: 'app/comunicacao/comunicacao.module#ComunicacaoModule'}
   /* jhipster-needle-add-lazy-module - JHipster will add lazy modules here */
 ];
 
