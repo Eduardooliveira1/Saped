@@ -56,7 +56,7 @@ public class PessoaJuridica implements Serializable {
     private String senhaAcesso;
 
     @OneToMany(mappedBy = "pessoaJuridica", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Representante> representantes;
+    private List<Representante> representantes;
 
     public Long getId() {
         return id;

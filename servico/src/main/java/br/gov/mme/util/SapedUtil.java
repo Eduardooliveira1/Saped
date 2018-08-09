@@ -3,13 +3,14 @@ package br.gov.mme.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SapedUtil {
+public final class SapedUtil {
 
-    public static <T> List<T> instanciarLista(List<T> list) {
-        if (list == null) {
-            list = new ArrayList<T>();
+    private SapedUtil() { }
+
+    public static <T> List<T> instanciarLista(List<T> lista) {
+        if (lista == null) {
+            lista = new ArrayList<T>();
         }
-        return list;
+        return lista;
     }
-
 }

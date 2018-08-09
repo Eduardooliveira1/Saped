@@ -13,7 +13,6 @@ public class TelefoneDTO implements Serializable {
     private BigDecimal ddd;
     private BigDecimal telefone;
     private FlStatus status;
-    private String telefoneDdd;
 
     public TelefoneDTO() {
     }
@@ -61,11 +60,4 @@ public class TelefoneDTO implements Serializable {
         this.status = status;
     }
 
-    public String getTelefoneDdd() {
-        return this.ddd.toString()+this.telefone.toString();
-    }
-
-    public void setTelefoneDdd(String telefoneDdd) {
-        this.telefoneDdd = telefoneDdd;
-    }
 }

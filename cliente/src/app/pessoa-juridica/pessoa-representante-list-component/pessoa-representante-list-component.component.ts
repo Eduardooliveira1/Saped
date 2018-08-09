@@ -101,7 +101,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
   incluirRepresentante() {
     this.submitedForm = true;
 
-    if (this.form.valid && this.telefone[0].ddd && this.telefone[0].telefone) {
+    if(this.form.valid && this.telefoneIsValid()) {
       this.confirmationService.confirm({
         message: MensagensUtils.REPRESENTANTE_CONFIRMACAO_INCLUSAO,
         acceptLabel: MensagensUtils.SIM,
@@ -112,7 +112,6 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
           if(!this.telefone[control.length-1].ddd || !this.telefone[control.length-1].telefone) {
             this.removeUltimoItemDaListaTelefone();
           }
-          this.unificaTelefone(this.telefone);
           this.pessoaRepresentate.telefone = this.telefone;
           this.listaRepresentantes.push(this.pessoaRepresentate);
           this.pessoaRepresentate = new PessoaRepresentante();
@@ -147,14 +146,8 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     this.telefone = [];
     this.telefone.push(new Telefone);
     this.mostrarModalInserirRepresetante=false;
-    this.formDinamico.reset();
+    this.buildFormDinamico();
 
-  }
-  unificaTelefone( telefones: Telefone[] ) {
-    for(let tel of telefones)
-    {
-      tel.telefoneDdd = tel.ddd + tel.telefone;
-    }
   }
 
   removeUltimoItemDaListaTelefone() {

@@ -17,35 +17,18 @@ public class PessoaRepresentantelistaDTO {
     public PessoaRepresentantelistaDTO() {
     }
 
-    public PessoaRepresentantelistaDTO(Long id,
-                                       String nome,
-                                       String cargo,
-                                       FlNotificacao notificacao,
-                                       String email,
-                                       List<TelefoneDTO> telefone) {
+    public PessoaRepresentantelistaDTO(Long id,String nome,String cargo,FlNotificacao notificacao,String email, List<TelefoneDTO> telefone) {
         this.id = id;
         this.nome = nome;
         this.cargo = cargo;
         this.notificacao = notificacao;
         this.email = email;
-        this.telefone = telefone;
+        this.telefone = SapedUtil.instanciarLista(telefone);
 
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public List<TelefoneDTO> getTelefone() {
+        return SapedUtil.instanciarLista(telefone);
     }
 
     public String getCargo() {
@@ -56,12 +39,24 @@ public class PessoaRepresentantelistaDTO {
         this.cargo = cargo;
     }
 
-    public FlNotificacao getNotificacao() {
-        return notificacao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNotificacao(FlNotificacao notificacao) {
-        this.notificacao = notificacao;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTelefone(List<TelefoneDTO> telefone) {
+        this.telefone = SapedUtil.instanciarLista(telefone);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -72,11 +67,11 @@ public class PessoaRepresentantelistaDTO {
         this.email = email;
     }
 
-    public List<TelefoneDTO> getTelefone() {
-        return SapedUtil.instanciarLista(telefone);
+    public FlNotificacao getNotificacao() {
+        return notificacao;
     }
 
-    public void setTelefone(List<TelefoneDTO> telefone) {
-        this.telefone = SapedUtil.instanciarLista(telefone);
+    public void setNotificacao(FlNotificacao notificacao) {
+        this.notificacao = notificacao;
     }
 }

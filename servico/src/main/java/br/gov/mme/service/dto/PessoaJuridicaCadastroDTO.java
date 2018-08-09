@@ -26,7 +26,7 @@ public class PessoaJuridicaCadastroDTO {
         this.sigla = sigla;
         this.nomeFantasia = nomeFantasia;
         this.razaoSocial = razaoSocial;
-        this.representantes = SapedUtil.instanciarLista(representantes);
+        this.representantes =  SapedUtil.instanciarLista(representantes);
     }
 
     public PessoaJuridicaCadastroDTO() {
