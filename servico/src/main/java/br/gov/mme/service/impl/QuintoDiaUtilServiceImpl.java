@@ -38,7 +38,7 @@ public class QuintoDiaUtilServiceImpl implements QuintoDiaUtilService {
 
      private Calendar setaDia( Calendar calendario, int dia, int mes, int ano) {
          calendario.set(Calendar.YEAR, ano);
-         calendario.set(Calendar.MONTH, mes);
+         calendario.set(Calendar.MONTH, mes-1 );
          calendario.set(Calendar.DAY_OF_MONTH, dia);
          return calendario;
      }

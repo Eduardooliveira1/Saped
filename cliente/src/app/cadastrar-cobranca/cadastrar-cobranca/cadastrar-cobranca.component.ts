@@ -24,9 +24,6 @@ export class CadastrarCobrancaComponent implements OnInit {
   anosCobranca: SelectItem[];
   listaCobrancas: Cobranca[] = [];
 
-  faPrint = faPrint;
-  faTimesCircle = faTimesCircle;
-
   mostrarModalEmitirCobranca = false;
   emitirCobrancaCheckBox = false;
   
@@ -44,10 +41,11 @@ export class CadastrarCobrancaComponent implements OnInit {
                           {acaoGerar:'Emitir', id:'5', ano:'2013', mesReferencia: 'Maio',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
                           {acaoGerar:'Emitir', id:'6', ano:'2014', mesReferencia: 'Junho',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
                           {acaoGerar:'Emitir', id:'7', ano:'2015', mesReferencia: 'Julho',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
-                          {acaoGerar:'Emitir', id:'8', ano:'2016', mesReferencia: 'Setembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
-                          {acaoGerar:'Emitir', id:'9', ano:'2017', mesReferencia: 'Outubro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
-                          {acaoGerar:'Emitir', id:'10', ano:'2018', mesReferencia: 'Novembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
-                          {acaoGerar:'Emitir', id:'11', ano:'2019', mesReferencia: 'Dezembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'}];
+                          {acaoGerar:'Emitir', id:'8', ano:'2016', mesReferencia: 'Agosto',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+                          {acaoGerar:'Emitir', id:'9', ano:'2017', mesReferencia: 'Setembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+                          {acaoGerar:'Emitir', id:'10', ano:'2018', mesReferencia: 'Outubro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+                          {acaoGerar:'Emitir', id:'11', ano:'2019', mesReferencia: 'Novembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+                          {acaoGerar:'Emitir', id:'12', ano:'2000', mesReferencia: 'Dezembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'}];
 
     this.obterPessoasuridicas();
     this.obterAnosCobranca();
