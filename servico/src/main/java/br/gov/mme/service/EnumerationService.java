@@ -8,8 +8,6 @@ public interface EnumerationService {
 
     List<EnumerationDTO> getAllTipoEndereco();
 
-    List<EnumerationDTO> getAllNomesPjs();
-
     List<EnumerationDTO> getAllStatusBoleto();
 
 }

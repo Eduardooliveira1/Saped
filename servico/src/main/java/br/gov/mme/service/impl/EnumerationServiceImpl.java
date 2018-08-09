@@ -2,7 +2,6 @@ package br.gov.mme.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,6 @@ import br.gov.mme.enumeration.TpStatusBoleto;
 import br.gov.mme.service.EnumerationService;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.EnumerationDTO;
-import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
 import br.gov.mme.service.mapper.EnumerationMapper;
 
 @Service
@@ -32,16 +30,6 @@ public class EnumerationServiceImpl implements EnumerationService {
     @Override
     public List<EnumerationDTO> getAllTipoEndereco() {
         return this.getAllBase(TpEndereco.class);
-    }
-
-    @Override
-    public List<EnumerationDTO> getAllNomesPjs() {
-        Set<ListaNomePessoaJuridicaDTO> listaNomesDTO = pessoaJuridicaService.getNomesPessoasJuridicas();
-        List<EnumerationDTO> enumDTOList = new ArrayList<>();
-        listaNomesDTO.forEach(nome -> {
-            enumDTOList.add(enumerationMapper.toDto(nome));
-        });
-        return enumDTOList;
     }
 
     @Override

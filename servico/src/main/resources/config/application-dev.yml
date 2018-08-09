@@ -153,13 +153,6 @@ jhipster:
             port: 5000
             queue-size: 512
             
-# ===================================================================
-# Dynamic-Reports:
-# https://gogs.basis.com.br/Element/dynamic_exports
-# ===================================================================
-
-dynamicExports:
-  maximoRegistros: 2500
 
 # ===================================================================
 # Application specific properties

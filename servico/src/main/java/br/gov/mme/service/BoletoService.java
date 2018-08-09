@@ -2,26 +2,24 @@ package br.gov.mme.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import br.gov.mme.exceptions.CheckedInvalidArgumentException;
+import br.gov.mme.exceptions.ArquivoDeTipoInvalidoException;
 import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
-import br.gov.mme.service.dto.BoletoRelatorioPagamentoVO;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
-/**
- * Service Interface for managing Boleto.
- * 
- * @see BoletoServiceImpl
- */
+
 public interface BoletoService {
 
-    List<BoletoRelatorioPagamentoVO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro);
+    List<BoletoRelatorioPagamentoDTO> listarPagamentosRelatorio(BoletoRelatorioPagamentoFiltroDTO filtro);
 
-    byte[] getRelatorio(List<BoletoRelatorioPagamentoVO> voList)
-            throws CheckedInvalidArgumentException, RelatorioException, LeituraBufferException;
+    void getRelatorio(BoletoRelatorioPagamentoFiltroDTO filtro, HttpServletResponse response)
+            throws ArquivoDeTipoInvalidoException, RelatorioException, LeituraBufferException;
 
-    Page<BoletoRelatorioPagamentoVO> listarPagamentos(Pageable pageable);
+    Page<BoletoRelatorioPagamentoDTO> listarPagamentos(Pageable pageable);
 
 }

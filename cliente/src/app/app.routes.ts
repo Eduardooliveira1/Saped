@@ -1,3 +1,4 @@
+import { CadastrarCobrancaComponent } from './cadastrar-cobranca/cadastrar-cobranca/cadastrar-cobranca.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
@@ -15,12 +16,13 @@ export const routes: Routes = [
     path: '',
     component: SecuredLayoutComponent,
     children: [
-        { path: '', component: InicioComponent },
-        { path: 'login-success', component: LoginSuccessComponent },
-        { path: 'logout', component: LogoutComponent },
-        { path: 'diario-erros', component: DiarioErrosComponent },
-        { path: 'pessoa-juridica', loadChildren: 'app/pessoa-juridica/pessoa-juridica.module#PessoaJuridicaModule' },
-        { path: 'relatorios', loadChildren: 'app/relatorios/relatorios.module#RelatoriosModule' }
+      { path: '', component: InicioComponent },
+      { path: 'login-success', component: LoginSuccessComponent },
+      { path: 'logout', component: LogoutComponent },
+      { path: 'diario-erros', component: DiarioErrosComponent },
+      { path: 'pessoa-juridica', loadChildren: 'app/pessoa-juridica/pessoa-juridica.module#PessoaJuridicaModule' },
+      { path: 'cadastrar-cobranca', loadChildren: 'app/cadastrar-cobranca/cadastrar-cobranca.module#CadastrarCobrancaModule' },
+ { path: 'relatorios', loadChildren: 'app/relatorios/relatorios.module#RelatoriosModule' }
     ]
   },
   {

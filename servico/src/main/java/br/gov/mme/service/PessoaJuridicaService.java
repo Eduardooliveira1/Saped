@@ -1,7 +1,7 @@
 package br.gov.mme.service;
 
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
-import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 
@@ -64,11 +64,5 @@ public interface PessoaJuridicaService {
      */
     void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException;
 
-    /**
-     * Retorna um set com os nomes (cnpj + nomeFantasia) de todas as Pessoas
-     * Jurídicas
-     * 
-     */
-    Set<ListaNomePessoaJuridicaDTO> getNomesPessoasJuridicas();
-
+    List<PessoaJuridicaComboDTO> listarTodas();
 }

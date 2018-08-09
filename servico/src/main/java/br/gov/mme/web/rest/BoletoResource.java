@@ -9,9 +9,9 @@ import br.gov.mme.service.BoletoService;
 @RequestMapping("/api/")
 public class BoletoResource {
 
-    public static final String ENTITY_NAME = "boleto";
-
     private final BoletoService boletoService;
+
+    public static final String ENTITY_NAME = "boleto";
 
     public BoletoResource(BoletoService boletoService) {
         this.boletoService = boletoService;
