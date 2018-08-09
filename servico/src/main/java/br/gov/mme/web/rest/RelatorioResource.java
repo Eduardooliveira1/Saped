@@ -1,8 +1,8 @@
 package br.gov.mme.web.rest;
 
 import java.net.URISyntaxException;
-import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
-import br.gov.mme.exceptions.CheckedInvalidArgumentException;
+import br.gov.mme.exceptions.ArquivoDeTipoInvalidoException;
 import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
-import br.gov.mme.service.RelatorioService;
-import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
+import br.gov.mme.service.BoletoService;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 import br.gov.mme.web.rest.util.HeaderUtil;
 
@@ -32,23 +31,23 @@ import br.gov.mme.web.rest.util.HeaderUtil;
 @RequestMapping("/api/relatorios/")
 public class RelatorioResource {
 
-    private final RelatorioService relatorioService;
+    private final BoletoService boletoService;
 
     private final Logger log = LoggerFactory.getLogger(RelatorioResource.class);
 
-    public RelatorioResource(RelatorioService relatorioService) {
-        this.relatorioService = relatorioService;
+    public RelatorioResource(BoletoService boletoService) {
+        this.boletoService = boletoService;
     }
 
     @PostMapping("/pagamentos/exportar")
     @Timed
-    public ResponseEntity<byte[]> exportarPagamentos(@Valid @RequestBody BoletoRelatorioPagamentoFiltroDTO filtro)
+    public ResponseEntity<?> exportarPagamentos(@Valid @RequestBody BoletoRelatorioPagamentoFiltroDTO filtro,
+            HttpServletResponse response)
             throws URISyntaxException {
-        List<BoletoRelatorioPagamentoDTO> dataRel = relatorioService.converterFiltroToVO(filtro);
-
         try {
-            return ResponseEntity.ok(relatorioService.getRelatorio(dataRel));
-        } catch (RelatorioException | LeituraBufferException | CheckedInvalidArgumentException e) {
+            boletoService.getRelatorio(filtro, response);
+            return ResponseEntity.ok().build();
+        } catch (RelatorioException | LeituraBufferException | ArquivoDeTipoInvalidoException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest()
                     .headers(HeaderUtil.createFailureAlert(BoletoResource.ENTITY_NAME, e.getMessage())).body(null);

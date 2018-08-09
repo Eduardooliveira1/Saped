@@ -2,9 +2,11 @@ package br.gov.mme.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 import br.com.basis.dynamicexports.pojo.ReportObject;
+import br.gov.mme.enumeration.TpBoleto;
 
 public class BoletoRelatorioPagamentoDTO implements Serializable, ReportObject {
 
@@ -16,11 +18,21 @@ public class BoletoRelatorioPagamentoDTO implements Serializable, ReportObject {
 
     private BigDecimal valorBoleto;
 
-    private String mesReferencia;
+    private BigInteger mesReferencia;
 
     private LocalDate dataVencimento;
 
-    private LocalDate dataSegundaVia;
+    public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto,
+            BigInteger mesReferencia,
+            LocalDate dataVencimento, TpBoleto statusBoleto) {
+        super();
+        this.cnpj = cnpj;
+        this.nomeFantasia = nomeFantasia;
+        this.valorBoleto = valorBoleto;
+        this.mesReferencia = mesReferencia;
+        this.dataVencimento = dataVencimento;
+        this.statusBoleto = statusBoleto.status();
+    }
 
     private String statusBoleto;
 
@@ -48,11 +60,11 @@ public class BoletoRelatorioPagamentoDTO implements Serializable, ReportObject {
         this.valorBoleto = valorBoleto;
     }
 
-    public String getMesReferencia() {
+    public BigInteger getMesReferencia() {
         return mesReferencia;
     }
 
-    public void setMesReferencia(String mesReferencia) {
+    public void setMesReferencia(BigInteger mesReferencia) {
         this.mesReferencia = mesReferencia;
     }
 
@@ -62,14 +74,6 @@ public class BoletoRelatorioPagamentoDTO implements Serializable, ReportObject {
 
     public void setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
-    }
-
-    public LocalDate getDataSegundaVia() {
-        return dataSegundaVia;
-    }
-
-    public void setDataSegundaVia(LocalDate dataSegundaVia) {
-        this.dataSegundaVia = dataSegundaVia;
     }
 
     public String getStatusBoleto() {

@@ -109,6 +109,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>br.gov.nuvem</groupId>
+			<artifactId>dynamic-exports</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<dependency>
 			<groupId>com.github.sbrannen</groupId>
 			<artifactId>spring-test-junit5</artifactId>
 			<version>1.2.0</version>
@@ -399,13 +404,7 @@
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- reports basis -->
-		<dependency>
-			<groupId>br.gov.nuvem</groupId>
-			<artifactId>dynamic-exports</artifactId>
-			<version>1.0.3</version>
-		</dependency>
-		
+
 	</dependencies>
 
 	<build>

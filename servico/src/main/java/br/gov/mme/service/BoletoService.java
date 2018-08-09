@@ -2,22 +2,19 @@ package br.gov.mme.service;
 
 import java.util.List;
 
-import br.gov.mme.exceptions.CheckedInvalidArgumentException;
+import javax.servlet.http.HttpServletResponse;
+
+import br.gov.mme.exceptions.ArquivoDeTipoInvalidoException;
 import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 
-/**
- * Service Interface for managing Boleto.
- * 
- * @see BoletoServiceImpl
- */
 public interface BoletoService {
 
-    List<BoletoRelatorioPagamentoDTO> converterFiltroToVO(BoletoRelatorioPagamentoFiltroDTO filtro);
+    List<BoletoRelatorioPagamentoDTO> listarPagamentosRelatorio(BoletoRelatorioPagamentoFiltroDTO filtro);
 
-    byte[] getRelatorio(List<BoletoRelatorioPagamentoDTO> voList)
-            throws CheckedInvalidArgumentException, RelatorioException, LeituraBufferException;
+    void getRelatorio(BoletoRelatorioPagamentoFiltroDTO filtro, HttpServletResponse response)
+            throws ArquivoDeTipoInvalidoException, RelatorioException, LeituraBufferException;
 
 }
