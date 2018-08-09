@@ -5,6 +5,7 @@ import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.web.rest.util.HeaderUtil;
 import br.gov.mme.web.rest.util.PaginationUtil;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * REST controller for managing PessoaJuridicaResource.
@@ -55,6 +57,13 @@ public class PessoaJuridicaResource {
         Page<PessoaJuridicaListaDTO> page = pessoaJuridicaService.listarPessoasJuridicas(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pessoas-juridicas");
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/pessoas-juridicas/todas")
+    @Timed
+    public ResponseEntity<List<PessoaJuridicaComboDTO>> listarTodas() {
+        List<PessoaJuridicaComboDTO> result = pessoaJuridicaService.listarTodas();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/pessoa-juridica/{id}")

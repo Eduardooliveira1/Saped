@@ -1,0 +1,85 @@
+<div class="ui-g-12 scrol">
+  <h2 class="titulo-pagina">
+    Cadastrar Cobranças
+  </h2>
+  <div class="ui-g-12">
+    <div class="ui-g-6">
+      <div class="ui-g-8">
+          <div class="ui-g-4">
+            <span>Empresa:</span>
+          </div>
+          <div class="ui-g-8">  
+            <p-dropdown [required]="true" [showClear]="true" [options]="pessoasJuridicasCadastradas" placeholder="Selecione"></p-dropdown>
+          </div>
+      </div>
+      <div class="ui-g-4">
+        <div class="ui-g-4">
+            <span>Ano:</span>
+          </div>
+          <div class="ui-g-8">
+              <p-dropdown [required]="true" [showClear]="true" [options]="anosCobranca" [(ngModel)]="anoReferencia" (ngModelChange)="bucarQuintosDiasUteis($event)" placeholder="Selecione" ></p-dropdown>
+          </div>
+      </div>
+    </div>
+    <div class="ui-g-6 linhar-direita-botoes-acao ">
+      <div class="ui-g-5 linhar-direita-botoes-acao ">
+          <button pButton type="button" (click)="adiantarPagamento()" label="Adiantar Pagamento"></button>
+      </div>
+      <div class="ui-g-3 linhar-direita-botoes-acao ">
+          <button pButton type="button" (click)="emitirTudo()" label="Emitir Tudo"></button>
+      </div>
+      <div class="ui-g-3 linhar-direita-botoes-acao">
+          <button pButton type="button" icon="ui-icon-file-download" (click)="exportar()" label="Exportar"></button>
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <p-dataTable #dataTable  [immutable]="false" [rows]="12" [responsive]="true"  [lazy]="true"
+      [totalRecords]="listaCobrancas.length"  [value]="listaCobrancas" class="centralizar-texto" emptyMessage="Nenhum resultado encontrado.">
+        <p-column field="mesReferencia" header="Referência"></p-column>
+        <p-column field="dataVencimento" header="Data Vencimento"></p-column>
+        <p-column field="dataPagamento" header="Data Pagamento"></p-column>
+        <p-column field="dataSegundaVia" header="Data 2ª Via"></p-column>
+        <p-column field="valor" header="Valor">
+          <ng-template let-col let-row="rowData" pTemplate="body">
+            <input id="input" [disabled]="true"  class="centralizar-texto-input-valor " type="text" size="11" pInputText [(ngModel)]="row.valor" > 
+          </ng-template>
+        </p-column>
+
+        <p-column field="gerar" header="Gerar">
+          <ng-template  let-row="rowData" pTemplate="body">
+            <button  *ngIf="row.acaoGerar == 'Emitir' || row.acaoGerar == '2ª Via'" pButton [ngClass]="{'segunda-via':row.acaoGerar == '2ª Via'}" type="button" [disabled]="botaoGerar(row)"  (click)="gerarCobranca()" [label]="row.acaoGerar"></button>
+          </ng-template>
+        </p-column>
+        <p-column header="Ações">
+          <ng-template  let-row="rowData"  pTemplate="body">
+            <i class="material-icons" (click)="imprimirCobranca(row.id)">print</i>
+            <i class="material-icons deletar-cobranca-icon" (click)="deletarCobranca(row.id)">highlight_off</i>
+          </ng-template>
+        </p-column >
+        <p-column field="status" header="Status"  ></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="CONFIRMAR EMISSÃO" [(visible)]="mostrarModalEmitirCobranca" [modal]="true" [responsive]="true" [width]="350">
+  <div class="ui-g-12">
+      <span>Deseja realmente emitir este boleto?</span>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-1">
+        <p-checkbox [(ngModel)]="emitirCobrancaCheckBox"  binary="true" ></p-checkbox>
+    </div>
+    <div class="ui-g-11">
+        <span>Emitir sem juros</span>
+    </div>
+  </div>
+
+  <p-footer>
+      <button type="button" class="ui-button-secondary" pButton  (click)="cancelar()" label="Cancelar"></button>
+      <button type="button" pButton icon="ui-icon-receipt" class="botao-modal-emitir-cobranca" (click)="emitirCobranca()" label="Emitir" ></button>
+  </p-footer>
+</p-dialog>
+
+ 
