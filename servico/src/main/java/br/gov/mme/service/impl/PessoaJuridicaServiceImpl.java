@@ -12,6 +12,7 @@ import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.util.ValidatorUtils;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -128,5 +130,10 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         if (id != null) {
             throw new CreatePJWithExistentIdException();
         }
+    }
+
+    @Override
+    public List<PessoaJuridicaComboDTO> listarTodas() {
+        return pessoaJuridicaRepository.listarTodas();
     }
 }

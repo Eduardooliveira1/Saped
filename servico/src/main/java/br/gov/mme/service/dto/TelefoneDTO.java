@@ -2,9 +2,12 @@ package br.gov.mme.service.dto;
 
 import br.gov.mme.enumeration.FlStatus;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class TelefoneDTO {
+public class TelefoneDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private BigDecimal ddd;
