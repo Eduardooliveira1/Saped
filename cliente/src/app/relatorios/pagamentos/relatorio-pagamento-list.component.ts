@@ -11,7 +11,6 @@ import {RelatoriosService} from '../relatorios.service';
 import {CustomUtils} from '../../util/custom-utils';
 import { EnumService } from '../../shared/enum.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ValidateCnpj} from '../../shared/validators/cnpj.validator';
 
 
 @Component({
@@ -27,6 +26,7 @@ export class RelatorioPagamentoListComponent implements OnInit, OnChanges {
     result: Page<FiltroRelatorioPagamentos>;
     filtro: FiltroRelatorioPagamentos;
     dropDownNomePessoaJuridica: SelectItem[];
+    dropDownStatusBoleto: SelectItem[];
     msgPadraoCampoObrigatorio = MensagensUtils.CAMPO_OBRIGATORIO;
     submittedForm = false;
 
@@ -44,7 +44,7 @@ export class RelatorioPagamentoListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        this.createDropDown();
+        this.createDropDowns();
     }
 
     listarPagamentos() {
@@ -62,9 +62,13 @@ export class RelatorioPagamentoListComponent implements OnInit, OnChanges {
             });
     }
 
-    createDropDown() {
+    createDropDowns() {
         this.enumService.listarEnum(EnumService.SERVICO_LIST_NOMES_PJ).subscribe(result => {
             this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
+                CustomUtils.CAMPO_VALOR_PADRAO);
+        });
+        this.enumService.listarEnum(EnumService.STATUS_BOLETO).subscribe(result => {
+            this.dropDownStatusBoleto = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
                 CustomUtils.CAMPO_VALOR_PADRAO);
         });
     }
@@ -72,6 +76,7 @@ export class RelatorioPagamentoListComponent implements OnInit, OnChanges {
     buildReactiveForm() {
         this.form = this.formBuilder.group({
             idsPJs: new FormControl('', ),
+            statusboleto: new FormControl('', ),
             valorBoleto: new FormControl('', ),
             mesReferencia: new FormControl('', ),
             dataVencimento: new FormControl('', )

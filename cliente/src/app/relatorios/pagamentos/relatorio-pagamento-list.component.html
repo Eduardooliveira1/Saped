@@ -1,43 +1,46 @@
 <body class="background-component-white">
-    <h2 class="titulo-pagina title-color">
-        Relatórios Pagamento
-    </h2>
+<h2 class="titulo-pagina title-color">
+    Relatórios Pagamento
+</h2>
 
-    <div class="ui-g-12 md-12">
-        <div class="ui-g-5 md-5 ">
-            Empresa:
-        </div>
-        <div class="ui-g-2 md-2">
-          Data Vencimento:
-        </div>
-        <div class="ui-g-2 md-2">
-          Valor
-      </div>
-       <div class="ui-g-1 md-2">
-          Status
-      </div>
-       <div class="ui-g-2 md-2">
-          Mês Referência
-       </div>
+<div class="ui-g-12 md-12">
+    <div class="ui-g-5 md-5 ">
+        Empresa:
     </div>
-    <div class="ui-g-12 md-12">
-        <form [formGroup]="form">
-            <div class="ui-g-5 md-5 filled ui-multiselect-label-container">
-                <p-multiSelect  [options]="dropDownNomePessoaJuridica"  [defaultLabel] ="'selecione'"
-                                formControlName="idsPJs" ></p-multiSelect>
-            </div>
-            <span class="ui-g-2 md-2 md-inputfield">
+    <div class="ui-g-2 md-2">
+        Data Vencimento:
+    </div>
+    <div class="ui-g-2 md-2">
+        Valor
+    </div>
+    <div class="ui-g-1 md-2">
+        Status
+    </div>
+    <div class="ui-g-2 md-2">
+        Mês Referência
+    </div>
+</div>
+<div class="ui-g-12 md-12">
+    <form [formGroup]="form">
+        <div class="ui-g-5 md-5 filled ui-multiselect-label-container">
+            <p-multiSelect  [options]="dropDownNomePessoaJuridica"  [defaultLabel] ="'selecione'"
+                            formControlName="idsPJs" ></p-multiSelect>
+        </div>
+        <span class="ui-g-2 md-2 md-inputfield">
             <app-custom-input-text [maxLength]="100" [label]="'data Vencimento'" [errorMessage]="msgPadraoCampoObrigatorio"
                                    [showErrorMessageAfterSubmitForm]="submittedForm" formControlName="dataVencimento"
                                    [(ngModel)]="filtro.dataVencimento">
             </app-custom-input-text>
         </span>
-            <span class="ui-g-2 md-2 md-inputfield">
+        <span class="ui-g-2 md-2 md-inputfield">
             <app-custom-input-text [maxLength]="100" [label]="'Valor'" [errorMessage]="msgPadraoCampoObrigatorio"
                                    [showErrorMessageAfterSubmitForm]="submittedForm" formControlName="valorBoleto"
                                    [(ngModel)]="filtro.valorBoleto">
             </app-custom-input-text>
         </span>
-        </form>
-    </div>
+        <span class="ui-g-1 md-1 filled ui-dropdown-label">
+                <p-dropdown [required]="true"  [options]="dropDownStatusBoleto" formControlName="statusBoleto"></p-dropdown>
+        </span>
+    </form>
+</div>
 </body>
