@@ -5,10 +5,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
-import br.com.basis.dynamicexports.pojo.ReportObject;
 import br.gov.mme.enumeration.TpBoleto;
 
-public class BoletoRelatorioPagamentoDTO implements Serializable, ReportObject {
+public class BoletoRelatorioPagamentoDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +24,6 @@ public class BoletoRelatorioPagamentoDTO implements Serializable, ReportObject {
     public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto,
             BigInteger mesReferencia,
             LocalDate dataVencimento, TpBoleto statusBoleto) {
-        super();
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
         this.valorBoleto = valorBoleto;
