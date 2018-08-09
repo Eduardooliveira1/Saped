@@ -5,6 +5,9 @@ export class Cobranca{
     public dataSegundaVia: string;
     public valor: string;
     public status: string;
+    public ano: string;
+    public id: string;
+    public acaoGerar: string;
     constructor(
     ){
         

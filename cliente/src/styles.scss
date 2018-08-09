@@ -333,7 +333,36 @@ body .ui-dialog .ui-dialog-titlebar {
     color: red;
 }
 
-.centralizar {
+.linhar-direita-botoes-acao {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 4px;
 }
+
+.layout-content {
+    overflow: auto;
+}
+
+.botao-modal-emitir-cobranca.ui-button {
+    background-color: #2C6C69 !important;
+    color: #e8e8e8 !important;
+}
+
+/*ícone botão emitir*/
+body .ui-dialog .ui-dialog-footer .ui-button .fa {
+    color: #e8e8e8;
+}
+
+.segunda-via.ui-button{
+    background-color:#C13C3C;
+}
+
+.emtir.ui-button{
+    background-color:#2C6C69;
+}
+
+.centralizar-texto  .ui-datatable .ui-datatable-thead > tr th, .centralizar-texto  .ui-datatable .ui-datatable-data > tr td{
+    text-align: center !important;
+}
+
+

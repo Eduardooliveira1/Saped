@@ -73,7 +73,6 @@ import { CadastrarCobrancaComponent } from './cadastrar-cobranca/cadastrar-cobra
     InicioComponent,
     SecuredLayoutComponent,
     LoginLayoutComponent,
-    CadastrarCobrancaComponent
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
