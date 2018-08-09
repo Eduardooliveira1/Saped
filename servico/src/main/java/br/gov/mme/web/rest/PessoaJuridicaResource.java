@@ -1,12 +1,16 @@
 package br.gov.mme.web.rest;
 
+import br.gov.mme.exceptions.CnpjInvalidoException;
+import br.gov.mme.exceptions.CreatePJWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.errors.BadRequestAlertException;
 import br.gov.mme.web.rest.util.HeaderUtil;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import com.codahale.metrics.annotation.Timed;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -39,6 +43,8 @@ public class PessoaJuridicaResource {
 
     public static final String ENTITY_NAME = "pessoa-juridica";
 
+    private final Logger log = LoggerFactory.getLogger(PessoaJuridicaResource.class);
+
     public PessoaJuridicaResource(PessoaJuridicaService pessoaJuridicaService) {
         this.pessoaJuridicaService = pessoaJuridicaService;
     }
@@ -60,37 +66,51 @@ public class PessoaJuridicaResource {
 
     @PostMapping("/pessoa-juridica")
     @Timed
-    public ResponseEntity<PessoaJuridicaCadastroDTO> cadastrarPessoaJuridica(@Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
-
-        if (pessoaJuridica.getId() != null) {
-            throw new BadRequestAlertException("Um novo registro não pode ter um ID", ENTITY_NAME, "idexists");
+    public ResponseEntity<PessoaJuridicaCadastroDTO> cadastrarPessoaJuridica(
+            @Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
+        try {
+            pessoaJuridicaService.verificaExistenciaNovaPJ(pessoaJuridica.getId());
+            PessoaJuridicaCadastroDTO result;
+            result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
+            return ResponseEntity.created(new URI("/api/pessoa-juridica/" + result.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                    .body(result);
+        } catch (CnpjInvalidoException | CreatePJWithExistentIdException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
+                    ENTITY_NAME, e.getMessage())).body(null);
         }
-
-        PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
-        return ResponseEntity.created(new URI("/api/dirigentes/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
     }
 
     @PutMapping("/pessoa-juridica")
     @Timed
-    public ResponseEntity<PessoaJuridicaCadastroDTO> atualizarPessoaJuridica(@Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
-
+    public ResponseEntity<PessoaJuridicaCadastroDTO> atualizarPessoaJuridica(
+            @Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
         if (pessoaJuridica.getId() == null) {
             return cadastrarPessoaJuridica(pessoaJuridica);
         }
-
-        PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+        try {
+            PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
+            return ResponseEntity.ok()
+                    .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId()
+                            .toString())).body(result);
+        } catch (CnpjInvalidoException | CreatePJWithExistentIdException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
+                    ENTITY_NAME, e.getMessage())).body(null);
+        }
     }
 
     @DeleteMapping("/pessoa-juridica/{id}")
     @Timed
-    public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(
-            @PathVariable("id") Long id) {
-        pessoaJuridicaService.excluirPessoaJuridica(id);
+    public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(@PathVariable("id") Long id) {
+        try {
+            pessoaJuridicaService.excluirPessoaJuridica(id);
+        } catch (DeleteInexistentPJException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, e.getMessage()))
+                    .body(null);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

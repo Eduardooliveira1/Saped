@@ -4,7 +4,7 @@ import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {PessoaRepresentanteMapper.class})
 public interface PessoaJuridicaMapper  {
 
     PessoaJuridica toEntity(PessoaJuridicaCadastroDTO dto);
