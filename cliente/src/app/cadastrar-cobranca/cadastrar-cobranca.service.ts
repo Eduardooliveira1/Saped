@@ -10,7 +10,7 @@ export class CadastarCobrancaService {
 
     constructor(private http: HttpService) { }
 
-    obterQuintosDiasUtis(ano: String) {
+    obterQuintosDiasUtis(ano: string) {
         return this.http.get(`${this.searchUrl}/${ano}`).map((res: Response) => {
             return res.json();
         });
