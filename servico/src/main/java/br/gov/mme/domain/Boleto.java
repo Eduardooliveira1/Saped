@@ -2,7 +2,6 @@ package br.gov.mme.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -28,9 +27,8 @@ public class Boleto implements Serializable {
     @Column(name = "pk_Boleto")
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "fk_Boleto_Adiantamento", referencedColumnName = "pk_Boleto")
-    @NotNull
     private Boleto boletoAdiantamento;
 
     @ManyToOne(optional = false)
@@ -40,13 +38,11 @@ public class Boleto implements Serializable {
 
     @Digits(integer = 2, fraction = 0)
     @Column(name = "mm_Referencia")
-    @NotNull
-    private BigInteger mesReferencia;
+    private Integer mesReferencia;
 
     @Digits(integer = 4, fraction = 0)
     @Column(name = "aa_Referencia")
-    @NotNull
-    private BigInteger anoReferencia;
+    private Integer anoReferencia;
 
     @Column(name = "tp_Boleto", length = 2, columnDefinition = "char(2)")
     @Enumerated(EnumType.STRING)
@@ -55,13 +51,24 @@ public class Boleto implements Serializable {
 
     @Digits(integer = 17, fraction = 0)
     @Column(name="nr_Nosso_Numero")
-    @NotNull
-    private BigInteger nossoNumero;
+    private Long nossoNumero;
 
-    @Column(name = "vlBoleto")
+    @Digits(integer = 1, fraction = 0)
+    @Column(name = "dv_Nosso_Numero")
+    private Integer dvNossoNumero;
+
+    @Column(name = "vl_Boleto")
     @Digits(integer = 20, fraction = 2)
     @NotNull
     private BigDecimal valorBoleto;
+
+    @Column(name = "vl_Juros")
+    @Digits(integer = 20, fraction = 2)
+    private BigDecimal juros;
+
+    @Column(name = "vl_Multa")
+    @Digits(integer = 20, fraction = 2)
+    private BigDecimal multa;
 
     @Column(name = "dt_Vencimento")
     @NotNull
@@ -71,81 +78,96 @@ public class Boleto implements Serializable {
         return id;
     }
 
-    public Boleto setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return this;
     }
 
     public Boleto getBoletoAdiantamento() {
         return boletoAdiantamento;
     }
 
-    public Boleto setBoletoAdiantamento(Boleto boletoAdiantamento) {
+    public void setBoletoAdiantamento(Boleto boletoAdiantamento) {
         this.boletoAdiantamento = boletoAdiantamento;
-        return this;
     }
 
     public PessoaJuridica getPessoaJuridica() {
         return pessoaJuridica;
     }
 
-    public Boleto setPessoaJuridica(PessoaJuridica pessoaJuridica) {
+    public void setPessoaJuridica(PessoaJuridica pessoaJuridica) {
         this.pessoaJuridica = pessoaJuridica;
-        return this;
     }
 
-    public BigInteger getMesReferencia() {
+    public Integer getMesReferencia() {
         return mesReferencia;
     }
 
-    public Boleto setMesReferencia(BigInteger mesReferencia) {
+    public void setMesReferencia(Integer mesReferencia) {
         this.mesReferencia = mesReferencia;
-        return this;
     }
 
-    public BigInteger getAnoReferencia() {
+    public Integer getAnoReferencia() {
         return anoReferencia;
     }
 
-    public Boleto setAnoReferencia(BigInteger anoReferencia) {
+    public void setAnoReferencia(Integer anoReferencia) {
         this.anoReferencia = anoReferencia;
-        return this;
     }
 
     public TpBoleto getTpBoleto() {
         return tpBoleto;
     }
 
-    public Boleto setTpBoleto(TpBoleto tpBoleto) {
+    public void setTpBoleto(TpBoleto tpBoleto) {
         this.tpBoleto = tpBoleto;
-        return this;
     }
 
-    public BigInteger getNossoNumero() {
+    public Long getNossoNumero() {
         return nossoNumero;
     }
 
-    public Boleto setNossoNumero(BigInteger nossoNumero) {
+    public void setNossoNumero(Long nossoNumero) {
         this.nossoNumero = nossoNumero;
-        return this;
+    }
+
+    public Integer getDvNossoNumero() {
+        return dvNossoNumero;
+    }
+
+    public void setDvNossoNumero(Integer dvNossoNumero) {
+        this.dvNossoNumero = dvNossoNumero;
     }
 
     public BigDecimal getValorBoleto() {
         return valorBoleto;
     }
 
-    public Boleto setValorBoleto(BigDecimal valorBoleto) {
+    public void setValorBoleto(BigDecimal valorBoleto) {
         this.valorBoleto = valorBoleto;
-        return this;
+    }
+
+    public BigDecimal getJuros() {
+        return juros;
+    }
+
+    public void setJuros(BigDecimal juros) {
+        this.juros = juros;
+    }
+
+    public BigDecimal getMulta() {
+        return multa;
+    }
+
+    public void setMulta(BigDecimal multa) {
+        this.multa = multa;
     }
 
     public LocalDate getDataVencimento() {
         return dataVencimento;
     }
 
-    public Boleto setDataVencimento(LocalDate dataVencimento) {
+    public void setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
-        return this;
     }
 
 }

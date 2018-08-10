@@ -1,9 +1,7 @@
 package br.gov.mme.repository;
 
-import br.gov.mme.domain.PessoaJuridica;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
-import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +10,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
+import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
 
 @Repository
 public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, Long>, JpaSpecificationExecutor<PessoaJuridica> {
@@ -35,5 +37,7 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
     @Query("select new br.gov.mme.service.dto.PessoaJuridicaComboDTO(p.id, p.nomeFantasia) from PessoaJuridica p where p.pessoa.status = 'S' order by p.nomeFantasia" )
     List<PessoaJuridicaComboDTO> listarTodas();
 
+    @Query("select new br.gov.mme.service.dto.PessoaJuridicaNomeDTO(p.id, p.cnpj, p.nomeFantasia) from PessoaJuridica p where p.pessoa.status = 'S'")
+    List<PessoaJuridicaNomeDTO> getAllNomes();
 
 }

@@ -31,13 +31,6 @@ public class EnumerationResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(enumerationDTOList));
     }
 
-    @GetMapping("/enumerations/nomes-pessoas-juridicas")
-    @Timed
-    public ResponseEntity<List<EnumerationDTO>> getAllNomePessoasJuridicas() {
-        List<EnumerationDTO> enumerationDTOList = enumerationService.getAllNomesPjs();
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(enumerationDTOList));
-    }
-    
     @GetMapping("/enumerations/status-boleto")
     @Timed
     public ResponseEntity<List<EnumerationDTO>> getAllStatusBoleto() {

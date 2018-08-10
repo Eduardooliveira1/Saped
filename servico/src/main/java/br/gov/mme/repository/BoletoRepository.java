@@ -2,11 +2,6 @@ package br.gov.mme.repository;
 
 import java.util.List;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -27,12 +22,5 @@ public interface BoletoRepository extends JpaRepository<Boleto, Long>, JpaSpecif
             + " or tpBoleto = :#{#filtro.tpBoleto}")
     List<BoletoRelatorioPagamentoDTO> listarPagamentosRelatorio(
             @Param("filtro") BoletoRelatorioPagamentoFiltroDTO filtro);
-
-    @Query("select new br.gov.mme.service.dto.BoletoRelatorioPagamentoVO(b.pessoaJuridica.cnpj," + 
-            " b.pessoaJuridica.nomeFantasia, b.valorBoleto, b.mesReferencia," + 
-          " b.dataVencimento, b.dataVencimento, b.tpBoleto)" + 
-          " from Boleto b")
-          @Enumerated(EnumType.STRING)
-    Page<BoletoRelatorioPagamentoDTO> listarPagamentosRelatorio(Pageable pageable);
 
 }

@@ -1,7 +1,8 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DropdownModule, InputTextareaModule, InputTextModule} from "primeng/primeng";
-import {CustomInputTextComponent} from "./custom-input-text/custom-input-text.component";
+import {NgModule} from '@angular/core';
+import {DropdownModule, InputTextareaModule, InputTextModule} from 'primeng/primeng';
+import {MesReferencia} from '../mes-referencia';
+import {CustomInputTextComponent} from './custom-input-text/custom-input-text.component';
 import {CustomTextareaComponent} from './custom-textarea/custom-textarea.component';
 
 @NgModule({
@@ -11,8 +12,8 @@ import {CustomTextareaComponent} from './custom-textarea/custom-textarea.compone
         InputTextareaModule,
         DropdownModule
     ],
-    declarations: [CustomInputTextComponent, CustomTextareaComponent],
-    exports:[CustomInputTextComponent, CustomTextareaComponent]
+    declarations: [CustomInputTextComponent, CustomTextareaComponent, MesReferencia],
+    exports:[CustomInputTextComponent, CustomTextareaComponent, MesReferencia]
 })
 export class CustomComponentsModule {
 }

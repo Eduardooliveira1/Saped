@@ -12,6 +12,7 @@ import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
 import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 
 /**
@@ -65,4 +66,6 @@ public interface PessoaJuridicaService {
     void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException;
 
     List<PessoaJuridicaComboDTO> listarTodas();
+
+    List<PessoaJuridicaNomeDTO> getAllNomes();
 }

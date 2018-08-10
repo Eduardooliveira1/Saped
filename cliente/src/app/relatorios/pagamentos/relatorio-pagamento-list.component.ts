@@ -1,16 +1,17 @@
-import { MensagensUtils } from '../../util/mensagens-util';
-import {DataTable, SelectItem} from 'primeng/primeng';
 import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
-import { PageNotificationService } from '@basis/angular-components';
-import { Router } from '@angular/router';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {PageNotificationService} from '@basis/angular-components';
+import {BlockUI, NgBlockUI} from 'ng-block-ui';
+import {DataTable, SelectItem} from 'primeng/primeng';
+import {EnumService} from '../../shared/enum.service';
+import {MesReferencia} from '../../shared/mes-referencia';
+import {CustomUtils} from '../../util/custom-utils';
+import {MensagensUtils} from '../../util/mensagens-util';
 import {Page} from '../../util/page';
 import {Pageable} from '../../util/pageable-request';
-import {FiltroRelatorioPagamentos} from './filtro-relatorio-pagamento';
 import {RelatoriosService} from '../relatorios.service';
-import {CustomUtils} from '../../util/custom-utils';
-import { EnumService } from '../../shared/enum.service';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FiltroRelatorioPagamentos} from './filtro-relatorio-pagamento';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class RelatorioPagamentoListComponent implements OnInit, OnChanges {
     filtro: FiltroRelatorioPagamentos;
     dropDownNomePessoaJuridica: SelectItem[];
     dropDownStatusBoleto: SelectItem[];
+    dropDownMesReferencia: SelectItem[];
     msgPadraoCampoObrigatorio = MensagensUtils.CAMPO_OBRIGATORIO;
     submittedForm = false;
 
@@ -71,6 +73,8 @@ export class RelatorioPagamentoListComponent implements OnInit, OnChanges {
             this.dropDownStatusBoleto = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
                 CustomUtils.CAMPO_VALOR_PADRAO);
         });
+        this.dropDownMesReferencia = CustomUtils.entityToDropDown(new MesReferencia(),  CustomUtils.CAMPO_LABEL_PADRAO,
+          CustomUtils.CAMPO_VALOR_PADRAO);
     }
 
     buildReactiveForm() {

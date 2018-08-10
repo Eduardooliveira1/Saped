@@ -3,7 +3,6 @@ package br.gov.mme.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
@@ -22,10 +21,10 @@ import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.util.ValidatorUtils;
 import br.gov.mme.web.rest.util.PaginationUtil;
@@ -138,6 +137,11 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     @Override
     public List<PessoaJuridicaComboDTO> listarTodas() {
         return pessoaJuridicaRepository.listarTodas();
+    }
+
+    @Override
+    public List<PessoaJuridicaNomeDTO> getAllNomes() {
+        return pessoaJuridicaRepository.getAllNomes();
     }
 
 }

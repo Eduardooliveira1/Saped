@@ -9,8 +9,8 @@ import br.gov.mme.enumeration.ConverterEnum;
 import br.gov.mme.enumeration.TpEndereco;
 import br.gov.mme.enumeration.TpStatusBoleto;
 import br.gov.mme.service.EnumerationService;
-import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.EnumerationDTO;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
 import br.gov.mme.service.mapper.EnumerationMapper;
 
 @Service
@@ -19,12 +19,9 @@ public class EnumerationServiceImpl implements EnumerationService {
 
     private final EnumerationMapper enumerationMapper;
 
-    private final PessoaJuridicaService pessoaJuridicaService;
 
-    public EnumerationServiceImpl(EnumerationMapper enumerationMapper, 
-            PessoaJuridicaService pessoaJuridicaService) {
+    public EnumerationServiceImpl(EnumerationMapper enumerationMapper) {
         this.enumerationMapper = enumerationMapper;
-        this.pessoaJuridicaService = pessoaJuridicaService;
     }
 
     @Override
@@ -42,6 +39,15 @@ public class EnumerationServiceImpl implements EnumerationService {
         for (ConverterEnum<?> enumConstant : (ConverterEnum<?>[]) enun.getEnumConstants()) {
             enumerationDTOList.add(enumerationMapper.toDto(enumConstant));
         }
+        return enumerationDTOList;
+    }
+
+    @Override
+    public List<EnumerationDTO> getAllNomesPJ(List<PessoaJuridicaNomeDTO> nomesPessoasJuridicas) {
+        List<EnumerationDTO> enumerationDTOList = new ArrayList<>();
+        nomesPessoasJuridicas.forEach(nome -> {
+            enumerationDTOList.add(enumerationMapper.toDto(nome));
+        });
         return enumerationDTOList;
     }
 

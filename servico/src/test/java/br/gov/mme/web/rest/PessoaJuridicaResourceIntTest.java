@@ -32,6 +32,7 @@ import br.gov.mme.enumeration.EntityFields;
 import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.exceptions.ExceptionMessages;
 import br.gov.mme.repository.PessoaJuridicaRepository;
+import br.gov.mme.service.EnumerationService;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
@@ -55,6 +56,9 @@ public class PessoaJuridicaResourceIntTest {
 
 	@Autowired
     private PessoaJuridicaService pessoaJuridicaService;
+
+    @Autowired
+    private EnumerationService enumerationService;
 
     @Autowired
     private PessoaJuridicaMapper pessoaJuridicaMapper;
@@ -123,7 +127,8 @@ public class PessoaJuridicaResourceIntTest {
 
     @BeforeEach
     public void setup() {
-        PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService);
+        PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService,
+                enumerationService);
 
         restPessoaJuridicaMockMvc = TestUtils.setupMockMvc(pessoaJuridicaResource, pageableArgumentResolver,
                 jacksonMessageConverter, exceptionTranslator);

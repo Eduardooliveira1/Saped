@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 
 import br.gov.mme.enumeration.ConverterEnum;
 import br.gov.mme.service.dto.EnumerationDTO;
-import br.gov.mme.service.dto.ListaNomePessoaJuridicaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
 
 @Mapper(componentModel = "spring", uses = {})
 public interface EnumerationMapper {
@@ -15,6 +15,6 @@ public interface EnumerationMapper {
 
     @Mapping(expression = "java(br.gov.mme.service.util.FormatterUtils.converterNomeEmpresaToDropdown"
             + "(listaNomesDTO.getNomeFantasia(), listaNomesDTO.getCnpj()))", target = "descricao")
-    EnumerationDTO toDto(ListaNomePessoaJuridicaDTO listaNomesDTO);
+    EnumerationDTO toDto(PessoaJuridicaNomeDTO listaNomesDTO);
 
 }
