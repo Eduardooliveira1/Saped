@@ -23,6 +23,7 @@ export class CadastrarCobrancaComponent implements OnInit {
   pessoasJuridicasCadastradas:  SelectItem[];
   anosCobranca: SelectItem[];
   listaCobrancas: Cobranca[] = [];
+  anoReferencia: String; 
 
   mostrarModalEmitirCobranca = false;
   emitirCobrancaCheckBox = false;
@@ -104,8 +105,8 @@ export class CadastrarCobrancaComponent implements OnInit {
   }
 
   bucarQuintosDiasUteis(id) {
-      let anoReferencia = this.anosCobranca[id-1].label;
-      this.cadastarCobrancaService.obterQuintosDiasUtis(anoReferencia).subscribe(result=>{
+      let anoSelecionado = this.anosCobranca[id-1].label;
+      this.cadastarCobrancaService.obterQuintosDiasUtis(anoSelecionado).subscribe(result=>{
         this.atualizaColunaQuintoDiaUtil(result)
       });
   }
