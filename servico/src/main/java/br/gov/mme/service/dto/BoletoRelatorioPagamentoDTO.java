@@ -2,7 +2,6 @@ package br.gov.mme.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDate;
 
 import br.gov.mme.enumeration.TpBoleto;
@@ -17,12 +16,14 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
 
     private BigDecimal valorBoleto;
 
-    private BigInteger mesReferencia;
+    private Integer mesReferencia;
 
     private LocalDate dataVencimento;
 
-    public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto,
-            BigInteger mesReferencia,
+    private String statusBoleto;
+
+
+    public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto, Integer mesReferencia,
             LocalDate dataVencimento, TpBoleto statusBoleto) {
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
@@ -32,20 +33,8 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
         this.statusBoleto = statusBoleto.status();
     }
 
-    private TpBoleto statusBoleto;
-    
-    public BoletoRelatorioPagamentoVO(String cnpj, String nomeFantasia, BigDecimal valorBoleto,
-            BigInteger mesReferencia, LocalDate dataVencimento, LocalDate dataSegundaVia, TpBoleto statusBoleto) {
-        this.cnpj = cnpj;
-        this.nomeFantasia = nomeFantasia;
-        this.valorBoleto = valorBoleto;
-        this.mesReferencia = mesReferencia;
-        this.dataVencimento = dataVencimento;
-        this.dataSegundaVia = dataSegundaVia;
-        this.statusBoleto = statusBoleto;
-    }
+    public BoletoRelatorioPagamentoDTO() {
 
-    public BoletoRelatorioPagamentoVO() {
     }
 
     public String getCnpj() {
@@ -72,11 +61,11 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
         this.valorBoleto = valorBoleto;
     }
 
-    public BigInteger getMesReferencia() {
+    public Integer getMesReferencia() {
         return mesReferencia;
     }
 
-    public void setMesReferencia(BigInteger mesReferencia) {
+    public void setMesReferencia(Integer mesReferencia) {
         this.mesReferencia = mesReferencia;
     }
 
