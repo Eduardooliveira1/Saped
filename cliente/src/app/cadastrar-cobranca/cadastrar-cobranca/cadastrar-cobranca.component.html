@@ -17,7 +17,7 @@
             <span>Ano:</span>
           </div>
           <div class="ui-g-8">
-              <p-dropdown [required]="true" [showClear]="true" [options]="anosCobranca" [(ngModel)]="anoReferencia" (ngModelChange)="bucarQuintosDiasUteis($event)" placeholder="Selecione" ></p-dropdown>
+              <p-dropdown [required]="true" [showClear]="true" [options]="anosCobranca" [(ngModel)]="anoReferencia" (ngModelChange)="bucarQuintosDiasUteis()" placeholder="Selecione" ></p-dropdown>
           </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
 
     <div class="ui-g-12">
       <p-dataTable #dataTable  [immutable]="false" [rows]="12" [responsive]="true"  [lazy]="true"
-      [totalRecords]="listaCobrancas.length"  [value]="listaCobrancas" class="centralizar-texto" emptyMessage="Nenhum resultado encontrado.">
+      [totalRecords]="listaCobrancas.length"  [value]="listaCobrancas" class="centralizar-texto" emptyMessage="Selecione uma pessoa jurídica e um ano.">
         <p-column field="mesReferencia" header="Referência"></p-column>
         <p-column field="dataVencimento" header="Data Vencimento"></p-column>
         <p-column field="dataPagamento" header="Data Pagamento"></p-column>
