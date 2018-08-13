@@ -42,6 +42,11 @@ export class PessoaJuridicaService {
         });
     }
 
+    obterRepresentantes(idPj: number) {
+        return this.http.get(`${this.resourceUrl}/${'representantes'}/${idPj}`).map((res: Response) => {
+            return res.json();
+        });
+    }
     remover(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }

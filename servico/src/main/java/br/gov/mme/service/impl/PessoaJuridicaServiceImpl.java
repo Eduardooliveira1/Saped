@@ -14,7 +14,9 @@ import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaRepresentantelistaDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
+import br.gov.mme.service.mapper.PessoaRepresentanteMapper;
 import br.gov.mme.service.util.ValidatorUtils;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
@@ -24,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,13 +44,17 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
 
+    private final PessoaRepresentanteMapper pessoaRepresentanteMapper;
+
     public static final String ENTITY_NAME = "pessoa-juridica";
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
-            PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
+                                     PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository,
+                                     PessoaRepresentanteMapper pessoaRepresentanteMapper) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.pessoaJuridicaMapper = pessoaJuridicaMapper;
         this.pessoaRepository = pessoaRepository;
+        this.pessoaRepresentanteMapper = pessoaRepresentanteMapper;
     }
 
     @Override
@@ -90,12 +97,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
     }
 
-    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica){
-        for(Representante representante : pessoaJuridica.getRepresentantes()){
-            if(representante.getId() == null){
+    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica) {
+        for (Representante representante : pessoaJuridica.getRepresentantes()) {
+            if (representante.getId() == null) {
                 representante.getPessoa().setStatus(FlStatus.S);
                 representante.getPessoa().setDataCadastro(LocalDateTime.now());
-            }else {
+            } else {
                 representante.setPessoa(pessoaRepository.findOne(representante.getId()));
             }
 
@@ -104,12 +111,13 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         }
     }
 
-    private void atribuiPessoaaoTelefone (Representante representante) {
-            for(Telefone telefone : representante.getTelefone()){
-                telefone.setPessoaRepresentante(representante);
-                telefone.setStatus(FlStatus.S);
-            }
+    private void atribuiPessoaaoTelefone(Representante representante) {
+        for (Telefone telefone : representante.getTelefone()) {
+            telefone.setPessoaRepresentante(representante);
+            telefone.setStatus(FlStatus.S);
+        }
     }
+
     @Override
     public PessoaJuridicaCadastroDTO obterPordId(Long id) {
         return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));
@@ -135,5 +143,17 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     @Override
     public List<PessoaJuridicaComboDTO> listarTodas() {
         return pessoaJuridicaRepository.listarTodas();
+    }
+
+    public List<PessoaRepresentantelistaDTO> obterRepresentantesPorIdPj(Long idPj) {
+        PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findOne(idPj);
+
+        List<PessoaRepresentantelistaDTO> lista = new ArrayList<PessoaRepresentantelistaDTO>();
+
+        for (Representante representante : pessoaJuridica.getRepresentantes()) {
+            lista.add(pessoaRepresentanteMapper.toDtoLista(representante));
+        }
+        
+        return lista;
     }
 }

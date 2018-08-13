@@ -7,6 +7,7 @@ import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaRepresentantelistaDTO;
 import br.gov.mme.web.rest.util.HeaderUtil;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import com.codahale.metrics.annotation.Timed;
@@ -64,6 +65,13 @@ public class PessoaJuridicaResource {
     public ResponseEntity<List<PessoaJuridicaComboDTO>> listarTodas() {
         List<PessoaJuridicaComboDTO> result = pessoaJuridicaService.listarTodas();
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/pessoa-juridica/representantes/{idPj}")
+    @Timed
+    public ResponseEntity<List<PessoaRepresentantelistaDTO>> obterPessoaRepesentantes(@PathVariable("idPj") Long idpj) throws URISyntaxException {
+        List<PessoaRepresentantelistaDTO> result = pessoaJuridicaService.obterRepresentantesPorIdPj(idpj);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/pessoa-juridica/{id}")

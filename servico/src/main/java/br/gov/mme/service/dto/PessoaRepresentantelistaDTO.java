@@ -10,21 +10,18 @@ public class PessoaRepresentantelistaDTO {
     private Long id;
     private String nome;
     private String cargo;
-    private FlNotificacao notificacao;
     private String email;
     private List<TelefoneDTO> telefone;
 
     public PessoaRepresentantelistaDTO() {
     }
 
-    public PessoaRepresentantelistaDTO(Long id,String nome,String cargo,FlNotificacao notificacao,String email, List<TelefoneDTO> telefone) {
+    public PessoaRepresentantelistaDTO(Long id,String nome,String cargo,String email, List<TelefoneDTO> telefone) {
         this.id = id;
-        this.nome = nome;
         this.cargo = cargo;
-        this.notificacao = notificacao;
         this.email = email;
         this.telefone = SapedUtil.instanciarLista(telefone);
-
+        this.nome = nome;
     }
 
     public List<TelefoneDTO> getTelefone() {
@@ -67,11 +64,4 @@ public class PessoaRepresentantelistaDTO {
         this.email = email;
     }
 
-    public FlNotificacao getNotificacao() {
-        return notificacao;
-    }
-
-    public void setNotificacao(FlNotificacao notificacao) {
-        this.notificacao = notificacao;
-    }
 }

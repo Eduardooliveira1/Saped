@@ -2,6 +2,7 @@ package br.gov.mme.service.mapper;
 
 import br.gov.mme.domain.Representante;
 import br.gov.mme.service.dto.PessoaRepresentanteCadastroDTO;
+import br.gov.mme.service.dto.PessoaRepresentantelistaDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -13,5 +14,8 @@ public interface PessoaRepresentanteMapper {
 
     @Mapping(source = "pessoa.email",target="email")
     PessoaRepresentanteCadastroDTO toDto(Representante entity);
+
+    @Mapping(source = "pessoa.email",target="email")
+    PessoaRepresentantelistaDTO toDtoLista(Representante entity);
 
 }

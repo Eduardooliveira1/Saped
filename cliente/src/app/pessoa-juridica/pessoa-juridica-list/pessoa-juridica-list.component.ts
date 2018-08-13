@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Pageable } from '../../util/pageable-request';
 import { PessoaJuridicaService } from '../pessoa-juridica.service';
-import { faUserFriends, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUserFriends, faEdit, faTrashAlt, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { DataTable, ConfirmationService } from 'primeng/primeng';
 import { Page } from '../../util/page';
 import { PessoaJuridicaLista } from './pessoa-juridica-lista.model';
@@ -28,6 +28,9 @@ export class PessoaJuridicaListComponent implements OnInit {
   faUserFriends = faUserFriends;
   faEdit = faEdit;
   faTrashAlt = faTrashAlt;
+  faWindowClose = faWindowClose;
+
+  rowexpansion: Boolean = true;
 
   constructor(private pessoaJuridicaService: PessoaJuridicaService,
     private router: Router,
@@ -36,7 +39,6 @@ export class PessoaJuridicaListComponent implements OnInit {
 
   ngOnInit() {
   }
-
   filtrar() {
     if (this.filtro && this.filtro.length >= 3) {
       this.ultimoFiltro = this.filtro;
@@ -92,4 +94,42 @@ export class PessoaJuridicaListComponent implements OnInit {
     });
   }
 
+  obtemRepresentantes(id: number, rowData) {
+    this.blockUI.start(MensagensUtils.CARREGANDO);
+    this.pessoaJuridicaService.obterRepresentantes(id).subscribe(result => {
+      this.blockUI.stop();
+      rowData.representantes = result;
+    }, error=>{
+      this.blockUI.stop();
+      this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
+    });
+  }
+
+  mostrarRepresentantes(rowData) {
+    if (!rowData.representantes) {
+      rowData.representantes = [];
+      this.obtemRepresentantes(rowData.id, rowData);
+    }
+
+    if (!this.dataTable.expandedRows) {
+      this.dataTable.expandedRows = [];
+    }
+
+    let expandedRow = null;
+
+    for (let r of this.dataTable.expandedRows) {
+      if (r.id == rowData.id) {
+        expandedRow = r;
+        break;
+      }
+    }
+
+    if (expandedRow == null) {
+      this.dataTable.expandedRows.push(rowData);
+    }
+  }
+
+  fecharListaRepresentantes(rowData) {
+    this.dataTable.expandedRows = this.dataTable.expandedRows.filter(row => row.id != rowData.id);
+  }
 }
