@@ -4787,7 +4787,7 @@ body .ui-orderlist .ui-orderlist-controls {
     margin-bottom: .5em;
     margin-right: 0; }
 body .ui-paginator {
-  background-color: #00695C;
+  background-color: #3c6a68;
   padding: 0.625em 1em; }
   body .ui-paginator > a {
     box-sizing: border-box;
@@ -4986,7 +4986,7 @@ body .ui-datatable tfoot th {
   border: 1px solid #bdbdbd;
   background-color: #ffffff; }
 body .ui-datatable .ui-datatable-data tr.ui-datatable-even {
-  background-color: #f4f4f4; }
+  background-color: #dfdfdf; }
   body .ui-datatable .ui-datatable-data tr.ui-datatable-even.ui-state-highlight {
     background-color: #CDDC39;
     color: #212121; }
