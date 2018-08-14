@@ -3161,7 +3161,7 @@
 
 body .ui-widget,
 body .ui-widget .ui-widget {
-  font-family: "Roboto","Helvetica Neue",sans-serif;
+  font-family: "Open Sans",sans-serif;
   text-decoration: none; }
 body .ui-widget-content {
   background-color: #ffffff;
@@ -3395,7 +3395,9 @@ body {
       padding: 0;
       line-height: 2.25em; }
     body .ui-button .fa, body .ui-datepicker-buttonpane > button .fa {
-      color: #ffffff; }
+      color: #ffffff; 
+      font-weight: bold;
+    }
     body .ui-button.ui-button-icon-only, body .ui-datepicker-buttonpane > button.ui-button-icon-only {
       -moz-border-radius: 50%;
       -webkit-border-radius: 50%;
@@ -6034,7 +6036,7 @@ body .ui-draggable-dragging.ui-state-default {
   padding: 0.625em 1em !important;
   background-color: #009688; }
 body .jqplot-target {
-  font-family: "Roboto","Helvetica Neue",sans-serif; }
+  font-family: "Open Sans",sans-serif; }
 body .ui-progressbar {
   height: .5em;
   background-color: #80CBC4;

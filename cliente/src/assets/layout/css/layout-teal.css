@@ -2,6 +2,20 @@
 /* Layout */
 /* Theme */
 /* Compact */
+/* Open Sans-300 - latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/OpenSans-Regular.ttf");
+}
+/* Open Sans-bold - latin */
+@font-face {
+  font-family: 'Open Sans Bold';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/OpenSans-Bold.ttf");
+}
 /* roboto-300 - latin */
 @font-face {
   font-family: 'Roboto';
