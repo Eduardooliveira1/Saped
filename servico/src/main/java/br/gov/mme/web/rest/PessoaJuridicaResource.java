@@ -3,6 +3,7 @@ package br.gov.mme.web.rest;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
+import br.gov.mme.exceptions.EntityNotExistException;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
@@ -70,7 +71,14 @@ public class PessoaJuridicaResource {
     @GetMapping("/pessoa-juridica/representantes/{idPj}")
     @Timed
     public ResponseEntity<List<PessoaRepresentantelistaDTO>> obterPessoaRepesentantes(@PathVariable("idPj") Long idpj) throws URISyntaxException {
-        List<PessoaRepresentantelistaDTO> result = pessoaJuridicaService.obterRepresentantesPorIdPj(idpj);
+        List<PessoaRepresentantelistaDTO> result = null;
+        try {
+            result = pessoaJuridicaService.obterRepresentantesPorIdPj(idpj);
+        } catch (EntityNotExistException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
+                    ENTITY_NAME, e.getMessage())).body(null);
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -96,7 +104,7 @@ public class PessoaJuridicaResource {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
                     ENTITY_NAME, e.getMessage())).body(null);
-        }
+        }   
     }
 
     @PutMapping("/pessoa-juridica")

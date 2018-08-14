@@ -8,6 +8,7 @@ import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
+import br.gov.mme.exceptions.EntityNotExistException;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
@@ -18,9 +19,12 @@ import br.gov.mme.service.dto.PessoaRepresentantelistaDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.mapper.PessoaRepresentanteMapper;
 import br.gov.mme.service.util.ValidatorUtils;
+import br.gov.mme.web.rest.PessoaJuridicaResource;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,6 +51,9 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     private final PessoaRepresentanteMapper pessoaRepresentanteMapper;
 
     public static final String ENTITY_NAME = "pessoa-juridica";
+
+    private final Logger log = LoggerFactory.getLogger(PessoaJuridicaServiceImpl.class);
+
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
                                      PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository,
@@ -145,15 +152,20 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         return pessoaJuridicaRepository.listarTodas();
     }
 
-    public List<PessoaRepresentantelistaDTO> obterRepresentantesPorIdPj(Long idPj) {
-        PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findOne(idPj);
+    public List<PessoaRepresentantelistaDTO> obterRepresentantesPorIdPj(Long idPj) throws EntityNotExistException {
+        try{
+            PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findOne(idPj);
 
         List<PessoaRepresentantelistaDTO> lista = new ArrayList<PessoaRepresentantelistaDTO>();
 
         for (Representante representante : pessoaJuridica.getRepresentantes()) {
             lista.add(pessoaRepresentanteMapper.toDtoLista(representante));
         }
-        
         return lista;
+
+        } catch (IllegalArgumentException e){
+            log.error(e.getMessage(), e);
+            throw new EntityNotExistException();
+        }
     }
 }
