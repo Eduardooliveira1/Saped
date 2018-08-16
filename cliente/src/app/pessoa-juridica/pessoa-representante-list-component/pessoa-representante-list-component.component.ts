@@ -83,13 +83,13 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     const control = <FormArray>this.formDinamico.controls['itemRows'];
     var ultimoTelefone = this.telefone[control.length-1];
 
-    return  ultimoTelefone != null && 
-            ultimoTelefone.telefone != null && 
-            ultimoTelefone.telefone.replace(/[^\d]/g, '').length == 9 && 
-            ultimoTelefone.ddd != null && 
-            ultimoTelefone.ddd.replace(/[^\d]/g, '').length == 2;
+    return  ultimoTelefone != null &&
+      ultimoTelefone.telefone != null &&
+      ultimoTelefone.telefone.replace(/[^\d]/g, '').length == 9 &&
+      ultimoTelefone.ddd != null &&
+      ultimoTelefone.ddd.replace(/[^\d]/g, '').length == 2;
   }
-  
+
   abrirModalRepresentante() {
     this.submitedForm = false;
     this.pessoaRepresentate = new PessoaRepresentante();
@@ -124,7 +124,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
         reject: () => {
           this.mostrarModalInserirRepresetante = false;
         }
-      });  
+      });
     } else {
       this.pageNotificationService.addErrorMessage(MensagensUtils.PREENCHA_CAMPOS_OBRIGATORIOS);
       return;
@@ -138,7 +138,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
       rejectLabel: MensagensUtils.NAO,
 
       accept: () => {
-        this.listaRepresentantes.splice(index, 1); 
+        this.listaRepresentantes.splice(index, 1);
       }
     });
   }

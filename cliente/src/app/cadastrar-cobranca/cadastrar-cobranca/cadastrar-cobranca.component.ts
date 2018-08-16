@@ -1,13 +1,12 @@
-import { CadastarCobrancaService } from './../cadastrar-cobranca.service';
-import { SelectItem } from 'primeng/primeng';
-import { CustomUtils } from './../../util/custom-utils';
-import { NgBlockUI, BlockUI } from 'ng-block-ui';
-import { Cobranca } from './../cobranca-model';
-import { Component, OnInit } from '@angular/core';
-import { faPrint, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { PessoaJuridicaService } from '../../pessoa-juridica/pessoa-juridica.service';
-import { MensagensUtils } from '../../util/mensagens-util';
-import { PageNotificationService } from '@basis/angular-components';
+import {Component, OnInit} from '@angular/core';
+import {PageNotificationService} from '@basis/angular-components';
+import {BlockUI, NgBlockUI} from 'ng-block-ui';
+import {SelectItem} from 'primeng/primeng';
+import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.service';
+import {MensagensUtils} from '../../util/mensagens-util';
+import {CustomUtils} from './../../util/custom-utils';
+import {CadastarCobrancaService} from './../cadastrar-cobranca.service';
+import {Cobranca} from './../cobranca-model';
 
 @Component({
   selector: 'app-cadastrar-cobranca',
@@ -35,18 +34,18 @@ export class CadastrarCobrancaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listaCobrancas = [{acaoGerar: '', id: '1', ano: '2009', mesReferencia: 'Janeiro', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'Pago'},
-                          {acaoGerar: '', id: '2', ano: '2010', mesReferencia: 'Fevereiro', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'Pago'},
-                          {acaoGerar: '2ª Via', id: '3', ano: '2011', mesReferencia: 'Março', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'Vencido'},
-                          {acaoGerar: '2ª Via', id: '4', ano: '2012', mesReferencia: 'Abril', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'Vencido'},
-                          {acaoGerar: 'Emitir', id: '5', ano: '2013', mesReferencia: 'Maio', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'À vencer'},
-                          {acaoGerar: 'Emitir', id: '6', ano: '2014', mesReferencia: 'Junho', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'À vencer'},
-                          {acaoGerar: 'Emitir', id: '7', ano: '2015', mesReferencia: 'Julho', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'À vencer'},
-                          {acaoGerar: 'Emitir', id: '8', ano: '2016', mesReferencia: 'Agosto', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'À vencer'},
-                          {acaoGerar: 'Emitir', id: '9', ano: '2017', mesReferencia: 'Setembro', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'À vencer'},
-                          {acaoGerar: 'Emitir', id: '10', ano: '2018', mesReferencia: 'Outubro', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'À vencer'},
-                          {acaoGerar: 'Emitir', id: '11', ano: '2019', mesReferencia: 'Novembro', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'À vencer'},
-                          {acaoGerar: 'Emitir', id: '12', ano: '2000', mesReferencia: 'Dezembro', dataVencimento: '', dataPagamento: '', dataSegundaVia: '', valor: '345,52', status: 'À vencer'}];
+    this.listaCobrancas =[{acaoGerar:'', id:'1', ano:'2009', mesReferencia: 'Janeiro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'Pago'},
+      {acaoGerar:'', id:'2', ano:'2010', mesReferencia: 'Fevereiro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'Pago'},
+      {acaoGerar:'2ª Via', id:'3', ano:'2011', mesReferencia: 'Março',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'Vencido'},
+      {acaoGerar:'2ª Via', id:'4', ano:'2012', mesReferencia: 'Abril',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'Vencido'},
+      {acaoGerar:'Emitir', id:'5', ano:'2013', mesReferencia: 'Maio',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+      {acaoGerar:'Emitir', id:'6', ano:'2014', mesReferencia: 'Junho',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+      {acaoGerar:'Emitir', id:'7', ano:'2015', mesReferencia: 'Julho',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+      {acaoGerar:'Emitir', id:'8', ano:'2016', mesReferencia: 'Agosto',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+      {acaoGerar:'Emitir', id:'9', ano:'2017', mesReferencia: 'Setembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+      {acaoGerar:'Emitir', id:'10', ano:'2018', mesReferencia: 'Outubro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+      {acaoGerar:'Emitir', id:'11', ano:'2019', mesReferencia: 'Novembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'},
+      {acaoGerar:'Emitir', id:'12', ano:'2000', mesReferencia: 'Dezembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '345,52', status:'À vencer'}];
 
     this.obterPessoasuridicas();
     this.obterAnosCobranca();
@@ -69,11 +68,11 @@ export class CadastrarCobrancaComponent implements OnInit {
   }
 
   deletarCobranca(id) {
-    alert('deletar cobrança ' + id);
+    alert("deletar cobrança " + id);
   }
 
   imprimirCobranca(id) {
-    alert('Imprimir cobrança ' + id);
+    alert("Imprimir cobrança " + id);
   }
 
   gerarCobranca() {
@@ -93,26 +92,26 @@ export class CadastrarCobrancaComponent implements OnInit {
   }
 
   emitirTudo() {
-    alert('Emitir tudo');
+    alert("Emitir tudo");
   }
 
   adiantarPagamento() {
-    alert('Adiantar pagamento');
+    alert("Adiantar pagamento");
   }
 
   exportar() {
-    alert('Exportar');
+    alert("Exportar");
   }
 
   bucarQuintosDiasUteis() {
-      const anoSelecionado = this.anosCobranca[parseInt(this.anoReferencia) - 1].label;
-      this.cadastarCobrancaService.obterQuintosDiasUtis(anoSelecionado).subscribe(result => {
-        this.atualizaColunaQuintoDiaUtil(result);
-      });
+    let anoSelecionado = this.anosCobranca[parseInt(this.anoReferencia)-1].label;
+    this.cadastarCobrancaService.obterQuintosDiasUtis(anoSelecionado).subscribe(result=>{
+      this.atualizaColunaQuintoDiaUtil(result)
+    });
   }
 
   atualizaColunaQuintoDiaUtil(quintosdiasUteis: any) {
-    for (let i = 0; i < this.listaCobrancas.length; i++) {
+    for(let i = 0; i< this.listaCobrancas.length; i++) {
       this.listaCobrancas[i].dataVencimento = quintosdiasUteis[i];
     }
   }
