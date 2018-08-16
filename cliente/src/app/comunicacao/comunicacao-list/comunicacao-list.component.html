@@ -1,28 +1,28 @@
 <h2 class="titulo-pagina">
   Comunicação
 </h2>
-<form [formGroup]="form">
+
 <div class="ui-g">
 
   <div class="ui-g-6">
     <span class="md-inputfield ui-g-12 ui-md-12 ui-lg-8">
-      <input  placeholder="Procurar" 
-      (input)="filtrar()" 
-      [(ngModel)]="filtro" type="text" pInputText class="ui-inputtext"
-      />
+      <input [placeholder]="'Procurar'" (input)="filtrar()" [(ngModel)]="filtro" type="text" pInputText class="ui-inputtext" />
     </span>
   </div>
 </div>
 <div class="ui-g">
   <div class="ui-g-12">
-    <p-dataTable #dataTable sortField="nomeFantasia" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true" (onLazyLoad)="pesquisar()" [lazy]="true"
-      [totalRecords]="result?.totalElements" [value]="result?.content" emptyMessage="Nenhum resultado encontrado.">
-      <p-column field="cnpj" header="E-mail"></p-column>
-      <p-column field="sigla" header="Nome"></p-column>
+    <p-dataTable #dataTable sortField="nome" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true" (onLazyLoad)="pesquisar()"
+      [lazy]="true" [totalRecords]="result?.totalElements" [value]="result?.content" emptyMessage="Nenhum resultado encontrado." selectionMode="multiple" [(selection)]="selecao" > 
+      <p-column selectionMode="multiple"></p-column>
+      <p-column field="email" header="E-mail"></p-column>
+      <p-column field="nome" header="Nome"></p-column>
       <p-column field="nomeFantasia" header="Empresa"></p-column>
     </p-dataTable>
   </div>
 </div>
+
+
 
 
 <div class="ui-g">
@@ -30,32 +30,33 @@
     Conteúdo
   </h2>
 </div>
-<div class="ui-g form-group">
-  <div class="ui-g-12 ui-md-12">
-    <span class="md-inputfield">
-      <app-custom-input-text [maxLength]="100" [label]="'Assunto'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
-        formControlName="assunto" [(ngModel)]="comunicado.assunto" ></app-custom-input-text>
-    </span>
+<form [formGroup]="formComunicacao">
+  <div class="ui-g form-group">
+    <div class="ui-g-12 ui-md-12">
+      <span class="md-inputfield">
+        <app-custom-input-text [maxLength]="100" [label]="'Assunto'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
+          formControlName="assunto" [(ngModel)]="comunicado.assunto"></app-custom-input-text>
+      </span>
+    </div>
   </div>
-</div>
-<div class="ui-g form-group">
-  <div class="ui-g-12 ui-md-12">
-    <span class="md-inputfield">
-      <app-custom-textarea [placeholder]="'Conteúdo'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
-      formControlName="conteudo" [(ngModel)]="comunicado.conteudo" ></app-custom-textarea>
-    </span>
-  </div>
-</div>
-
-<div class="ui-g">
-  <div class="ui-g-12">
-    <div class="ui-g-12 ui-md-12 ui-lg-1 float-right">
-      <button pButton type="button"  (click)="enviarComunicado()" label="Enviar"></button>
+  <div class="ui-g form-group">
+    <div class="ui-g-12 ui-md-12">
+      <span class="md-inputfield">
+        <app-custom-textarea [placeholder]="'Conteúdo'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
+          formControlName="conteudo" [(ngModel)]="comunicado.conteudo"></app-custom-textarea>
+      </span>
     </div>
   </div>
 
-</div>
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="ui-g-12 ui-md-12 ui-lg-1 float-right">
+        <button pButton type="button" (click)="enviarComunicado(selecao)" label="Enviar"></button>
+      </div>
+    </div>
+
+  </div>
+
+  
 
 </form>
-
-

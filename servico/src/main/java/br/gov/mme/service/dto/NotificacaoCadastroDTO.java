@@ -1,15 +1,22 @@
 package br.gov.mme.service.dto;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class NotificacaoCadastroDTO {
 
     private Long id;
     private String assunto;
     private String conteudo;
+    private List<ComunicacaoRepresentantelistaDTO> representantes;
+    private LocalDateTime dataCadastro;
     
-    public NotificacaoCadastroDTO(Long id, String assunto, String conteudo) {
+    public NotificacaoCadastroDTO(Long id, String assunto, String conteudo,LocalDateTime dataCadastro ) {
         this.id = id;
         this.assunto = assunto;
         this.conteudo = conteudo;
+        this.dataCadastro = dataCadastro;
+        
 
     }
 
@@ -42,4 +49,22 @@ public class NotificacaoCadastroDTO {
         this.id = id;
         return this;
     }
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public List<ComunicacaoRepresentantelistaDTO> getRepresentantes() {
+		return representantes;
+	}
+
+	public void setRepresentantes(List<ComunicacaoRepresentantelistaDTO> representantes) {
+		this.representantes = representantes;
+	}
+    
+    
 }

@@ -10,11 +10,11 @@ import {ComunicadoCadastro} from './comunicado-cadastro.model'
 export class ComunicacaoService {
 
     resourceUrl = environment.apiUrl + "/comunicacao";
-    searchUrl = environment.apiUrl + "/pessoas-juridicas";
+    searchUrl = environment.apiUrl + "/representantes";
 
     constructor(private http: HttpService) { }
 
-    listarDirigentes(filtro: string, pageable: Pageable, callback?: any) {
+    listarRepresentantes(filtro: string, pageable: Pageable, callback?: any) {
         const options = new RequestOptions({ params: pageable });
         if (filtro) {
             options.params.append("query", filtro);

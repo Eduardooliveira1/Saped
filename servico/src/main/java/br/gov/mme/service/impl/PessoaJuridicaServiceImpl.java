@@ -1,5 +1,14 @@
 package br.gov.mme.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.mme.domain.Pessoa;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.domain.Representante;
@@ -17,13 +26,6 @@ import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.util.ValidatorUtils;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * Service Implementation for managing PessoaJuridica.
@@ -110,7 +112,8 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
     @Override
     public PessoaJuridicaCadastroDTO obterPordId(Long id) {
-        return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));
+    	return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));
+        
     }
 
     @Override

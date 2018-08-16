@@ -28,13 +28,10 @@ export class ComunicacaoListComponent implements OnInit {
   filtro: string;
   ultimoFiltro: string;
   submitedForm = false;
-  form: FormGroup;
-  faUserFriends = faUserFriends;
-  faEdit = faEdit;
-  faTrashAlt = faTrashAlt;
+  formComunicacao: FormGroup;
   comunicado: ComunicadoCadastro;
 
-
+ 
   constructor(
     private formBuilder: FormBuilder,
     private comunicacaoService: ComunicacaoService,
@@ -48,15 +45,14 @@ export class ComunicacaoListComponent implements OnInit {
   }
 
   buildReactiveForm() {
-    this.form = this.formBuilder.group({
-      
+    this.formComunicacao = this.formBuilder.group({
       assunto: new FormControl('', [ Validators.maxLength(100)]),
       conteudo: new FormControl('', [Validators.maxLength(2000)]),
     }, { updateOn: 'blur' });
   }
 
 
-  filtrar() {
+   filtrar() {
     if (this.filtro && this.filtro.length >= 3) {
       this.ultimoFiltro = this.filtro;
       this.dataTable.first = 0;
@@ -74,7 +70,7 @@ export class ComunicacaoListComponent implements OnInit {
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
     this.blockUI.start(MensagensUtils.CARREGANDO);
-    this.comunicacaoService.listarDirigentes(this.filtro, pageable)
+    this.comunicacaoService.listarRepresentantes(this.filtro, pageable)
       .subscribe(result => {
         this.blockUI.stop();
         this.result = result.json();
@@ -84,12 +80,16 @@ export class ComunicacaoListComponent implements OnInit {
       });
   }
 
-  enviarComunicado() {
+  enviarComunicado(selecao) {
 
     this.submitedForm = true;
-    if (this.form.valid) {
+    if (this.formComunicacao.valid) {
+      this.comunicado.representantes = selecao
       this.subscribeToSaveResponse(this.comunicacaoService.enviar(this.comunicado));
     }
+    this.comunicado = new ComunicadoCadastro();
+    
+  
   }
 
 
@@ -98,7 +98,7 @@ export class ComunicacaoListComponent implements OnInit {
     result.subscribe((res: ComunicadoCadastro) => {
       this.blockUI.stop();
       this.comunicado = res;
-      this.pageNotificationService.addSuccessMessage(MensagensUtils.REGISTRO_SALVO);
+      this.pageNotificationService.addSuccessMessage(MensagensUtils.REGISTRO_SALVO); 
     }, (res) => {
       this.blockUI.stop();
       this.pageNotificationService.addErrorMessage(res.json().title);

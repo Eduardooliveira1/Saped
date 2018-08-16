@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ComunicacaoListComponent } from './comunicacao-list/comunicacao-list.component';
 import { RouterModule } from '@angular/router';
-import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
+import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule, ConfirmationService} from 'primeng/primeng';
 import { ComunicacaoService } from './comunicacao.service';
 import {Ng2BRPipesModule} from 'ng2-brpipes';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
