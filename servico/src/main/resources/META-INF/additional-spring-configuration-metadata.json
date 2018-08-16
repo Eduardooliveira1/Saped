@@ -1,16 +1,4 @@
-{"properties": [
-  {
-    "name": "application",
-    "description": "A description for 'application'"
-  },
-  {
-    "name": "dynamic-exports.maximo-registros",
-    "type": "java.lang.String",
-    "description": "A description for 'dynamic-exports.maximo-registros'"
-  },
-  {
-    "name": "application.ip.local-address",
-    "type": "java.lang.String",
-    "description": "A description for 'application.ip.local-address'"
-  }
-]}
+{"properties": [{
+  "name": "application",
+  "description": "A description for 'application'"
+}]}

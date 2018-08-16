@@ -5,14 +5,14 @@ import {CustomInputTextComponent} from "./custom-input-text/custom-input-text.co
 import {CustomTextareaComponent} from './custom-textarea/custom-textarea.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule
-  ],
-  declarations: [CustomInputTextComponent, CustomTextareaComponent],
-  exports:[CustomInputTextComponent, CustomTextareaComponent]
+    imports: [
+        CommonModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule
+    ],
+    declarations: [CustomInputTextComponent, CustomTextareaComponent],
+    exports:[CustomInputTextComponent, CustomTextareaComponent]
 })
 export class CustomComponentsModule {
 }

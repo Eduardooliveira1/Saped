@@ -1,12 +1,11 @@
 export class PessoaJuridicaLista{
-  constructor(
+    constructor(
 
-    public cnpj?: string,
-    public sigla?: string,
-    public nomeFantasia?: string,
-    public razaoSocial?: string
-  ){
-
-  }
+        public cnpj?: string,
+        public sigla?: string,
+        public nomeFantasia?: string,
+        public razaoSocial?: string
+    ){
+        
+    }
 }
-

@@ -1,14 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {PageNotificationService} from '@basis/angular-components';
-import {faPlusCircle, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
-import {BlockUI, NgBlockUI} from 'ng-block-ui';
-import {ConfirmationService} from 'primeng/primeng';
-import {MensagensUtils} from '../../util/mensagens-util';
-import {PessoaJuridicaService} from '../pessoa-juridica.service';
-import {PessoaRepresentante} from '../pessoa-representante-model';
-import {Telefone} from '../pessoa-representante-telefone';
-
+import { MensagensUtils } from '../../util/mensagens-util';
+import { PessoaRepresentante } from '../pessoa-representante-model';
+import { Telefone } from '../pessoa-representante-telefone';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
+import { PageNotificationService } from '@basis/angular-components';
+import { faTrashAlt,faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { ConfirmationService } from 'primeng/primeng';
+import { NgBlockUI, BlockUI } from 'ng-block-ui';
+import { PessoaJuridicaService } from '../pessoa-juridica.service';
 declare var jQuery: any;
 
 @Component({
@@ -83,13 +82,13 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
     const control = <FormArray>this.formDinamico.controls['itemRows'];
     var ultimoTelefone = this.telefone[control.length-1];
 
-    return  ultimoTelefone != null &&
-      ultimoTelefone.telefone != null &&
-      ultimoTelefone.telefone.replace(/[^\d]/g, '').length == 9 &&
-      ultimoTelefone.ddd != null &&
-      ultimoTelefone.ddd.replace(/[^\d]/g, '').length == 2;
+    return  ultimoTelefone != null && 
+            ultimoTelefone.telefone != null && 
+            ultimoTelefone.telefone.replace(/[^\d]/g, '').length == 9 && 
+            ultimoTelefone.ddd != null && 
+            ultimoTelefone.ddd.replace(/[^\d]/g, '').length == 2;
   }
-
+  
   abrirModalRepresentante() {
     this.submitedForm = false;
     this.pessoaRepresentate = new PessoaRepresentante();
@@ -124,7 +123,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
         reject: () => {
           this.mostrarModalInserirRepresetante = false;
         }
-      });
+      });  
     } else {
       this.pageNotificationService.addErrorMessage(MensagensUtils.PREENCHA_CAMPOS_OBRIGATORIOS);
       return;
@@ -138,7 +137,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
       rejectLabel: MensagensUtils.NAO,
 
       accept: () => {
-        this.listaRepresentantes.splice(index, 1);
+        this.listaRepresentantes.splice(index, 1); 
       }
     });
   }
