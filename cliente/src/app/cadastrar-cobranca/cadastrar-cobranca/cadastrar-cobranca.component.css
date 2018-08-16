@@ -1,0 +1,15 @@
+.pago {
+    color: green;
+}
+
+.a-vencer {
+    color: red;
+}
+
+.vencido {
+    color: black; 
+}
+
+.centralizar-texto-input-valor {
+    text-align: center !important;
+}

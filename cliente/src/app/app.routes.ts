@@ -1,3 +1,4 @@
+import { CadastrarCobrancaComponent } from './cadastrar-cobranca/cadastrar-cobranca/cadastrar-cobranca.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
@@ -21,8 +22,8 @@ export const routes: Routes = [
       { path: 'logout', component: LogoutComponent },
       { path: 'diario-erros', component: DiarioErrosComponent },
       { path: 'pessoa-juridica', loadChildren: 'app/pessoa-juridica/pessoa-juridica.module#PessoaJuridicaModule' },
-	    { path: 'comunicacao',loadChildren: 'app/comunicacao/comunicacao.module#ComunicacaoModule'}
-    ]
+      { path: 'cadastrar-cobranca', loadChildren: 'app/cadastrar-cobranca/cadastrar-cobranca.module#CadastrarCobrancaModule' },	  
+	  { path: 'comunicacao',loadChildren: 'app/comunicacao/comunicacao.module#ComunicacaoModule'}    ]
   },
   {
     path: '',
