@@ -151,7 +151,7 @@ jhipster:
             enabled: false
             host: localhost
             port: 5000
-            queue-size: 512       
+            queue-size: 512  
 
 # ===================================================================
 # Application specific properties
