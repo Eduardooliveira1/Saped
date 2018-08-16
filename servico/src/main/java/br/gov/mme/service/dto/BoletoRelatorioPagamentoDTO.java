@@ -3,8 +3,10 @@ package br.gov.mme.service.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import br.gov.mme.enumeration.TpBoleto;
+import br.gov.mme.enumeration.TpStatusBoleto;
+import br.gov.mme.service.util.DateUtils;
 
 public class BoletoRelatorioPagamentoDTO implements Serializable {
 
@@ -16,25 +18,23 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
 
     private BigDecimal valorBoleto;
 
-    private Integer mesReferencia;
+    private String mesReferencia;
 
-    private LocalDate dataVencimento;
+    private String dataVencimento;
 
     private String statusBoleto;
 
-
-    public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto, Integer mesReferencia,
-            LocalDate dataVencimento, TpBoleto statusBoleto) {
+    public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto, 
+            Integer mesReferencia, Integer anoReferencia, LocalDate dataVencimento, TpStatusBoleto statusBoleto) {
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
         this.valorBoleto = valorBoleto;
-        this.mesReferencia = mesReferencia;
-        this.dataVencimento = dataVencimento;
-        this.statusBoleto = statusBoleto.status();
+        this.mesReferencia = DateUtils.convertMesAnoReferenciaToString(mesReferencia - 1, anoReferencia);
+        this.dataVencimento = dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.statusBoleto = statusBoleto.getDescricao();
     }
 
     public BoletoRelatorioPagamentoDTO() {
-
     }
 
     public String getCnpj() {
@@ -61,19 +61,19 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
         this.valorBoleto = valorBoleto;
     }
 
-    public Integer getMesReferencia() {
+    public String getMesReferencia() {
         return mesReferencia;
     }
 
-    public void setMesReferencia(Integer mesReferencia) {
+    public void setMesReferencia(String mesReferencia) {
         this.mesReferencia = mesReferencia;
     }
 
-    public LocalDate getDataVencimento() {
+    public String getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(LocalDate dataVencimento) {
+    public void setDataVencimento(String dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 

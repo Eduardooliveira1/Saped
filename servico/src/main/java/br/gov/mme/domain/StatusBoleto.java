@@ -2,7 +2,6 @@ package br.gov.mme.domain;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,14 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.gov.mme.enumeration.FlSituacaoBancaria;
 import br.gov.mme.enumeration.TpStatusBoleto;
 import br.gov.mme.enumeration.converter.FlSituacaoBancariaConverter;
-import br.gov.mme.util.SapedUtil;
 
 @Entity
 @Table(name = "tb_Status_Boleto")
@@ -30,8 +29,9 @@ public class StatusBoleto implements Serializable{
     @Column(name = "pk_Status_Boleto")
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Boleto> boletoId;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
+    @JoinColumn(name = "pk_Boleto")
+    private Boleto boleto;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tp_Status")
@@ -53,12 +53,12 @@ public class StatusBoleto implements Serializable{
         this.id = id;
     }
 
-    public List<Boleto> getBoletoId() {
-        return SapedUtil.instanciarLista(boletoId);
+    public Boleto getBoleto() {
+        return boleto;
     }
 
-    public void setBoletoId(List<Boleto> boletoId) {
-        this.boletoId = SapedUtil.instanciarLista(boletoId);
+    public void setBoleto(Boleto boleto) {
+        this.boleto = boleto;
     }
 
     public TpStatusBoleto getTpStatusBoleto() {

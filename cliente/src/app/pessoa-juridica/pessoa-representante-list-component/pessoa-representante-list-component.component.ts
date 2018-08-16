@@ -1,13 +1,14 @@
-import { MensagensUtils } from '../../util/mensagens-util';
-import { PessoaRepresentante } from '../pessoa-representante-model';
-import { Telefone } from '../pessoa-representante-telefone';
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
-import { PageNotificationService } from '@basis/angular-components';
-import { faTrashAlt,faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { ConfirmationService } from 'primeng/primeng';
-import { NgBlockUI, BlockUI } from 'ng-block-ui';
-import { PessoaJuridicaService } from '../pessoa-juridica.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {PageNotificationService} from '@basis/angular-components';
+import {faPlusCircle, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+import {BlockUI, NgBlockUI} from 'ng-block-ui';
+import {ConfirmationService} from 'primeng/primeng';
+import {MensagensUtils} from '../../util/mensagens-util';
+import {PessoaJuridicaService} from '../pessoa-juridica.service';
+import {PessoaRepresentante} from '../pessoa-representante-model';
+import {Telefone} from '../pessoa-representante-telefone';
+
 declare var jQuery: any;
 
 @Component({

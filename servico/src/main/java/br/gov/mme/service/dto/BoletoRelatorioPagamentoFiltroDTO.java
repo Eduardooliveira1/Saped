@@ -2,33 +2,32 @@ package br.gov.mme.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
-import br.gov.mme.enumeration.TpBoleto;
+import br.gov.mme.enumeration.TpStatusBoleto;
 import br.gov.mme.util.SapedUtil;
 
 public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private Set<Long> idsPessoasJuridicas;
+    private List<Long> idsPessoasJuridicas;
 
     private BigDecimal valor;
 
-    private BigInteger mesReferencia;
+    private Integer mesReferencia;
 
     private LocalDate dataVencimento;
 
-    private TpBoleto tpBoleto;
+    private TpStatusBoleto tpStatusBoleto;
 
-    public Set<Long> getIdsPessoasJuridicas() {
-        return SapedUtil.instanciarSet(this.idsPessoasJuridicas);
+    public List<Long> getIdsPessoasJuridicas() {
+        return SapedUtil.instanciarLista(this.idsPessoasJuridicas);
     }
 
-    public void setIdsPessoasJuridicas(Set<Long> idPessoasJuridicas) {
-        this.idsPessoasJuridicas = SapedUtil.instanciarSet(idPessoasJuridicas);
+    public void setIdsPessoasJuridicas(List<Long> idPessoasJuridicas) {
+        this.idsPessoasJuridicas = SapedUtil.instanciarLista(idPessoasJuridicas);
     }
 
     public BigDecimal getValor() {
@@ -38,11 +37,11 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
         this.valor = valor;
     }
 
-    public BigInteger getMesReferencia() {
+    public Integer getMesReferencia() {
         return mesReferencia;
     }
 
-    public void setMesReferencia(BigInteger mesReferencia) {
+    public void setMesReferencia(Integer mesReferencia) {
         this.mesReferencia = mesReferencia;
     }
 
@@ -54,12 +53,12 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
         this.dataVencimento = dataVencimento;
     }
 
-    public TpBoleto getTpBoleto() {
-        return tpBoleto;
+    public TpStatusBoleto getTpStatusBoleto() {
+        return tpStatusBoleto;
     }
 
-    public void setTpBoleto(TpBoleto tpBoleto) {
-        this.tpBoleto = tpBoleto;
+    public void setTpBoleto(TpStatusBoleto tpStatusBoleto) {
+        this.tpStatusBoleto = tpStatusBoleto;
     }
 
 }

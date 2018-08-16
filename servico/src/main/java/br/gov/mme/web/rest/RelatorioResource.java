@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 
 import br.gov.mme.exceptions.ArquivoDeTipoInvalidoException;
+import br.gov.mme.exceptions.FiltroVazioException;
 import br.gov.mme.exceptions.LeituraBufferException;
 import br.gov.mme.exceptions.RelatorioException;
 import br.gov.mme.service.BoletoService;
@@ -48,24 +49,44 @@ public class RelatorioResource {
 
     @GetMapping("/pagamentos")
     @Timed
-    public ResponseEntity<Page<BoletoRelatorioPagamentoDTO>> listarPagamentos(Pageable pageable) {
-        Page<BoletoRelatorioPagamentoDTO> page = this.boletoService.listarPagamentos(pageable);
+    public ResponseEntity<Page<BoletoRelatorioPagamentoDTO>> listarTodosPagamentos(Pageable pageable)
+            throws FiltroVazioException {
+        Page<BoletoRelatorioPagamentoDTO> page = this.boletoService.listarPagamentosRelatorio(null, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/relatorios/pagamentos");
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
+    }
+    
+    @PostMapping("/pagamentos/filtrados")
+    @Timed
+    public ResponseEntity<?> listarPagamentosFiltrados(@Valid @RequestBody 
+            BoletoRelatorioPagamentoFiltroDTO filtro, Pageable pageable) throws URISyntaxException {
+        try {
+            Page<BoletoRelatorioPagamentoDTO> page = this.boletoService
+                    .listarPagamentosRelatorio(filtro, pageable);
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, 
+                    "/api/relatorios/pagamentos/filtrados");
+            return new ResponseEntity<>(page, headers, HttpStatus.OK);
+        } catch (FiltroVazioException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(BoletoResource.ENTITY_NAME,
+                            e.getMessage())).body(null);
+        }
     }
 
     @PostMapping("/pagamentos/exportar")
     @Timed
     public ResponseEntity<?> exportarPagamentos(@Valid @RequestBody BoletoRelatorioPagamentoFiltroDTO filtro,
-            HttpServletResponse response)
-            throws URISyntaxException {
+            HttpServletResponse response) throws URISyntaxException {
         try {
-            boletoService.getRelatorio(filtro, response);
+            boletoService.getRelatorioExport(filtro, response);
             return ResponseEntity.ok().build();
-        } catch (RelatorioException | LeituraBufferException | ArquivoDeTipoInvalidoException e) {
+        } catch (RelatorioException | LeituraBufferException | ArquivoDeTipoInvalidoException
+                | FiltroVazioException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(BoletoResource.ENTITY_NAME, e.getMessage())).body(null);
+                    .headers(HeaderUtil.createFailureAlert(BoletoResource.ENTITY_NAME, e.getMessage()))
+                    .body(null);
         }
     }
 

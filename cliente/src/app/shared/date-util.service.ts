@@ -1,5 +1,9 @@
-import { DatePipe } from '@angular/common';
-import { Injectable } from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {Injectable} from '@angular/core';
+import {Response} from '@angular/http';
+import {HttpService} from '@basis/angular-components';
+import {environment} from '../../environments/environment.prod';
+
 
 /**
  * An utility service for date.
@@ -11,9 +15,11 @@ export class JhiDateUtils {
 
   private datePipe: DatePipe;
 
-  constructor() {
-    this.datePipe = new DatePipe('en');
+  constructor(private http: HttpService) {
+    this.datePipe = new DatePipe('pt-BR');
   }
+
+  resourceUrl = environment.apiUrl + '/date-util';
 
   /**
    * Method to convert the date time from server into JS date object
@@ -54,6 +60,12 @@ export class JhiDateUtils {
    */
   dateformat() {
     return this.pattern;
+  }
+
+  listarMesReferencia() {
+    return this.http.get(this.resourceUrl + '/mes-referencia').map((res: Response) => {
+      return res.json();
+    });
   }
 
   // TODO Change this method when moving from datetime-local input to NgbDatePicker

@@ -15,7 +15,7 @@ public enum TpStatusBoleto implements ConverterEnum<TpStatusBoleto> {
 
     private String descricao;
 
-    private TpStatusBoleto(String id, String descricao) {
+    TpStatusBoleto(String id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }

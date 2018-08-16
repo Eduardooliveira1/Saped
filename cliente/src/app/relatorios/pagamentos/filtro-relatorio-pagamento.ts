@@ -1,8 +1,9 @@
 export class FiltroRelatorioPagamentos {
-    idsPJ: number[];
-    valorBoleto?: number;
+    idsPessoasJuridicas: number[];
+    valor?: number;
     mesReferencia?: number;
     dataVencimento?: Date;
+    tpBoleto?: string;
     constructor() {
     }
 

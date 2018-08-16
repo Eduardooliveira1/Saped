@@ -22,7 +22,7 @@ import br.gov.mme.domain.Pessoa;
 import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.web.rest.TestUtil;
-import br.gov.mme.web.rest.errors.ErrorConstants;
+import br.gov.mme.web.rest.errors.ErrorConstantsUtil;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 public final class TestUtils {
@@ -62,8 +62,8 @@ public final class TestUtils {
     public static ResultActions exceptionResultAction(ResultActions response, 
             String exceptionMessage, String params) throws Exception {
         return response.andExpect(status().isBadRequest())
-                .andExpect(header().stringValues(ErrorConstants.APP_ERROR, exceptionMessage))
-                .andExpect(header().stringValues(ErrorConstants.APP_PARAMS, params));
+                .andExpect(header().stringValues(ErrorConstantsUtil.APP_ERROR, exceptionMessage))
+                .andExpect(header().stringValues(ErrorConstantsUtil.APP_PARAMS, params));
     }
 
     public static ResultActions performGet(MockMvc mock, String path, Object... vars) throws Exception {

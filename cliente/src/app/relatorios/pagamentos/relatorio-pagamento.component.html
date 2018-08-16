@@ -1,0 +1,54 @@
+<h2 class="titulo-pagina title-color">
+    Relatórios Pagamento:
+</h2>
+
+<div class="ui-g-12 md-12">
+    <div class="ui-g-4 md-4 ">
+        Empresa:
+    </div>
+    <div class="ui-g-2 md-2">
+        Data Vencimento:
+    </div>
+    <div class="ui-g-2 md-2">
+        Valor:
+    </div>
+    <div class="ui-g-1 md-2">
+        Status:
+    </div>
+    <div class="ui-g-2 md-2">
+        Mês Referência:
+    </div>
+</div>
+<form [formGroup]="form">
+    <div class="ui-g-12 md-12">
+        <div class="ui-g-4 md-4 filled ui-multiselect-label-container">
+            <p-multiSelect [(ngModel)]=filtro.idsPessoasJuridicas [options]="dropDownNomePessoaJuridica"
+                           [defaultLabel]="'selecione'" formControlName="idsPJs" [style]="{'width':'100%'}">
+            </p-multiSelect>
+        </div>
+        <span class="ui-g-2 md-2 md-inputfield">
+            <p-inputMask mask="99/99/9999" slotChar=" " [autoClear]="true"
+                         [unmask]="true" [(ngModel)]=filtro.dataVencimento
+                         formControlName=dataVencimento>"</p-inputMask>
+        </span>
+        <span class="ui-g-2 md-2 md-inputfield ">
+            <app-custom-input-text [(ngModel)]=filtro.valor [maxLength]="30"
+                                   [errorMessage]="msgPadraoCampoObrigatorio"
+                                   formControlName="valorBoleto"> </app-custom-input-text>
+        </span>
+        <span class="ui-g-1 md-1 filled ui-dropdown-label">
+                <p-dropdown  [(ngModel)]=filtro.tpBoleto [required]="false" [options]="dropDownStatusBoleto"
+                            formControlName="statusBoleto"></p-dropdown>
+        </span>
+        <span class="ui-g-2 md-2 filled ui-dropdown-label w14p">
+                <p-dropdown  [(ngModel)]=filtro.mesReferencia [required]="false" [options]="dropDownMesReferencia"
+                            formControlName="mesReferencia"></p-dropdown>
+        </span>
+        <span class="ui-g-1 md-1 ui-button botao-pesquisar">
+            <button pButton type="button" label="Pesquisar" icon="ui-icon-search"></button>
+        </span>
+    </div>
+</form>
+<div class="ui-g-12 ui-md-12 ui-sm-12">
+    <app-relatorio-pagamento-list-component></app-relatorio-pagamento-list-component>
+</div>
