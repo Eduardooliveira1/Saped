@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import br.gov.mme.enumeration.TpStatusBoleto;
 import br.gov.mme.service.util.DateUtils;
 
 public class BoletoRelatorioPagamentoDTO implements Serializable {
@@ -25,13 +24,13 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
     private String statusBoleto;
 
     public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto, 
-            Integer mesReferencia, Integer anoReferencia, LocalDate dataVencimento, TpStatusBoleto statusBoleto) {
+            Integer mesReferencia, Integer anoReferencia, LocalDate dataVencimento, String statusBoleto) {
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
         this.valorBoleto = valorBoleto;
         this.mesReferencia = DateUtils.convertMesAnoReferenciaToString(mesReferencia - 1, anoReferencia);
         this.dataVencimento = dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        this.statusBoleto = statusBoleto.getDescricao();
+        this.statusBoleto = statusBoleto;
     }
 
     public BoletoRelatorioPagamentoDTO() {

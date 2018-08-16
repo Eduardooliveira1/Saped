@@ -1,6 +1,8 @@
 package br.gov.mme.enumeration;
 
-public enum TpBoleto {
+import java.io.Serializable;
+
+public enum TpBoleto implements Serializable {
     NO("NO", "Normal"), SV("SV", "Segunda Via"), AD("AD", "Adiantamento");
 
     private final String status;

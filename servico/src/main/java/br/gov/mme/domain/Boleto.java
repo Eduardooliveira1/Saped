@@ -5,20 +5,47 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import br.gov.mme.enumeration.TpBoleto;
+import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
 
 @Entity
 @Table(name = "tb_Boleto")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Inheritance(strategy = InheritanceType.JOINED)
+@SqlResultSetMappings(value = {
+    @SqlResultSetMapping(name = "BoletoRelatorioPagamentoDTO",
+        classes =
+            {@ConstructorResult(targetClass = BoletoRelatorioPagamentoDTO.class, 
+                columns = { @ColumnResult(name = "cnpj"),
+                            @ColumnResult(name = "nomeFantasia"),
+                            @ColumnResult(name = "valorBoleto"),
+                            @ColumnResult(name = "mesReferencia", type = Integer.class),
+                            @ColumnResult(name = "anoReferencia", type = Integer.class),
+                            @ColumnResult(name = "dataVencimento", type = LocalDate.class),
+                            @ColumnResult(name = "statusBoleto", type = String.class)
+                }
+            )}
+    )}
+)
 public class Boleto implements Serializable {
 
     private static final long serialVersionUID = 1L;

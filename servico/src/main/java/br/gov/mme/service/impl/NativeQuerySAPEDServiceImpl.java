@@ -49,6 +49,7 @@ public class NativeQuerySAPEDServiceImpl implements NativeQuerySAPEDService {
         StringBuilder queryBuilder = new StringBuilder();
         nativeQueryBuilder.appendSelectClause(queryBuilder);
         nativeQueryBuilder.appendFromClause(queryBuilder, isExporting);
+        nativeQueryBuilder.addConditions(queryBuilder);
         QueryUtil.addSort(pageable, queryBuilder);
         return queryBuilder.toString();
     }

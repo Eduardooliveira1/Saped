@@ -1,5 +1,7 @@
 package br.gov.mme.enumeration;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -7,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import br.gov.mme.service.util.EnumSerializer;
 
 @JsonSerialize(using = EnumSerializer.class)
-public enum TpStatusBoleto implements ConverterEnum<TpStatusBoleto> {
+public enum TpStatusBoleto implements ConverterEnum<TpStatusBoleto>, Serializable {
     AV("AV", "A Vencer"), AD("AD", "Adiantado"), EM("EM", "Emitido"), 
     PG("PG", "Pago"), VE("VE", "Vencido");
 

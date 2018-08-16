@@ -3,14 +3,16 @@ package br.gov.mme.nativequery;
 import javax.persistence.Query;
 
 import br.com.basis.nativequerybuilder.pojo.NativeQueryBuilder;
-import br.gov.mme.util.GenericTypeUtil;
 
-public abstract class BaseNativeQuery<R, F> implements NativeQueryBuilder {
+public abstract class BaseNativeQuery<D, F> implements NativeQueryBuilder {
 
     private final F filtro;
 
-    protected BaseNativeQuery(F filtro) {
+    private final D dto;
+
+    protected BaseNativeQuery(D dto, F filtro) {
         this.filtro = filtro;
+        this.dto = dto;
     }
 
     @Override
@@ -27,7 +29,8 @@ public abstract class BaseNativeQuery<R, F> implements NativeQueryBuilder {
 
     @Override
     public String getSqlResultSetMapping() {
-        return new GenericTypeUtil<R>().getName();
+        Class<? extends Object> clazz = dto.getClass();
+        return clazz.getSimpleName();
     }
     
     public F getFiltro() {
