@@ -11,6 +11,7 @@ import br.gov.mme.exceptions.ExceptionMessages;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.RepresentanteService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.utils.TestUtils;
@@ -59,11 +60,15 @@ public class PessoaJuridicaResourceIntTest {
 
 	@Autowired
 	private PessoaJuridicaRepository pessoaJuridicaRepository;
+
     @Autowired
     private PessoaRepository pessoaRepository;
 
 	@Autowired
     private PessoaJuridicaService pessoaJuridicaService;
+
+    @Autowired
+    private RepresentanteService pessoaRepresentanteService;
 
     @Autowired
     private PessoaJuridicaMapper pessoaJuridicaMapper;
@@ -82,12 +87,16 @@ public class PessoaJuridicaResourceIntTest {
 	private Representante representante;
 
     private static MockMvc restPessoaJuridicaMockMvc;
-	
+
+    private static MockMvc restPessoaRepresentanteMockMvc;
+
     private static final String API = "/api/pessoa-juridica";
 
     private static final String REST_WITH_URL_PARAM = API + "/{id}";
 
     private static final String GET_PJS = "/api/pessoas-juridicas";
+
+    private static final String GET_REPRESENTANTES = "/api/pessoas-representantes";
 
     private static final String GET_PJ = REST_WITH_URL_PARAM;
 
@@ -99,7 +108,7 @@ public class PessoaJuridicaResourceIntTest {
 
     private static final String GET_TODAS_PJS = GET_PJS + "/todas";
 
-    private static final String GET_REPRESENTANTES = API +"/representantes/{idPj}";
+    private static final String GET_REPRESENTANTES_POR_ID_PJ = GET_REPRESENTANTES +"/{idPj}";
 
     private static final String ENTITY_NAME = PessoaJuridicaResource.ENTITY_NAME;
 
@@ -171,9 +180,14 @@ public class PessoaJuridicaResourceIntTest {
     @BeforeEach
     public void setup() {
         PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService);
+        PessoaRepresentanteResource pessoarepresentanteResource = new PessoaRepresentanteResource(pessoaRepresentanteService);
 
         restPessoaJuridicaMockMvc = TestUtils.setupMockMvc(pessoaJuridicaResource, pageableArgumentResolver,
                 jacksonMessageConverter, exceptionTranslator);
+
+        restPessoaRepresentanteMockMvc = TestUtils.setupMockMvc(pessoarepresentanteResource, pageableArgumentResolver,
+                jacksonMessageConverter, exceptionTranslator);
+
 		this.pessoaJuridicaRepository.deleteAll();
 		this.pessoaJuridicaRepository.flush();
         pessoaJuridica = createEntity();
@@ -328,7 +342,7 @@ public class PessoaJuridicaResourceIntTest {
 
         this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
 
-        TestUtils.performGet(this.restPessoaJuridicaMockMvc, GET_REPRESENTANTES, pessoaJuridica.getId())
+        TestUtils.performGet(this.restPessoaRepresentanteMockMvc, GET_REPRESENTANTES_POR_ID_PJ, pessoaJuridica.getId())
                 .andExpect(jsonPath("$.[0].nome").value(this.representante.getNome()))
                 .andExpect(jsonPath("$.[0].cargo").value(this.representante.getCargo()))
                 .andExpect(jsonPath("$.[0].email").value(this.representante.getPessoa().getEmail()))

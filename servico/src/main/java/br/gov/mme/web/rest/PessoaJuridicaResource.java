@@ -3,17 +3,17 @@ package br.gov.mme.web.rest;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
-import br.gov.mme.exceptions.EntityNotExistException;
 import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.RepresentanteService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.service.dto.PessoaRepresentantelistaDTO;
 import br.gov.mme.web.rest.util.HeaderUtil;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +45,9 @@ public class PessoaJuridicaResource {
 
     private final PessoaJuridicaService pessoaJuridicaService;
 
+    @Autowired
+    private RepresentanteService representanteService;
+
     public static final String ENTITY_NAME = "pessoa-juridica";
 
     private final Logger log = LoggerFactory.getLogger(PessoaJuridicaResource.class);
@@ -66,20 +69,6 @@ public class PessoaJuridicaResource {
     public ResponseEntity<List<PessoaJuridicaComboDTO>> listarTodas() {
         List<PessoaJuridicaComboDTO> result = pessoaJuridicaService.listarTodas();
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping("/pessoa-juridica/representantes/{idPj}")
-    @Timed
-    public ResponseEntity<List<PessoaRepresentantelistaDTO>> obterPessoaRepesentantes(@PathVariable("idPj") Long idpj) throws URISyntaxException {
-        List<PessoaRepresentantelistaDTO> result = null;
-        try {
-            result = pessoaJuridicaService.obterRepresentantesPorIdPj(idpj);
-        } catch (EntityNotExistException e) {
-            log.error(e.getMessage(), e);
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
-                    ENTITY_NAME, e.getMessage())).body(null);
-        }
-        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/pessoa-juridica/{id}")

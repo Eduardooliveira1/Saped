@@ -1,3 +1,4 @@
+import { PessoaRepresentanteService } from './../pessoa-representante.service';
 import { PageNotificationService } from '@basis/angular-components';
 import { MensagensUtils } from '../../util/mensagens-util';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
@@ -33,6 +34,7 @@ export class PessoaJuridicaListComponent implements OnInit {
   rowexpansion: Boolean = true;
 
   constructor(private pessoaJuridicaService: PessoaJuridicaService,
+              private pessoaRepresentanteService: PessoaRepresentanteService,
     private router: Router,
     private pageNotificationService: PageNotificationService,
     private confirmationService: ConfirmationService) { }
@@ -96,7 +98,7 @@ export class PessoaJuridicaListComponent implements OnInit {
 
   obtemRepresentantes(id: number, rowData) {
     this.blockUI.start(MensagensUtils.CARREGANDO);
-    this.pessoaJuridicaService.obterRepresentantes(id).subscribe(result => {
+    this.pessoaRepresentanteService.obterRepresentantes(id).subscribe(result => {
       this.blockUI.stop();
       rowData.representantes = result;
     }, error=>{

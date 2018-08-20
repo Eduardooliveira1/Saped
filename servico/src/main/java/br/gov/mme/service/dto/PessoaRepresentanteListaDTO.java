@@ -1,22 +1,21 @@
 package br.gov.mme.service.dto;
 
-import br.gov.mme.enumeration.FlNotificacao;
 import br.gov.mme.util.SapedUtil;
 
 import java.util.List;
 
-public class PessoaRepresentantelistaDTO {
+public class PessoaRepresentanteListaDTO {
 
     private Long id;
     private String nome;
     private String cargo;
     private String email;
-    private List<TelefoneDTO> telefone;
+    private List<TelefoneListaRepresentanteDTO> telefone;
 
-    public PessoaRepresentantelistaDTO() {
+    public PessoaRepresentanteListaDTO() {
     }
 
-    public PessoaRepresentantelistaDTO(Long id,String nome,String cargo,String email, List<TelefoneDTO> telefone) {
+    public PessoaRepresentanteListaDTO(Long id, String nome, String cargo, String email, List<TelefoneListaRepresentanteDTO> telefone) {
         this.id = id;
         this.cargo = cargo;
         this.email = email;
@@ -24,7 +23,14 @@ public class PessoaRepresentantelistaDTO {
         this.nome = nome;
     }
 
-    public List<TelefoneDTO> getTelefone() {
+    public PessoaRepresentanteListaDTO(Long id, String nome, String cargo, String email) {
+        this.id = id;
+        this.cargo = cargo;
+        this.email = email;
+        this.nome = nome;
+    }
+
+    public List<TelefoneListaRepresentanteDTO> getTelefone() {
         return SapedUtil.instanciarLista(telefone);
     }
 
@@ -44,7 +50,7 @@ public class PessoaRepresentantelistaDTO {
         this.nome = nome;
     }
 
-    public void setTelefone(List<TelefoneDTO> telefone) {
+    public void setTelefone(List<TelefoneListaRepresentanteDTO> telefone) {
         this.telefone = SapedUtil.instanciarLista(telefone);
     }
 

@@ -2,7 +2,7 @@ import { CadastarCobrancaService } from './cadastrar-cobranca.service';
 import { cadastrarCobrancaRoute } from './cadastrar-cobranca.route';
 import { RouterModule } from '@angular/router';
 import { InputTextModule, DataTableModule, ButtonModule, DialogModule, CheckboxModule } from 'primeng/primeng';
-import { CustomComponentsModule } from './../shared/custom-components/custom-components.module';
+import { CustomComponentsModule } from '../shared/custom-components/custom-components.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CadastrarCobrancaComponent } from './cadastrar-cobranca/cadastrar-cobranca.component';
 import { DropdownModule } from 'primeng/primeng';

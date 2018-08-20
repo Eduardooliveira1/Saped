@@ -4,11 +4,11 @@ package br.gov.mme.service;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
-import br.gov.mme.exceptions.EntityNotExistException;
+
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.service.dto.PessoaRepresentantelistaDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -66,5 +66,4 @@ public interface PessoaJuridicaService {
 
     List<PessoaJuridicaComboDTO> listarTodas();
 
-    List<PessoaRepresentantelistaDTO> obterRepresentantesPorIdPj(Long idPj) throws EntityNotExistException;
 }
