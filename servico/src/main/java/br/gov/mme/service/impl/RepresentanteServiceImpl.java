@@ -1,6 +1,5 @@
 package br.gov.mme.service.impl;
 
-import br.gov.mme.exceptions.EntityNotExistException;
 import br.gov.mme.repository.RepresentanteRepository;
 import br.gov.mme.service.RepresentanteService;
 import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
@@ -26,7 +25,7 @@ public class RepresentanteServiceImpl implements RepresentanteService {
     }
 
     @Override
-    public List<PessoaRepresentanteListaDTO> findRepresentantesByPessoaJuridica(Long idPj) throws EntityNotExistException {
+    public List<PessoaRepresentanteListaDTO> findRepresentantesByPessoaJuridica(Long idPj) {
         List<PessoaRepresentanteListaDTO> result = representanteRepository.findRepresentantesByPessoaJuridica(idPj);
         List<TelefoneListaRepresentanteDTO> telefones = representanteRepository.findTelefonesByPessoaJuridica(idPj);
         for (PessoaRepresentanteListaDTO representante: result) {

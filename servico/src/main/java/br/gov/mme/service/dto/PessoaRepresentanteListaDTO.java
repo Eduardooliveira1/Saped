@@ -15,14 +15,6 @@ public class PessoaRepresentanteListaDTO {
     public PessoaRepresentanteListaDTO() {
     }
 
-    public PessoaRepresentanteListaDTO(Long id, String nome, String cargo, String email, List<TelefoneListaRepresentanteDTO> telefone) {
-        this.id = id;
-        this.cargo = cargo;
-        this.email = email;
-        this.telefone = SapedUtil.instanciarLista(telefone);
-        this.nome = nome;
-    }
-
     public PessoaRepresentanteListaDTO(Long id, String nome, String cargo, String email) {
         this.id = id;
         this.cargo = cargo;

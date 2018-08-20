@@ -4,7 +4,6 @@ import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.RepresentanteService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
@@ -13,7 +12,6 @@ import br.gov.mme.web.rest.util.PaginationUtil;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -44,9 +42,6 @@ import java.util.List;
 public class PessoaJuridicaResource {
 
     private final PessoaJuridicaService pessoaJuridicaService;
-
-    @Autowired
-    private RepresentanteService representanteService;
 
     public static final String ENTITY_NAME = "pessoa-juridica";
 
