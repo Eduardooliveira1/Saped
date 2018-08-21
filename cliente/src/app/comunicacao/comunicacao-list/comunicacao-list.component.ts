@@ -2,7 +2,7 @@ import { PageNotificationService } from '@basis/angular-components';
 import { MensagensUtils } from './../../util/mensagens-util';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import { Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { Pageable } from '../../util/pageable-request';
 import { ComunicacaoService } from '../comunicacao.service';
 import { faUserFriends, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +12,7 @@ import { ComunicacaoLista } from './comunicacao-lista.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ComunicadoCadastro } from './../comunicado-cadastro.model';
 import { Observable } from 'rxjs/Observable';
+import { $ } from '../../../../node_modules/protractor';
 
 @Component({
   selector: 'app-comunicacao-list',
@@ -43,6 +44,7 @@ export class ComunicacaoListComponent implements OnInit {
     this.comunicado = new ComunicadoCadastro();
     this.buildReactiveForm();
   }
+
 
   buildReactiveForm() {
     this.formComunicacao = this.formBuilder.group({
@@ -86,10 +88,16 @@ export class ComunicacaoListComponent implements OnInit {
     if (this.formComunicacao.valid) {
       this.comunicado.representantes = selecao
       this.subscribeToSaveResponse(this.comunicacaoService.enviar(this.comunicado));
+      //this.buildReactiveForm();
+      //this.comunicado.assunto = undefined;
+      //this.comunicado.conteudo = 'fabio';
+
+      this.buildReactiveForm();
+
     }
-    this.comunicado = new ComunicadoCadastro();
-    
-  
+
+
+
   }
 
 
@@ -97,8 +105,9 @@ export class ComunicacaoListComponent implements OnInit {
     this.blockUI.start(MensagensUtils.SALVANDO);
     result.subscribe((res: ComunicadoCadastro) => {
       this.blockUI.stop();
-      this.comunicado = res;
+
       this.pageNotificationService.addSuccessMessage(MensagensUtils.REGISTRO_SALVO); 
+
     }, (res) => {
       this.blockUI.stop();
       this.pageNotificationService.addErrorMessage(res.json().title);
