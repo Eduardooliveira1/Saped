@@ -40,7 +40,9 @@ export class PessoaJuridicaListComponent implements OnInit {
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
+    this.dataTable.expandedRows = [];
   }
+  
   filtrar() {
     if (this.filtro && this.filtro.length >= 3) {
       this.ultimoFiltro = this.filtro;
@@ -112,19 +114,8 @@ export class PessoaJuridicaListComponent implements OnInit {
       rowData.representantes = [];
       this.obtemRepresentantes(rowData.id, rowData);
     }
-
-    if (!this.dataTable.expandedRows) {
-      this.dataTable.expandedRows = [];
-    }
-
-    let expandedRow = null;
-
-    for (let r of this.dataTable.expandedRows) {
-      if (r.id == rowData.id) {
-        expandedRow = r;
-        break;
-      }
-    }
+    
+    let expandedRow = this.dataTable.expandedRows.find(r => r.id == rowData.id);
 
     if (expandedRow == null) {
       this.dataTable.expandedRows.push(rowData);
