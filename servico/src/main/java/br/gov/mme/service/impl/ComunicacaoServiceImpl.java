@@ -3,11 +3,8 @@ package br.gov.mme.service.impl;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +62,7 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
 
 		Notificacao notificacao = comunicacaMapper.toEntity(notificacaoDto);
 
-//		email.enviar("fabiotogawa@gmail.com", "Email de teste", "Email de teste 123");
+		
 
 		notificacao = comunicacaoRepository.save(notificacao);
 
@@ -87,6 +84,8 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
 				notificacaoPessoaJuridica.getNotificacaoPessoaJuridicaId().setNotificacao(notificacaoSalva);
 				notificacaoPessoaJuridica.getNotificacaoPessoaJuridicaId().setPessoaJuridica(pessoaJuridica);
 				notificacaoPessoaJuridicaRepository.save(notificacaoPessoaJuridica);
+				
+				//email.enviar(rep.getEmail(), notificacaoDto.getAssunto(), notificacaoDto.getConteudo());
 				notificacaoPessoaJuridicaRepository.flush();
 			}
 		}
