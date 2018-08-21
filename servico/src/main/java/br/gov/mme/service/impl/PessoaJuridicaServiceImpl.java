@@ -44,7 +44,7 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     public static final String ENTITY_NAME = "pessoa-juridica";
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
-            PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
+                                     PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.pessoaJuridicaMapper = pessoaJuridicaMapper;
         this.pessoaRepository = pessoaRepository;
@@ -90,12 +90,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
     }
 
-    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica){
-        for(Representante representante : pessoaJuridica.getRepresentantes()){
-            if(representante.getId() == null){
+    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica) {
+        for (Representante representante : pessoaJuridica.getRepresentantes()) {
+            if (representante.getId() == null) {
                 representante.getPessoa().setStatus(FlStatus.S);
                 representante.getPessoa().setDataCadastro(LocalDateTime.now());
-            }else {
+            } else {
                 representante.setPessoa(pessoaRepository.findOne(representante.getId()));
             }
 
@@ -104,12 +104,13 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         }
     }
 
-    private void atribuiPessoaaoTelefone (Representante representante) {
-            for(Telefone telefone : representante.getTelefone()){
-                telefone.setPessoaRepresentante(representante);
-                telefone.setStatus(FlStatus.S);
-            }
+    private void atribuiPessoaaoTelefone(Representante representante) {
+        for (Telefone telefone : representante.getTelefone()) {
+            telefone.setPessoaRepresentante(representante);
+            telefone.setStatus(FlStatus.S);
+        }
     }
+
     @Override
     public PessoaJuridicaCadastroDTO obterPordId(Long id) {
         return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));
@@ -136,4 +137,5 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     public List<PessoaJuridicaComboDTO> listarTodas() {
         return pessoaJuridicaRepository.listarTodas();
     }
+
 }

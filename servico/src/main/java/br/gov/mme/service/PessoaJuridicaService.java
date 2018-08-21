@@ -4,9 +4,11 @@ package br.gov.mme.service;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
+
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -63,4 +65,5 @@ public interface PessoaJuridicaService {
     void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException;
 
     List<PessoaJuridicaComboDTO> listarTodas();
+
 }

@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -45,15 +46,24 @@ public final class TestUtils {
 
     public static final String INVALID_CNPJ = "11111111111111";
 
-    public static final Long DEFAULT_INVALID_ID = 1L;
+    public static final Long DEFAULT_VALID_ID = 1L;
 
 	public static final LocalDateTime DATE_TIME_NOW = LocalDateTime.now();
+
+	// REPRESENTANTE CONSTANTES
+
+	public static final BigDecimal DEFAULT_BIGDECIMAL_DDD = new BigDecimal(31);
+
+	public static final BigDecimal DEFAUL_BIGDECIMAL_TELEFONE = new BigDecimal(123456789);
+
+	public static final String DEFAULT_EMAIL = "dev@basis.com";
+
 
     public static final String EXCPT_URL_TYPE = "http://www.jhipster.tech/problem/problem-with-message";
 
 	// FUNÇÕES AUXILIARES:
 	
-    private static MockHttpServletRequestBuilder rESTGetComum(
+    private static MockHttpServletRequestBuilder restGetComum(
 			String path, Object... vars) {
 		return get(path, vars).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
         .content(new byte[0]);
@@ -67,12 +77,12 @@ public final class TestUtils {
     }
 
     public static ResultActions performGet(MockMvc mock, String path, Object... vars) throws Exception {
-        return mock.perform(rESTGetComum(path, vars));
+        return mock.perform(restGetComum(path, vars));
     }
 
     public static ResultActions performGetWithParams(MockMvc mock, String path, 
             MultiValueMap<String, String> params, Object... vars) throws Exception {
-        return mock.perform(rESTGetComum(path, vars).params(params));
+        return mock.perform(restGetComum(path, vars).params(params));
     }
 
     public static ResultActions performPost(MockMvc mock, String apiDir, Object obj) throws Exception {
@@ -133,7 +143,7 @@ public final class TestUtils {
 	}
 
     public static PessoaJuridicaCadastroDTO getPJCadastroWithId() {
-        return getDefaultPessoaJuridicaCadastroDTO().setId(DEFAULT_INVALID_ID);
+        return getDefaultPessoaJuridicaCadastroDTO().setId(DEFAULT_VALID_ID);
     }
 
     public static PessoaJuridicaCadastroDTO getPJCadastroWithCNPJExistent() {
