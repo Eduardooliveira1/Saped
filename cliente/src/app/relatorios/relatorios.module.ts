@@ -22,6 +22,7 @@ import {CustomComponentsModule} from '../shared/custom-components/custom-compone
 import {PT_BR} from '../shared/custom-export-classes/calendar';
 import {CALENDAR} from '../shared/custom-export-classes/calendar-interface';
 import {CustomCurrencyMaskConfig} from '../shared/custom-mask-configs/custom-currency-mask-config';
+import {DotToCommaPipe} from '../shared/custom-pipes/dot-to-comma.pipe';
 import {StatusBoletoIdToDescricaoPipe} from '../shared/custom-pipes/status-boleto-id-to-descricao.pipe';
 import {EnumService} from '../shared/enum.service';
 import {RelatorioPagamentoListComponent} from './pagamentos/pagamentos-list-component/relatorio-pagamento-list.component';
@@ -47,7 +48,7 @@ import {RelatoriosService} from './relatorios.service';
     MultiSelectModule,
     CurrencyMaskModule,
     CalendarModule],
-  declarations: [RelatorioPagamentoComponent, RelatorioPagamentoListComponent, StatusBoletoIdToDescricaoPipe],
+  declarations: [RelatorioPagamentoComponent, RelatorioPagamentoListComponent, StatusBoletoIdToDescricaoPipe, DotToCommaPipe],
   providers: [{provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig},
     {provide: CALENDAR, useValue: PT_BR},
     RelatoriosService, EnumService, ConfirmationService, PessoaJuridicaService,

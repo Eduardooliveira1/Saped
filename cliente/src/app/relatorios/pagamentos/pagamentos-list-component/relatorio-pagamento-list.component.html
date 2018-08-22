@@ -16,6 +16,10 @@
         </ng-template>
     </p-column>
 
-    <p-column field="valorBoleto" header="Valor"></p-column>
+    <p-column field="valorBoleto" header="Valor">
+        <ng-template  let-row="rowData" pTemplate="body">
+            <span> {{row.valorBoleto | currency:'BRL' | dotToComma}}</span>
+        </ng-template>
+    </p-column>
 </p-dataTable>
 <p-confirmDialog></p-confirmDialog>
