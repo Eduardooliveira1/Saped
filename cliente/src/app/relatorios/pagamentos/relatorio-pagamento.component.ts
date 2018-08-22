@@ -1,13 +1,15 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {SelectItem} from 'primeng/primeng';
 import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.service';
 import {JhiDateUtils} from '../../shared';
+import {CustomInputTextComponent} from '../../shared/custom-components/custom-input-text/custom-input-text.component';
+import {CalendarPtBr} from '../../shared/custom-export-classes/calendar-pt-br';
 import {EnumService} from '../../shared/enum.service';
 import {CustomUtils} from '../../util/custom-utils';
-import {MensagensUtils} from '../../util/mensagens-util';
 import {FiltroRelatorioPagamentos} from './filtro-relatorio-pagamento';
+import {RelatorioPagamentoListComponent} from './pagamentos-list-component/relatorio-pagamento-list.component';
 
 @Component({
   selector: 'app-relatorio-pagamento',
@@ -16,32 +18,28 @@ import {FiltroRelatorioPagamentos} from './filtro-relatorio-pagamento';
 })
 export class RelatorioPagamentoComponent implements OnInit, OnChanges {
 
-
+  @ViewChild('relatorioPagamentoList') relatorioPagamentoList: RelatorioPagamentoListComponent;
+  @ViewChild('currencyValue') customInputTextComponent: CustomInputTextComponent;
   filtro: FiltroRelatorioPagamentos;
   dropDownNomePessoaJuridica: SelectItem[];
   dropDownStatusBoleto: SelectItem[];
   dropDownMesReferencia: SelectItem[];
-  msgPadraoCampoObrigatorio = MensagensUtils.CAMPO_OBRIGATORIO;
   form: FormGroup;
-  submittedForm = false;
+  calendar: CalendarPtBr = new CalendarPtBr();
 
   constructor(private router: Router,
               private pessoaJuridicaService: PessoaJuridicaService,
               private dateUtilService: JhiDateUtils,
-              private enumService: EnumService,
-              private formBuilder: FormBuilder) {
+              private enumService: EnumService) {
   }
 
   ngOnInit() {
     this.filtro = new FiltroRelatorioPagamentos();
-    this.buildReactiveForm();
-    this.ngOnChanges();
-  }
-
-  ngOnChanges() {
     this.createDropDowns();
   }
 
+  ngOnChanges() {
+  }
 
   createDropDowns() {
     this.enumService.listarEnum(EnumService.STATUS_BOLETO).subscribe(result => {
@@ -49,23 +47,19 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
     this.pessoaJuridicaService.listarNomes().subscribe(result => {
-      this.dropDownNomePessoaJuridica =  CustomUtils.entityToDropDown(result,  CustomUtils.CAMPO_LABEL_PADRAO,
+      this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
     this.dateUtilService.listarMesReferencia().subscribe(result => {
-      this.dropDownMesReferencia = CustomUtils.entityToDropDown(result,  CustomUtils.CAMPO_LABEL_PADRAO,
+      this.dropDownMesReferencia = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
   }
 
-  buildReactiveForm() {
-    this.form = this.formBuilder.group({
-      idsPJs: new FormControl('', ),
-      statusBoleto: new FormControl('', ),
-      valorBoleto: new FormControl('', ),
-      mesReferencia: new FormControl('', ),
-      dataVencimento: new FormControl('', )
-    }, {updateOn: 'blur'});
+  updateFiltro() {
+    this.filtro.valor = this.customInputTextComponent.valor;
+    this.relatorioPagamentoList.listarPagamentos(this.filtro);
   }
+
 
 }

@@ -11,42 +11,47 @@ import {RelatorioPagamentoList} from '../relatorio-pagamento-list';
 
 @Component({
   selector: 'app-relatorio-pagamento-list-component',
-  templateUrl: './relatorio-pagamento-list.component.html',
+  templateUrl: './relatorio-pagamento-list.component.html'
 })
 export class RelatorioPagamentoListComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('dataTable') dataTable: DataTable;
   result: Page<RelatorioPagamentoList>;
+  private filtro: FiltroRelatorioPagamentos;
 
   constructor(private pageNotificationService: PageNotificationService,
               private relatoriosService: RelatoriosService) {
   }
 
-  private filtro: FiltroRelatorioPagamentos;
-
   ngOnInit(): void {
-    this.filtro = new FiltroRelatorioPagamentos();
   }
 
   listarPagamentos(filtro: FiltroRelatorioPagamentos) {
-    this.dataTable.first = 0;
+    this.filtro = filtro;
+    this.setDataTable();
     const pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
     this.blockUI.start(MensagensUtils.CARREGANDO);
-    let resultado = null;
+    let response = null;
     if (filtro == null) {
-      resultado = this.relatoriosService.listarPagamentosLazyLoad(pageable);
+      response = this.relatoriosService.listarPagamentosLazyLoad(pageable);
     } else {
-      resultado = this.relatoriosService.listarPagamentos(filtro, pageable);
+      response = this.relatoriosService.listarPagamentos(filtro, pageable);
     }
-    resultado.subscribe(result => {
+    response.subscribe(result => {
       this.blockUI.stop();
-      this.result = result.json();
+      this.result = result;
     }, error => {
       this.blockUI.stop();
       this.pageNotificationService.addErrorMessage(error.toString() + MensagensUtils.ERRO_CARREGAR_DADOS);
     });
+    this.dataTable.sortField = 'valorBoleto';
+  }
+
+  setDataTable() {
+    this.dataTable.first = 0;
+    this.dataTable.rows = 10;
   }
 
 }

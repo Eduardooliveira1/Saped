@@ -2,10 +2,8 @@ package br.gov.mme.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
-import br.gov.mme.enumeration.TpStatusBoleto;
 import br.gov.mme.util.SapedUtil;
 
 public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
@@ -18,9 +16,9 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
 
     private Integer mesReferencia;
 
-    private LocalDate dataVencimento;
+    private String dataVencimento;
 
-    private TpStatusBoleto tpStatusBoleto;
+    private String tpStatusBoleto;
 
     public List<Long> getIdsPessoasJuridicas() {
         return SapedUtil.instanciarLista(this.idsPessoasJuridicas);
@@ -45,19 +43,19 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
         this.mesReferencia = mesReferencia;
     }
 
-    public LocalDate getDataVencimento() {
+    public String getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(LocalDate dataVencimento) {
+    public void setDataVencimento(String dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 
-    public TpStatusBoleto getTpStatusBoleto() {
+    public String getTpStatusBoleto() {
         return tpStatusBoleto;
     }
 
-    public void setTpBoleto(TpStatusBoleto tpStatusBoleto) {
+    public void setTpBoleto(String tpStatusBoleto) {
         this.tpStatusBoleto = tpStatusBoleto;
     }
 

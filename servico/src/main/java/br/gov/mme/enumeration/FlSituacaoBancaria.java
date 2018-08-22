@@ -41,7 +41,7 @@ public enum FlSituacaoBancaria {
     private String numeroOp;
 
     private String descricao;
-
+    
     FlSituacaoBancaria(String numeroOp, String descricao) {
         this.numeroOp = numeroOp;
         this.descricao = descricao;

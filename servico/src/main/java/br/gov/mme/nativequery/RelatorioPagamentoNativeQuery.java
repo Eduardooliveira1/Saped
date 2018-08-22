@@ -4,12 +4,19 @@ import javax.persistence.Query;
 
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
 import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
+import br.gov.mme.service.util.DateUtils;
 
 public class RelatorioPagamentoNativeQuery
-        extends BaseNativeQuery<BoletoRelatorioPagamentoDTO, BoletoRelatorioPagamentoFiltroDTO> {
+        extends BaseNativeQuery<BoletoRelatorioPagamentoFiltroDTO> {
+    
+    public static final String CLASS_NAME = BoletoRelatorioPagamentoDTO.class.getSimpleName();
 
     public RelatorioPagamentoNativeQuery(BoletoRelatorioPagamentoFiltroDTO filtro) {
-        super(new BoletoRelatorioPagamentoDTO(), filtro);
+        super(CLASS_NAME, filtro, false);
+    }
+
+    public RelatorioPagamentoNativeQuery() {
+        this(null);
     }
 
     @Override
@@ -21,62 +28,57 @@ public class RelatorioPagamentoNativeQuery
 
     @Override
     public void appendFromClause(StringBuilder queryBuilder, Boolean isExporting) {
-        queryBuilder.append("FROM tb_Status_Boleto st, tb_boleto b, tb_Pessoa_Juridica pj");
+        queryBuilder.append("FROM tb_Status_Boleto st, tb_boleto b, tb_Pessoa_Juridica pj ");
     }
 
     @Override
     public void addConditions(StringBuilder queryBuilder) {
-        queryBuilder.append(" AND st.fk_Boleto = b.pk_Boleto");
-        queryBuilder.append(" AND pj.fk_Pessoa_Juridica = b.fk_Pessoa_Juridica ");
+        super.addConditions(queryBuilder);
+        queryBuilder.append("st.fk_Boleto = b.pk_Boleto ");
+        queryBuilder.append("AND pj.fk_Pessoa_Juridica = b.fk_Pessoa_Juridica ");
         if (super.getFiltro() != null) {
             queryBuilder.append("AND (");
             this.setFiltroConditions(queryBuilder);
+            queryBuilder.append(")");
         }
 
     }
 
     private void setFiltroConditions(StringBuilder queryBuilder) {
-        boolean checkOR = false;
-        if (super.getFiltro().getValor() != null) {
+        if (super.haveFilterAttr(super.getFiltro().getValor(), queryBuilder)) {
             queryBuilder.append("vl_Boleto = ?1 ");
-            checkOR = true;
         }
-        if (super.getFiltro().getMesReferencia() != null) {
-            checkOR = this.appendOR(checkOR, queryBuilder);
+        if (super.haveFilterAttr(super.getFiltro().getMesReferencia(), queryBuilder)) {
             queryBuilder.append("mm_Referencia = ?2 ");
         }
-        if (super.getFiltro().getDataVencimento() != null) {
-            checkOR = this.appendOR(checkOR, queryBuilder);
+        if (super.haveFilterAttr(super.getFiltro().getDataVencimento(), queryBuilder)) {
             queryBuilder.append("dt_Vencimento = ?3 ");
         }
-        if (super.getFiltro().getTpStatusBoleto() != null) {
-            this.appendOR(checkOR, queryBuilder);
-            queryBuilder.append("tp_Status = ?4");
+        if (super.haveFilterAttr(super.getFiltro().getTpStatusBoleto(), queryBuilder)) {
+            queryBuilder.append("tp_Status = ?4 ");
         }
-        queryBuilder.append(")");
-    }
-
-    private boolean appendOR(boolean checkOR, StringBuilder queryBuilder) {
-        if (checkOR) {
-            queryBuilder.append("OR ");
+        if (super.haveFilterAttr(super.getFiltro().getIdsPessoasJuridicas(), queryBuilder)) {
+            queryBuilder.append("b.fk_Pessoa_Juridica in ( ?5 ) ");
         }
-        return true;
     }
 
     @Override
     public void setFilterParameters(Query query) {
         if (super.getFiltro() != null) {
-            if (super.getFiltro().getValor() != null) {
+            if (super.isNotNull(super.getFiltro().getValor())) {
                 setParameter(query, super.getFiltro().getValor(), 1);
             }
-            if (super.getFiltro().getMesReferencia() != null) {
+            if (super.isNotNull(super.getFiltro().getMesReferencia())) {
                 setParameter(query, super.getFiltro().getMesReferencia(), 2);
             }
-            if (super.getFiltro().getDataVencimento() != null) {
-                setParameter(query, super.getFiltro().getDataVencimento(), 3);
+            if (super.isNotNull(super.getFiltro().getDataVencimento())) {
+                setParameter(query, DateUtils.convertDateTimeToDate(super.getFiltro().getDataVencimento()), 3);
             }
-            if (super.getFiltro().getTpStatusBoleto() != null) {
-                setParameter(query, super.getFiltro().getTpStatusBoleto().getId(), 4);
+            if (super.isNotNull(super.getFiltro().getTpStatusBoleto())) {
+                setParameter(query, super.getFiltro().getTpStatusBoleto(), 4);
+            }
+            if (super.isNotEmpty(super.getFiltro().getIdsPessoasJuridicas())) {
+                setParameter(query, super.getFiltro().getIdsPessoasJuridicas(), 5);
             }
         }
     }

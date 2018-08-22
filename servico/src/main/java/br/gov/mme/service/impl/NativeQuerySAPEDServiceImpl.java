@@ -32,7 +32,7 @@ public class NativeQuerySAPEDServiceImpl implements NativeQuerySAPEDService {
         return new PageImpl<>(result, pageable, 1L);
     }
 
-    public static void setQueryParameters(Query query, Pageable pageable) {
+    public static void setPageParameters(Query query, Pageable pageable) {
         query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
         query.setMaxResults(pageable.getPageSize());
     }
@@ -41,7 +41,8 @@ public class NativeQuerySAPEDServiceImpl implements NativeQuerySAPEDService {
         String queryString = getStringQuery(nativeQueryBuilder, pageable, isExporting);
         Query query = entityManager.createNativeQuery(queryString, nativeQueryBuilder
                 .getSqlResultSetMapping());
-        this.setQueryParameters(nativeQueryBuilder, query);
+        nativeQueryBuilder.setFilterParameters(query);
+        setPageParameters(query, pageable);
         return query;
     }
 
@@ -52,10 +53,6 @@ public class NativeQuerySAPEDServiceImpl implements NativeQuerySAPEDService {
         nativeQueryBuilder.addConditions(queryBuilder);
         QueryUtil.addSort(pageable, queryBuilder);
         return queryBuilder.toString();
-    }
-
-    private void setQueryParameters(NativeQueryBuilder nativeQueryBuilder, Query query) {
-        nativeQueryBuilder.setFilterParameters(query);
     }
 
 }

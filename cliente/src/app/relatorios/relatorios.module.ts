@@ -5,9 +5,11 @@ import {RouterModule} from '@angular/router';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {Ng2BRPipesModule} from 'ng2-brpipes';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
+import {CURRENCY_MASK_CONFIG} from 'ng2-currency-mask/src/currency-mask.config';
 import {
   BlockUIModule,
   ButtonModule,
+  CalendarModule,
   ConfirmationService,
   ConfirmDialogModule,
   DataTableModule,
@@ -17,6 +19,9 @@ import {
 } from 'primeng/primeng';
 import {PessoaJuridicaService} from '../pessoa-juridica/pessoa-juridica.service';
 import {CustomComponentsModule} from '../shared/custom-components/custom-components.module';
+import {CustomExportersModule} from '../shared/custom-exporters/custom-exportes.module';
+import {CustomCurrencyMaskConfig} from '../shared/custom-mask-configs/custom-currency-mask-config';
+import {StatusBoletoIdToDescricaoPipe} from '../shared/custom-pipes/status-boleto-id-to-descricao.pipe';
 import {EnumService} from '../shared/enum.service';
 import {RelatorioPagamentoListComponent} from './pagamentos/pagamentos-list-component/relatorio-pagamento-list.component';
 import {RelatorioPagamentoComponent} from './pagamentos/relatorio-pagamento.component';
@@ -39,11 +44,11 @@ import {RelatoriosService} from './relatorios.service';
     BlockUIModule,
     ConfirmDialogModule,
     MultiSelectModule,
-    CurrencyMaskModule
-  ],
-  declarations: [RelatorioPagamentoComponent , RelatorioPagamentoListComponent],
-  providers: [
-    RelatoriosService, EnumService, ConfirmationService, PessoaJuridicaService
+    CurrencyMaskModule,
+    CalendarModule],
+  declarations: [RelatorioPagamentoComponent , RelatorioPagamentoListComponent, StatusBoletoIdToDescricaoPipe],
+  providers: [ { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig},
+    RelatoriosService, EnumService, ConfirmationService, PessoaJuridicaService,
   ],
   exports: [Ng2BRPipesModule]
 })

@@ -1,5 +1,5 @@
-<p-dataTable #dataTable sortField="valorBoleto" [rows]="50" [paginator]="true" [pageLinks]="3" [responsive]="true"
-             (onLazyLoad)="listarPagamentos(null)" [lazy]="true"
+<p-dataTable #dataTable sortField="valorBoleto" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true"
+             (onLazyLoad)="listarPagamentos(null)" [lazy]="true" [immutable]="false"
              [totalRecords]="result?.totalElements" [value]="result?.content"
              emptyMessage="Nenhum resultado encontrado.">
     <p-column field="cnpj" header="CNPJ">
@@ -10,7 +10,12 @@
     <p-column field="nomeFantasia" header="Nome Fantasia"></p-column>
     <p-column field="mesReferencia" header="Mês Referencia"></p-column>
     <p-column field="dataVencimento" header="Data 2ª Via"></p-column>
-    <p-column field="statusBoleto" header="Status"></p-column>
+    <p-column field="statusBoleto" header="Status">
+        <ng-template  let-row="rowData" pTemplate="body">
+             <span> {{row.statusBoleto | descrisaoStatusBoleto}}</span>
+        </ng-template>
+    </p-column>
+
     <p-column field="valorBoleto" header="Valor"></p-column>
 </p-dataTable>
 <p-confirmDialog></p-confirmDialog>

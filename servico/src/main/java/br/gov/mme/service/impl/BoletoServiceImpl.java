@@ -42,7 +42,7 @@ public class BoletoServiceImpl implements BoletoService{
     @Transactional(readOnly = true)
     private Page<BoletoRelatorioPagamentoDTO> listarTodosPagamentos(Pageable pageable) {
         return (Page<BoletoRelatorioPagamentoDTO>) nativeQueryServiceImpl
-                .filter(new RelatorioPagamentoNativeQuery(null), PaginationUtil
+                .filter(new RelatorioPagamentoNativeQuery(), PaginationUtil
                         .ignoreCase(pageable), false);
     }
 
