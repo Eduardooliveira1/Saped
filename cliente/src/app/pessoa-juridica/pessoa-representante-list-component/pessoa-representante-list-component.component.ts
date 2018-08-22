@@ -22,7 +22,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
   formDinamico: FormGroup;
 
   @Input() listaRepresentantes: PessoaRepresentante[];
-  pessoaRepresentate: PessoaRepresentante;
+  pessoaRepresentante: PessoaRepresentante;
   telefone: Telefone[] = [];
   notificacaoAtivada = MensagensUtils.ENUM_NOTIFICACAO_SIM;
   mostrarModalInserirRepresetante = false;
@@ -39,7 +39,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
               private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.pessoaRepresentate = new PessoaRepresentante;
+    this.pessoaRepresentante = new PessoaRepresentante;
     this.telefone =  [];
     this.telefone.push(new Telefone);
     this.buildReactiveForm();
@@ -91,7 +91,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
   
   abrirModalRepresentante() {
     this.submitedForm = false;
-    this.pessoaRepresentate = new PessoaRepresentante();
+    this.pessoaRepresentante = new PessoaRepresentante();
     this.form.reset()
     this.formDinamico.reset();
     this.mostrarModalInserirRepresetante = true;
@@ -112,9 +112,9 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
           if(!this.telefone[control.length-1].ddd || !this.telefone[control.length-1].telefone) {
             this.removeUltimoItemDaListaTelefone();
           }
-          this.pessoaRepresentate.telefone = this.telefone;
-          this.listaRepresentantes.push(this.pessoaRepresentate);
-          this.pessoaRepresentate = new PessoaRepresentante();
+          this.pessoaRepresentante.telefone = this.telefone;
+          this.listaRepresentantes.push(this.pessoaRepresentante);
+          this.pessoaRepresentante = new PessoaRepresentante();
           this.telefone =  [];
           this.telefone.push(new Telefone);
           this.mostrarModalInserirRepresetante = false;
@@ -155,6 +155,6 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
   }
 
   onChangeNotificacao($event){
-    this.pessoaRepresentate.notificacao = $event ? MensagensUtils.ENUM_NOTIFICACAO_SIM : MensagensUtils.ENUM_NOTIFICACAO_NAO;
+    this.pessoaRepresentante.notificacao = $event ? MensagensUtils.ENUM_NOTIFICACAO_SIM : MensagensUtils.ENUM_NOTIFICACAO_NAO;
   }
 }
