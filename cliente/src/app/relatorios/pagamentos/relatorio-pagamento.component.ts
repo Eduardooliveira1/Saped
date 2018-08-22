@@ -60,8 +60,8 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   }
 
   updateFiltro() {
+    this.filtro.valor = this.customInputTextComponent.valor;
     if (!this.filtroIsNull()) {
-      this.filtro.valor = this.customInputTextComponent.valor;
       this.relatorioPagamentoList.listarPagamentos(this.filtro);
     } else {
       this.pageNotificationService.addWarnMessage(MensagensUtils.FILTRO_INVALIDO);
@@ -69,12 +69,12 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   }
 
   filtroIsNull(): boolean {
-    for (const prop in this.filtro){
-      if (this.filtro.hasOwnProperty(prop)){
-        return false;
-      }
-    }
-    return true;
+    return (this.filtro.idsPessoasJuridicas === null || this.filtro.idsPessoasJuridicas === undefined) &&
+      (this.filtro.idsPessoasJuridicas === null || this.filtro.idsPessoasJuridicas === undefined) &&
+      (this.filtro.valor === null || this.filtro.valor === undefined) &&
+      (this.filtro.mesReferencia === null || this.filtro.mesReferencia === undefined) &&
+      (this.filtro.dataVencimento === null || this.filtro.dataVencimento === undefined) &&
+      (this.filtro.tpStatusBoleto === null || this.filtro.tpStatusBoleto === undefined);
   }
 
 }
