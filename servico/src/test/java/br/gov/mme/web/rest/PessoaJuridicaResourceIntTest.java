@@ -1,21 +1,15 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.SapedApp;
-import br.gov.mme.domain.PessoaJuridica;
-import br.gov.mme.domain.Representante;
-import br.gov.mme.domain.Telefone;
-import br.gov.mme.enumeration.EntityFields;
-import br.gov.mme.enumeration.FlNotificacao;
-import br.gov.mme.enumeration.FlStatus;
-import br.gov.mme.exceptions.ExceptionMessages;
-import br.gov.mme.repository.PessoaJuridicaRepository;
-import br.gov.mme.repository.PessoaRepository;
-import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.RepresentanteService;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.mapper.PessoaJuridicaMapper;
-import br.gov.mme.utils.TestUtils;
-import br.gov.mme.web.rest.errors.ExceptionTranslator;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -38,12 +32,17 @@ import org.springframework.util.MultiValueMap;
 
 import br.gov.mme.SapedApp;
 import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.domain.Representante;
+import br.gov.mme.domain.Telefone;
 import br.gov.mme.enumeration.EntityFields;
+import br.gov.mme.enumeration.FlNotificacao;
 import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.exceptions.ExceptionMessages;
 import br.gov.mme.repository.PessoaJuridicaRepository;
+import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.EnumerationService;
 import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.RepresentanteService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.utils.TestUtils;
@@ -185,7 +184,8 @@ public class PessoaJuridicaResourceIntTest {
 
     @BeforeEach
     public void setup() {
-        PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService, enumeration Service);
+        PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService,
+                enumerationService);
         PessoaRepresentanteResource pessoarepresentanteResource = new PessoaRepresentanteResource(pessoaRepresentanteService);
 
         restPessoaJuridicaMockMvc = TestUtils.setupMockMvc(pessoaJuridicaResource, pageableArgumentResolver,

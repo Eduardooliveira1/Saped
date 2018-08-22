@@ -46,7 +46,7 @@ public final class TestUtils {
 
     public static final String INVALID_CNPJ = "11111111111111";
 
-    public static final Long DEFAULT_VALID_ID = 1L;
+    public static final Long DEFAULT_INVALID_ID = 1L;
 
 	public static final LocalDateTime DATE_TIME_NOW = LocalDateTime.now();
 
@@ -143,7 +143,7 @@ public final class TestUtils {
 	}
 
     public static PessoaJuridicaCadastroDTO getPJCadastroWithId() {
-        return getDefaultPessoaJuridicaCadastroDTO().setId(DEFAULT_VALID_ID);
+        return getDefaultPessoaJuridicaCadastroDTO().setId(DEFAULT_INVALID_ID);
     }
 
     public static PessoaJuridicaCadastroDTO getPJCadastroWithCNPJExistent() {
