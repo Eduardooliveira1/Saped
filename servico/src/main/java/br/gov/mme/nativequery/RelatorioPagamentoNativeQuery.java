@@ -69,7 +69,7 @@ public class RelatorioPagamentoNativeQuery
                 setParameter(query, super.getFiltro().getValor(), 1);
             }
             if (super.isNotNull(super.getFiltro().getMesReferencia())) {
-                setParameter(query, super.getFiltro().getMesReferencia(), 2);
+                setParameter(query, super.getFiltro().getMesReferencia() + 1, 2);
             }
             if (super.isNotNull(super.getFiltro().getDataVencimento())) {
                 setParameter(query, DateUtils.convertDateTimeToDate(super.getFiltro().getDataVencimento()), 3);

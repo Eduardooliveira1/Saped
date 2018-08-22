@@ -5,7 +5,7 @@ import {SelectItem} from 'primeng/primeng';
 import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.service';
 import {JhiDateUtils} from '../../shared';
 import {CustomInputTextComponent} from '../../shared/custom-components/custom-input-text/custom-input-text.component';
-import {CalendarPtBr} from '../../shared/custom-export-classes/calendar-pt-br';
+import {PT_BR} from '../../shared/custom-export-classes/calendar';
 import {EnumService} from '../../shared/enum.service';
 import {CustomUtils} from '../../util/custom-utils';
 import {FiltroRelatorioPagamentos} from './filtro-relatorio-pagamento';
@@ -25,7 +25,7 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   dropDownStatusBoleto: SelectItem[];
   dropDownMesReferencia: SelectItem[];
   form: FormGroup;
-  calendar: CalendarPtBr = new CalendarPtBr();
+  ptBr = PT_BR;
 
   constructor(private router: Router,
               private pessoaJuridicaService: PessoaJuridicaService,

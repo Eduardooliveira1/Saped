@@ -16,7 +16,7 @@ public final class DateUtils {
     public static String convertMesReferenciaToString(Integer mesReferencia) {
         Locale br = new Locale("pt", "BR");
         try {
-            return new DateFormatSymbols(br).getMonths()[mesReferencia + 1];
+            return new DateFormatSymbols(br).getMonths()[mesReferencia];
         } catch (java.util.MissingResourceException e) {
             log.error(e.getMessage(), e);
             return "";

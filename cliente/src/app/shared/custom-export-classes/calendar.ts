@@ -1,8 +1,6 @@
-export class CalendarPtBr {
-  pt_br: any;
+import {CalendarInterface} from './calendar-interface';
 
-  constructor() {
-    this.pt_br = {
+export const PT_BR: CalendarInterface = {
       firstDayOfWeek: 0,
       dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
       dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
@@ -13,6 +11,3 @@ export class CalendarPtBr {
       today: 'Hoje',
       clear: 'Limpar'
     };
-
-  }
-}
