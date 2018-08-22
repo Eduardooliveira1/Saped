@@ -3,8 +3,11 @@ package br.gov.mme.service.impl;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +34,8 @@ import br.gov.mme.web.rest.util.QueryUtil;
 @Transactional
 public class ComunicacaoServiceImpl implements ComunicacaoService {
 
-	
+	@Autowired
+	private JavaMailSender mailSender;
 
 	private final ComunicacaoRepository comunicacaoRepository;
 
@@ -85,7 +89,7 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
 				notificacaoPessoaJuridica.getNotificacaoPessoaJuridicaId().setPessoaJuridica(pessoaJuridica);
 				notificacaoPessoaJuridicaRepository.save(notificacaoPessoaJuridica);
 				
-				//email.enviar(rep.getEmail(), notificacaoDto.getAssunto(), notificacaoDto.getConteudo());
+				email.enviar(rep.getEmail(), notificacaoDto.getAssunto(), notificacaoDto.getConteudo(),mailSender);
 				notificacaoPessoaJuridicaRepository.flush();
 			}
 		}
@@ -104,6 +108,21 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
 		}
 	}
 
+	
+	
+
+
+//	public void enviar(String email, String assunto, String mensagem) {
+//		SimpleMailMessage simpleEmail = new SimpleMailMessage();
+//
+//		simpleEmail.setTo(email);
+//		simpleEmail.setFrom("sapedteste@gmail.com");
+//		simpleEmail.setSubject(assunto);
+//		simpleEmail.setText(mensagem);
+//
+//		mailSender.send(simpleEmail);
+//
+//	}
 
 
 }
