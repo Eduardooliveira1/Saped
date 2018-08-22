@@ -1,6 +1,7 @@
 import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
+import {PageNotificationService} from '@basis/angular-components';
 import {SelectItem} from 'primeng/primeng';
 import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.service';
 import {JhiDateUtils} from '../../shared';
@@ -8,6 +9,7 @@ import {CustomInputTextComponent} from '../../shared/custom-components/custom-in
 import {PT_BR} from '../../shared/custom-export-classes/calendar';
 import {EnumService} from '../../shared/enum.service';
 import {CustomUtils} from '../../util/custom-utils';
+import {MensagensUtils} from '../../util/mensagens-util';
 import {FiltroRelatorioPagamentos} from './filtro-relatorio-pagamento';
 import {RelatorioPagamentoListComponent} from './pagamentos-list-component/relatorio-pagamento-list.component';
 
@@ -30,6 +32,7 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   constructor(private router: Router,
               private pessoaJuridicaService: PessoaJuridicaService,
               private dateUtilService: JhiDateUtils,
+              private pageNotificationService: PageNotificationService,
               private enumService: EnumService) {
   }
 
@@ -57,9 +60,21 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   }
 
   updateFiltro() {
-    this.filtro.valor = this.customInputTextComponent.valor;
-    this.relatorioPagamentoList.listarPagamentos(this.filtro);
+    if (!this.filtroIsNull()) {
+      this.filtro.valor = this.customInputTextComponent.valor;
+      this.relatorioPagamentoList.listarPagamentos(this.filtro);
+    } else {
+      this.pageNotificationService.addWarnMessage(MensagensUtils.FILTRO_INVALIDO);
+    }
   }
 
+  filtroIsNull(): boolean {
+    for (const prop in this.filtro){
+      if (this.filtro.hasOwnProperty(prop)){
+        return false;
+      }
+    }
+    return true;
+  }
 
 }

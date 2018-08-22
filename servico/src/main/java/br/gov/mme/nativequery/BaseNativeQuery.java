@@ -12,12 +12,12 @@ public abstract class BaseNativeQuery<F> implements NativeQueryBuilder {
 
     private final String className;
 
-    private boolean checkOr;
+    private boolean checkAnd;
 
-    protected BaseNativeQuery(String className, F filtro, boolean checkOr) {
+    protected BaseNativeQuery(String className, F filtro, boolean checkAnd) {
         this.filtro = filtro;
         this.className = className;
-        this.checkOr = checkOr;
+        this.checkAnd = checkAnd;
     }
 
     @Override
@@ -48,7 +48,7 @@ public abstract class BaseNativeQuery<F> implements NativeQueryBuilder {
 
     protected boolean haveFilterAttr(Object attr, StringBuilder queryBuilder) {
         if (isNotNull(attr)) {
-            this.appendOr(queryBuilder);
+            this.appendAnd(queryBuilder);
             return true;
         }
         return false;
@@ -56,7 +56,7 @@ public abstract class BaseNativeQuery<F> implements NativeQueryBuilder {
 
     protected boolean haveFilterAttr(Collection<?> attr, StringBuilder queryBuilder) {
         if (isNotEmpty(attr)) {
-            this.appendOr(queryBuilder);
+            this.appendAnd(queryBuilder);
             return true;
         }
         return false;
@@ -70,16 +70,16 @@ public abstract class BaseNativeQuery<F> implements NativeQueryBuilder {
         return (!(isNotNull(col) && col.isEmpty()));
     }
 
-    private void appendOr(StringBuilder queryBuilder) {
-        if (checkOr) {
-            queryBuilder.append("OR ");
+    private void appendAnd(StringBuilder queryBuilder) {
+        if (checkAnd) {
+            queryBuilder.append("AND ");
             return;
         }
-        this.checkOr = true;
+        this.checkAnd = true;
     }
 
     public boolean isCheckOr() {
-        return checkOr;
+        return checkAnd;
     }
 
 }

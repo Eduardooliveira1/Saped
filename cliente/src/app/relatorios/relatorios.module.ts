@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {PageNotificationService} from '@basis/angular-components';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {Ng2BRPipesModule} from 'ng2-brpipes';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
@@ -51,7 +52,7 @@ import {RelatoriosService} from './relatorios.service';
   declarations: [RelatorioPagamentoComponent, RelatorioPagamentoListComponent, StatusBoletoIdToDescricaoPipe, DotToCommaPipe],
   providers: [{provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig},
     {provide: CALENDAR, useValue: PT_BR},
-    RelatoriosService, EnumService, ConfirmationService, PessoaJuridicaService,
+    RelatoriosService, EnumService, ConfirmationService, PessoaJuridicaService, PageNotificationService
   ],
   exports: [Ng2BRPipesModule]
 })
