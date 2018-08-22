@@ -1,11 +1,21 @@
 package br.gov.mme.web.rest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.stream.Stream;
-
+import br.gov.mme.SapedApp;
+import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.domain.Representante;
+import br.gov.mme.domain.Telefone;
+import br.gov.mme.enumeration.EntityFields;
+import br.gov.mme.enumeration.FlNotificacao;
+import br.gov.mme.enumeration.FlStatus;
+import br.gov.mme.exceptions.ExceptionMessages;
+import br.gov.mme.repository.PessoaJuridicaRepository;
+import br.gov.mme.repository.PessoaRepository;
+import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.RepresentanteService;
+import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.mapper.PessoaJuridicaMapper;
+import br.gov.mme.utils.TestUtils;
+import br.gov.mme.web.rest.errors.ExceptionTranslator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -54,11 +64,17 @@ public class PessoaJuridicaResourceIntTest {
 	@Autowired
 	private PessoaJuridicaRepository pessoaJuridicaRepository;
 
+    @Autowired
+    private PessoaRepository pessoaRepository;
+
 	@Autowired
     private PessoaJuridicaService pessoaJuridicaService;
 
     @Autowired
     private EnumerationService enumerationService;
+
+    @Autowired
+    private RepresentanteService pessoaRepresentanteService;
 
     @Autowired
     private PessoaJuridicaMapper pessoaJuridicaMapper;
@@ -72,15 +88,21 @@ public class PessoaJuridicaResourceIntTest {
 	@Autowired
     private ExceptionTranslator exceptionTranslator;
 
-	PessoaJuridica pessoaJuridica;
+	private PessoaJuridica pessoaJuridica;
+
+	private Representante representante;
 
     private static MockMvc restPessoaJuridicaMockMvc;
-	
+
+    private static MockMvc restPessoaRepresentanteMockMvc;
+
     private static final String API = "/api/pessoa-juridica";
 
     private static final String REST_WITH_URL_PARAM = API + "/{id}";
 
     private static final String GET_PJS = "/api/pessoas-juridicas";
+
+    private static final String GET_REPRESENTANTES = "/api/pessoas-representantes";
 
     private static final String GET_PJ = REST_WITH_URL_PARAM;
 
@@ -90,11 +112,19 @@ public class PessoaJuridicaResourceIntTest {
 
     private static final String UPDATE_PJ = API;
 
+    private static final String GET_TODAS_PJS = GET_PJS + "/todas";
+
+    private static final String GET_REPRESENTANTES_POR_ID_PJ = GET_REPRESENTANTES +"/{idPj}";
+
     private static final String ENTITY_NAME = PessoaJuridicaResource.ENTITY_NAME;
 
     public static PessoaJuridica createEntity() {
         return createEntityBase(TestUtils.DEFAULT_STRING_TAM_9, TestUtils.DEFAULT_VALID_CNPJ);
 	}
+
+    public static Representante createEntityRepresentante() {
+        return createEntityRepresentanteBase();
+    }
 
     public static PessoaJuridica createDiferentEntity() {
         return createEntityBase(TestUtils.UPDATED_STRING_TAM_9, TestUtils.UPDATED_VALID_CNPJ);
@@ -109,7 +139,35 @@ public class PessoaJuridicaResourceIntTest {
 		pessoaJuridica.setSigla(nome);
 		return pessoaJuridica;
 	}
-    
+
+    private static Representante createEntityRepresentanteBase() {
+        Representante representante =  new Representante();
+        representante.setPessoa(TestUtils.getDefaultPessoa());
+        representante.setNome(TestUtils.DEFAULT_STRING_TAM_9);
+        representante.setCargo(TestUtils.DEFAULT_STRING_TAM_9);
+        List<Telefone> representanteTelefones = new ArrayList<>();
+        representanteTelefones.add(createDefaultTelenone(representante));
+        representanteTelefones.add(createDefaultTelenone(representante));
+        representante.setTelefone(representanteTelefones);
+        representante.setNotificacao(FlNotificacao.S);
+
+
+        representante.getPessoa().setEmail(TestUtils.DEFAULT_EMAIL);
+
+        return representante;
+    }
+
+    private static Telefone createDefaultTelenone( Representante representante) {
+        Telefone telefone = new Telefone();
+        telefone.setStatus(FlStatus.S);
+        telefone.setPessoaRepresentante(representante);
+        telefone.setDdd(TestUtils.DEFAULT_BIGDECIMAL_DDD);
+        telefone.setTelefone(TestUtils.DEFAUL_BIGDECIMAL_TELEFONE);
+
+        return telefone;
+    }
+
+
     private ResultActions checkarDadosPJ(ResultActions resultActions, String array, PessoaJuridica pessoaJuridica)
             throws Exception {
         resultActions = resultActions.andExpect(jsonPath(array + "cnpj").value(pessoaJuridica.getCnpj()))
@@ -127,16 +185,19 @@ public class PessoaJuridicaResourceIntTest {
 
     @BeforeEach
     public void setup() {
-        PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService,
-                enumerationService);
+        PessoaJuridicaResource pessoaJuridicaResource = new PessoaJuridicaResource(pessoaJuridicaService, enumeration Service);
+        PessoaRepresentanteResource pessoarepresentanteResource = new PessoaRepresentanteResource(pessoaRepresentanteService);
 
         restPessoaJuridicaMockMvc = TestUtils.setupMockMvc(pessoaJuridicaResource, pageableArgumentResolver,
                 jacksonMessageConverter, exceptionTranslator);
-        restPessoaJuridicaMockMvc = TestUtils.setupMockMvc(pessoaJuridicaResource, pageableArgumentResolver,
+
+        restPessoaRepresentanteMockMvc = TestUtils.setupMockMvc(pessoarepresentanteResource, pageableArgumentResolver,
                 jacksonMessageConverter, exceptionTranslator);
+
 		this.pessoaJuridicaRepository.deleteAll();
 		this.pessoaJuridicaRepository.flush();
         pessoaJuridica = createEntity();
+        representante = createEntityRepresentante();
 	}
 
     @SuppressWarnings("unused")
@@ -265,4 +326,33 @@ public class PessoaJuridicaResourceIntTest {
                 error, ENTITY_NAME);
     }
 
+    @Test
+    @Transactional
+    public void listarTodas() throws Exception {
+        PessoaJuridica outraPessoaJuridica = createDiferentEntity();
+        this.multipleSaveAndFlush(this.pessoaJuridica, outraPessoaJuridica);
+        TestUtils.performGet(this.restPessoaJuridicaMockMvc,GET_TODAS_PJS)
+                .andExpect(jsonPath("$[0].id").value(this.pessoaJuridica.getId()))
+                .andExpect(jsonPath("$[0].nome").value(this.pessoaJuridica.getNomeFantasia()))
+                .andExpect(jsonPath("$[1].id").value(outraPessoaJuridica.getId()))
+                .andExpect(jsonPath("$[1].nome").value(outraPessoaJuridica.getNomeFantasia()))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    @Transactional
+    public void listarTodosRepresentantesPorIdPj() throws Exception {
+
+        this.pessoaJuridica.setRepresentantes( new ArrayList<>(Arrays.asList(this.representante)));
+        this.representante.setPessoaJuridica(pessoaJuridica);
+
+        this.pessoaJuridicaRepository.saveAndFlush(this.pessoaJuridica);
+
+        TestUtils.performGet(this.restPessoaRepresentanteMockMvc, GET_REPRESENTANTES_POR_ID_PJ, pessoaJuridica.getId())
+                .andExpect(jsonPath("$.[0].nome").value(this.representante.getNome()))
+                .andExpect(jsonPath("$.[0].cargo").value(this.representante.getCargo()))
+                .andExpect(jsonPath("$.[0].email").value(this.representante.getPessoa().getEmail()))
+                .andExpect(jsonPath("$.[0].telefone[0].ddd").value(this.representante.getTelefone().get(0).getDdd()))
+                .andExpect(jsonPath("$.[0].telefone[0].telefone").value(this.representante.getTelefone().get(0).getTelefone()));
+    }
 }

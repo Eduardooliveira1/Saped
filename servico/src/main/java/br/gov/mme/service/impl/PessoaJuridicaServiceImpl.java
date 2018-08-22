@@ -106,12 +106,13 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         }
     }
 
-    private void atribuiPessoaaoTelefone (Representante representante) {
-            for(Telefone telefone : representante.getTelefone()){
-                telefone.setPessoaRepresentante(representante);
-                telefone.setStatus(FlStatus.S);
-            }
+    private void atribuiPessoaaoTelefone(Representante representante) {
+        for (Telefone telefone : representante.getTelefone()) {
+            telefone.setPessoaRepresentante(representante);
+            telefone.setStatus(FlStatus.S);
+        }
     }
+
     @Override
     public PessoaJuridicaCadastroDTO obterPordId(Long id) {
         return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));

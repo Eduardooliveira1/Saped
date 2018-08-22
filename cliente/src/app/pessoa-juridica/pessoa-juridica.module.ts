@@ -1,3 +1,4 @@
+import { PessoaRepresentanteService } from './pessoa-representante.service';
 import { EnumService } from '../shared/enum.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { pessoaJuridicaRoute } from './pessoa-juridica.route';
@@ -35,7 +36,7 @@ import { PessoaRepresentanteListComponentComponent } from './pessoa-representant
   ],
   declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent, PessoaRepresentanteListComponentComponent],
   providers:[
-      PessoaJuridicaService, EnumService, ConfirmationService
+      PessoaJuridicaService, EnumService, ConfirmationService, PessoaRepresentanteService
   ],
   exports: [Ng2BRPipesModule]
 })

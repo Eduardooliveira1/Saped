@@ -99,7 +99,7 @@ public class PessoaJuridicaResource {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
                     ENTITY_NAME, e.getMessage())).body(null);
-        }
+        }   
     }
 
     @PutMapping("/pessoa-juridica")
