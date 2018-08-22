@@ -1,5 +1,4 @@
 import { SelectItem } from 'primeng/primeng';
-
 export class CustomUtils {
   public static CAMPO_VALOR_PADRAO = 'id';
   public static CAMPO_LABEL_PADRAO = 'descricao';
