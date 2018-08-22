@@ -9,7 +9,7 @@
             <span>Empresa:</span>
           </div>
           <div class="ui-g-8">  
-            <p-dropdown [required]="true" [showClear]="true" [options]="pessoasJuridicasCadastradas" placeholder="Selecione"></p-dropdown>
+            <p-dropdown [required]="true" [(ngModel)]="idPessoaJuridicaSelecionada" [showClear]="true" [options]="pessoasJuridicasCadastradas" placeholder="Selecione"></p-dropdown>
           </div>
       </div>
       <div class="ui-g-4">
@@ -17,7 +17,7 @@
             <span>Ano:</span>
           </div>
           <div class="ui-g-8">
-              <p-dropdown [required]="true" [showClear]="true" [options]="anosCobranca" [(ngModel)]="anoReferencia" (ngModelChange)="bucarQuintosDiasUteis()" placeholder="Selecione" ></p-dropdown>
+              <p-dropdown [required]="true" [showClear]="true" [options]="anosCobranca" [(ngModel)]="anoReferencia" (ngModelChange)="obterListaDeCobrancas  ()" placeholder="Selecione" ></p-dropdown>
           </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
         <p-column field="dataSegundaVia" header="Data 2ª Via"></p-column>
         <p-column field="valor" header="Valor">
           <ng-template let-col let-row="rowData" pTemplate="body">
-            <input id="input" [disabled]="true"  class="centralizar-texto-input-valor " type="text" size="11" pInputText [(ngModel)]="row.valor" > 
+            <input id="input" class="centralizar-texto-input-valor " type="text" size="11" pInputText [(ngModel)]="row.valor" > 
           </ng-template>
         </p-column>
 
