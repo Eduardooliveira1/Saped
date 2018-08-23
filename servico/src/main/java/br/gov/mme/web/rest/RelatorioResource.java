@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,30 +45,21 @@ public class RelatorioResource {
     public RelatorioResource(BoletoService boletoService) {
         this.boletoService = boletoService;
     }
-
-    @GetMapping("/pagamentos")
-    @Timed
-    public ResponseEntity<Page<BoletoRelatorioPagamentoDTO>> listarTodosPagamentos(Pageable pageable)
-            throws FiltroVazioException {
-        Page<BoletoRelatorioPagamentoDTO> page = this.boletoService.listarPagamentosRelatorio(null, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/relatorios/pagamentos");
-        return new ResponseEntity<>(page, headers, HttpStatus.OK);
-    }
     
-    @PostMapping("/pagamentos/filtrados")
+    @PostMapping("/pagamentos")
     @Timed
-    public ResponseEntity<?> listarPagamentosFiltrados(@Valid @RequestBody 
-            BoletoRelatorioPagamentoFiltroDTO filtro, Pageable pageable) throws URISyntaxException {
+    public ResponseEntity<?> listarPagamentos(@Valid @RequestBody 
+    BoletoRelatorioPagamentoFiltroDTO filtro, Boolean hasFiltro, Pageable pageable) throws URISyntaxException {
         try {
             Page<BoletoRelatorioPagamentoDTO> page = this.boletoService
-                    .listarPagamentosRelatorio(filtro, pageable);
+                    .listarPagamentosRelatorio(filtro, hasFiltro, pageable);
             HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, 
-                    "/api/relatorios/pagamentos/filtrados");
+                    "/api/relatorios/pagamentos");
             return new ResponseEntity<>(page, headers, HttpStatus.OK);
         } catch (FiltroVazioException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(BoletoResource.ENTITY_NAME,
+                    .headers(HeaderUtil.createFailureAlert("boleto",
                             e.getMessage())).body(null);
         }
     }
@@ -85,7 +75,7 @@ public class RelatorioResource {
                 | FiltroVazioException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(BoletoResource.ENTITY_NAME, e.getMessage()))
+                    .headers(HeaderUtil.createFailureAlert("boleto", e.getMessage()))
                     .body(null);
         }
     }

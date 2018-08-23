@@ -3,8 +3,10 @@ import {RequestOptions, Response} from '@angular/http';
 import {HttpService} from '@basis/angular-components';
 import {Observable} from '../../../node_modules/rxjs/Observable';
 import {environment} from '../../environments/environment.prod';
+import {Page} from '../util/page';
 import {Pageable} from '../util/pageable-request';
 import {FiltroRelatorioPagamentos} from './pagamentos/filtro-relatorio-pagamento';
+import {RelatorioPagamentoList} from './pagamentos/relatorio-pagamento-list';
 
 @Injectable()
 export class RelatoriosService {
@@ -21,17 +23,11 @@ export class RelatoriosService {
   constructor(private http: HttpService) {
   }
 
-  listarPagamentosLazyLoad(pageable: Pageable) {
-    const options = new RequestOptions({params: pageable});
-    return this.http.get(this.pagamentosUrl, options).map((res: Response) => {
-      return res.json();
-    });
-  }
-
-  listarPagamentos(filtro: FiltroRelatorioPagamentos, pageable: Pageable): Observable<FiltroRelatorioPagamentos>{
-    const copy = RelatoriosService.convert(filtro);
-    const options = new RequestOptions({params: {pageable}});
-    return this.http.post(this.pagamentosUrl + '/filtrados', copy, options).map((res: Response) => {
+  listarPagamentos(filtro: FiltroRelatorioPagamentos, pageable: Pageable, hasFiltro: Boolean): Observable<Page<RelatorioPagamentoList>> {
+    const filtroCopy = RelatoriosService.convert(filtro);
+    const hasFiltroCopy  = RelatoriosService.convert(hasFiltro);
+    const options = new RequestOptions({params: {hasFiltro, pageable}});
+    return this.http.post(this.pagamentosUrl, filtroCopy, options).map((res: Response) => {
       return res.json();
     });
   }

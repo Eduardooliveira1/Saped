@@ -1,14 +1,4 @@
-<input  *ngIf="currency === true"  currencyMask [(ngModel)]="valor" min="-9999999999.99" max="99999999999.99" type="text"
-       pInputText
-       [class]="getDefaultClass()"
-       [readonly]="false"
-       [value]="getValue()"
-       [maxLength]="maxLength"
-       [pattern]="pattern"
-       (input)="onChange($event)"
-       (blur)="setTouched()"
-/>
-<input  *ngIf="currency === false"  type="text"
+<input  type="text"
         pInputText
         [class]="getDefaultClass()"
         [readonly]="readonly"

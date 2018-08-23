@@ -23,28 +23,27 @@
     <div class="ui-g-12 md-12">
         <div class="ui-g-4 md-4 filled ui-multiselect-label-container">
             <p-multiSelect  [options]="dropDownNomePessoaJuridica"
-                           [defaultLabel]="'selecione'" [style]="{'width':'100%'}"
-                           [required]="false" [(ngModel)]="filtro.idsPessoasJuridicas">
+                           [defaultLabel]="'Selecione'" [style]="{'width':'100%'}"
+                           [required]="false" [(ngModel)]="idsPessoasJuridicas">
             </p-multiSelect>
         </div>
         <span class="ui-g-2 md-2 ui-calendar">
-            <p-calendar [(ngModel)]="filtro.dataVencimento" dateFormat="dd.mm.yy" [locale]="ptBr" ></p-calendar>
+            <p-calendar [(ngModel)]="dataVencimento" dateFormat="dd.mm.yy" [locale]="ptBr" ></p-calendar>
         </span>
-        <span class="ui-g-2 md-2 md-inputfield ">
-            <app-custom-input-text #currencyValue [maxLength]="30"
-                                    [currency] = "true"
-           > </app-custom-input-text>
+        <span class="ui-g-2 md-2 md-inputfield wp16-4">
+            <app-custom-input-currency-mask #currencyValue [maxLength]="30"
+           > </app-custom-input-currency-mask>
         </span>
-        <span class="ui-g-1 md-1 filled ui-dropdown-label">
+        <div class="ui-g-1 md-1 filled ui-dropdown-label">
                 <p-dropdown  [required]="false" [options]="dropDownStatusBoleto"
-                             placeholder="..."
-                             [(ngModel)]="filtro.tpStatusBoleto"
+                             placeholder="Sel"
+                             [(ngModel)]="tpStatusBoleto"
                              [showClear]="true"></p-dropdown>
-        </span>
+        </div>
         <span class="ui-g-2 md-2 filled ui-dropdown-label w14p">
                 <p-dropdown  [required]="false" [options]="dropDownMesReferencia"
-                            placeholder="selecione"
-                             [(ngModel)]="filtro.mesReferencia"
+                            placeholder="Selecione"
+                             [(ngModel)]="mesReferencia"
                              [showClear]="true"></p-dropdown>
         </span>
         <span class="ui-g-1 md-1 ui-button botao-pesquisar">
@@ -53,6 +52,30 @@
     </div>
 
 <div class="ui-g-12 ui-md-12 ui-sm-12">
-    <app-relatorio-pagamento-list-component #relatorioPagamentoList
-    ></app-relatorio-pagamento-list-component>
+    <p-dataTable #dataTable [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true"
+                  [lazy]="true" (onLazyLoad)="this.listarPagamentos(null, false)"
+                  [immutable]="false" [first]="0"
+                 [totalRecords]="result?.totalElements" [value]="result?.content"
+                 emptyMessage="Nenhum resultado encontrado.">
+        <p-column field="cnpj" header="CNPJ">
+            <ng-template let-col let-row="rowData" pTemplate="body">
+                {{row.cnpj | cnpj}}
+            </ng-template>
+        </p-column>
+        <p-column field="nomeFantasia" header="Nome Fantasia"></p-column>
+        <p-column field="mesReferencia" header="Mês Referencia"></p-column>
+        <p-column field="dataVencimento" header="Data 2ª Via"></p-column>
+        <p-column field="statusBoleto" header="Status">
+            <ng-template  let-row="rowData" pTemplate="body">
+                <span> {{row.statusBoleto | descrisaoStatusBoleto}}</span>
+            </ng-template>
+        </p-column>
+
+        <p-column field="valorBoleto" header="Valor">
+            <ng-template  let-row="rowData" pTemplate="body">
+                <span> {{row.valorBoleto | currency:'BRL' | dotToComma}}</span>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+    <p-confirmDialog></p-confirmDialog>
 </div>

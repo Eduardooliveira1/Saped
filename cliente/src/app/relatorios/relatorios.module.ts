@@ -26,7 +26,6 @@ import {CustomCurrencyMaskConfig} from '../shared/custom-mask-configs/custom-cur
 import {DotToCommaPipe} from '../shared/custom-pipes/dot-to-comma.pipe';
 import {StatusBoletoIdToDescricaoPipe} from '../shared/custom-pipes/status-boleto-id-to-descricao.pipe';
 import {EnumService} from '../shared/enum.service';
-import {RelatorioPagamentoListComponent} from './pagamentos/pagamentos-list-component/relatorio-pagamento-list.component';
 import {RelatorioPagamentoComponent} from './pagamentos/relatorio-pagamento.component';
 import {relatoriosRoutes} from './relatorios.route';
 import {RelatoriosService} from './relatorios.service';
@@ -49,7 +48,7 @@ import {RelatoriosService} from './relatorios.service';
     MultiSelectModule,
     CurrencyMaskModule,
     CalendarModule],
-  declarations: [RelatorioPagamentoComponent, RelatorioPagamentoListComponent, StatusBoletoIdToDescricaoPipe, DotToCommaPipe],
+  declarations: [RelatorioPagamentoComponent, StatusBoletoIdToDescricaoPipe, DotToCommaPipe],
   providers: [{provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig},
     {provide: CALENDAR, useValue: PT_BR},
     RelatoriosService, EnumService, ConfirmationService, PessoaJuridicaService, PageNotificationService

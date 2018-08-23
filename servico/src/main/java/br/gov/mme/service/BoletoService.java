@@ -15,7 +15,7 @@ import br.gov.mme.service.dto.BoletoRelatorioPagamentoFiltroDTO;
 public interface BoletoService {
 
     Page<BoletoRelatorioPagamentoDTO> listarPagamentosRelatorio(BoletoRelatorioPagamentoFiltroDTO filtro,
-            Pageable pageable) throws FiltroVazioException;
+            boolean hasFriltro, Pageable pageable) throws FiltroVazioException;
 
     void getRelatorioExport(BoletoRelatorioPagamentoFiltroDTO filtro, HttpServletResponse response)
             throws ArquivoDeTipoInvalidoException, RelatorioException, LeituraBufferException, 

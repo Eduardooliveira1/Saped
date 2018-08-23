@@ -4,7 +4,6 @@ import {ControlValueAccessor, FormControlName, NG_VALUE_ACCESSOR} from '@angular
 @Component({
     selector: 'app-custom-input-text',
     templateUrl: './custom-input-text.component.html',
-    styleUrls: ['./custom-input-text.component.css'],
     providers: [
         { provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => CustomInputTextComponent),
@@ -23,8 +22,6 @@ export class CustomInputTextComponent implements OnInit, ControlValueAccessor {
     @Input() pattern: any = '';
     @Input() readonly = false;
     @Input() maxLength: number;
-    @Input() currency = false;
-    valor: number;
 
     @ContentChild(FormControlName) formControl: FormControlName;
 

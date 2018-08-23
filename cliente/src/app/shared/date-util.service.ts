@@ -1,7 +1,7 @@
 import {DatePipe} from '@angular/common';
 import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
 import {HttpService} from '@basis/angular-components';
+import {Observable} from '../../../node_modules/rxjs';
 import {environment} from '../../environments/environment.prod';
 
 
@@ -63,8 +63,23 @@ export class JhiDateUtils {
   }
 
   listarMesReferencia() {
-    return this.http.get(this.resourceUrl + '/mes-referencia').map((res: Response) => {
-      return res.json();
+    // return this.http.get(this.resourceUrl + '/mes-referencia').map((res: Response) => {
+    //   return res.json();
+    // });
+    return new Observable((observer) => {
+      const year = new Date().getFullYear();
+      observer.next([{'id': 1, 'descricao': 'Janeiro/' + year},
+        {'id': 2, 'descricao': 'Fevereiro/' + year},
+        {'id': 3, 'descricao': 'Março/' + year},
+        {'id': 4, 'descricao': 'Abril/' + year},
+        {'id': 5, 'descricao': 'Maio/' + year},
+        {'id': 6, 'descricao': 'Junho/' + year},
+        {'id': 7, 'descricao': 'Julho/' + year},
+        {'id': 8, 'descricao': 'Agosto/' + year},
+        {'id': 9, 'descricao': 'Setembro/' + year},
+        {'id': 10, 'descricao': 'Outubro/' + year},
+        {'id': 11, 'descricao': 'Novembro/' + year},
+        {'id': 12, 'descricao': 'Dezembro/' + year}]);
     });
   }
 
