@@ -5,34 +5,63 @@ import br.gov.mme.enumeration.TpStatusBoleto;
 
 import java.io.Serializable;
 
-public class cobrancaDTO implements Serializable {
+public class CobrancaDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    private Long idPj;
     private String mesReferencia;
+    private String dataVencimento;
     private String dataPagamento;
     private String dataSegundaVia;
     private String valor;
-    private AcaoGerarBoleto acao;
+    private AcaoGerarBoleto acaoGerar;
     private Boolean habilitaImprimir;
     private Boolean habilitaExcluir;
+    private Boolean habilitarGerarBoleto;
+    private Boolean habilitarInserirValor;
     private TpStatusBoleto status;
 
+    public void setIdPj(Long idPj) {
+        this.idPj = idPj;
+    }
 
-    public cobrancaDTO() { }
+    public Long getIdPj() {
+        return idPj;
+    }
 
-    public cobrancaDTO(String mesReferencia, String dataPagamento, String dataSegundaVia, String valor, AcaoGerarBoleto acao, Boolean habilitaImprimir, Boolean habilitaExcluir, TpStatusBoleto status) {
+    public String getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(String dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
+
+    public CobrancaDTO() { }
+
+    public CobrancaDTO(String mesReferencia, String dataPagamento, String dataSegundaVia, String valor, AcaoGerarBoleto acaoGerar, Boolean habilitaImprimir, Boolean habilitaExcluir, TpStatusBoleto status, Boolean habilitarGerarBoleto, Long idPj, Boolean habilitarInserirValor) {
         this.mesReferencia = mesReferencia;
         this.dataPagamento = dataPagamento;
         this.dataSegundaVia = dataSegundaVia;
         this.valor = valor;
-        this.acao = acao;
+        this.acaoGerar = acaoGerar;
         this.habilitaImprimir = habilitaImprimir;
         this.habilitaExcluir = habilitaExcluir;
         this.status = status;
+        this.habilitarGerarBoleto = habilitarGerarBoleto;
+        this.idPj = idPj;
+        this.habilitarInserirValor = habilitarInserirValor;
     }
 
+    public Boolean getHabilitarInserirValor() {
+        return habilitarInserirValor;
+    }
+
+    public void setHabilitarInserirValor(Boolean habilitarInserirValor) {
+        this.habilitarInserirValor = habilitarInserirValor;
+    }
 
     public String getMesReferencia() {
         return mesReferencia;
@@ -66,16 +95,24 @@ public class cobrancaDTO implements Serializable {
         this.valor = valor;
     }
 
-    public AcaoGerarBoleto getAcao() {
-        return acao;
+    public AcaoGerarBoleto getAcaoGerar() {
+        return acaoGerar;
     }
 
-    public void setAcao(AcaoGerarBoleto acao) {
-        this.acao = acao;
+    public void setAcaoGerar(AcaoGerarBoleto acaoGerar) {
+        this.acaoGerar = acaoGerar;
     }
 
     public Boolean getHabilitaImprimir() {
         return habilitaImprimir;
+    }
+
+    public Boolean getHabilitarGerarBoleto() {
+        return habilitarGerarBoleto;
+    }
+
+    public void setHabilitarGerarBoleto(Boolean habilitarGerarBoleto) {
+        this.habilitarGerarBoleto = habilitarGerarBoleto;
     }
 
     public void setHabilitaImprimir(Boolean habilitaImprimir) {

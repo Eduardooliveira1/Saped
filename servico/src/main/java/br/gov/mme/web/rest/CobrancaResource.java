@@ -1,7 +1,7 @@
 package br.gov.mme.web.rest;
 
 import br.gov.mme.service.CobrancaService;
-import br.gov.mme.service.dto.cobrancaDTO;
+import br.gov.mme.service.dto.CobrancaDTO;
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,8 @@ public class CobrancaResource {
 
     @GetMapping("/listagem-cobranca/{ano}/{idPj}")
     @Timed
-    public ResponseEntity<List<cobrancaDTO>> obterListagemAnualCobranca(@PathVariable("ano") int ano, @PathVariable("idPj") int idPj) {
-        List<cobrancaDTO> result =  cobrancaService.obterCobrancasDoAno(ano, idPj);
+    public ResponseEntity<List<CobrancaDTO>> obterListagemAnualCobranca(@PathVariable("ano") int ano, @PathVariable("idPj") Long idPj) {
+        List<CobrancaDTO> result =  cobrancaService.obterCobrancasDoAno(ano, idPj);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

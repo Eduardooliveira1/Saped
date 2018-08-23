@@ -1,11 +1,11 @@
 package br.gov.mme.service;
 
-import br.gov.mme.service.dto.cobrancaDTO;
+import br.gov.mme.service.dto.CobrancaDTO;
 
 import java.util.List;
 
 
 public interface CobrancaService {
-    List<cobrancaDTO> obterCobrancasDoAno(int ano, int idPj);
+    List<CobrancaDTO> obterCobrancasDoAno(int ano, Long idPj);
 }
 

@@ -10,7 +10,7 @@ import br.gov.mme.service.util.EnumSerializer;
 
 @JsonSerialize(using = EnumSerializer.class)
 public enum TpStatusBoleto implements ConverterEnum<TpStatusBoleto>, Serializable {
-    AV("AV", "A Vencer"), AD("AD", "Adiantado"), EM("EM", "Emitido"),
+    AV("AV", "À Vencer"), AD("AD", "Adiantado"), EM("EM", "Emitido"),
     PG("PG", "Pago"), VE("VE", "Vencido");
 
     private String id;

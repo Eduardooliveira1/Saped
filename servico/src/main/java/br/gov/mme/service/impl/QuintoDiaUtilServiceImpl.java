@@ -19,11 +19,12 @@ public class QuintoDiaUtilServiceImpl implements QuintoDiaUtilService {
         int contadorDeDiasUteis = 0;
         List<String> quintosDiasUteis = new ArrayList<>();
         Calendar calendario = Calendar.getInstance();
+
         for (int mes = 1; mes <= 12; mes++) {
             for(int dia = 1; dia <= 31 ; dia++) {
                 calendario = setaDia(calendario, dia, mes, ano);
                 if((calendario.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
-                        && (calendario.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)) {
+                    && (calendario.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)) {
                     contadorDeDiasUteis++;
                     if(contadorDeDiasUteis == 5) {
                         quintosDiasUteis.add(converteDataParaString(calendario.getTime()));
@@ -45,7 +46,6 @@ public class QuintoDiaUtilServiceImpl implements QuintoDiaUtilService {
 
     private String converteDataParaString(Date data)
     {
-
         SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
         return sdfr.format( data );
     }
