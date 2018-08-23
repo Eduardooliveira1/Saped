@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,22 +106,6 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
 					PaginationUtil.ignoreCase(pageable));
 		}
 	}
-
-	
-	
-
-
-//	public void enviar(String email, String assunto, String mensagem) {
-//		SimpleMailMessage simpleEmail = new SimpleMailMessage();
-//
-//		simpleEmail.setTo(email);
-//		simpleEmail.setFrom("sapedteste@gmail.com");
-//		simpleEmail.setSubject(assunto);
-//		simpleEmail.setText(mensagem);
-//
-//		mailSender.send(simpleEmail);
-//
-//	}
 
 
 }
