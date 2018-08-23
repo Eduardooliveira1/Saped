@@ -1,4 +1,4 @@
-import { PessoaRepresentanteService } from './../pessoa-representante.service';
+import { PessoaRepresentanteService } from '../pessoa-representante.service';
 import { PageNotificationService } from '@basis/angular-components';
 import { MensagensUtils } from '../../util/mensagens-util';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';

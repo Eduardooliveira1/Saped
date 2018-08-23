@@ -1,13 +1,16 @@
+import { Cobranca } from './cobranca-model';
 import { HttpService } from '@basis/angular-components';
 import { environment } from '../../environments/environment.prod';
 import { Injectable } from "@angular/core";
-import { RequestOptions, Response } from '@angular/http';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CadastarCobrancaService {
 
     searchUrl = environment.apiUrl + "/listagem-cobranca";
-
+    resourceUrl = "/boleto";
+    
     constructor(private http: HttpService) { }
 
     obterQuintosDiasUtis(ano: string) {
@@ -22,4 +25,11 @@ export class CadastarCobrancaService {
         });
     }
 
+    gerarBoleto(cobranca: Cobranca): Observable<Cobranca> {
+
+        return this.http.post(this.resourceUrl+"/gerar-boleto", cobranca).map((res : Response) => {
+            return res.json();
+        });
+    }
+    
 }

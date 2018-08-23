@@ -36,28 +36,38 @@
     <div class="ui-g-12">
       <p-dataTable #dataTable  [immutable]="false" [rows]="12" [responsive]="true"  [lazy]="true"
       [totalRecords]="listaCobrancas.length"  [value]="listaCobrancas" class="centralizar-texto" emptyMessage="Selecione uma pessoa jurídica e um ano.">
-        <p-column field="mesReferencia" header="Referência"></p-column>
+        <p-column  header="Referência">
+          <ng-template  let-i="rowIndex" pTemplate="body">
+              {{i | MesReferencia}}
+          </ng-template>
+        </p-column>
         <p-column field="dataVencimento" header="Data Vencimento"></p-column>
         <p-column field="dataPagamento" header="Data Pagamento"></p-column>
         <p-column field="dataSegundaVia" header="Data 2ª Via"></p-column>
         <p-column field="valor" header="Valor">
           <ng-template let-col let-row="rowData" pTemplate="body">
-            <input id="input" class="centralizar-texto-input-valor " type="text" size="11" pInputText [(ngModel)]="row.valor" > 
+            <input id="input" class="centralizar-texto-input-valor" [disabled]="!row.habilitarInserirValor" type="text" size="11" pInputText [(ngModel)]="row.valor" > 
           </ng-template>
         </p-column>
 
         <p-column field="gerar" header="Gerar">
-          <ng-template  let-row="rowData" pTemplate="body">
-            <button  *ngIf="row.acaoGerar == 'Emitir' || row.acaoGerar == '2ª Via'" pButton [ngClass]="{'segunda-via':row.acaoGerar == '2ª Via'}" type="button" [disabled]="botaoGerar(row)"  (click)="gerarCobranca()" [label]="row.acaoGerar"></button>
+          <ng-template  let-row="rowData" let-i="rowIndex" pTemplate="body">
+            <button  *ngIf="row.status.descricao != 'Pago'" pButton [ngClass]="{'segunda-via':row.acaoGerar == 'SEGUNDAVIA'}" type="button" [disabled]="!row.habilitarGerarBoleto"  (click)="gerarCobranca(i)" [label]="row.acaoGerar | AcaoCobranca"></button>
           </ng-template>
         </p-column>
         <p-column header="Ações">
           <ng-template  let-row="rowData"  pTemplate="body">
-            <i class="material-icons" (click)="imprimirCobranca(row.id)">print</i>
-            <i class="material-icons deletar-cobranca-icon" (click)="deletarCobranca(row.id)">highlight_off</i>
+            <i class="material-icons" *ngIf="row.habilitaImprimir" (click)="imprimirCobranca(row.id)">print</i>
+            <i class="material-icons deletar-cobranca-icon" *ngIf="row.habilitaExcluir" (click)="deletarCobranca(row.id)">highlight_off</i>
           </ng-template>
         </p-column >
-        <p-column field="status" header="Status"  ></p-column>
+        <p-column header="Status"  >
+          <ng-template  let-row="rowData" pTemplate="body">
+            <span [ngClass]="{'vencido':row.status.descricao == 'Vencido', 'pago':row.status.descricao == 'Pago', 'a-vencer':row.status.descricao == 'À Vencer'}">
+              {{row.status.descricao}}
+            </span>
+          </ng-template>
+        </p-column>
       </p-dataTable>
     </div>
   </div>

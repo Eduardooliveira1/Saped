@@ -4,12 +4,22 @@ export class Cobranca{
     public dataPagamento: string;
     public dataSegundaVia: string;
     public valor: string;
-    public status: string;
-    public ano: string;
-    public id: string;
+    public idPj: string;
     public acaoGerar: string;
+    public habilitaExcluir: boolean;
+    public habilitaImprimir: boolean;
+    public habilitarGerarBoleto: boolean;
+    public habilitarInserirValor: boolean;
+    public status: Status;
+
     constructor(
     ){
         
     }
+}
+
+export class Status {
+    public codigo: string;
+    public descricao: string;
+    constructor() {}
 }

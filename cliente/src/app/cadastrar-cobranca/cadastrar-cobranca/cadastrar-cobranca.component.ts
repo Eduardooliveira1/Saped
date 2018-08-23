@@ -1,11 +1,10 @@
-import { DadosUtils } from './../../util/dados-utils';
+import { DadosUtils } from '../../util/dados-utils';
 import { CadastarCobrancaService } from '../cadastrar-cobranca.service';
 import { SelectItem } from 'primeng/primeng';
 import { CustomUtils } from '../../util/custom-utils';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import { Cobranca } from '../cobranca-model';
 import { Component, OnInit } from '@angular/core';
-import { faPrint, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { PessoaJuridicaService } from '../../pessoa-juridica/pessoa-juridica.service';
 import { MensagensUtils } from '../../util/mensagens-util';
 import { PageNotificationService } from '@basis/angular-components';
@@ -27,6 +26,7 @@ export class CadastrarCobrancaComponent implements OnInit {
   listaCobrancas: Cobranca[] = [];
   anoReferencia: string; 
   idPessoaJuridicaSelecionada: string;
+  idCobrancaEmitir : any;
 
   mostrarModalEmitirCobranca = false;
   emitirCobrancaCheckBox = false;
@@ -38,21 +38,7 @@ export class CadastrarCobrancaComponent implements OnInit {
   }
   
   ngOnInit() {
-    // this.listaCobrancas =[{acaoGerar:'Emitir', id:'1', ano:'2009', mesReferencia: 'Janeiro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'Pago'},
-    //                       {acaoGerar:'Emitir', id:'2', ano:'2010', mesReferencia: 'Fevereiro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'Pago'},
-    //                       {acaoGerar:'Emitir', id:'3', ano:'2011', mesReferencia: 'Março',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'Vencido'},
-    //                       {acaoGerar:'Emitir', id:'4', ano:'2012', mesReferencia: 'Abril',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'Vencido'},
-    //                       {acaoGerar:'Emitir', id:'5', ano:'2013', mesReferencia: 'Maio',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'À vencer'},
-    //                       {acaoGerar:'Emitir', id:'6', ano:'2014', mesReferencia: 'Junho',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'À vencer'},
-    //                       {acaoGerar:'Emitir', id:'7', ano:'2015', mesReferencia: 'Julho',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'À vencer'},
-    //                       {acaoGerar:'Emitir', id:'8', ano:'2016', mesReferencia: 'Agosto',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'À vencer'},
-    //                       {acaoGerar:'Emitir', id:'9', ano:'2017', mesReferencia: 'Setembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'À vencer'},
-    //                       {acaoGerar:'Emitir', id:'10', ano:'2018', mesReferencia: 'Outubro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'À vencer'},
-    //                       {acaoGerar:'Emitir', id:'11', ano:'2019', mesReferencia: 'Novembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'À vencer'},
-    //                       {acaoGerar:'Emitir', id:'12', ano:'2000', mesReferencia: 'Dezembro',dataVencimento: '',dataPagamento: '', dataSegundaVia:'', valor: '', status:'À vencer'}];
-
     this.anosReferencia = DadosUtils.anosReferencia;
-
     this.obterPessoasuridicas();
     this.obterAnosCobranca();
   }
@@ -81,11 +67,28 @@ export class CadastrarCobrancaComponent implements OnInit {
     alert("Imprimir cobrança " + id);
   }
 
-  gerarCobranca() {
-    this.mostrarModalEmitirCobranca = true;
+  gerarCobranca(id) {
+    this.idCobrancaEmitir = id;
+    if(this.listaCobrancas[id].valor) {
+      this.mostrarModalEmitirCobranca = true;
+    } else {
+      this.pageNotificationService.addWarnMessage(MensagensUtils.COBRANCA_INSERIR_VALOR);
+    }
   }
 
   emitirCobranca() {
+    this.listaCobrancas[this.idCobrancaEmitir]
+
+        this.blockUI.start(MensagensUtils.CARREGANDO);
+      this.cadastarCobrancaService.gerarBoleto(this.listaCobrancas[this.idCobrancaEmitir])
+      .subscribe(result => {
+        this.blockUI.stop();
+        this.listaCobrancas[this.idCobrancaEmitir] = result;
+      }, error => {
+        this.blockUI.stop();
+        this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
+      });
+
     this.mostrarModalEmitirCobranca = false;
   }
 
@@ -93,10 +96,6 @@ export class CadastrarCobrancaComponent implements OnInit {
     this.mostrarModalEmitirCobranca = false;
   }
   
-  botaoGerar(mesRefetencia) {
-    false;
-  }
-
   emitirTudo() {
     alert("Emitir tudo");
   }
@@ -112,11 +111,7 @@ export class CadastrarCobrancaComponent implements OnInit {
   obterListaDeCobrancas() {
       let anoSelecionado = this.anosCobranca[parseInt(this.anoReferencia)-1].label;
       this.cadastarCobrancaService.obterCobrancasDoAno(anoSelecionado, this.idPessoaJuridicaSelecionada).subscribe(result=>{
-        //TODO::OLHAR O RESULT result
-      });
-      debugger;
-      this.cadastarCobrancaService.obterQuintosDiasUtis(anoSelecionado).subscribe(result=>{
-        this.atualizaColunaQuintoDiaUtil(result)
+        this.listaCobrancas = result;
       });
   }
 

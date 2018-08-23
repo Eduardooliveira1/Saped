@@ -10,5 +10,5 @@ export class DadosUtils {
                                     {id:'8',ano:'2016'},
                                     {id:'9',ano:'2017'},
                                     {id:'10',ano:'2018'},
-                                    {id:'11',ano:'2019'}];;
+                                    {id:'11',ano:'2019'}];
 }

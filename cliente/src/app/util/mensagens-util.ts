@@ -35,4 +35,5 @@ export class MensagensUtils {
     public static REPRESENTANTE_CONFIRMACAO_EXCLUSAO = "Realmente deseja excluir este representante?"
     public static REPRESENTANTE_INSERIR_TELEFONE = "Por favor, preencha os campos DDD e telefone antes de adicionar outro."
 
+    public static COBRANCA_INSERIR_VALOR = "Por favor, insira o valor do boleto a ser gerado."
 }

@@ -1,3 +1,4 @@
+import { AcaoCobranca } from '../shared/custom-pipes/acao-cobranca.pipe';
 import { CadastarCobrancaService } from './cadastrar-cobranca.service';
 import { cadastrarCobrancaRoute } from './cadastrar-cobranca.route';
 import { RouterModule } from '@angular/router';
@@ -10,6 +11,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PessoaJuridicaService } from '../pessoa-juridica/pessoa-juridica.service';
 import { FormsModule } from '@angular/forms';
+import { MesReferencia } from '../shared/custom-pipes/mes-referencia.pipe.1';
 
 @NgModule({
   imports: [
@@ -26,7 +28,7 @@ import { FormsModule } from '@angular/forms';
     DialogModule
 
   ],
-  declarations: [CadastrarCobrancaComponent],
+  declarations: [CadastrarCobrancaComponent, AcaoCobranca,MesReferencia],
   providers:[
     PessoaJuridicaService, CadastarCobrancaService
 ],

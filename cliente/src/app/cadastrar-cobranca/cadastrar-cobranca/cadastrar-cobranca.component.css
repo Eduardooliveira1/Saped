@@ -3,11 +3,11 @@
 }
 
 .a-vencer {
-    color: red;
+    color: #808080;
 }
 
 .vencido {
-    color: black; 
+    color: red; 
 }
 
 .centralizar-texto-input-valor {
