@@ -1,16 +1,22 @@
-import {DropdownMesReferenciaInterface} from './dropdown-mes-referencia-interface';
+import {Injectable} from '@angular/core';
 
-const year = new Date().getFullYear();
-export const CURRENT_YEAR_LIST: DropdownMesReferenciaInterface = {
-  items: [{'id': 1, 'descricao': 'Janeiro/' + year},
-    {'id': 2, 'descricao': 'Fevereiro/' + year},
-    {'id': 3, 'descricao': 'Março/' + year},
-    {'id': 4, 'descricao': 'Abril/' + year},
-    {'id': 5, 'descricao': 'Maio/' + year},
-    {'id': 6, 'descricao': 'Junho/' + year},
-    {'id': 7, 'descricao': 'Julho/' + year},
-    {'id': 8, 'descricao': 'Agosto/' + year},
-    {'id': 9, 'descricao': 'Setembro/' + year},
-    {'id': 10, 'descricao': 'Outubro/' + year},
-    {'id': 12, 'descricao': 'Dezembro/' + year}]
-};
+@Injectable()
+export class CurrentYearList  {
+  year = new Date().getFullYear();
+  public items: any[] = [{'id': 1, 'descricao': 'Janeiro/' + this.year},
+    {'id': 2, 'descricao': 'Fevereiro/' +  this.year},
+    {'id': 3, 'descricao': 'Março/' +  this.year},
+    {'id': 4, 'descricao': 'Abril/' +  this.year},
+    {'id': 5, 'descricao': 'Maio/' +  this.year},
+    {'id': 6, 'descricao': 'Junho/' +  this.year},
+    {'id': 7, 'descricao': 'Julho/' +  this.year},
+    {'id': 8, 'descricao': 'Agosto/' +  this.year},
+    {'id': 9, 'descricao': 'Setembro/' +  this.year},
+    {'id': 10, 'descricao': 'Outubro/' +  this.year},
+    {'id': 12, 'descricao': 'Dezembro/' +  this.year}];
+
+  constructor() {
+  }
+
+}
+

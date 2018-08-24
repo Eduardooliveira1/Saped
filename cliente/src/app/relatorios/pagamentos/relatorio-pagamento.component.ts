@@ -7,8 +7,7 @@ import {DataTable, SelectItem} from 'primeng/primeng';
 import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.service';
 import {JhiDateUtils} from '../../shared';
 import {CustomInputCurrencyMaskComponent} from '../../shared/custom-components/custom-input-currency-mask/custom-input-currency-mask.component';
-import {PT_BR} from '../../shared/custom-export-classes/calendar';
-import {CURRENT_YEAR_LIST} from '../../shared/custom-export-classes/dropdown-mes-referencia';
+import {ExportClassesComponent} from '../../shared/custom-export-classes/export-classes.component';
 import {EnumService} from '../../shared/enum.service';
 import {CustomUtils} from '../../util/custom-utils';
 import {MensagensUtils} from '../../util/mensagens-util';
@@ -21,7 +20,7 @@ import {RelatorioPagamentoList} from './relatorio-pagamento-list';
 @Component({
   selector: 'app-relatorio-pagamento',
   templateUrl: './relatorio-pagamento.component.html',
-  styleUrls: ['/relatorio-pagamento.component.css']
+  styleUrls: ['./relatorio-pagamento.component.css'],
 })
 export class RelatorioPagamentoComponent implements OnInit, OnChanges {
 
@@ -31,8 +30,9 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   dropDownNomePessoaJuridica: SelectItem[];
   dropDownStatusBoleto: SelectItem[];
   dropDownMesReferencia: SelectItem[];
+  exportClassesComponent: ExportClassesComponent = new ExportClassesComponent();
   form: FormGroup;
-  ptBr = PT_BR;
+  ptBr = this.exportClassesComponent.calendar.values;
   filtro: FiltroRelatorioPagamentos;
 
   idsPessoasJuridicas: number[];
@@ -67,7 +67,8 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
       this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
-      this.dropDownMesReferencia = CustomUtils.entityToDropDown(CURRENT_YEAR_LIST.items, CustomUtils.CAMPO_LABEL_PADRAO,
+      this.dropDownMesReferencia = CustomUtils.entityToDropDown(this.exportClassesComponent
+          .dropDownMesReferencia.items, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
   }
 
