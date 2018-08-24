@@ -22,7 +22,6 @@ import {CURRENCY_MASK_CONFIG} from '../../../node_modules/ng2-currency-mask/src/
 import {PessoaJuridicaService} from '../pessoa-juridica/pessoa-juridica.service';
 import {DotToCommaPipe} from '../shared';
 import {CustomComponentsModule} from '../shared/custom-components/custom-components.module';
-import {ExportClassesComponent} from '../shared/custom-export-classes/export-classes.component';
 import {CustomCurrencyMaskConfig} from '../shared/custom-mask-configs/custom-currency-mask-config';
 import {StatusBoletoIdToDescricaoPipe} from '../shared/custom-pipes/status-boleto-id-to-descricao.pipe';
 import {EnumService} from '../shared/enum.service';
@@ -48,7 +47,7 @@ import {RelatoriosService} from './relatorios.service';
     MultiSelectModule,
     CurrencyMaskModule,
     CalendarModule],
-  declarations: [RelatorioPagamentoComponent, StatusBoletoIdToDescricaoPipe, DotToCommaPipe, ExportClassesComponent],
+  declarations: [RelatorioPagamentoComponent, StatusBoletoIdToDescricaoPipe, DotToCommaPipe],
   providers: [{provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig},
     RelatoriosService, EnumService, ConfirmationService, PessoaJuridicaService, PageNotificationService
   ],
