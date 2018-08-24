@@ -5,10 +5,8 @@ import {PageNotificationService} from '@basis/angular-components';
 import {BlockUI, NgBlockUI} from 'ng-block-ui';
 import {DataTable, SelectItem} from 'primeng/primeng';
 import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.service';
-import {JhiDateUtils} from '../../shared';
+import {DateConstants} from '../../shared/constants/date-constants';
 import {CustomInputCurrencyMaskComponent} from '../../shared/custom-components/custom-input-currency-mask/custom-input-currency-mask.component';
-import {PT_BR} from '../../shared/custom-export-classes/calendar';
-import {CURRENT_YEAR_LIST} from '../../shared/custom-export-classes/dropdown-mes-referencia';
 import {EnumService} from '../../shared/enum.service';
 import {CustomUtils} from '../../util/custom-utils';
 import {MensagensUtils} from '../../util/mensagens-util';
@@ -21,7 +19,7 @@ import {RelatorioPagamentoList} from './relatorio-pagamento-list';
 @Component({
   selector: 'app-relatorio-pagamento',
   templateUrl: './relatorio-pagamento.component.html',
-  styleUrls: ['/relatorio-pagamento.component.css']
+  styleUrls: ['./relatorio-pagamento.component.css']
 })
 export class RelatorioPagamentoComponent implements OnInit, OnChanges {
 
@@ -32,7 +30,7 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   dropDownStatusBoleto: SelectItem[];
   dropDownMesReferencia: SelectItem[];
   form: FormGroup;
-  ptBr = PT_BR;
+  ptBr = DateConstants.getCalendar();
   filtro: FiltroRelatorioPagamentos;
 
   idsPessoasJuridicas: number[];
@@ -45,7 +43,6 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
 
   constructor(private router: Router,
               private pessoaJuridicaService: PessoaJuridicaService,
-              private dateUtilService: JhiDateUtils,
               private pageNotificationService: PageNotificationService,
               private enumService: EnumService,
               private relatoriosService: RelatoriosService) {
@@ -67,7 +64,7 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
       this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
-      this.dropDownMesReferencia = CustomUtils.entityToDropDown(CURRENT_YEAR_LIST.items, CustomUtils.CAMPO_LABEL_PADRAO,
+      this.dropDownMesReferencia = CustomUtils.entityToDropDown(DateConstants.getDropDownMesReferencia(), CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
   }
 
