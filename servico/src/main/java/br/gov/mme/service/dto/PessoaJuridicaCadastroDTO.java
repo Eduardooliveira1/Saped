@@ -3,7 +3,11 @@ import br.gov.mme.util.SapedUtil;
 
 import java.util.List;
 
-public class PessoaJuridicaCadastroDTO {
+import java.io.Serializable;
+
+public class PessoaJuridicaCadastroDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String cnpj;

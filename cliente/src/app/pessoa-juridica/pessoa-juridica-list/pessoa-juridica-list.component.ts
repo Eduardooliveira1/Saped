@@ -1,15 +1,15 @@
-import { PessoaRepresentanteService } from './../pessoa-representante.service';
-import { PageNotificationService } from '@basis/angular-components';
-import { MensagensUtils } from '../../util/mensagens-util';
-import { NgBlockUI, BlockUI } from 'ng-block-ui';
-import { Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Pageable } from '../../util/pageable-request';
-import { PessoaJuridicaService } from '../pessoa-juridica.service';
-import { faUserFriends, faEdit, faTrashAlt, faWindowClose } from '@fortawesome/free-solid-svg-icons';
-import { DataTable, ConfirmationService } from 'primeng/primeng';
-import { Page } from '../../util/page';
-import { PessoaJuridicaLista } from './pessoa-juridica-lista.model';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+import {PageNotificationService} from '@basis/angular-components';
+import {faEdit, faTrashAlt, faUserFriends, faWindowClose} from '@fortawesome/free-solid-svg-icons';
+import {BlockUI, NgBlockUI} from 'ng-block-ui';
+import {ConfirmationService, DataTable} from 'primeng/primeng';
+import {MensagensUtils} from '../../util/mensagens-util';
+import {Page} from '../../util/page';
+import {Pageable} from '../../util/pageable-request';
+import {PessoaJuridicaService} from '../pessoa-juridica.service';
+import {PessoaRepresentanteService} from './../pessoa-representante.service';
+import {PessoaJuridicaLista} from './pessoa-juridica-lista.model';
 
 @Component({
   selector: 'app-pessoa-juridica-list',
@@ -42,7 +42,7 @@ export class PessoaJuridicaListComponent implements OnInit {
   ngOnInit() {
     this.dataTable.expandedRows = [];
   }
-  
+
   filtrar() {
     if (this.filtro && this.filtro.length >= 3) {
       this.ultimoFiltro = this.filtro;
@@ -57,7 +57,7 @@ export class PessoaJuridicaListComponent implements OnInit {
   }
 
   pesquisar() {
-    let pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
+    const pageable = new Pageable(this.dataTable);
     pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
 
     this.blockUI.start(MensagensUtils.CARREGANDO);
@@ -90,10 +90,10 @@ export class PessoaJuridicaListComponent implements OnInit {
           this.blockUI.stop();
           this.pesquisar();
           this.pageNotificationService.addDeleteMsg();
-        }, error=>{
+        }, error => {
           this.blockUI.stop();
           this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_EXCLUIR_REGISTRO);
-        })
+        });
       }
     });
   }
@@ -103,7 +103,7 @@ export class PessoaJuridicaListComponent implements OnInit {
     this.pessoaRepresentanteService.obterRepresentantes(id).subscribe(result => {
       this.blockUI.stop();
       rowData.representantes = result;
-    }, error=>{
+    }, error => {
       this.blockUI.stop();
       this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
     });
@@ -114,8 +114,8 @@ export class PessoaJuridicaListComponent implements OnInit {
       rowData.representantes = [];
       this.obtemRepresentantes(rowData.id, rowData);
     }
-    
-    let expandedRow = this.dataTable.expandedRows.find(r => r.id == rowData.id);
+
+    const expandedRow = this.dataTable.expandedRows.find(r => r.id == rowData.id);
 
     if (expandedRow == null) {
       this.dataTable.expandedRows.push(rowData);

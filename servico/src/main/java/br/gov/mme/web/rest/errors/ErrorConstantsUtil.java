@@ -2,7 +2,7 @@ package br.gov.mme.web.rest.errors;
 
 import java.net.URI;
 
-public final class ErrorConstants {
+public final class ErrorConstantsUtil {
 
     public static final String ERR_CONCURRENCY_FAILURE = "error.concurrencyFailure";
     public static final String ERR_VALIDATION = "error.validation";
@@ -20,6 +20,6 @@ public final class ErrorConstants {
     public static final URI ENTITY_NOT_FOUND_TYPE = URI.create(PROBLEM_BASE_URL + "/entity-not-found");
 
 
-    private ErrorConstants() {
+    private ErrorConstantsUtil() {
     }
 }

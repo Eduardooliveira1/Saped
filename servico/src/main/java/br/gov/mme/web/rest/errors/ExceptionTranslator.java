@@ -52,7 +52,7 @@ public class ExceptionTranslator implements ProblemHandling {
             ProblemBuilder builder) {
         if (problem instanceof ConstraintViolationProblem) {
             builder.with("violations", ((ConstraintViolationProblem) problem).getViolations()).with(MESSAGE,
-                    ErrorConstants.ERR_VALIDATION);
+                    ErrorConstantsUtil.ERR_VALIDATION);
             return new ResponseEntity<>(builder.build(), entity.getHeaders(), entity.getStatusCode());
         } else {
             builder.withCause(((DefaultProblem) problem).getCause()).withDetail(problem.getDetail())
@@ -67,7 +67,7 @@ public class ExceptionTranslator implements ProblemHandling {
 
     private ProblemBuilder buildProblem(NativeWebRequest request, Problem problem) {
         return Problem.builder()
-                .withType(Problem.DEFAULT_TYPE.equals(problem.getType()) ? ErrorConstants.DEFAULT_TYPE
+                .withType(Problem.DEFAULT_TYPE.equals(problem.getType()) ? ErrorConstantsUtil.DEFAULT_TYPE
                         : problem.getType())
                 .withStatus(problem.getStatus()).withTitle(problem.getTitle())
                 .with("path", request.getNativeRequest(HttpServletRequest.class).getRequestURI());
@@ -80,9 +80,9 @@ public class ExceptionTranslator implements ProblemHandling {
         List<FieldErrorVM> fieldErrors = result.getFieldErrors().stream()
                 .map(f -> new FieldErrorVM(f.getObjectName(), f.getField(), f.getCode())).collect(Collectors.toList());
 
-        Problem problem = Problem.builder().withType(ErrorConstants.CONSTRAINT_VIOLATION_TYPE)
+        Problem problem = Problem.builder().withType(ErrorConstantsUtil.CONSTRAINT_VIOLATION_TYPE)
                 .withTitle("Method argument not valid").withStatus(defaultConstraintViolationStatus())
-                .with(MESSAGE, ErrorConstants.ERR_VALIDATION).with("fieldErrors", fieldErrors).build();
+                .with(MESSAGE, ErrorConstantsUtil.ERR_VALIDATION).with("fieldErrors", fieldErrors).build();
         return create(ex, problem, request);
     }
 
@@ -95,7 +95,7 @@ public class ExceptionTranslator implements ProblemHandling {
     @ExceptionHandler(ConcurrencyFailureException.class)
     public ResponseEntity<Problem> handleConcurrencyFailure(ConcurrencyFailureException ex, NativeWebRequest request) {
         Problem problem = Problem.builder().withStatus(Status.CONFLICT)
-                .with(MESSAGE, ErrorConstants.ERR_CONCURRENCY_FAILURE).build();
+                .with(MESSAGE, ErrorConstantsUtil.ERR_CONCURRENCY_FAILURE).build();
         return create(ex, problem, request);
     }
 }

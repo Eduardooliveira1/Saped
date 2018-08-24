@@ -1,10 +1,9 @@
 import {Component, ContentChild, forwardRef, Input, OnInit} from '@angular/core';
-import {FormControlName, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {FormControlName, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'app-custom-textarea',
   templateUrl: './custom-textarea.component.html',
-  styleUrls: ['./custom-textarea.component.css'],
     providers: [
         { provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(()=> CustomTextareaComponent),

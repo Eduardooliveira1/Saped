@@ -23,7 +23,7 @@ import br.gov.mme.domain.Pessoa;
 import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.web.rest.TestUtil;
-import br.gov.mme.web.rest.errors.ErrorConstants;
+import br.gov.mme.web.rest.errors.ErrorConstantsUtil;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 public final class TestUtils {
@@ -46,7 +46,7 @@ public final class TestUtils {
 
     public static final String INVALID_CNPJ = "11111111111111";
 
-    public static final Long DEFAULT_VALID_ID = 1L;
+    public static final Long DEFAULT_INVALID_ID = 1L;
 
 	public static final LocalDateTime DATE_TIME_NOW = LocalDateTime.now();
 
@@ -72,8 +72,8 @@ public final class TestUtils {
     public static ResultActions exceptionResultAction(ResultActions response, 
             String exceptionMessage, String params) throws Exception {
         return response.andExpect(status().isBadRequest())
-                .andExpect(header().stringValues(ErrorConstants.APP_ERROR, exceptionMessage))
-                .andExpect(header().stringValues(ErrorConstants.APP_PARAMS, params));
+                .andExpect(header().stringValues(ErrorConstantsUtil.APP_ERROR, exceptionMessage))
+                .andExpect(header().stringValues(ErrorConstantsUtil.APP_PARAMS, params));
     }
 
     public static ResultActions performGet(MockMvc mock, String path, Object... vars) throws Exception {
@@ -143,7 +143,7 @@ public final class TestUtils {
 	}
 
     public static PessoaJuridicaCadastroDTO getPJCadastroWithId() {
-        return getDefaultPessoaJuridicaCadastroDTO().setId(DEFAULT_VALID_ID);
+        return getDefaultPessoaJuridicaCadastroDTO().setId(DEFAULT_INVALID_ID);
     }
 
     public static PessoaJuridicaCadastroDTO getPJCadastroWithCNPJExistent() {
