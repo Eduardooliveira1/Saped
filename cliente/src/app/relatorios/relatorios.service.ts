@@ -23,10 +23,9 @@ export class RelatoriosService {
   constructor(private http: HttpService) {
   }
 
-  listarPagamentos(filtro: FiltroRelatorioPagamentos, pageable: Pageable, hasFiltro: Boolean): Observable<Page<RelatorioPagamentoList>> {
+  listarPagamentos(filtro: FiltroRelatorioPagamentos, pageable: Pageable): Observable<Page<RelatorioPagamentoList>> {
     const filtroCopy = RelatoriosService.convert(filtro);
-    const hasFiltroCopy  = RelatoriosService.convert(hasFiltro);
-    const options = new RequestOptions({params: {hasFiltro, pageable}});
+    const options = new RequestOptions({params: {pageable}});
     return this.http.post(this.pagamentosUrl, filtroCopy, options).map((res: Response) => {
       return res.json();
     });

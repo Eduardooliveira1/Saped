@@ -8,6 +8,7 @@ import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.servi
 import {JhiDateUtils} from '../../shared';
 import {CustomInputCurrencyMaskComponent} from '../../shared/custom-components/custom-input-currency-mask/custom-input-currency-mask.component';
 import {PT_BR} from '../../shared/custom-export-classes/calendar';
+import {CURRENT_YEAR_LIST} from '../../shared/custom-export-classes/dropdown-mes-referencia';
 import {EnumService} from '../../shared/enum.service';
 import {CustomUtils} from '../../util/custom-utils';
 import {MensagensUtils} from '../../util/mensagens-util';
@@ -55,7 +56,6 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-
   }
 
   createDropDowns() {
@@ -67,40 +67,43 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
       this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
-    this.dateUtilService.listarMesReferencia().subscribe((result: any[]) => {
-      this.dropDownMesReferencia = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
+      this.dropDownMesReferencia = CustomUtils.entityToDropDown(CURRENT_YEAR_LIST.items, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
-    });
   }
 
   updateFiltro() {
     this.valor = this.customInputCurrencyMaskComponent.valor;
-    this.filtro = new FiltroRelatorioPagamentos(this.idsPessoasJuridicas,
+    this.filtro = new FiltroRelatorioPagamentos(true,
+      this.idsPessoasJuridicas,
       this.valor,
       this.mesReferencia,
       this.dataVencimento,
       this.tpStatusBoleto);
     if (!this.filtroIsNull()) {
-      this.listarPagamentos(this.filtro, true);
+      this.listarPagamentos(this.filtro);
     } else {
       this.pageNotificationService.addWarnMessage(MensagensUtils.FILTRO_INVALIDO);
     }
   }
 
   filtroIsNull(): boolean {
-    return (this.filtro.idsPessoasJuridicas === undefined || this.filtro.idsPessoasJuridicas.length === 0) &&
-      (!(this.filtro.valor || this.filtro.valor === 0)) &&
+    return (this.filtro.hasFiltro === true) &&
+      (this.filtro.idsPessoasJuridicas == null || this.filtro.idsPessoasJuridicas.length === 0) &&
+      (this.filtro.valor == null) &&
       (!this.filtro.mesReferencia) &&
       (!this.filtro.dataVencimento) &&
       (!this.filtro.tpStatusBoleto);
   }
 
-
-  listarPagamentos(filtro: FiltroRelatorioPagamentos, hasFiltro: Boolean) {
-    this.filtro = filtro;
-    const pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
+  listarPagamentos(filtro: FiltroRelatorioPagamentos) {
+    if (filtro == null) {
+      this.filtro = new FiltroRelatorioPagamentos(false);
+    } else {
+      this.filtro = filtro;
+    }
+    const pageable = new Pageable(this.dataTable);
     this.blockUI.start(MensagensUtils.CARREGANDO);
-    this.relatoriosService.listarPagamentos(filtro, pageable, hasFiltro).subscribe(result => {
+    this.relatoriosService.listarPagamentos(this.filtro, pageable).subscribe(result => {
       this.blockUI.stop();
       this.result = result;
     }, error => {

@@ -38,6 +38,6 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
     List<PessoaJuridicaComboDTO> listarTodas();
 
     @Query("select new br.gov.mme.service.dto.PessoaJuridicaNomeDTO(p.id, p.cnpj, p.nomeFantasia) from PessoaJuridica p where p.pessoa.status = 'S'")
-    List<PessoaJuridicaNomeDTO> getAllNomes();
+    List<PessoaJuridicaNomeDTO> getNomesByPJ();
 
 }

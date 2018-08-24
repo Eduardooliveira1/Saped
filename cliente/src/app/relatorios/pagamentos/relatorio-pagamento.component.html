@@ -53,7 +53,7 @@
 
 <div class="ui-g-12 ui-md-12 ui-sm-12">
     <p-dataTable #dataTable [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true"
-                  [lazy]="true" (onLazyLoad)="this.listarPagamentos(null, false)"
+                  [lazy]="true" (onLazyLoad)="this.listarPagamentos(null)"
                   [immutable]="false" [first]="0"
                  [totalRecords]="result?.totalElements" [value]="result?.content"
                  emptyMessage="Nenhum resultado encontrado.">

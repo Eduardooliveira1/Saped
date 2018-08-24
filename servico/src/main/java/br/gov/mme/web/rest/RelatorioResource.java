@@ -49,10 +49,10 @@ public class RelatorioResource {
     @PostMapping("/pagamentos")
     @Timed
     public ResponseEntity<?> listarPagamentos(@Valid @RequestBody 
-    BoletoRelatorioPagamentoFiltroDTO filtro, Boolean hasFiltro, Pageable pageable) throws URISyntaxException {
+    BoletoRelatorioPagamentoFiltroDTO filtro, Pageable pageable) throws URISyntaxException {
         try {
             Page<BoletoRelatorioPagamentoDTO> page = this.boletoService
-                    .listarPagamentosRelatorio(filtro, hasFiltro, pageable);
+                    .listarPagamentosRelatorio(filtro, pageable);
             HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, 
                     "/api/relatorios/pagamentos");
             return new ResponseEntity<>(page, headers, HttpStatus.OK);

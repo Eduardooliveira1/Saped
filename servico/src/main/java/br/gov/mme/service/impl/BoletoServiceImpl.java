@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.ListUtils;
 
-import br.com.basis.nativequerybuilder.service.impl.NativeQueryServiceImpl;
+import br.com.basis.nativequerybuilder.service.NativeQueryService;
 import br.gov.mme.enumeration.ReportType;
 import br.gov.mme.exceptions.ArquivoDeTipoInvalidoException;
 import br.gov.mme.exceptions.FiltroVazioException;
@@ -29,20 +29,20 @@ import br.gov.mme.web.rest.util.PaginationUtil;
 @Transactional
 public class BoletoServiceImpl implements BoletoService{
 
-    private final NativeQueryServiceImpl nativeQueryServiceImpl;
+    private final NativeQueryService nativeQueryService;
 
     private static final String RELATORIO_TEMPLATE = "/reports/PagamentoReport.jrxml";
 
     private final Logger log = LoggerFactory.getLogger(BoletoServiceImpl.class);
 
-    public BoletoServiceImpl(NativeQueryServiceImpl nativeQueryServiceImpl) {
-        this.nativeQueryServiceImpl = nativeQueryServiceImpl;
+    public BoletoServiceImpl(NativeQueryService nativeQueryService) {
+        this.nativeQueryService = nativeQueryService;
     }
 
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     private Page<BoletoRelatorioPagamentoDTO> listarTodosPagamentos(Pageable pageable) {
-        return (Page<BoletoRelatorioPagamentoDTO>) nativeQueryServiceImpl
+        return (Page<BoletoRelatorioPagamentoDTO>) nativeQueryService
                 .filterPage(new RelatorioPagamentoNativeQuery(), PaginationUtil.ignoreCase(pageable));
     }
 
@@ -50,14 +50,14 @@ public class BoletoServiceImpl implements BoletoService{
     @Override
     @Transactional(readOnly = true)
     public Page<BoletoRelatorioPagamentoDTO> listarPagamentosRelatorio(BoletoRelatorioPagamentoFiltroDTO filtro,
-            boolean hasFiltro, Pageable pageable) throws FiltroVazioException {
-        if (!hasFiltro) {
+            Pageable pageable) throws FiltroVazioException {
+        if (!filtro.getHasFiltro()) {
             return this.listarTodosPagamentos(pageable);
         }
         if (this.isEmpty(filtro)) {
             throw new FiltroVazioException();
         }
-        return (Page<BoletoRelatorioPagamentoDTO>) nativeQueryServiceImpl
+        return (Page<BoletoRelatorioPagamentoDTO>) nativeQueryService
                 .filterPage(new RelatorioPagamentoNativeQuery(filtro), 
                         PaginationUtil.ignoreCase(pageable));
     }
@@ -67,7 +67,7 @@ public class BoletoServiceImpl implements BoletoService{
     public void getRelatorioExport(BoletoRelatorioPagamentoFiltroDTO filtro, HttpServletResponse response)
             throws ArquivoDeTipoInvalidoException, RelatorioException, 
             LeituraBufferException, FiltroVazioException {
-        List<BoletoRelatorioPagamentoDTO> result = listarPagamentosRelatorio(filtro, false, null).getContent();
+        List<BoletoRelatorioPagamentoDTO> result = listarPagamentosRelatorio(filtro, null).getContent();
         JasperUtils.getReportData(RELATORIO_TEMPLATE, ReportType.XLS, result, response, log);
     }
 

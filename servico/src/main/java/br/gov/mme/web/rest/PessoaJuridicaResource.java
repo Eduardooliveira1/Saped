@@ -137,7 +137,7 @@ public class PessoaJuridicaResource {
     @GetMapping("/pessoa-juridica/nomes")
     @Timed
     public ResponseEntity<List<EnumerationDTO>> getAllNomePessoasJuridicas() {
-        List<PessoaJuridicaNomeDTO> nomesPessoaJuridica = pessoaJuridicaService.getAllNomes();
+        List<PessoaJuridicaNomeDTO> nomesPessoaJuridica = pessoaJuridicaService.getNomesByPJ();
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(enumerationService
                 .getAllNomesPJ(nomesPessoaJuridica)));
     }

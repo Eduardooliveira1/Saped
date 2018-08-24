@@ -5,8 +5,17 @@ export class FiltroRelatorioPagamentos {
   public mesReferencia?: number;
   public dataVencimento?: Date;
   public tpStatusBoleto?: string;
+  public hasFiltro?: Boolean;
 
-  constructor(idsPessoasJuridicas: number[],
+  constructor(hasFiltro: Boolean);
+  constructor(hasFiltro: Boolean,
+              idsPessoasJuridicas: number[],
+              valor: number,
+              mesReferencia: number,
+              dataVencimento: Date,
+              tpStatusBoleto: string);
+  constructor(hasFiltro: Boolean,
+              idsPessoasJuridicas?: number[],
               valor?: number,
               mesReferencia?: number,
               dataVencimento?: Date,
@@ -16,5 +25,6 @@ export class FiltroRelatorioPagamentos {
     this.mesReferencia = mesReferencia;
     this.dataVencimento = dataVencimento;
     this.tpStatusBoleto = tpStatusBoleto;
+    this.hasFiltro = hasFiltro;
   }
 }

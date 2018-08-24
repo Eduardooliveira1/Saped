@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
-
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
@@ -68,5 +67,5 @@ public interface PessoaJuridicaService {
 
     List<PessoaJuridicaComboDTO> listarTodas();
 
-    List<PessoaJuridicaNomeDTO> getAllNomes();
+    List<PessoaJuridicaNomeDTO> getNomesByPJ();
 }

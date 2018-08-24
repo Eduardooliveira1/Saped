@@ -141,8 +141,8 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
 
     @Override
-    public List<PessoaJuridicaNomeDTO> getAllNomes() {
-        return pessoaJuridicaRepository.getAllNomes();
+    public List<PessoaJuridicaNomeDTO> getNomesByPJ() {
+        return pessoaJuridicaRepository.getNomesByPJ();
     }
 
 }

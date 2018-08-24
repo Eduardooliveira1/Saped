@@ -20,6 +20,8 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
 
     private String tpStatusBoleto;
 
+    private Boolean hasFiltro;
+
     public List<Long> getIdsPessoasJuridicas() {
         return SapedUtil.instanciarLista(this.idsPessoasJuridicas);
     }
@@ -55,8 +57,16 @@ public class BoletoRelatorioPagamentoFiltroDTO implements Serializable {
         return tpStatusBoleto;
     }
 
-    public void setTpBoleto(String tpStatusBoleto) {
+    public void setTpStatusBoleto(String tpStatusBoleto) {
         this.tpStatusBoleto = tpStatusBoleto;
+    }
+
+    public Boolean getHasFiltro() {
+        return hasFiltro;
+    }
+
+    public void setHasFiltro(Boolean hasFiltro) {
+        this.hasFiltro = hasFiltro;
     }
 
 }
