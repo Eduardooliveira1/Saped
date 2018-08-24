@@ -29,7 +29,7 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
     Page<PessoaJuridicaListaDTO
             > listarPessoasJuridicasComFiltro(@Param("filtro") String filtro, Pageable pageable);
 
-    @Query("select new br.gov.mme.service.dto.PessoaJuridicaCadastroDTO(p.id,p.cnpj, p.sigla, p.nomeFantasia, p.razaoSocial) from PessoaJuridica p where p.pessoa.status = 'S' and p.cnpj = :cnpj")
+    @Query("select new br.gov.mme.service.dto.PessoaJuridicaCadastroDTO(p.id,p.cnpj, p.sigla, p.nomeFantasia, p.razaoSocial,p.pessoa.status) from PessoaJuridica p where  p.cnpj = :cnpj")
     PessoaJuridicaCadastroDTO findByCnpj(@Param("cnpj") String cnpj);
 
     @Query("select new br.gov.mme.service.dto.PessoaJuridicaComboDTO(p.id, p.nomeFantasia) from PessoaJuridica p where p.pessoa.status = 'S' order by p.nomeFantasia" )

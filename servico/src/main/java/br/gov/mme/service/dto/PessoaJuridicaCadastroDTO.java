@@ -1,4 +1,5 @@
 package br.gov.mme.service.dto;
+import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.util.SapedUtil;
 
 import java.util.List;
@@ -10,14 +11,16 @@ public class PessoaJuridicaCadastroDTO {
     private String sigla;
     private String nomeFantasia;
     private String razaoSocial;
+    private FlStatus status;
     private List<PessoaRepresentanteCadastroDTO> representantes;
 
-    public PessoaJuridicaCadastroDTO(Long id, String cnpj, String sigla, String nomeFantasia, String razaoSocial) {
+    public PessoaJuridicaCadastroDTO(Long id, String cnpj, String sigla, String nomeFantasia, String razaoSocial, FlStatus status) {
         this.id = id;
         this.cnpj = cnpj;
         this.sigla = sigla;
         this.nomeFantasia = nomeFantasia;
         this.razaoSocial = razaoSocial;
+        this.status = status;
     }
 
     public PessoaJuridicaCadastroDTO(Long id, String cnpj, String sigla, String nomeFantasia, String razaoSocial, List<PessoaRepresentanteCadastroDTO> representantes) {
@@ -85,4 +88,16 @@ public class PessoaJuridicaCadastroDTO {
 
         this.representantes = SapedUtil.instanciarLista(representantes);
     }
+
+	public FlStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(FlStatus status) {
+		this.status = status;
+	}
+    
+    
+    
+    
 }

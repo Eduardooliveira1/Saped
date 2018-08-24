@@ -1,5 +1,15 @@
 package br.gov.mme.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.mme.domain.Pessoa;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.domain.Representante;
@@ -18,14 +28,6 @@ import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.util.ValidatorUtils;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Service Implementation for managing PessoaJuridica.
@@ -67,9 +69,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
             throws CreatePJWithExistentIdException, CnpjInvalidoException {
 
         PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.findByCnpj(pessoaJuridicaDto.getCnpj());
-
-        if (Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId())) {
+        
+        if (Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId()) && p.getStatus().equals(FlStatus.S)) {
             throw new CreatePJWithExistentIdException();
+        }else if(Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId()) && p.getStatus().equals(FlStatus.N)){
+        	pessoaJuridicaDto.setId(p.getId());
+        	pessoaJuridicaDto.setStatus(p.getStatus());
         }
 
         if (!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())) {
@@ -81,16 +86,36 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         if (pessoaJuridicaDto.getId() == null) {
             pessoaJuridica.setPessoa(new Pessoa().setStatus(FlStatus.S).setDataCadastro(LocalDateTime.now()));
         } else {
-            pessoaJuridica.setPessoa(pessoaRepository.findOne(pessoaJuridicaDto.getId()));
+        	pessoaJuridica.setPessoa(pessoaRepository.findOne(pessoaJuridicaDto.getId()));
+        	pessoaJuridica.setRepresentantes(recuperaEAdicionaRepresentantesSalvos(pessoaJuridicaDto.getId(),pessoaJuridica));
+        	if(pessoaJuridicaDto.getStatus() != null && pessoaJuridicaDto.getStatus().equals(FlStatus.N)) {
+        		pessoaJuridica.getPessoa().setStatus(FlStatus.S);
+        		pessoaJuridica.getPessoa().setDataCadastro(LocalDateTime.now());
+        	}
         }
 
         atribuirRepresentantes(pessoaJuridica);
-
+        
+        pessoaJuridicaRepository.flush();
         pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
     }
 
-    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica) {
+    private List<Representante> recuperaEAdicionaRepresentantesSalvos(Long idPessoaJuridica, PessoaJuridica pessoaJuridica) {
+    		PessoaJuridica recuperarPessoaJuridicaSalva =  pessoaJuridicaRepository.findOne(idPessoaJuridica);
+    		
+    		for(Representante rep : pessoaJuridica.getRepresentantes() ) {
+    			if(rep.getId() == null) {
+    				recuperarPessoaJuridicaSalva.getRepresentantes().add(rep);	
+    			}
+           		
+           }
+          
+           return recuperarPessoaJuridicaSalva.getRepresentantes();
+           
+	}
+
+	private void atribuirRepresentantes(PessoaJuridica pessoaJuridica) {
         for (Representante representante : pessoaJuridica.getRepresentantes()) {
             if (representante.getId() == null) {
                 representante.getPessoa().setStatus(FlStatus.S);
