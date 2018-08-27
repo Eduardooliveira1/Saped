@@ -1,10 +1,10 @@
-import { Observable } from 'rxjs/Observable';
-import { PessoaJuridicaCadastro } from './pessoa-juridica-cadastro.model';
-import { HttpService } from '@basis/angular-components';
-import { environment } from '../../environments/environment.prod';
-import { Injectable } from "@angular/core";
-import { Pageable } from '../util/pageable-request';
-import { RequestOptions, Response } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {RequestOptions, Response} from '@angular/http';
+import {HttpService} from '@basis/angular-components';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../environments/environment.prod';
+import {Pageable} from '../util/pageable-request';
+import {PessoaJuridicaCadastro} from './pessoa-juridica-cadastro.model';
 
 @Injectable()
 export class PessoaJuridicaService {
@@ -57,4 +57,10 @@ export class PessoaJuridicaService {
         });
     }
 
-}
+    listarNomes() {
+      return this.http.get(this.resourceUrl + '/nomes').map((res: Response) => {
+        return res.json();
+      });
+    }
+
+};

@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -22,7 +23,7 @@ import br.gov.mme.domain.Pessoa;
 import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.web.rest.TestUtil;
-import br.gov.mme.web.rest.errors.ErrorConstants;
+import br.gov.mme.web.rest.errors.ErrorConstantsUtil;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
 
 public final class TestUtils {
@@ -49,11 +50,20 @@ public final class TestUtils {
 
 	public static final LocalDateTime DATE_TIME_NOW = LocalDateTime.now();
 
+	// REPRESENTANTE CONSTANTES
+
+	public static final BigDecimal DEFAULT_BIGDECIMAL_DDD = new BigDecimal(31);
+
+	public static final BigDecimal DEFAUL_BIGDECIMAL_TELEFONE = new BigDecimal(123456789);
+
+	public static final String DEFAULT_EMAIL = "dev@basis.com";
+
+
     public static final String EXCPT_URL_TYPE = "http://www.jhipster.tech/problem/problem-with-message";
 
 	// FUNÇÕES AUXILIARES:
 	
-    private static MockHttpServletRequestBuilder rESTGetComum(
+    private static MockHttpServletRequestBuilder restGetComum(
 			String path, Object... vars) {
 		return get(path, vars).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
         .content(new byte[0]);
@@ -62,17 +72,17 @@ public final class TestUtils {
     public static ResultActions exceptionResultAction(ResultActions response, 
             String exceptionMessage, String params) throws Exception {
         return response.andExpect(status().isBadRequest())
-                .andExpect(header().stringValues(ErrorConstants.APP_ERROR, exceptionMessage))
-                .andExpect(header().stringValues(ErrorConstants.APP_PARAMS, params));
+                .andExpect(header().stringValues(ErrorConstantsUtil.APP_ERROR, exceptionMessage))
+                .andExpect(header().stringValues(ErrorConstantsUtil.APP_PARAMS, params));
     }
 
     public static ResultActions performGet(MockMvc mock, String path, Object... vars) throws Exception {
-        return mock.perform(rESTGetComum(path, vars));
+        return mock.perform(restGetComum(path, vars));
     }
 
     public static ResultActions performGetWithParams(MockMvc mock, String path, 
             MultiValueMap<String, String> params, Object... vars) throws Exception {
-        return mock.perform(rESTGetComum(path, vars).params(params));
+        return mock.perform(restGetComum(path, vars).params(params));
     }
 
     public static ResultActions performPost(MockMvc mock, String apiDir, Object obj) throws Exception {

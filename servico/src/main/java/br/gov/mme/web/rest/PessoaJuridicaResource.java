@@ -1,15 +1,12 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.exceptions.CnpjInvalidoException;
-import br.gov.mme.exceptions.CreatePJWithExistentIdException;
-import br.gov.mme.exceptions.DeleteInexistentPJException;
-import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
-import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
-import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.util.HeaderUtil;
-import br.gov.mme.web.rest.util.PaginationUtil;
-import com.codahale.metrics.annotation.Timed;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -27,10 +24,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
+import com.codahale.metrics.annotation.Timed;
+
+import br.gov.mme.exceptions.CnpjInvalidoException;
+import br.gov.mme.exceptions.CreatePJWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentPJException;
+import br.gov.mme.service.EnumerationService;
+import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.dto.EnumerationDTO;
+import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
+import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
+import br.gov.mme.web.rest.util.HeaderUtil;
+import br.gov.mme.web.rest.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing PessoaJuridicaResource.
@@ -43,12 +51,15 @@ public class PessoaJuridicaResource {
 
     private final PessoaJuridicaService pessoaJuridicaService;
 
+    private final EnumerationService enumerationService;
+
     public static final String ENTITY_NAME = "pessoa-juridica";
 
     private final Logger log = LoggerFactory.getLogger(PessoaJuridicaResource.class);
 
-    public PessoaJuridicaResource(PessoaJuridicaService pessoaJuridicaService) {
+    public PessoaJuridicaResource(PessoaJuridicaService pessoaJuridicaService, EnumerationService enumerationService) {
         this.pessoaJuridicaService = pessoaJuridicaService;
+        this.enumerationService = enumerationService;
     }
 
     @GetMapping("/pessoas-juridicas")
@@ -88,7 +99,7 @@ public class PessoaJuridicaResource {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
                     ENTITY_NAME, e.getMessage())).body(null);
-        }
+        }   
     }
 
     @PutMapping("/pessoa-juridica")
@@ -122,4 +133,13 @@ public class PessoaJuridicaResource {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/pessoa-juridica/nomes")
+    @Timed
+    public ResponseEntity<List<EnumerationDTO>> getAllNomePessoasJuridicas() {
+        List<PessoaJuridicaNomeDTO> nomesPessoaJuridica = pessoaJuridicaService.getNomesByPJ();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(enumerationService
+                .getAllNomesPJ(nomesPessoaJuridica)));
+    }
+
 }

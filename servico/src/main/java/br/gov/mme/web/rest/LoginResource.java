@@ -18,7 +18,7 @@ public class LoginResource {
 
     @PostMapping
     @Timed
-    public ResponseEntity efetuarLogin(@Valid @RequestBody UsuarioDTO usuario) throws URISyntaxException {
+    public ResponseEntity<?> efetuarLogin(@Valid @RequestBody UsuarioDTO usuario) throws URISyntaxException {
 
        return null;
     }

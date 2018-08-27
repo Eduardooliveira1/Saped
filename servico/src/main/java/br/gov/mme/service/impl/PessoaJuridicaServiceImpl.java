@@ -1,5 +1,15 @@
 package br.gov.mme.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.mme.domain.Pessoa;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.domain.Representante;
@@ -14,23 +24,15 @@ import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.util.ValidatorUtils;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Service Implementation for managing PessoaJuridica.
  */
-
 @Service
 @Transactional
 public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
@@ -104,12 +106,13 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         }
     }
 
-    private void atribuiPessoaaoTelefone (Representante representante) {
-            for(Telefone telefone : representante.getTelefone()){
-                telefone.setPessoaRepresentante(representante);
-                telefone.setStatus(FlStatus.S);
-            }
+    private void atribuiPessoaaoTelefone(Representante representante) {
+        for (Telefone telefone : representante.getTelefone()) {
+            telefone.setPessoaRepresentante(representante);
+            telefone.setStatus(FlStatus.S);
+        }
     }
+
     @Override
     public PessoaJuridicaCadastroDTO obterPordId(Long id) {
         return pessoaJuridicaMapper.toDto(pessoaJuridicaRepository.findOne(id));
@@ -136,6 +139,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     public List<PessoaJuridicaComboDTO> listarTodas() {
         return pessoaJuridicaRepository.listarTodas();
     }
+
+    @Override
+    public List<PessoaJuridicaNomeDTO> getNomesByPJ() {
+        return pessoaJuridicaRepository.getNomesByPJ();
+    }
+
 
 	@Override
 	public PessoaJuridica findOne(Long idPessoaJuridica) {

@@ -42,24 +42,24 @@
   </div>
 </div>
 
-<p-dialog header="NOVO REPRESENTATE" [visible]="mostrarModalInserirRepresetante" [modal]="true" [closable]="false" [responsive]="true" [width]="450">
+<p-dialog header="NOVO REPRESENTANTE" [visible]="mostrarModalInserirRepresetante" [modal]="true" [closable]="false" [responsive]="true" [width]="450">
   <form [formGroup]="form"*ngIf="mostrarModalInserirRepresetante">
     <div class="ui-g-12 form-group">
       <div class="ui-g-12">
         <span class="md-inputfield">
-          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentate.nome" formControlName="nome"  [label]="'Nome'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
+          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentante.nome" formControlName="nome"  [label]="'Nome'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
         </span>  
       </div>
     </div>
     <div class="ui-g-12 form-group">
       <div class="ui-g-6">
         <span class="md-inputfield">
-          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentate.cargo" formControlName="cargo" [label]="'Cargo'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
+          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentante.cargo" formControlName="cargo" [label]="'Cargo'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
         </span>  
       </div>
       <div class="ui-g-6 form-group">
         <span class="md-inputfield">
-          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentate.email" [label]="'E-mail'" formControlName="email" [errorMessage]="msgEmailValido" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
+          <app-custom-input-text [maxLength]="200" [(ngModel)]="pessoaRepresentante.email" [label]="'E-mail'" formControlName="email" [errorMessage]="msgEmailValido" [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
         </span>  
       </div>
     </div>
@@ -88,7 +88,7 @@
       
       <div class="ui-g-6 form-group check-notificacao">
         <span class="md-inputfield">
-          <p-checkbox label="Notificações" class="checkbox-notificacao-representante" formControlName="notificacoes"  [(ngModel)]="pessoaRepresentate.notificacaoFront" binary="true" (onChange)="onChangeNotificacao($event)"></p-checkbox>
+          <p-checkbox label="Notificações" class="checkbox-notificacao-representante" formControlName="notificacoes"  [(ngModel)]="pessoaRepresentante.notificacaoFront" binary="true" (onChange)="onChangeNotificacao($event)"></p-checkbox>
         </span>  
       </div>
     </div>
