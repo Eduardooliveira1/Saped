@@ -2,18 +2,16 @@ import { PageNotificationService } from '@basis/angular-components';
 import { MensagensUtils } from './../../util/mensagens-util';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import { Router } from '@angular/router';
-import { Component, OnInit,OnDestroy, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Pageable } from '../../util/pageable-request';
 import { ComunicacaoService } from '../comunicacao.service';
-import { faUserFriends, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { DataTable, ConfirmationService } from 'primeng/primeng';
 import { Page } from '../../util/page';
 import { ComunicacaoLista } from './comunicacao-lista.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ComunicadoCadastro } from './../comunicado-cadastro.model';
 import { Observable } from 'rxjs/Observable';
-import { $ } from '../../../../node_modules/protractor';
-import { loadavg } from 'os';
+
 
 @Component({
   selector: 'app-comunicacao-list',
@@ -28,12 +26,9 @@ export class ComunicacaoListComponent implements OnInit {
 
   result: Page<ComunicacaoLista>;
   filtro: string;
-  ultimoFiltro: string;
   submitedForm = false;
   formComunicacao: FormGroup;
   comunicado: ComunicadoCadastro;
-
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,9 +42,6 @@ export class ComunicacaoListComponent implements OnInit {
     this.buildReactiveForm();
   }
 
-
-
-
   buildReactiveForm() {
     this.formComunicacao = this.formBuilder.group({
       assunto: new FormControl('', [ Validators.maxLength(100)]),
@@ -57,15 +49,12 @@ export class ComunicacaoListComponent implements OnInit {
     }, { updateOn: 'blur' });
   }
 
-
    filtrar() {
     if (this.filtro && this.filtro.length >= 3) {
-      this.ultimoFiltro = this.filtro;
       this.dataTable.first = 0;
       this.pesquisar();
-    } else if (!this.filtro || this.filtro.length == 0 && this.ultimoFiltro) {
+    } else if (!this.filtro || this.filtro.length == 0 ) {
       this.filtro = null;
-      this.ultimoFiltro = null;
       this.dataTable.first = 0;
       this.pesquisar();
     }
@@ -87,7 +76,6 @@ export class ComunicacaoListComponent implements OnInit {
   }
 
   enviarComunicado(selecao) {
-
     this.submitedForm = true;
     if (this.formComunicacao.valid) {
       this.comunicado.representantes = selecao
@@ -95,7 +83,6 @@ export class ComunicacaoListComponent implements OnInit {
       this.buildReactiveForm();}
 
   }
-
 
   private subscribeToSaveResponse(result: Observable<ComunicadoCadastro>) {
     this.blockUI.start(MensagensUtils.SALVANDO);
@@ -107,11 +94,6 @@ export class ComunicacaoListComponent implements OnInit {
       this.blockUI.stop();
       this.pageNotificationService.addErrorMessage(res.json().title);
     });
-
-   
   }
-
-
-
 }
 

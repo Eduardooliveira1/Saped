@@ -5,4 +5,3 @@ import { ComunicacaoListComponent } from './comunicacao-list/comunicacao-list.co
 export const comunicacaoRoute: Routes = [
     { path: '', component: ComunicacaoListComponent }
 ];
-

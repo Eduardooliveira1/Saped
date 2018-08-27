@@ -22,7 +22,6 @@ export class ComunicacaoService {
         return this.http.get(this.searchUrl, options);
     }
 
-
     enviar(notificacao: ComunicadoCadastro): Observable<ComunicadoCadastro> {
         const copy = this.convert(notificacao);
         return this.http.post(this.resourceUrl, copy).map((res) => {
@@ -30,11 +29,8 @@ export class ComunicacaoService {
         });
     }
 
-
     private convert(notificacao: ComunicadoCadastro): ComunicadoCadastro {
         const copy: ComunicadoCadastro = Object.assign({}, notificacao);
         return copy;
     }
-
-
 }

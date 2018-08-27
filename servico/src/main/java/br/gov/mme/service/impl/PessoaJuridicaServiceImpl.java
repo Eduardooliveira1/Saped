@@ -136,4 +136,12 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     public List<PessoaJuridicaComboDTO> listarTodas() {
         return pessoaJuridicaRepository.listarTodas();
     }
+
+	@Override
+	public PessoaJuridica findOne(Long idPessoaJuridica) {
+		// TODO Auto-generated method stub
+		return pessoaJuridicaRepository.findOne(idPessoaJuridica);
+	}
+    
+
 }

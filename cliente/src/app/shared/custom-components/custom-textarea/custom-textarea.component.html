@@ -8,7 +8,7 @@
               [cols]="cols|| ''"
               (input)="onChange($event)"
               (blur)="setTouched()"
-              [placeholder]="placeholder || ''"></textarea>
+              [placeholder]="placeholder"></textarea>
     <div *ngIf="showErrorMessage && hasError()" class="ui-message ui-messages-error">
           {{errorMessage}}
     </div>

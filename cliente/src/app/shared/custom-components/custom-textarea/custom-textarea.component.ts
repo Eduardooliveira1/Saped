@@ -23,7 +23,7 @@ export class CustomTextareaComponent implements OnInit {
     @Input() showLabel: boolean = true;
     @Input() rows: number;
     @Input() cols: number;
-    @Input() placeholder: string;
+    @Input() placeholder: string = "";
 
     @ContentChild(FormControlName) formControl: FormControlName;
 

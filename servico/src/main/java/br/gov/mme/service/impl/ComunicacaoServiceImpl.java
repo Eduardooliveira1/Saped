@@ -15,9 +15,9 @@ import br.gov.mme.domain.NotificacaoPessoaJuridica;
 import br.gov.mme.domain.NotificacaoPessoaJuridicaId;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.repository.ComunicacaoRepository;
-import br.gov.mme.repository.NotificacaoPessoaJuridicaRepository;
-import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.service.ComunicacaoService;
+import br.gov.mme.service.NotificacaoPessoaJuridicaService;
+import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO;
 import br.gov.mme.service.dto.NotificacaoCadastroDTO;
 import br.gov.mme.service.mapper.ComunicacaoMapper;
@@ -38,21 +38,21 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
 
 	private final ComunicacaoRepository comunicacaoRepository;
 
-	private final PessoaJuridicaRepository pessoaJuridicaRepository;
+	private final PessoaJuridicaService pessoaJuridicaService;
 
-	private final NotificacaoPessoaJuridicaRepository notificacaoPessoaJuridicaRepository;
+	private final NotificacaoPessoaJuridicaService notificacaoPessoaJuridicaService;
 
 	private final ComunicacaoMapper comunicacaMapper;
 	
 	EmailUtil email = new EmailUtil();
 
 	public ComunicacaoServiceImpl(ComunicacaoRepository comunicacaoRepository,
-			PessoaJuridicaRepository pessoaJuridicaRepository,
-			NotificacaoPessoaJuridicaRepository notificacaoPessoaJuridicaRepository,
+			PessoaJuridicaService pessoaJuridicaService,
+			NotificacaoPessoaJuridicaService notificacaoPessoaJuridicaService,
 			ComunicacaoMapper comunicacaMapper) {
 		this.comunicacaoRepository = comunicacaoRepository;
-		this.pessoaJuridicaRepository = pessoaJuridicaRepository;
-		this.notificacaoPessoaJuridicaRepository = notificacaoPessoaJuridicaRepository;
+		this.pessoaJuridicaService = pessoaJuridicaService;
+		this.notificacaoPessoaJuridicaService = notificacaoPessoaJuridicaService;
 		this.comunicacaMapper = comunicacaMapper;
 	}
 
@@ -83,13 +83,13 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
 
 		if (notificacaoDto.getRepresentantes().size() > 0) {
 			for (ComunicacaoRepresentantelistaDTO rep : notificacaoDto.getRepresentantes()) {
-				pessoaJuridica = pessoaJuridicaRepository.findOne(rep.getIdPessoaJuridica());
+				pessoaJuridica = pessoaJuridicaService.findOne(rep.getIdPessoaJuridica());
 				notificacaoPessoaJuridica.getNotificacaoPessoaJuridicaId().setNotificacao(notificacaoSalva);
 				notificacaoPessoaJuridica.getNotificacaoPessoaJuridicaId().setPessoaJuridica(pessoaJuridica);
-				notificacaoPessoaJuridicaRepository.save(notificacaoPessoaJuridica);
+				notificacaoPessoaJuridicaService.salvarNotificacaoPessoaJuridica(notificacaoPessoaJuridica);
 				
-				email.enviar(rep.getEmail(), notificacaoDto.getAssunto(), notificacaoDto.getConteudo(),mailSender);
-				notificacaoPessoaJuridicaRepository.flush();
+				//email.enviar(rep.getEmail(), notificacaoDto.getAssunto(), notificacaoDto.getConteudo(),mailSender);
+				//notificacaoPessoaJuridicaRepository.flush();
 			}
 		}
 

@@ -1,6 +1,7 @@
 package br.gov.mme.service;
 
 
+import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
@@ -63,4 +64,6 @@ public interface PessoaJuridicaService {
     void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException;
 
     List<PessoaJuridicaComboDTO> listarTodas();
+
+	PessoaJuridica findOne(Long idPessoaJuridica);
 }
