@@ -12,7 +12,7 @@
 </div>
 <div class="ui-g">
   <div class="ui-g-12">
-    <p-dataTable #dataTable sortField="nome" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true" (onLazyLoad)="pesquisar()"
+    <p-dataTable #dataTable [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true" (onLazyLoad)="pesquisar()"
       [lazy]="true" [totalRecords]="result?.totalElements" [value]="result?.content" emptyMessage="Nenhum resultado encontrado." selectionMode="multiple" [(selection)]="selecao" > 
       <p-column selectionMode="multiple"></p-column>
       <p-column field="email" header="E-mail"></p-column>

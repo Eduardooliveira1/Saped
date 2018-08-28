@@ -1,9 +1,8 @@
 package br.gov.mme.service.dto;
-import br.gov.mme.util.SapedUtil;
-
+import java.io.Serializable;
 import java.util.List;
 
-import java.io.Serializable;
+import br.gov.mme.util.SapedUtil;
 
 public class PessoaJuridicaCadastroDTO implements Serializable {
 
@@ -76,7 +75,11 @@ public class PessoaJuridicaCadastroDTO implements Serializable {
         return id;
     }
 
-    public PessoaJuridicaCadastroDTO setId(Long id) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public PessoaJuridicaCadastroDTO id(Long id) {
         this.id = id;
         return this;
     }

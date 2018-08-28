@@ -143,7 +143,7 @@ public final class TestUtils {
 	}
 
     public static PessoaJuridicaCadastroDTO getPJCadastroWithId() {
-        return getDefaultPessoaJuridicaCadastroDTO().setId(DEFAULT_INVALID_ID);
+        return getDefaultPessoaJuridicaCadastroDTO().id(DEFAULT_INVALID_ID);
     }
 
     public static PessoaJuridicaCadastroDTO getPJCadastroWithCNPJExistent() {
