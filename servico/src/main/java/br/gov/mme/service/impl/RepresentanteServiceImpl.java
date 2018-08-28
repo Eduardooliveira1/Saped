@@ -2,8 +2,15 @@ package br.gov.mme.service.impl;
 
 import br.gov.mme.repository.RepresentanteRepository;
 import br.gov.mme.service.RepresentanteService;
+import br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO;
 import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
 import br.gov.mme.service.dto.TelefoneListaRepresentanteDTO;
+import br.gov.mme.web.rest.util.PaginationUtil;
+import br.gov.mme.web.rest.util.QueryUtil;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,4 +41,18 @@ public class RepresentanteServiceImpl implements RepresentanteService {
 
         return result;
     }
+    
+    
+	@Override
+	@Transactional(readOnly = true)
+	public Page<ComunicacaoRepresentantelistaDTO> listarRepresentantes(String filtro, Pageable pageable) {
+
+		if (StringUtils.isBlank(filtro)) {
+			return representanteRepository.listarRepresentantes(PaginationUtil.ignoreCase(pageable));
+		} else {
+			return representanteRepository.listarRepresentantesComFiltro(QueryUtil.preparaStringLike(filtro),
+					PaginationUtil.ignoreCase(pageable));
+		}
+	}
+    
 }

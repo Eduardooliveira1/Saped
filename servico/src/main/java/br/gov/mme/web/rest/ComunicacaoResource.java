@@ -5,27 +5,19 @@ import java.net.URISyntaxException;
 
 import javax.validation.Valid;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
 import br.gov.mme.service.ComunicacaoService;
 import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO;
 import br.gov.mme.service.dto.NotificacaoCadastroDTO;
 import br.gov.mme.web.rest.errors.BadRequestAlertException;
 import br.gov.mme.web.rest.util.HeaderUtil;
-import br.gov.mme.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing ComunicacaoResource.
@@ -60,13 +52,7 @@ public class ComunicacaoResource {
     }
     
     
-    @GetMapping("/representantes")
-    @Timed
-    public ResponseEntity<Page<ComunicacaoRepresentantelistaDTO>> listarPessoasJuridicas(@RequestParam(value = "query", required = false) String query, Pageable pageable) {
-        Page<ComunicacaoRepresentantelistaDTO> page = comunicacaoService.listarRepresentantes(query, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/representantes");
-        return new ResponseEntity<>(page, headers, HttpStatus.OK);
-    }
+
     
 
 
