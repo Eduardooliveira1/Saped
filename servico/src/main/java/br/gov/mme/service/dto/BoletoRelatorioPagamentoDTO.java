@@ -28,7 +28,9 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
         this.valorBoleto = valorBoleto;
-        this.mesReferencia = DateUtils.convertMesAnoReferenciaToString(mesReferencia - 1, anoReferencia);
+        this.mesReferencia = mesReferencia != null
+                ? DateUtils.convertMesAnoReferenciaToString(mesReferencia - 1, anoReferencia)
+                : null;
         this.dataVencimento = dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.statusBoleto = statusBoleto;
     }
