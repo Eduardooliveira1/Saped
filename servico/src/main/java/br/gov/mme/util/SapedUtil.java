@@ -10,17 +10,11 @@ public final class SapedUtil {
     private SapedUtil() { }
 
     public static <T> List<T> instanciarLista(List<T> lista) {
-        if (lista == null) {
-            return new ArrayList<T>();
-        }
-        return lista;
+        return lista == null ? new ArrayList<T>() : lista;
     }
     
     public static <T> Set<T> instanciarSet(Set<T> set) {
-        if (set == null) {
-            return new HashSet<T>();
-        }
-        return set;
+        return set == null ? new HashSet<T>() : set;
     }
     
 }

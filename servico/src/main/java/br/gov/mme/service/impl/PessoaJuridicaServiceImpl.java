@@ -102,11 +102,11 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
             }
 
             representante.setPessoaJuridica(pessoaJuridica);
-            atribuiPessoaaoTelefone(representante);
+            atribuiPessoaAoTelefone(representante);
         }
     }
 
-    private void atribuiPessoaaoTelefone(Representante representante) {
+    private void atribuiPessoaAoTelefone(Representante representante) {
         for (Telefone telefone : representante.getTelefone()) {
             telefone.setPessoaRepresentante(representante);
             telefone.setStatus(FlStatus.S);
