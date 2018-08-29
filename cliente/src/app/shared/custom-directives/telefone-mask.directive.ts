@@ -13,6 +13,7 @@ export class TelefoneMaskDirective {
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
     const e = <KeyboardEvent>event;
+    // Permitir deletar da string:
     if ([46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1) {
       return;
     }

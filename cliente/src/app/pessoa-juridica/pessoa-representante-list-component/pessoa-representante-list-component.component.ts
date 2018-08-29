@@ -33,7 +33,6 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
   msgEmailValido = MensagensUtils.EMAIL_VALIDO;
   faTrashAlt = faTrashAlt;
   faPlusCircle = faPlusCircle;
-  telefoneClass = 'ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled';
 
   constructor(private pessoaJuridicaService: PessoaJuridicaService,
               private formBuilder: FormBuilder,
