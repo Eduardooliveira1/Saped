@@ -75,7 +75,7 @@
                       </div>
                       <div class="ui-g-6 form-group">
                         <span class="md-inputfield">
-                          <p-inputMask mask="99999-9999"  [(ngModel)]="telefone[i].telefone" placeholder="Telefone" [unmask]="true" formControlName="telefone" ></p-inputMask>
+                          <input type="text" [class]=telefoneClass telefoneMask [(ngModel)]="telefone[i].telefone" placeholder="Telefone" formControlName="telefone" />
                         </span>  
                       </div>
                 </div>
