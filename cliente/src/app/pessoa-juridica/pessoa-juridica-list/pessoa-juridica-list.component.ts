@@ -56,12 +56,12 @@ export class PessoaJuridicaListComponent implements OnInit {
 
     this.blockUI.start(MensagensUtils.CARREGANDO);
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
-      .subscribe(result => {
+      .subscribe((result: Page<PessoaJuridicaLista>) => {
         this.blockUI.stop();
-        this.result = result.json();
+        this.result = result;
       }, error => {
         this.blockUI.stop();
-        this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
+            this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
       });
   }
 

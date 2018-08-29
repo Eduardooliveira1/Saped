@@ -1,16 +1,18 @@
-import { EnumService } from '../shared/enum.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { pessoaJuridicaRoute } from './pessoa-juridica.route';
-import { NgModule } from '@angular/core';
+import { TokenInterceptor } from './../auth/interceptor';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { PessoaJuridicaListComponent } from './pessoa-juridica-list/pessoa-juridica-list.component';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule, ConfirmationService, DialogModule, CheckboxModule } from 'primeng/primeng';
-import { PessoaJuridicaService } from './pessoa-juridica.service';
-import {Ng2BRPipesModule} from 'ng2-brpipes';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { PessoaJuridicaFormComponent } from './pessoa-juridica-form/pessoa-juridica-form.component';
+import { Ng2BRPipesModule } from 'ng2-brpipes';
+import { BlockUIModule, ButtonModule, CheckboxModule, ConfirmationService, ConfirmDialogModule, DataTableModule, DialogModule, DropdownModule, InputMaskModule } from 'primeng/primeng';
 import { CustomComponentsModule } from '../shared/custom-components/custom-components.module';
+import { EnumService } from '../shared/enum.service';
+import { PessoaJuridicaFormComponent } from './pessoa-juridica-form/pessoa-juridica-form.component';
+import { PessoaJuridicaListComponent } from './pessoa-juridica-list/pessoa-juridica-list.component';
+import { pessoaJuridicaRoute } from './pessoa-juridica.route';
+import { PessoaJuridicaService } from './pessoa-juridica.service';
 import { PessoaRepresentanteListComponentComponent } from './pessoa-representante-list-component/pessoa-representante-list-component.component';
 
 @NgModule({
@@ -30,12 +32,18 @@ import { PessoaRepresentanteListComponentComponent } from './pessoa-representant
     ConfirmDialogModule,
     DialogModule,
     InputMaskModule,
-    CheckboxModule
+    CheckboxModule,
+    HttpClientModule
 
   ],
   declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent, PessoaRepresentanteListComponentComponent],
   providers:[
-      PessoaJuridicaService, EnumService, ConfirmationService
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+      PessoaJuridicaService, EnumService, ConfirmationService,
   ],
   exports: [Ng2BRPipesModule]
 })

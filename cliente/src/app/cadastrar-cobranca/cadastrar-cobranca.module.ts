@@ -1,15 +1,14 @@
-import { CadastarCobrancaService } from './cadastrar-cobranca.service';
-import { cadastrarCobrancaRoute } from './cadastrar-cobranca.route';
-import { RouterModule } from '@angular/router';
-import { InputTextModule, DataTableModule, ButtonModule, DialogModule, CheckboxModule } from 'primeng/primeng';
-import { CustomComponentsModule } from './../shared/custom-components/custom-components.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CadastrarCobrancaComponent } from './cadastrar-cobranca/cadastrar-cobranca.component';
-import { DropdownModule } from 'primeng/primeng';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PessoaJuridicaService } from '../pessoa-juridica/pessoa-juridica.service';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ButtonModule, CheckboxModule, DataTableModule, DialogModule, DropdownModule, InputTextModule } from 'primeng/primeng';
+import { PessoaJuridicaService } from '../pessoa-juridica/pessoa-juridica.service';
+import { CustomComponentsModule } from '../shared/custom-components/custom-components.module';
+import { cadastrarCobrancaRoute } from './cadastrar-cobranca.route';
+import { CadastarCobrancaService } from './cadastrar-cobranca.service';
+import { CadastrarCobrancaComponent } from './cadastrar-cobranca/cadastrar-cobranca.component';
 
 @NgModule({
   imports: [

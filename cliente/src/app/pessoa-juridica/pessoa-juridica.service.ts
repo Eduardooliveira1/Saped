@@ -1,10 +1,10 @@
-import { Observable } from 'rxjs/Observable';
-import { PessoaJuridicaCadastro } from './pessoa-juridica-cadastro.model';
-import { HttpService } from '@basis/angular-components';
-import { environment } from '../../environments/environment.prod';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
+import { RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../environments/environment.prod';
 import { Pageable } from '../util/pageable-request';
-import { RequestOptions, Response } from '@angular/http';
+import { PessoaJuridicaCadastro } from './pessoa-juridica-cadastro.model';
 
 @Injectable()
 export class PessoaJuridicaService {
@@ -12,37 +12,38 @@ export class PessoaJuridicaService {
     resourceUrl = environment.apiUrl + "/pessoa-juridica";
     searchUrl = environment.apiUrl + "/pessoas-juridicas";
 
-    constructor(private http: HttpService) { }
-
+    constructor(private http: HttpClient) { }
+ 
     listarDirigentes(filtro: string, pageable: Pageable, callback?: any) {
-        const options = new RequestOptions({ params: pageable });
         if (filtro) {
+            const options = new RequestOptions({ params: pageable });
             options.params.append("query", filtro);
         }
-        return this.http.get(this.searchUrl, options);
+        return this.http.get(this.searchUrl);
     }
 
     cadastrar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
         const copy = this.convert(pessoaJuridica);
-        return this.http.post(this.resourceUrl, copy).map((res : Response) => {
-            return res.json();
+        
+        return this.http.post(this.resourceUrl, copy).map((res : PessoaJuridicaCadastro) => {
+            return res;
         });
     }
 
     atualizar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
         const copy = this.convert(pessoaJuridica);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            return res.json();
+        return this.http.put(this.resourceUrl, copy).map((res: PessoaJuridicaCadastro) => {
+            return res;
         });
     }
 
     obter(id: number): Observable<PessoaJuridicaCadastro> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            return res.json();
+        return this.http.get(`${this.resourceUrl}/${id}`).map((res: PessoaJuridicaCadastro) => {
+            return res;
         });
     }
 
-    remover(id: number): Observable<Response> {
+    remover(id: number): Observable<any> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
@@ -52,8 +53,8 @@ export class PessoaJuridicaService {
     }
 
     listarTodas() {
-        return this.http.get(`${this.searchUrl}/${'todas'}`).map((res: Response) => {
-            return res.json();
+        return this.http.get(`${this.searchUrl}/${'todas'}`).map((res: any) => {
+            return res;
         });
     }
 

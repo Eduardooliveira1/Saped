@@ -1,8 +1,8 @@
-import { CadastarCobrancaService } from './../cadastrar-cobranca.service';
+import { CadastarCobrancaService } from '../cadastrar-cobranca.service';
 import { SelectItem } from 'primeng/primeng';
-import { CustomUtils } from './../../util/custom-utils';
+import { CustomUtils } from '../../util/custom-utils';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
-import { Cobranca } from './../cobranca-model';
+import { Cobranca } from '../cobranca-model';
 import { Component, OnInit } from '@angular/core';
 import { faPrint, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { PessoaJuridicaService } from '../../pessoa-juridica/pessoa-juridica.service';

@@ -39,13 +39,13 @@ public class CacheConfiguration {
 
     private Registration registration;
 
-    @Value("${application.ip.localAddress}")
-    private String localAddress;
+    private final String localAddress;
 
-    public CacheConfiguration(Environment env, ServerProperties serverProperties, DiscoveryClient discoveryClient) {
+    public CacheConfiguration(Environment env, ServerProperties serverProperties, DiscoveryClient discoveryClient, ApplicationProperties applicationProperties) {
         this.env = env;
         this.serverProperties = serverProperties;
         this.discoveryClient = discoveryClient;
+        this.localAddress = applicationProperties.getLocalAddress();
     }
 
     @Autowired(required = false)

@@ -7,14 +7,19 @@
     <div class="ui-g">
     <div class="ui-g-12">
       <span class="md-inputfield">
-        <input type="text" autocomplete="off" class="ui-inputtext ui-corner-all ui-state-default ui-widget">
+        <input type="text" autocomplete="off" [(ngModel)]="usuario.username" class="ui-inputtext ui-corner-all ui-state-default ui-widget">
         <label>CNPJ</label>
       </span>
     </div>
     <div class="ui-g-12">
       <span class="md-inputfield">
-        <input type="password" autocomplete="off" class="ui-inputtext ui-corner-all ui-state-default ui-widget">
+        <input type="password" autocomplete="off" [(ngModel)]="usuario.password" class="ui-inputtext ui-corner-all ui-state-default ui-widget">
         <label>Senha</label>
+      </span>
+    </div>
+    <div class="ui-g-12">
+      <span class="mensagem-acesso-negado" [ngClass]="{'acesso-negado': acessoNegado}" [hidden]="false" >
+        Usuário e/ou senha inválidos.
       </span>
     </div>
   </div>
@@ -24,9 +29,10 @@
             <a class="esqueci-senha">Esqueci a senha</a>
         </div>
         <div class="ui-g-5">
-            <button class="btn-entrar" pButton type="button" label="Entrar"></button>
+            <button class="btn-entrar" pButton type="button" label="Entrar"(click)="fazerLogin()"></button>
         </div>
     </div>
 
   </div>
 </div>
+<basis-page-notification></basis-page-notification>

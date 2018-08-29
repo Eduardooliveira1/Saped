@@ -128,8 +128,10 @@ liquibase:
 # ===================================================================
 
 application:
-    ip:
-        localAddress: 127.0.0.1
-    url:
-        ldap: ldap://172.20.1.50
+    local-address: "127.0.0.1"
+    ldap:
+        url: ldap://localhost:9636
+        search-base: "dc=exampĺe,dc=org"
+        search-filter: "uid={0}"
+        password-attribute: "userPassword"
 
