@@ -2,8 +2,6 @@ package br.gov.mme.service.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import br.gov.mme.service.util.DateUtils;
 
@@ -21,18 +19,22 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
 
     private String dataVencimento;
 
+    private String dataSegundaVia;
+
     private String statusBoleto;
 
     public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto, 
-            Integer mesReferencia, Integer anoReferencia, LocalDate dataVencimento, String statusBoleto) {
+            Integer mesReferencia, Integer anoReferencia, String dataSegundaVia, String statusBoleto,
+            String dataVencimento) {
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
         this.valorBoleto = valorBoleto;
         this.mesReferencia = mesReferencia != null
                 ? DateUtils.convertMesAnoReferenciaToString(mesReferencia - 1, anoReferencia)
                 : null;
-        this.dataVencimento = dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.dataVencimento = dataVencimento;
         this.statusBoleto = statusBoleto;
+        this.dataSegundaVia = dataSegundaVia;
     }
 
     public BoletoRelatorioPagamentoDTO() {
@@ -76,6 +78,14 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
 
     public void setDataVencimento(String dataVencimento) {
         this.dataVencimento = dataVencimento;
+    }
+
+    public String getDataSegundaVia() {
+        return dataSegundaVia;
+    }
+
+    public void setDataSegundaVia(String dataSegundaVia) {
+        this.dataSegundaVia = dataSegundaVia;
     }
 
     public String getStatusBoleto() {

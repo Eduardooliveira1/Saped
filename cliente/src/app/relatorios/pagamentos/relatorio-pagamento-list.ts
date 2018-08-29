@@ -5,6 +5,7 @@ export class RelatorioPagamentoList {
   valorBoleto: number;
   mesReferencia: string;
   dataVencimento: string;
+  dataSegundaVia: string;
   statusBoleto: string;
 
   constructor() {
@@ -14,6 +15,7 @@ export class RelatorioPagamentoList {
     this.mesReferencia = null;
     this.dataVencimento = null;
     this.statusBoleto = null;
+    this.dataSegundaVia = null;
   }
 
 }

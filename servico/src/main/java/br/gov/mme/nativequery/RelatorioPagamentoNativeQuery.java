@@ -23,12 +23,18 @@ public class RelatorioPagamentoNativeQuery
     public RelatorioPagamentoNativeQuery() {
         this(null);
     }
-
+    
     @Override
     public void appendSelectClause(StringBuilder queryBuilder) {
         queryBuilder.append("SELECT co_Cnpj cnpj, no_Fantasia nomeFantasia, vl_Boleto valorBoleto, ");
-        queryBuilder.append("mm_Referencia mesReferencia, aa_Referencia anoReferencia, dt_Vencimento ");
-        queryBuilder.append("dataVencimento, tp_Status statusBoleto ");
+        queryBuilder.append(    "mm_Referencia mesReferencia, aa_Referencia anoReferencia, ");
+        queryBuilder.append(        "( CASE ");
+        queryBuilder.append(            "WHEN tp_boleto = 'SV' ");
+        queryBuilder.append(                "THEN CONVERT(CHAR(10), dt_vencimento, 103) ");
+        queryBuilder.append(            "ELSE '-' ");
+        queryBuilder.append(        "END ) AS dataSegundaVia, ");
+        queryBuilder.append(    "tp_Status statusBoleto, CONVERT(Char(10),dt_Vencimento, 103) AS ");
+        queryBuilder.append(    "dataVencimento ");
     }
 
     @Override

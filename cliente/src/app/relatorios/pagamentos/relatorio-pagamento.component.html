@@ -64,9 +64,10 @@
         </p-column>
         <p-column field="nomeFantasia" header="Nome Fantasia"></p-column>
         <p-column field="mesReferencia" header="Mês Referencia"></p-column>
-        <p-column field="dataVencimento" header="Data 2ª Via"></p-column>
+        <p-column field="dataVencimento" header="Data Vencimento"></p-column>
+        <p-column field="dataSegundaVia" header="Data 2ª Via"></p-column>
         <p-column field="statusBoleto" header="Status">
-            <ng-template  let-row="rowData" pTemplate="body">
+            <ng-template let-row="rowData" pTemplate="body">
                 <span> {{row.statusBoleto | descrisaoStatusBoleto}}</span>
             </ng-template>
         </p-column>
