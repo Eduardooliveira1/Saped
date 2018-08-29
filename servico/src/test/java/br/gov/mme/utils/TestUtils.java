@@ -8,8 +8,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import javax.persistence.EntityManager;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -19,9 +24,15 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.MultiValueMap;
 
+import br.gov.mme.domain.Boleto;
 import br.gov.mme.domain.Pessoa;
+import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.enumeration.FlSituacaoBancaria;
 import br.gov.mme.enumeration.FlStatus;
-import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.enumeration.TpBoleto;
+import br.gov.mme.enumeration.TpStatusBoleto;
+import br.gov.mme.web.rest.BoletoResourceIntTest;
+import br.gov.mme.web.rest.PessoaJuridicaResourceIntTest;
 import br.gov.mme.web.rest.TestUtil;
 import br.gov.mme.web.rest.errors.ErrorConstantsUtil;
 import br.gov.mme.web.rest.errors.ExceptionTranslator;
@@ -36,6 +47,22 @@ public final class TestUtils {
 
 	// CONSTANTES:
 
+    public static final Integer DEFAULT_INTEGER_TAM_2 = 11;
+
+    public static final Integer DEFAULT_INTEGER_TAM_4 = 2222;
+
+    public static final Long DEFAULT_LONG_TAM_6 = 111111L;
+
+    public static final Long UPDATED_LONG_TAM_6 = 222222L;
+
+    public static final Long DEFAULT_INVALID_ID = 2L;
+
+    public static final BigDecimal DEFAULT_BIGDECIMAL_TAM_3_0 = new BigDecimal(31);
+
+    public static final BigDecimal DEFAULT_BIGDECIMAL_TAM_9_0 = new BigDecimal(123456789);
+
+    public static final BigDecimal UPDATED_BIGDECIMAL_TAM_9_0 = new BigDecimal(987654321);
+
 	public static final String DEFAULT_STRING_TAM_9 = "aaaaaaaaa";
 
 	public static final String UPDATED_STRING_TAM_9 = "bbbbbbbbb";
@@ -46,20 +73,25 @@ public final class TestUtils {
 
     public static final String INVALID_CNPJ = "11111111111111";
 
-    public static final Long DEFAULT_INVALID_ID = 1L;
+    public static final String UPDATED_DATE_STRING_YYYY_MM_DD = "2044-09-20";
 
-	public static final LocalDateTime DATE_TIME_NOW = LocalDateTime.now();
+    public static final String DEFAULT_DATE_STRING_YYYY_MM_DD = "2022-10-22";
 
-	// REPRESENTANTE CONSTANTES
+    public static final String MES_REF_NOV_2222 = "Novembro/2222";
 
-	public static final BigDecimal DEFAULT_BIGDECIMAL_DDD = new BigDecimal(31);
+    public static final String DEFAULT_EMAIL = "dev@basis.com";
 
-	public static final BigDecimal DEFAUL_BIGDECIMAL_TELEFONE = new BigDecimal(123456789);
+    public static final LocalDate LOCAL_DATE_NOW = LocalDate.now();
 
-	public static final String DEFAULT_EMAIL = "dev@basis.com";
+    public static final LocalDate DEFAULT_LOCAL_DATE = LocalDate.of(2022, 10, 22);
 
+    public static final LocalDate UPDATED_LOCAL_DATE = LocalDate.of(2044, 9, 20);
 
-    public static final String EXCPT_URL_TYPE = "http://www.jhipster.tech/problem/problem-with-message";
+	public static final LocalDateTime LOCAL_DATE_TIME_NOW = LocalDateTime.now();
+
+    public static final LocalDateTime LOCAL_DATE_TIME_IN_2_YEARS = LocalDateTime.now().plusYears(2L);
+
+    public static final DateTimeFormatter DATE_FORMATTER_dd_MM_YYYY = DateTimeFormatter.ofPattern("dd/MM/YYYY");
 
 	// FUNÇÕES AUXILIARES:
 	
@@ -124,34 +156,76 @@ public final class TestUtils {
 			.setMessageConverters(jacksonMessageConverter).build();
 	}
 	
-	//GERADORES DE OBJETOS:
+    public static void deleteAll(JpaRepository<?, ?>... repositories) {
+        for (JpaRepository<?, ?> repository : repositories) {
+            repository.deleteAll();
+            repository.flush();
+        }
+    }
+
+    public static void saveAndFlush(Object entity, EntityManager em) {
+        em.persist(entity);
+        em.flush();
+    }
+
+    // GERADORES DE ENTIDADES:
 	
 	public static Pessoa getDefaultPessoa() {
 		Pessoa pessoa = new Pessoa();
-		pessoa.setDataCadastro(DATE_TIME_NOW);
+		pessoa.setDataCadastro(LOCAL_DATE_TIME_NOW);
 		pessoa.setStatus(FlStatus.S);
 		return pessoa;
 	}
 	
-    public static PessoaJuridicaCadastroDTO getDefaultPessoaJuridicaCadastroDTO() {
-	  return new PessoaJuridicaCadastroDTO()
-	            .setCnpj(DEFAULT_VALID_CNPJ)
-	            .setNomeFantasia(DEFAULT_STRING_TAM_9)
-	            .setRazaoSocial(DEFAULT_STRING_TAM_9)
-	            .setRazaoSocial(DEFAULT_STRING_TAM_9)
-	            .setSigla(DEFAULT_STRING_TAM_9);
-	}
+    public static PessoaJuridica getPessoaJuridicaWithCustomCNPJEntity(EntityManager em, String cnpj) {
+        PessoaJuridica pessoaJuridica = PessoaJuridicaResourceIntTest
+                .createEntity(DEFAULT_STRING_TAM_9, cnpj);
+        saveAndFlush(pessoaJuridica, em);
 
-    public static PessoaJuridicaCadastroDTO getPJCadastroWithId() {
-        return getDefaultPessoaJuridicaCadastroDTO().setId(DEFAULT_INVALID_ID);
+        return pessoaJuridica;
     }
 
-    public static PessoaJuridicaCadastroDTO getPJCadastroWithCNPJExistent() {
-        return getDefaultPessoaJuridicaCadastroDTO();
+    public static Boleto getDefaultBoletoEntity(EntityManager em) {
+        Boleto boleto = BoletoResourceIntTest.getDefaultEntity(em);
+        saveAndFlush(boleto, em);
+
+        return boleto;
     }
 
-    public static PessoaJuridicaCadastroDTO getPJCadastroWithInvalidCNPJ() {
-        return getDefaultPessoaJuridicaCadastroDTO().setCnpj(INVALID_CNPJ);
+    public static Boleto getDiferentBoletoEntity(EntityManager em) {
+        Boleto boleto = BoletoResourceIntTest.getDiferentEntity(em);
+        saveAndFlush(boleto, em);
+
+        return boleto;
+    }
+
+    public static Boleto getBoletoWithCustomPJEntity(EntityManager em, String cnpj) {
+        Boleto boleto = BoletoResourceIntTest.getWithCustomCNPJEntity(em, cnpj);
+        saveAndFlush(boleto, em);
+
+        return boleto;
+    }
+
+    public static Boleto getBoletoWithAnoAndMesReferenciaAndCustomPJCNPJEnity(EntityManager em,
+            String cnpj) {
+        Boleto boleto = BoletoResourceIntTest.getEntity(em, null, TestUtils.LOCAL_DATE_NOW,
+                TestUtils.DEFAULT_BIGDECIMAL_TAM_9_0, TestUtils.DEFAULT_LONG_TAM_6, TpBoleto.SV,
+                getPessoaJuridicaWithCustomCNPJEntity(em, cnpj), FlSituacaoBancaria.BOLETO_EMITIDO,
+                TestUtils.LOCAL_DATE_TIME_NOW, TpStatusBoleto.AV, TestUtils.DEFAULT_INTEGER_TAM_2,
+                TestUtils.DEFAULT_INTEGER_TAM_4);
+        saveAndFlush(boleto, em);
+
+        return boleto;
+    }
+
+    public static Boleto getBoletoWithPJCustomCNPJAndOtherStatusEntity(EntityManager em, String cnpj) {
+        Boleto boleto = BoletoResourceIntTest.getEntity(em, null, TestUtils.LOCAL_DATE_NOW,
+                TestUtils.DEFAULT_BIGDECIMAL_TAM_9_0, TestUtils.DEFAULT_LONG_TAM_6, TpBoleto.AD,
+                getPessoaJuridicaWithCustomCNPJEntity(em, cnpj), FlSituacaoBancaria.BOLETO_EMITIDO,
+                TestUtils.LOCAL_DATE_TIME_NOW, TpStatusBoleto.EM, null, null);
+        saveAndFlush(boleto, em);
+
+        return boleto;
     }
 
 }
