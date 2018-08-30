@@ -16,8 +16,8 @@ import br.gov.mme.service.MailSenderService;
 @Service
 public class MailSenderServiceImpl implements MailSenderService {
 
-	@Autowired
-	private JavaMailSender mailSender;
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
     private String remetente;

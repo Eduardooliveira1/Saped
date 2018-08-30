@@ -5,9 +5,10 @@ import br.gov.mme.service.impl.NotificacaoPessoaJuridicaServiceImpl;
 
 /**
  * Service Interface for managing PessoaJuridica.
+ * 
  * @see NotificacaoPessoaJuridicaServiceImpl
  */
 public interface NotificacaoPessoaJuridicaService {
 
-	   void salvarNotificacaoPessoaJuridica(NotificacaoPessoaJuridica notificacaoPessoaJuridica);
+    void salvarNotificacaoPessoaJuridica(NotificacaoPessoaJuridica notificacaoPessoaJuridica);
 }

@@ -1,12 +1,6 @@
 package br.gov.mme.web.rest;
 
-import br.gov.mme.service.PessoaJuridicaService;
-import br.gov.mme.service.RepresentanteService;
-import br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO;
-import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
-import br.gov.mme.web.rest.util.PaginationUtil;
-
-import com.codahale.metrics.annotation.Timed;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.codahale.metrics.annotation.Timed;
+
+import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.RepresentanteService;
+import br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO;
+import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
+import br.gov.mme.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing PessoaJuridicaResource.
@@ -38,14 +38,16 @@ public class PessoaRepresentanteResource {
 
     @GetMapping("/pessoas-representantes/{idPj}")
     @Timed
-    public ResponseEntity<List<PessoaRepresentanteListaDTO>> obterPessoaRepesentantes(@PathVariable("idPj") Long idpj)  {
-        List<PessoaRepresentanteListaDTO> listaRepresentantes = representanteService.findRepresentantesByPessoaJuridica(idpj);
+    public ResponseEntity<List<PessoaRepresentanteListaDTO>> obterPessoaRepesentantes(@PathVariable("idPj") Long idpj) {
+        List<PessoaRepresentanteListaDTO> listaRepresentantes = representanteService
+            .findRepresentantesByPessoaJuridica(idpj);
         return ResponseEntity.ok(listaRepresentantes);
     }
-    
+
     @GetMapping("/representantes")
     @Timed
-    public ResponseEntity<Page<ComunicacaoRepresentantelistaDTO>> listarPessoasJuridicas(@RequestParam(value = "query", required = false) String query, Pageable pageable) {
+    public ResponseEntity<Page<ComunicacaoRepresentantelistaDTO>> listarPessoasJuridicas(
+        @RequestParam(value = "query", required = false) String query, Pageable pageable) {
         Page<ComunicacaoRepresentantelistaDTO> page = representanteService.listarRepresentantes(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/representantes");
         return new ResponseEntity<>(page, headers, HttpStatus.OK);

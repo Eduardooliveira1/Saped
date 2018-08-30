@@ -1,6 +1,5 @@
 package br.gov.mme.service;
 
-
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -18,16 +17,18 @@ import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 
 /**
  * Service Interface for managing PessoaJuridica.
+ * 
  * @see PessoaJuridicaServiceImpl
  */
 public interface PessoaJuridicaService {
 
     /**
      * Lita pessoas jurídicas
+     * 
      * @param pageable
      * @return a lista de pessoa juridica
      */
-    Page<PessoaJuridicaListaDTO> listarPessoasJuridicas(String filtro,Pageable pageable);
+    Page<PessoaJuridicaListaDTO> listarPessoasJuridicas(String filtro, Pageable pageable);
 
     /**
      * Salva pessoa juridica
@@ -39,16 +40,16 @@ public interface PessoaJuridicaService {
      * @throws CreatePJWithExistentIdException
      */
     PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridica)
-            throws CnpjInvalidoException, CreatePJWithExistentIdException;
+        throws CnpjInvalidoException, CreatePJWithExistentIdException;
 
     /**
      * Obtem pessoa pessoa jurídica por id
+     * 
      * @param id
      * @return pessoa juridica
      */
 
     PessoaJuridicaCadastroDTO obterPordId(Long id);
-
 
     /**
      * remover pessoa juridica
@@ -70,5 +71,5 @@ public interface PessoaJuridicaService {
 
     List<PessoaJuridicaNomeDTO> getNomesByPJ();
 
-	PessoaJuridica findOne(Long idPessoaJuridica);
+    PessoaJuridica findOne(Long idPessoaJuridica);
 }

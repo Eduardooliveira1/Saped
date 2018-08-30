@@ -13,16 +13,16 @@ import br.gov.mme.service.NotificacaoPessoaJuridicaService;
 @Service
 @Transactional
 public class NotificacaoPessoaJuridicaServiceImpl implements NotificacaoPessoaJuridicaService {
-	
-	private final NotificacaoPessoaJuridicaRepository notificacaoPessoaJuridicaRepository;
-	
-	public NotificacaoPessoaJuridicaServiceImpl(NotificacaoPessoaJuridicaRepository notificacaoPessoaJuridicaRepository) {
-		this.notificacaoPessoaJuridicaRepository = notificacaoPessoaJuridicaRepository;
-	}
 
-	@Override
-	public void salvarNotificacaoPessoaJuridica(NotificacaoPessoaJuridica notificacaoPessoaJuridica) {
-		notificacaoPessoaJuridicaRepository.save(notificacaoPessoaJuridica);
-	}
+    private final NotificacaoPessoaJuridicaRepository notificacaoPessoaJuridicaRepository;
+
+    public NotificacaoPessoaJuridicaServiceImpl(NotificacaoPessoaJuridicaRepository notificacaoPessoaJuridicaRepository) {
+        this.notificacaoPessoaJuridicaRepository = notificacaoPessoaJuridicaRepository;
+    }
+
+    @Override
+    public void salvarNotificacaoPessoaJuridica(NotificacaoPessoaJuridica notificacaoPessoaJuridica) {
+        notificacaoPessoaJuridicaRepository.save(notificacaoPessoaJuridica);
+    }
 
 }

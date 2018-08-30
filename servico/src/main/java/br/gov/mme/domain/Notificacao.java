@@ -2,6 +2,7 @@ package br.gov.mme.domain;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,8 +19,8 @@ public class Notificacao implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="pk_Notificacao")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pk_Notificacao")
     private Long id;
 
     @NotNull
@@ -36,36 +37,36 @@ public class Notificacao implements Serializable {
     @Column(name = "dh_Envio")
     private LocalDateTime dataCadastro;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getAssunto() {
-		return assunto;
-	}
+    public String getAssunto() {
+        return assunto;
+    }
 
-	public void setAssunto(String assunto) {
-		this.assunto = assunto;
-	}
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
+    }
 
-	public String getConteudo() {
-		return conteudo;
-	}
+    public String getConteudo() {
+        return conteudo;
+    }
 
-	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
-	}
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
+    }
 
-	public LocalDateTime getDataCadastro() {
-		return dataCadastro;
-	}
+    public LocalDateTime getDataCadastro() {
+        return dataCadastro;
+    }
 
-	public void setDataCadastro(LocalDateTime dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
- 
+    public void setDataCadastro(LocalDateTime dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
 }
