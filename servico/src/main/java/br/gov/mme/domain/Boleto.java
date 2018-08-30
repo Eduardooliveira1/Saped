@@ -44,7 +44,8 @@ import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
                             @ColumnResult(name = "mesReferencia", type = Integer.class),
                             @ColumnResult(name = "anoReferencia", type = Integer.class),
                             @ColumnResult(name = "dataVencimento", type = LocalDate.class),
-                            @ColumnResult(name = "statusBoleto", type = String.class)
+                            @ColumnResult(name = "statusBoleto", type = String.class),
+                            @ColumnResult(name = "tpBoleto", type = String.class),
                 }
             )}
     )}
