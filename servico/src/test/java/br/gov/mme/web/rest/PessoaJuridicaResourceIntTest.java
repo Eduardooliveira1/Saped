@@ -34,10 +34,11 @@ import br.gov.mme.SapedApp;
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.domain.Representante;
 import br.gov.mme.domain.Telefone;
-import br.gov.mme.enumeration.EntityFields;
 import br.gov.mme.enumeration.FlNotificacao;
 import br.gov.mme.enumeration.FlStatus;
-import br.gov.mme.exceptions.ExceptionMessages;
+import br.gov.mme.exceptions.CNPJInvalidoException;
+import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentEntityException;
 import br.gov.mme.repository.BoletoRepository;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
@@ -226,12 +227,13 @@ public class PessoaJuridicaResourceIntTest {
 
     @SuppressWarnings("unused")
     private static Stream<Arguments> argsPJWithExceptions() {
+        String existentIdExceptionMessage = new 
+                CreateEntityWithExistentIdException(ENTITY_NAME).getMessage();
         Object[][] params = new Object[][] {
                 { getPJCadastroWithId(),
-                        ExceptionMessages.CREATE_EXISTENT_ID.message(ENTITY_NAME), },
+                        existentIdExceptionMessage, },
                 { getPJCadastroWithInvalidCNPJ(),
-                        ExceptionMessages.CREATE_INVALID_FIELD
-                        .message(ENTITY_NAME, EntityFields.CNPJ.field()) }
+                        CNPJInvalidoException.MESSAGE }
         };
         return Stream.of(Arguments.of(params[0]), Arguments.of(params[1]));
     }
@@ -292,8 +294,9 @@ public class PessoaJuridicaResourceIntTest {
     @Test
     @Transactional
     public void exlcuirPessoaJuridicaInexistente() throws Exception {
+        String exceptionMessage = new DeleteInexistentEntityException(ENTITY_NAME).getMessage();
         TestUtils.performDeleteWithException(restPessoaJuridicaMockMvc, DEL_PJ,
-                ExceptionMessages.DELETE_INEXISTENT_ID.message(ENTITY_NAME), ENTITY_NAME,
+                exceptionMessage, ENTITY_NAME,
                 TestUtils.DEFAULT_INVALID_ID);
     }
 

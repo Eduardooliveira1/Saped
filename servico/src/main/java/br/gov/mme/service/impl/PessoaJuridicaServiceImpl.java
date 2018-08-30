@@ -15,9 +15,9 @@ import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.domain.Representante;
 import br.gov.mme.domain.Telefone;
 import br.gov.mme.enumeration.FlStatus;
-import br.gov.mme.exceptions.CnpjInvalidoException;
-import br.gov.mme.exceptions.CreatePJWithExistentIdException;
-import br.gov.mme.exceptions.DeleteInexistentPJException;
+import br.gov.mme.exceptions.CNPJInvalidoException;
+import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentEntityException;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
@@ -66,16 +66,17 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     @Override
     public PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridicaDto)
-            throws CreatePJWithExistentIdException, CnpjInvalidoException {
+            throws CreateEntityWithExistentIdException, CNPJInvalidoException
+    {
 
         PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.findByCnpj(pessoaJuridicaDto.getCnpj());
 
         if (Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId())) {
-            throw new CreatePJWithExistentIdException();
+            throw new CreateEntityWithExistentIdException(ENTITY_NAME);
         }
 
         if (!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())) {
-            throw new CnpjInvalidoException();
+            throw new CNPJInvalidoException();
         }
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
@@ -119,19 +120,19 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
 
     @Override
-    public void excluirPessoaJuridica(Long id) throws DeleteInexistentPJException {
+    public void excluirPessoaJuridica(Long id) throws DeleteInexistentEntityException {
         Pessoa pessoa = pessoaRepository.findOne(id);
         if (pessoa == null) {
-            throw new DeleteInexistentPJException();
+            throw new DeleteInexistentEntityException(ENTITY_NAME);
         }
         pessoa.setStatus(FlStatus.N);
         pessoaRepository.save(pessoa);
     }
 
     @Override
-    public void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException {
+    public void verificaExistenciaNovaPJ(Long id) throws CreateEntityWithExistentIdException {
         if (id != null) {
-            throw new CreatePJWithExistentIdException();
+            throw new CreateEntityWithExistentIdException(ENTITY_NAME);
         }
     }
 
