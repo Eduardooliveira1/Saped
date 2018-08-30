@@ -60,8 +60,6 @@ export class ComunicacaoListComponent implements OnInit {
   }
 
   pesquisar() {
-    //let pageable = new Pageable(this.dataTable.first / this.dataTable.rows, this.dataTable.rows);
-    //pageable.setSort(this.dataTable.sortOrder, this.dataTable.sortField);
     const pageable = new Pageable(this.dataTable);
 
     this.blockUI.start(MensagensUtils.CARREGANDO);
