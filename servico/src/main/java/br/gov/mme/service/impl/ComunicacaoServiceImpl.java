@@ -32,19 +32,19 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
 
     private final NotificacaoPessoaJuridicaService notificacaoPessoaJuridicaService;
 
-    private final ComunicacaoMapper comunicacaMapper;
+    private final ComunicacaoMapper comunicacaoMapper;
 
     private final MailSenderService mailSenderService;
 
     public ComunicacaoServiceImpl(ComunicacaoRepository comunicacaoRepository,
                                   PessoaJuridicaService pessoaJuridicaService,
                                   NotificacaoPessoaJuridicaService notificacaoPessoaJuridicaService,
-                                  ComunicacaoMapper comunicacaMapper,
+                                  ComunicacaoMapper comunicacaoMapper,
                                   MailSenderService mailSenderService) {
         this.comunicacaoRepository = comunicacaoRepository;
         this.pessoaJuridicaService = pessoaJuridicaService;
         this.notificacaoPessoaJuridicaService = notificacaoPessoaJuridicaService;
-        this.comunicacaMapper = comunicacaMapper;
+        this.comunicacaoMapper = comunicacaoMapper;
         this.mailSenderService = mailSenderService;
     }
 
@@ -55,12 +55,12 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
             notificacaoDto.setDataCadastro(LocalDateTime.now());
         }
 
-        Notificacao notificacao = comunicacaMapper.toEntity(notificacaoDto);
+        Notificacao notificacao = comunicacaoMapper.toEntity(notificacaoDto);
 
         notificacao = comunicacaoRepository.save(notificacao);
         salvaNotificacaoPessoaJuridica(notificacao, notificacaoDto);
 
-        return comunicacaMapper.toDto(notificacao);
+        return comunicacaoMapper.toDto(notificacao);
     }
 
     private void salvaNotificacaoPessoaJuridica(Notificacao notificacaoSalva, NotificacaoCadastroDTO notificacaoDto) {
