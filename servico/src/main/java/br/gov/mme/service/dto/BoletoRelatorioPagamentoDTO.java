@@ -23,14 +23,20 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
 
     private String statusBoleto;
 
+    private String tpBoleto;
+
     public BoletoRelatorioPagamentoDTO(String cnpj, String nomeFantasia, BigDecimal valorBoleto, 
-            Integer mesReferencia, Integer anoReferencia, LocalDate dataVencimento, String statusBoleto) {
+            Integer mesReferencia, Integer anoReferencia, LocalDate dataVencimento, String statusBoleto,
+            String tpBoleto) {
         this.cnpj = cnpj;
         this.nomeFantasia = nomeFantasia;
         this.valorBoleto = valorBoleto;
-        this.mesReferencia = DateUtils.convertMesAnoReferenciaToString(mesReferencia - 1, anoReferencia);
+        this.mesReferencia = mesReferencia != null
+                ? DateUtils.convertMesAnoReferenciaToString(mesReferencia - 1, anoReferencia)
+                : null;
         this.dataVencimento = dataVencimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.statusBoleto = statusBoleto;
+        this.tpBoleto = tpBoleto;
     }
 
     public BoletoRelatorioPagamentoDTO() {
@@ -82,6 +88,14 @@ public class BoletoRelatorioPagamentoDTO implements Serializable {
 
     public void setStatusBoleto(String statusBoleto) {
         this.statusBoleto = statusBoleto;
+    }
+
+    public String getTpBoleto() {
+        return tpBoleto;
+    }
+
+    public void setTpBoleto(String tpBoleto) {
+        this.tpBoleto = tpBoleto;
     }
 
 }

@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
-import br.gov.mme.exceptions.CnpjInvalidoException;
-import br.gov.mme.exceptions.CreatePJWithExistentIdException;
-import br.gov.mme.exceptions.DeleteInexistentPJException;
+import br.gov.mme.exceptions.CNPJInvalidoException;
+import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentEntityException;
 import br.gov.mme.service.EnumerationService;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.EnumerationDTO;
@@ -95,7 +95,7 @@ public class PessoaJuridicaResource {
             return ResponseEntity.created(new URI("/api/pessoa-juridica/" + result.getId()))
                     .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                     .body(result);
-        } catch (CnpjInvalidoException | CreatePJWithExistentIdException e) {
+        } catch (CreateEntityWithExistentIdException | CNPJInvalidoException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
                     ENTITY_NAME, e.getMessage())).body(null);
@@ -114,7 +114,7 @@ public class PessoaJuridicaResource {
             return ResponseEntity.ok()
                     .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId()
                             .toString())).body(result);
-        } catch (CnpjInvalidoException | CreatePJWithExistentIdException e) {
+        } catch (CreateEntityWithExistentIdException | CNPJInvalidoException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
                     ENTITY_NAME, e.getMessage())).body(null);
@@ -126,7 +126,7 @@ public class PessoaJuridicaResource {
     public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(@PathVariable("id") Long id) {
         try {
             pessoaJuridicaService.excluirPessoaJuridica(id);
-        } catch (DeleteInexistentPJException e) {
+        } catch (DeleteInexistentEntityException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, e.getMessage()))
                     .body(null);

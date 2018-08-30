@@ -6,6 +6,7 @@ export class RelatorioPagamentoList {
   mesReferencia: string;
   dataVencimento: string;
   statusBoleto: string;
+  tpBoleto: string;
 
   constructor() {
     this.cnpj = null;
@@ -14,6 +15,7 @@ export class RelatorioPagamentoList {
     this.mesReferencia = null;
     this.dataVencimento = null;
     this.statusBoleto = null;
+    this.tpBoleto = null;
   }
 
 }

@@ -9,6 +9,8 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -27,10 +29,11 @@ public class StatusBoleto implements Serializable{
     
     @Id
     @Column(name = "pk_Status_Boleto")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
-    @JoinColumn(name = "pk_Boleto")
+    @JoinColumn(name = "fk_Boleto")
     private Boleto boleto;
 
     @Enumerated(EnumType.STRING)
@@ -39,10 +42,12 @@ public class StatusBoleto implements Serializable{
     private TpStatusBoleto tpStatusBoleto;
 
     @Column(name = "dh_Status")
+    @NotNull
     private LocalDateTime dataHoraStatus;
 
     @Column(name = "fl_Situacao_Bancaria")
     @Convert(converter = FlSituacaoBancariaConverter.class)
+    @NotNull
     private FlSituacaoBancaria situacaoBancaria;
 
     public Long getId() {

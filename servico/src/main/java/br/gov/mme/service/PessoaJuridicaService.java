@@ -6,8 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.exceptions.CNPJInvalidoException;
 import br.gov.mme.exceptions.CnpjInvalidoException;
+import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
 import br.gov.mme.exceptions.CreatePJWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentEntityException;
 import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
@@ -36,11 +39,12 @@ public interface PessoaJuridicaService {
      * @param pessoaJuridica
      * @return pessoa juridica salva
      * @throws IdAlreadyExistsException
-     * @throws CnpjInvalidoException
-     * @throws CreatePJWithExistentIdException
+     * @throws CNPJInvalidoException
+     * @throws CreateEntityWithExistentIdException
      */
     PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridica)
-        throws CnpjInvalidoException, CreatePJWithExistentIdException;
+        throws CnpjInvalidoException, CreatePJWithExistentIdException, CreateEntityWithExistentIdException,
+        CNPJInvalidoException;
 
     /**
      * Obtem pessoa pessoa jurídica por id
@@ -57,7 +61,7 @@ public interface PessoaJuridicaService {
      * @param id
      * @throws DeleteInexistentPJException
      */
-    void excluirPessoaJuridica(Long id) throws DeleteInexistentPJException;
+    void excluirPessoaJuridica(Long id) throws DeleteInexistentEntityException;
 
     /**
      * Verifica se a pessoa juridica existe
@@ -65,7 +69,7 @@ public interface PessoaJuridicaService {
      * @param id
      * @throws CreatePJWithExistentIdException
      */
-    void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException;
+    void verificaExistenciaNovaPJ(Long id) throws CreateEntityWithExistentIdException;
 
     List<PessoaJuridicaComboDTO> listarTodas();
 

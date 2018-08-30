@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -41,7 +44,8 @@ import br.gov.mme.service.dto.BoletoRelatorioPagamentoDTO;
                             @ColumnResult(name = "mesReferencia", type = Integer.class),
                             @ColumnResult(name = "anoReferencia", type = Integer.class),
                             @ColumnResult(name = "dataVencimento", type = LocalDate.class),
-                            @ColumnResult(name = "statusBoleto", type = String.class)
+                            @ColumnResult(name = "statusBoleto", type = String.class),
+                            @ColumnResult(name = "tpBoleto", type = String.class),
                 }
             )}
     )}
@@ -52,10 +56,11 @@ public class Boleto implements Serializable {
 
     @Id
     @Column(name = "pk_Boleto")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "fk_Boleto_Adiantamento", referencedColumnName = "pk_Boleto")
+    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_Boleto_Adiantamento")
     private Boleto boletoAdiantamento;
 
     @ManyToOne(optional = false)
@@ -78,6 +83,7 @@ public class Boleto implements Serializable {
 
     @Digits(integer = 17, fraction = 0)
     @Column(name="nr_Nosso_Numero")
+    @NotNull
     private Long nossoNumero;
 
     @Digits(integer = 1, fraction = 0)
