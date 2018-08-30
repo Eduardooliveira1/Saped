@@ -1,14 +1,16 @@
 package br.gov.mme.service.impl;
 
-import br.gov.mme.repository.RepresentanteRepository;
-import br.gov.mme.service.RepresentanteService;
-import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
-import br.gov.mme.service.dto.TelefoneListaRepresentanteDTO;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import br.gov.mme.repository.RepresentanteRepository;
+import br.gov.mme.service.RepresentanteService;
+import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
+import br.gov.mme.service.dto.RepresentanteEMailECNPJDTO;
+import br.gov.mme.service.dto.TelefoneListaRepresentanteDTO;
 
 /**
  * Service Implementation for managing PessoaJuridica.
@@ -33,5 +35,13 @@ public class RepresentanteServiceImpl implements RepresentanteService {
         }
 
         return result;
+    }
+
+    @Override
+    public Boolean verificaCNPJEEmailValidos(RepresentanteEMailECNPJDTO representanteEMailECNPJDTO) {
+        representanteRepository.findEmailECNPJ(representanteEMailECNPJDTO.getEmail(),
+                representanteEMailECNPJDTO.getCnpj());
+        return (representanteEMailECNPJDTO.getEmail() != null && 
+                representanteEMailECNPJDTO.getCnpj() != null);
     }
 }

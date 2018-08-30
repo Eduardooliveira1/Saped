@@ -1,14 +1,14 @@
-import { CadastrarCobrancaComponent } from './cadastrar-cobranca/cadastrar-cobranca/cadastrar-cobranca.component';
-import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
-import { Routes, RouterModule } from '@angular/router';
-import { ModuleWithProviders } from '@angular/core';
+import {ModuleWithProviders} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {DiarioErrosComponent} from './diario-erros/diario-erros.component';
+import {InicioComponent} from './inicio/inicio.component';
+import {LoginLayoutComponent} from './layouts/login-layout/login-layout.component';
+import {SecuredLayoutComponent} from './layouts/secured-layout/secured-layout.component';
+import {LoginSuccessComponent} from './login-success/login-success.component';
+import {EsqueciASenhaComponent} from './login/esqueci-a-senha-component/esqueci-a-senha.component';
 
-import { LoginComponent } from './login/login.component';
-import { LoginSuccessComponent } from './login-success/login-success.component';
-import { LogoutComponent } from './logout/logout.component';
-import { DiarioErrosComponent } from './diario-erros/diario-erros.component';
-import { InicioComponent } from './inicio/inicio.component';
-import { SecuredLayoutComponent } from './layouts/secured-layout/secured-layout.component';
+import {LoginComponent} from './login/login-component/login.component';
+import {LogoutComponent} from './logout/logout.component';
 
 export const routes: Routes = [
 
@@ -32,6 +32,10 @@ export const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'esqueci-a-senha',
+        component: EsqueciASenhaComponent
       }
     ]
   },
