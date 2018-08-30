@@ -4,7 +4,7 @@ public class EntityModificationException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String MESSAGE = "Erro ao alterar dados.\n Tabela: %s\n";
+    private static final String MESSAGE = "Erro ao alterar dados. Tabela: %s .";
 
     private final String tabela;
 
