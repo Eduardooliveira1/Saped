@@ -18,6 +18,8 @@ logging:
         ROOT: DEBUG
         br.gov.mme: DEBUG
         io.github.jhipster: DEBUG
+        org.springframework.security.ldap: DEBUG
+        org.springframework.security.authentication: DEBUG
 
 eureka:
     instance:

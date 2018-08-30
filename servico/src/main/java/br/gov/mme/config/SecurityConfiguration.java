@@ -6,16 +6,13 @@ import br.gov.mme.security.jwt.JWTConfigurer;
 import br.gov.mme.security.jwt.TokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.security.authentication.encoding.LdapShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,15 +20,19 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
+import org.springframework.security.ldap.userdetails.LdapUserDetailsMapper;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 
-import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+import java.util.Collection;
+import java.util.Collections;
 
 @Configuration
 @Import(SecurityProblemSupport.class)
@@ -107,38 +108,33 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * Configuração de autenticação de produção
      *
      * @return SAPEDMMEAuthenticationConfig
-     *
      */
     @Bean
-    public SAPEDMMEAuthenticationConfig apiAuthenticationConfig() {
+    public SAPEDMMEAuthenticationConfig apiAuthenticationConfig(DataSource pDataSource) {
+
         return auth -> {
             try {
                 auth.ldapAuthentication()
                         .userSearchBase(applicationProperties.getLdap().getSearchBase())
                         .userSearchFilter(applicationProperties.getLdap().getSearchFilter())
+                        .groupSearchBase(applicationProperties.getLdap().getGroupBase())
+                        .groupSearchFilter(applicationProperties.getLdap().getGroupFilter())
                         .contextSource().url(applicationProperties.getLdap().getUrl())
-                        .managerDn("cn=admin")
-                        .managerPassword("admin")
-                        .and().passwordCompare().passwordAttribute(applicationProperties.getLdap().getPasswordAttribute());
+                        .managerDn(applicationProperties.getLdap().getManagerDn())
+                        .managerPassword(applicationProperties.getLdap().getManagerPassword())
+                        .and()
+                        .userDetailsContextMapper(new LdapUserDetailsMapper(){
+                            @Override
+                            public UserDetails mapUserFromContext(DirContextOperations ctx, String username, Collection<? extends GrantedAuthority> authorities) {
+                                return super.mapUserFromContext(ctx, username, Collections.singletonList(new SimpleGrantedAuthority("INTERNO")));
+                            }
+                        }).passwordCompare().passwordEncoder(new LdapShaPasswordEncoder()).passwordAttribute(applicationProperties.getLdap().getPasswordAttribute());
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
             }
-//            auth.authenticationProvider(daoAuthenticationProvider);
-        };
-    }
-
-    /**
-     * Configuração de autenticação para desenvolviento.
-     *
-     * @return SAPEDMMEAuthenticationConfig
-     */
-    @Bean
-    @Primary
-    @Profile("dev")
-    public SAPEDMMEAuthenticationConfig apiAuthenticationConfigDev() {
-        return auth -> {
             try {
-                auth.inMemoryAuthentication().withUser("felipe").password("password").authorities(AuthoritiesConstants.ADMIN);
+                auth.jdbcAuthentication().dataSource(pDataSource).usersByUsernameQuery("select co_Cnpj as username, ds_Senha_Acesso as password, 1 as enabled from tb_Pessoa_juridica where co_Cnpj = ?")
+                        .authoritiesByUsernameQuery("select no_Razao_Social as username, 'EXTERNO' as role from tb_Pessoa_juridica where co_Cnpj = ?");
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
             }

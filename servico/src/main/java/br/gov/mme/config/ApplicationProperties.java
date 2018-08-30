@@ -32,6 +32,10 @@ public class ApplicationProperties {
         private String url;
         private String searchBase;
         private String searchFilter;
+        private String groupBase;
+        private String groupFilter;
+        private String managerDn;
+        private String managerPassword;
         private String passwordAttribute;
 
         public String getUrl() {
@@ -64,6 +68,38 @@ public class ApplicationProperties {
 
         public void setPasswordAttribute(String passwordAttribute) {
             this.passwordAttribute = passwordAttribute;
+        }
+
+        public String getGroupBase() {
+            return groupBase;
+        }
+
+        public void setGroupBase(String groupBase) {
+            this.groupBase = groupBase;
+        }
+
+        public String getGroupFilter() {
+            return groupFilter;
+        }
+
+        public void setGroupFilter(String groupFilter) {
+            this.groupFilter = groupFilter;
+        }
+
+        public String getManagerDn() {
+            return managerDn;
+        }
+
+        public void setManagerDn(String managerDn) {
+            this.managerDn = managerDn;
+        }
+
+        public String getManagerPassword() {
+            return managerPassword;
+        }
+
+        public void setManagerPassword(String managerPassword) {
+            this.managerPassword = managerPassword;
         }
     }
 
