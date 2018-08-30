@@ -64,13 +64,22 @@
         </p-column>
         <p-column field="nomeFantasia" header="Nome Fantasia"></p-column>
         <p-column field="mesReferencia" header="Mês Referencia"></p-column>
-        <p-column field="dataVencimento" header="Data 2ª Via"></p-column>
+        <p-column field="dataVencimento" header="Data de Vencimento"></p-column>
+        <p-column field="dataVencimento" header="Data 2ª Via">
+            <ng-template let-col let-row="rowData" pTemplate="body">
+                <div  *ngIf="row.tpBoleto !== 'SV'; else notSV">
+                    {{row.dataVencimento | stringToSlash}}
+                </div>
+                <ng-template #notSV>
+                    {{row.dataVencimento}}
+                </ng-template>
+            </ng-template>
+        </p-column>
         <p-column field="statusBoleto" header="Status">
             <ng-template  let-row="rowData" pTemplate="body">
                 <span> {{row.statusBoleto | descrisaoStatusBoleto}}</span>
             </ng-template>
         </p-column>
-
         <p-column field="valorBoleto" header="Valor">
             <ng-template  let-row="rowData" pTemplate="body">
                 <span> {{row.valorBoleto | currency:'BRL' | dotToComma}}</span>
