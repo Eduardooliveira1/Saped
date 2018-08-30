@@ -1,12 +1,13 @@
+import { PessoaRepresentanteListComponentComponent } from '../pessoa-representante-list-component/pessoa-representante-list-component.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { PessoaJuridicaService } from './../pessoa-juridica.service';
-import { MensagensUtils } from './../../util/mensagens-util';
-import { CustomUtils } from './../../util/custom-utils';
+import { PessoaJuridicaService } from '../pessoa-juridica.service';
+import { MensagensUtils } from '../../util/mensagens-util';
+import { CustomUtils } from '../../util/custom-utils';
 import { SelectItem } from 'primeng/primeng';
-import { EnumService } from './../../shared/enum.service';
-import { PessoaJuridicaCadastro } from './../pessoa-juridica-cadastro.model';
-import { Component, OnInit } from '@angular/core';
+import { EnumService } from '../../shared/enum.service';
+import { PessoaJuridicaCadastro } from '../pessoa-juridica-cadastro.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ValidateCnpj } from '../../shared/validators/cnpj.validator';
 import { PageNotificationService } from '@basis/angular-components';
@@ -19,7 +20,6 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
   styleUrls: ['./pessoa-juridica-form.component.css']
 })
 export class PessoaJuridicaFormComponent implements OnInit {
-
 
   @BlockUI() blockUI: NgBlockUI;
 
@@ -108,6 +108,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
       } else {
         this.subscribeToSaveResponse(this.pessoaJuridicaService.cadastrar(this.pessoaJuridica));
       }
+      this.router.navigate(['pessoa-juridica']);
     } else {
       this.pageNotificationService.addErrorMessage(MensagensUtils.PREENCHA_CAMPOS_OBRIGATORIOS);
       return;

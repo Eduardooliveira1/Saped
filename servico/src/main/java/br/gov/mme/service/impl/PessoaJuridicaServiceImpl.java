@@ -1,6 +1,7 @@
 package br.gov.mme.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,24 +12,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.mme.domain.Pessoa;
 import br.gov.mme.domain.PessoaJuridica;
+import br.gov.mme.domain.Representante;
+import br.gov.mme.domain.Telefone;
 import br.gov.mme.enumeration.FlStatus;
+import br.gov.mme.exceptions.CnpjInvalidoException;
+import br.gov.mme.exceptions.CreatePJWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
 import br.gov.mme.service.mapper.PessoaJuridicaMapper;
 import br.gov.mme.service.util.ValidatorUtils;
-import br.gov.mme.web.rest.PessoaJuridicaResource;
-import br.gov.mme.web.rest.errors.BadRequestAlertException;
-import br.gov.mme.web.rest.errors.ErrorKeys;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
 
 /**
  * Service Implementation for managing PessoaJuridica.
  */
-
 @Service
 @Transactional
 public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
@@ -39,14 +43,7 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
 
     private final PessoaJuridicaMapper pessoaJuridicaMapper;
 
-    public static final String EMPRESA_JA_CADASTRADA = "Esta empresa ja esta cadastrada no sistema.";
-
-    public static final String CNPJ_INVALIDO = "CNPJ invalido.";
-
     public static final String ENTITY_NAME = "pessoa-juridica";
-    
-    public static final String PESSOA_NAO_CADASTRADA = 
-            "Nao e possivel excluir uma pessoa juridica inexistente!";
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
             PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
@@ -68,30 +65,52 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
 
     @Override
-    public PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridicaDto) {
+    public PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridicaDto)
+            throws CreatePJWithExistentIdException, CnpjInvalidoException {
 
         PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.findByCnpj(pessoaJuridicaDto.getCnpj());
 
         if (Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId())) {
-            throw new BadRequestAlertException(EMPRESA_JA_CADASTRADA, PessoaJuridicaResource.ENTITY_NAME,
-                    ErrorKeys.CNPJ_EXISTS.error());
+            throw new CreatePJWithExistentIdException();
         }
 
         if (!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())) {
-            throw new BadRequestAlertException(CNPJ_INVALIDO, PessoaJuridicaResource.ENTITY_NAME,
-                    ErrorKeys.CNPJ_INVALID.error());
+            throw new CnpjInvalidoException();
         }
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
 
-        if (Objects.isNull(pessoaJuridicaDto.getId())) {
+        if (pessoaJuridicaDto.getId() == null) {
             pessoaJuridica.setPessoa(new Pessoa().setStatus(FlStatus.S).setDataCadastro(LocalDateTime.now()));
         } else {
             pessoaJuridica.setPessoa(pessoaRepository.findOne(pessoaJuridicaDto.getId()));
         }
 
+        atribuirRepresentantes(pessoaJuridica);
+
         pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
+    }
+
+    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica){
+        for(Representante representante : pessoaJuridica.getRepresentantes()){
+            if(representante.getId() == null){
+                representante.getPessoa().setStatus(FlStatus.S);
+                representante.getPessoa().setDataCadastro(LocalDateTime.now());
+            }else {
+                representante.setPessoa(pessoaRepository.findOne(representante.getId()));
+            }
+
+            representante.setPessoaJuridica(pessoaJuridica);
+            atribuiPessoaAoTelefone(representante);
+        }
+    }
+
+    private void atribuiPessoaAoTelefone(Representante representante) {
+        for (Telefone telefone : representante.getTelefone()) {
+            telefone.setPessoaRepresentante(representante);
+            telefone.setStatus(FlStatus.S);
+        }
     }
 
     @Override
@@ -100,13 +119,30 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
 
     @Override
-    public void excluirPessoaJuridica(Long id) throws BadRequestAlertException {
+    public void excluirPessoaJuridica(Long id) throws DeleteInexistentPJException {
         Pessoa pessoa = pessoaRepository.findOne(id);
         if (pessoa == null) {
-            throw new BadRequestAlertException(PESSOA_NAO_CADASTRADA, 
-                    ENTITY_NAME, ErrorKeys.ID_INEXISTENT.error());
+            throw new DeleteInexistentPJException();
         }
         pessoa.setStatus(FlStatus.N);
         pessoaRepository.save(pessoa);
     }
+
+    @Override
+    public void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException {
+        if (id != null) {
+            throw new CreatePJWithExistentIdException();
+        }
+    }
+
+    @Override
+    public List<PessoaJuridicaComboDTO> listarTodas() {
+        return pessoaJuridicaRepository.listarTodas();
+    }
+
+    @Override
+    public List<PessoaJuridicaNomeDTO> getNomesByPJ() {
+        return pessoaJuridicaRepository.getNomesByPJ();
+    }
+
 }

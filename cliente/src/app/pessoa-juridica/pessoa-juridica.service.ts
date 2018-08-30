@@ -1,10 +1,10 @@
-import { Observable } from 'rxjs/Observable';
-import { PessoaJuridicaCadastro } from './pessoa-juridica-cadastro.model';
-import { HttpService } from '@basis/angular-components';
-import { environment } from './../../environments/environment.prod';
-import { Injectable } from "@angular/core";
-import { Pageable } from '../util/pageable-request';
-import { RequestOptions, Response } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {RequestOptions, Response} from '@angular/http';
+import {HttpService} from '@basis/angular-components';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../environments/environment.prod';
+import {Pageable} from '../util/pageable-request';
+import {PessoaJuridicaCadastro} from './pessoa-juridica-cadastro.model';
 
 @Injectable()
 export class PessoaJuridicaService {
@@ -24,7 +24,7 @@ export class PessoaJuridicaService {
 
     cadastrar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
         const copy = this.convert(pessoaJuridica);
-        return this.http.post(this.resourceUrl, copy).map((res) => {
+        return this.http.post(this.resourceUrl, copy).map((res : Response) => {
             return res.json();
         });
     }
@@ -51,4 +51,16 @@ export class PessoaJuridicaService {
         return copy;
     }
 
-}
+    listarTodas() {
+        return this.http.get(`${this.searchUrl}/${'todas'}`).map((res: Response) => {
+            return res.json();
+        });
+    }
+
+    listarNomes() {
+      return this.http.get(this.resourceUrl + '/nomes').map((res: Response) => {
+        return res.json();
+      });
+    }
+
+};

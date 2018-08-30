@@ -1,13 +1,12 @@
 import {Component, ContentChild, forwardRef, Input, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormControlName, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {ControlValueAccessor, FormControlName, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
     selector: 'app-custom-input-text',
     templateUrl: './custom-input-text.component.html',
-    styleUrls: ['./custom-input-text.component.css'],
     providers: [
         { provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(()=> CustomInputTextComponent),
+            useExisting: forwardRef(() => CustomInputTextComponent),
             multi: true
         }
     ]
@@ -17,12 +16,12 @@ export class CustomInputTextComponent implements OnInit, ControlValueAccessor {
 
     @Input() label: string;
     @Input() errorMessage: string;
-    @Input() showErrorMessageAfterSubmitForm: boolean = false;
-    @Input() showErrorMessage: boolean = true;
-    @Input() showLabel: boolean = true;
+    @Input() showErrorMessageAfterSubmitForm = false;
+    @Input() showErrorMessage = true;
+    @Input() showLabel = true;
     @Input() pattern: any = '';
-    @Input() readonly : boolean = false;
-    @Input() maxLength : number;
+    @Input() readonly = false;
+    @Input() maxLength: number;
 
     @ContentChild(FormControlName) formControl: FormControlName;
 
@@ -68,7 +67,7 @@ export class CustomInputTextComponent implements OnInit, ControlValueAccessor {
         this.value = obj;
     }
 
-    onChange(event){
+    onChange(event) {
         this._onChange(event.target.value);
     }
 
@@ -85,5 +84,4 @@ export class CustomInputTextComponent implements OnInit, ControlValueAccessor {
             }
         }
     }
-
 }

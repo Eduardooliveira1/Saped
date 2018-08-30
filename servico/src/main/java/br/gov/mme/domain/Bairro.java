@@ -1,7 +1,5 @@
 package br.gov.mme.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "td_Bairro")
@@ -45,14 +44,18 @@ public class Bairro implements Serializable {
     @Column(name = "nr_Versao_Dne")
     private Integer versaoDne;
 
+    public Bairro setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public Uf getUf() {
         return uf;
     }
 
 
-    public Bairro setId(Long id) {
-        this.id = id;
-        return this;
+    public Long getId() {
+        return id;
     }
 
     public Bairro setUf(Uf uf) {
@@ -60,8 +63,18 @@ public class Bairro implements Serializable {
         return this;
     }
 
-    public Long getId() {
-        return id;
+    public Bairro setVersaoDne(Integer versaoDne) {
+        this.versaoDne = versaoDne;
+        return this;
+    }
+
+    public Bairro setNomeAbreviadoBairro(String nomeAbreviadoBairro) {
+        this.nomeAbreviadoBairro = nomeAbreviadoBairro;
+        return this;
+    }
+
+    public String getNomeBairro() {
+        return nomeBairro;
     }
 
     public Localidade getLocalidade() {
@@ -73,8 +86,8 @@ public class Bairro implements Serializable {
         return this;
     }
 
-    public String getNomeBairro() {
-        return nomeBairro;
+    public Integer getVersaoDne() {
+        return versaoDne;
     }
 
     public Bairro setNomeBairro(String nomeBairro) {
@@ -84,19 +97,5 @@ public class Bairro implements Serializable {
 
     public String getNomeAbreviadoBairro() {
         return nomeAbreviadoBairro;
-    }
-
-    public Bairro setNomeAbreviadoBairro(String nomeAbreviadoBairro) {
-        this.nomeAbreviadoBairro = nomeAbreviadoBairro;
-        return this;
-    }
-
-    public Integer getVersaoDne() {
-        return versaoDne;
-    }
-
-    public Bairro setVersaoDne(Integer versaoDne) {
-        this.versaoDne = versaoDne;
-        return this;
     }
 }

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '@basis/angular-components';
-import { environment } from './../../environments/environment.prod';
+import { environment } from '../../environments/environment.prod';
 import { Injectable } from "@angular/core";
 import { RequestOptions } from '@angular/http';
 
@@ -11,7 +11,9 @@ export class EnumService{
     constructor(private http: HttpService) {}
 
     public static SERVICO_TIPO_ENDERECO = 'tipos-endereco';
-    
+    public static SERVICO_LIST_NOMES_PJ = 'nomes-pessoas-juridicas';
+    public static STATUS_BOLETO = 'status-boleto';
+
     listarEnum(nomeEnum: String, callback?: any){
         return this.http.get(this.resourceUrl+nomeEnum).map(res=>{
             return res.json();

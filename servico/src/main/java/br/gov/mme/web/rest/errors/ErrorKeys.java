@@ -1,8 +1,8 @@
 package br.gov.mme.web.rest.errors;
 
 public enum ErrorKeys {
-    ID_INEXISTENT("idnotexists"), ID_EXISTS("idexists"), CNPJ_EXISTS("cnpjexiste"), 
-    CNPJ_INVALID("cnpjinvalido");
+    ID_INEXISTENT("idnotexists"), ID_EXISTS("idexists"), CNPJ_EXISTS("cnpjexists"), 
+    CNPJ_INVALID("cnpjinvalid");
 
     private final String error;
 

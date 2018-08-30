@@ -2,6 +2,8 @@ package br.gov.mme.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -24,13 +26,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import br.gov.mme.exceptions.CnpjInvalidoException;
+import br.gov.mme.exceptions.CreatePJWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentPJException;
+import br.gov.mme.service.EnumerationService;
 import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.dto.EnumerationDTO;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
+import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
-import br.gov.mme.web.rest.errors.BadRequestAlertException;
-import br.gov.mme.web.rest.errors.ErrorKeys;
+import br.gov.mme.service.dto.PessoaJuridicaNomeDTO;
 import br.gov.mme.web.rest.util.HeaderUtil;
 import br.gov.mme.web.rest.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing PessoaJuridicaResource.
@@ -43,12 +51,15 @@ public class PessoaJuridicaResource {
 
     private final PessoaJuridicaService pessoaJuridicaService;
 
+    private final EnumerationService enumerationService;
+
     public static final String ENTITY_NAME = "pessoa-juridica";
 
     private final Logger log = LoggerFactory.getLogger(PessoaJuridicaResource.class);
 
-    public PessoaJuridicaResource(PessoaJuridicaService pessoaJuridicaService) {
+    public PessoaJuridicaResource(PessoaJuridicaService pessoaJuridicaService, EnumerationService enumerationService) {
         this.pessoaJuridicaService = pessoaJuridicaService;
+        this.enumerationService = enumerationService;
     }
 
     @GetMapping("/pessoas-juridicas")
@@ -57,6 +68,13 @@ public class PessoaJuridicaResource {
         Page<PessoaJuridicaListaDTO> page = pessoaJuridicaService.listarPessoasJuridicas(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pessoas-juridicas");
         return new ResponseEntity<>(page, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/pessoas-juridicas/todas")
+    @Timed
+    public ResponseEntity<List<PessoaJuridicaComboDTO>> listarTodas() {
+        List<PessoaJuridicaComboDTO> result = pessoaJuridicaService.listarTodas();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/pessoa-juridica/{id}")
@@ -68,43 +86,60 @@ public class PessoaJuridicaResource {
 
     @PostMapping("/pessoa-juridica")
     @Timed
-    public ResponseEntity<PessoaJuridicaCadastroDTO> cadastrarPessoaJuridica(@Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
-
-        if (pessoaJuridica.getId() != null) {
-            throw new BadRequestAlertException("Um novo registro nao pode ter um ID", ENTITY_NAME,
-                    ErrorKeys.ID_EXISTS.error());
-        }
-
-        PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
-        return ResponseEntity.created(new URI("/api/dirigentes/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+    public ResponseEntity<PessoaJuridicaCadastroDTO> cadastrarPessoaJuridica(
+            @Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
+        try {
+            pessoaJuridicaService.verificaExistenciaNovaPJ(pessoaJuridica.getId());
+            PessoaJuridicaCadastroDTO result;
+            result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
+            return ResponseEntity.created(new URI("/api/pessoa-juridica/" + result.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                    .body(result);
+        } catch (CnpjInvalidoException | CreatePJWithExistentIdException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
+                    ENTITY_NAME, e.getMessage())).body(null);
+        }   
     }
 
     @PutMapping("/pessoa-juridica")
     @Timed
-    public ResponseEntity<PessoaJuridicaCadastroDTO> atualizarPessoaJuridica(@Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
-
+    public ResponseEntity<PessoaJuridicaCadastroDTO> atualizarPessoaJuridica(
+            @Valid @RequestBody PessoaJuridicaCadastroDTO pessoaJuridica) throws URISyntaxException {
         if (pessoaJuridica.getId() == null) {
             return cadastrarPessoaJuridica(pessoaJuridica);
         }
-
-        PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
-                .body(result);
+        try {
+            PessoaJuridicaCadastroDTO result = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
+            return ResponseEntity.ok()
+                    .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId()
+                            .toString())).body(result);
+        } catch (CnpjInvalidoException | CreatePJWithExistentIdException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(
+                    ENTITY_NAME, e.getMessage())).body(null);
+        }
     }
 
     @DeleteMapping("/pessoa-juridica/{id}")
     @Timed
-    public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(
-            @PathVariable("id") Long id) {
+    public ResponseEntity<PessoaJuridicaListaDTO> removerPessoaJuridica(@PathVariable("id") Long id) {
         try {
-        pessoaJuridicaService.excluirPessoaJuridica(id);
-        } catch (BadRequestAlertException e) {
+            pessoaJuridicaService.excluirPessoaJuridica(id);
+        } catch (DeleteInexistentPJException e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, e.getMessage()))
+                    .body(null);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/pessoa-juridica/nomes")
+    @Timed
+    public ResponseEntity<List<EnumerationDTO>> getAllNomePessoasJuridicas() {
+        List<PessoaJuridicaNomeDTO> nomesPessoaJuridica = pessoaJuridicaService.getNomesByPJ();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(enumerationService
+                .getAllNomesPJ(nomesPessoaJuridica)));
+    }
+
 }

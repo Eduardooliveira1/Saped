@@ -1,17 +1,29 @@
-import { MensagensUtils } from './../util/mensagens-util';
-import { EnumService } from './../shared/enum.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { pessoaJuridicaRoute } from './pessoa-juridica.route';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PessoaJuridicaListComponent } from './pessoa-juridica-list/pessoa-juridica-list.component';
-import { RouterModule } from '@angular/router';
-import { ButtonModule, DataTableModule, InputMaskModule, DropdownModule, BlockUIModule, ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
-import { PessoaJuridicaService } from './pessoa-juridica.service';
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {Ng2BRPipesModule} from 'ng2-brpipes';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { PessoaJuridicaFormComponent } from './pessoa-juridica-form/pessoa-juridica-form.component';
-import { CustomComponentsModule } from '../shared/custom-components/custom-components.module';
+import {
+  BlockUIModule,
+  ButtonModule,
+  CheckboxModule,
+  ConfirmationService,
+  ConfirmDialogModule,
+  DataTableModule,
+  DialogModule,
+  DropdownModule,
+  InputMaskModule
+} from 'primeng/primeng';
+import {CustomComponentsModule} from '../shared/custom-components/custom-components.module';
+import {CustomDirectivesModule} from '../shared/custom-directives/custom-directives.module';
+import {EnumService} from '../shared/enum.service';
+import {PessoaJuridicaFormComponent} from './pessoa-juridica-form/pessoa-juridica-form.component';
+import {PessoaJuridicaListComponent} from './pessoa-juridica-list/pessoa-juridica-list.component';
+import {pessoaJuridicaRoute} from './pessoa-juridica.route';
+import {PessoaJuridicaService} from './pessoa-juridica.service';
+import {PessoaRepresentanteListComponentComponent} from './pessoa-representante-list-component/pessoa-representante-list-component.component';
+import {PessoaRepresentanteService} from './pessoa-representante.service';
 
 @NgModule({
   imports: [
@@ -27,11 +39,15 @@ import { CustomComponentsModule } from '../shared/custom-components/custom-compo
     ReactiveFormsModule,
     DropdownModule,
     BlockUIModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    DialogModule,
+    InputMaskModule,
+    CheckboxModule,
+    CustomDirectivesModule
   ],
-  declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent],
-  providers:[
-      PessoaJuridicaService, EnumService, ConfirmationService
+  declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent, PessoaRepresentanteListComponentComponent],
+  providers: [
+      PessoaJuridicaService, EnumService, ConfirmationService, PessoaRepresentanteService
   ],
   exports: [Ng2BRPipesModule]
 })
