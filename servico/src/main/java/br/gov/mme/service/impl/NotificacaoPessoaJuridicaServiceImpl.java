@@ -2,7 +2,6 @@ package br.gov.mme.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import br.gov.mme.domain.NotificacaoPessoaJuridica;
 import br.gov.mme.repository.NotificacaoPessoaJuridicaRepository;
 import br.gov.mme.service.NotificacaoPessoaJuridicaService;
@@ -25,9 +24,5 @@ public class NotificacaoPessoaJuridicaServiceImpl implements NotificacaoPessoaJu
 	public void salvarNotificacaoPessoaJuridica(NotificacaoPessoaJuridica notificacaoPessoaJuridica) {
 		notificacaoPessoaJuridicaRepository.save(notificacaoPessoaJuridica);
 	}
-
-
-
-
 
 }

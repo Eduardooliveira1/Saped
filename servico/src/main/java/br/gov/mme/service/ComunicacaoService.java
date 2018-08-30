@@ -1,6 +1,5 @@
 package br.gov.mme.service;
 
-
 import br.gov.mme.service.dto.NotificacaoCadastroDTO;
 import br.gov.mme.service.impl.ComunicacaoServiceImpl;
 
@@ -17,7 +16,4 @@ public interface ComunicacaoService {
      */
     NotificacaoCadastroDTO salvarNotificacao(NotificacaoCadastroDTO notificacao);
     
-
-
-
 }

@@ -12,7 +12,6 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ComunicadoCadastro } from './../comunicado-cadastro.model';
 import { Observable } from 'rxjs/Observable';
 
-
 @Component({
   selector: 'app-comunicacao-list',
   templateUrl: './comunicacao-list.component.html',

@@ -1,9 +1,7 @@
 package br.gov.mme.domain;
 
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +21,6 @@ public class Notificacao implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="pk_Notificacao")
     private Long id;
-
 
     @NotNull
     @Size(max = 100)
@@ -70,6 +67,5 @@ public class Notificacao implements Serializable {
 	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
-
-   
+ 
 }

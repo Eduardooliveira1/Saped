@@ -8,7 +8,6 @@ public class ComunicacaoRepresentantelistaDTO {
     private String nome;
     private String nomeFantasia;
 
-
     public ComunicacaoRepresentantelistaDTO() {
     }
 
@@ -19,8 +18,6 @@ public class ComunicacaoRepresentantelistaDTO {
         this.nome = nome;
         this.nomeFantasia = nomeFantasia;
     }
-
-
 
     public String getNomeFantasia() {
 		return nomeFantasia;
@@ -61,7 +58,4 @@ public class ComunicacaoRepresentantelistaDTO {
 	public void setIdPessoaJuridica(Long idPessoaJuridica) {
 		this.idPessoaJuridica = idPessoaJuridica;
 	}
-
-
-
 }

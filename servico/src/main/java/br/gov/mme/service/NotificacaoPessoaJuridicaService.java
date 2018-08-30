@@ -1,6 +1,5 @@
 package br.gov.mme.service;
 
-
 import br.gov.mme.domain.NotificacaoPessoaJuridica;
 import br.gov.mme.service.impl.NotificacaoPessoaJuridicaServiceImpl;
 

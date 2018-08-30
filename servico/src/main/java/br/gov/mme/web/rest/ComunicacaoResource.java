@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.codahale.metrics.annotation.Timed;
-
 import br.gov.mme.service.ComunicacaoService;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.NotificacaoCadastroDTO;
@@ -36,7 +34,6 @@ public class ComunicacaoResource {
         this.comunicacaoService = comunicacaoService;
     }
 
-
     @PostMapping("/comunicacao")
     @Timed
     public ResponseEntity<NotificacaoCadastroDTO> cadastrarNotificacao(@Valid @RequestBody NotificacaoCadastroDTO notificacao) throws URISyntaxException {
@@ -49,12 +46,5 @@ public class ComunicacaoResource {
         return ResponseEntity.created(new URI("/api/comunicacao/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
-    }
-    
-    
-
-    
-
-
- 
+    } 
 }

@@ -1,7 +1,6 @@
 package br.gov.mme.domain;
 
 import java.io.Serializable;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -20,8 +19,5 @@ public class NotificacaoPessoaJuridica implements Serializable  {
 
 	public void setNotificacaoPessoaJuridicaId(NotificacaoPessoaJuridicaId notificacaoPessoaJuridicaId) {
 		this.notificacaoPessoaJuridicaId = notificacaoPessoaJuridicaId;
-	}
-    
-    
-   
+	} 
 }

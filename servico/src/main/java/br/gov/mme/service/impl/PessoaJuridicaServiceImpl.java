@@ -145,12 +145,10 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         return pessoaJuridicaRepository.getNomesByPJ();
     }
 
-
 	@Override
 	public PessoaJuridica findOne(Long idPessoaJuridica) {
 		// TODO Auto-generated method stub
 		return pessoaJuridicaRepository.findOne(idPessoaJuridica);
-	}
-    
+	}    
 
 }

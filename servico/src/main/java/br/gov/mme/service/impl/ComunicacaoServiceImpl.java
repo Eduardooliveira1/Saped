@@ -2,8 +2,6 @@ package br.gov.mme.service.impl;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +25,6 @@ import br.gov.mme.service.mapper.ComunicacaoMapper;
 @Service
 @Transactional
 public class ComunicacaoServiceImpl implements ComunicacaoService {
-
-    @Autowired
-    private JavaMailSender mailSender;
 
     private final ComunicacaoRepository comunicacaoRepository;
 
