@@ -20,41 +20,41 @@
     </div>
 </div>
 
-    <div class="ui-g-12 md-12">
-        <div class="ui-g-4 md-4 filled ui-multiselect-label-container">
-            <p-multiSelect  [options]="dropDownNomePessoaJuridica"
-                           [defaultLabel]="'Selecione'" [style]="{'width':'100%'}"
-                           [required]="false" [(ngModel)]="idsPessoasJuridicas">
-            </p-multiSelect>
-        </div>
-        <span class="ui-g-2 md-2 ui-calendar">
-            <p-calendar [(ngModel)]="dataVencimento" dateFormat="dd.mm.yy" [locale]="ptBr" ></p-calendar>
+<div class="ui-g-12 md-12">
+    <div class="ui-g-4 md-4 filled ui-multiselect-label-container">
+        <p-multiSelect [options]="dropDownNomePessoaJuridica"
+                       [defaultLabel]="'Selecione'" [style]="{'width':'100%'}"
+                       [required]="false" [(ngModel)]="idsPessoasJuridicas">
+        </p-multiSelect>
+    </div>
+    <span class="ui-g-2 md-2 ui-calendar">
+            <p-calendar [(ngModel)]="dataVencimento" dateFormat="dd.mm.yy" [locale]="ptBr"></p-calendar>
         </span>
-        <span class="ui-g-2 md-2 md-inputfield wp16-4">
+    <span class="ui-g-2 md-2 md-inputfield wp16-4">
             <app-custom-input-currency-mask #currencyValue [maxLength]="30"
-           > </app-custom-input-currency-mask>
+            > </app-custom-input-currency-mask>
         </span>
-        <div class="ui-g-1 md-1 filled ui-dropdown-label">
-                <p-dropdown  [required]="false" [options]="dropDownStatusBoleto"
-                             placeholder="Sel"
-                             [(ngModel)]="tpStatusBoleto"
-                             [showClear]="true"></p-dropdown>
-        </div>
-        <span class="ui-g-2 md-2 filled ui-dropdown-label w14p">
-                <p-dropdown  [required]="false" [options]="dropDownMesReferencia"
+    <div class="ui-g-1 md-1 filled ui-dropdown-label">
+        <p-dropdown [required]="false" [options]="dropDownStatusBoleto"
+                    placeholder="Sel"
+                    [(ngModel)]="tpStatusBoleto"
+                    [showClear]="true"></p-dropdown>
+    </div>
+    <span class="ui-g-2 md-2 filled ui-dropdown-label w14p">
+                <p-dropdown [required]="false" [options]="dropDownMesReferencia"
                             placeholder="Selecione"
-                             [(ngModel)]="mesReferencia"
-                             [showClear]="true"></p-dropdown>
+                            [(ngModel)]="mesReferencia"
+                            [showClear]="true"></p-dropdown>
         </span>
-        <span class="ui-g-1 md-1 ui-button botao-pesquisar">
+    <span class="ui-g-1 md-1 ui-button botao-pesquisar">
             <button type="button" pButton label="Pesquisar" icon="ui-icon-search" (click)="updateFiltro()"></button>
         </span>
-    </div>
+</div>
 
 <div class="ui-g-12 ui-md-12 ui-sm-12">
     <p-dataTable #dataTable [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true"
-                  [lazy]="true" (onLazyLoad)="this.listarPagamentos(null)"
-                  [immutable]="false" [first]="0"
+                 [lazy]="true" (onLazyLoad)="this.listarPagamentos(null)"
+                 [immutable]="false" [first]="0"
                  [totalRecords]="result?.totalElements" [value]="result?.content"
                  emptyMessage="Nenhum resultado encontrado.">
         <p-column field="cnpj" header="CNPJ">
@@ -67,21 +67,16 @@
         <p-column field="dataVencimento" header="Data de Vencimento"></p-column>
         <p-column field="dataVencimento" header="Data 2ª Via">
             <ng-template let-col let-row="rowData" pTemplate="body">
-                <div  *ngIf="row.tpBoleto !== 'SV'; else notSV">
-                    {{row.dataVencimento | stringToSlash}}
-                </div>
-                <ng-template #notSV>
-                    {{row.dataVencimento}}
-                </ng-template>
+                {{row | boletoDataVencimentoPipe}}
             </ng-template>
         </p-column>
         <p-column field="statusBoleto" header="Status">
-            <ng-template  let-row="rowData" pTemplate="body">
+            <ng-template let-row="rowData" pTemplate="body">
                 <span> {{row.statusBoleto | descrisaoStatusBoleto}}</span>
             </ng-template>
         </p-column>
         <p-column field="valorBoleto" header="Valor">
-            <ng-template  let-row="rowData" pTemplate="body">
+            <ng-template let-row="rowData" pTemplate="body">
                 <span> {{row.valorBoleto | currency:'BRL' | dotToComma}}</span>
             </ng-template>
         </p-column>

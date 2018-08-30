@@ -23,8 +23,8 @@ import {PessoaJuridicaService} from '../pessoa-juridica/pessoa-juridica.service'
 import {DotToCommaPipe} from '../shared';
 import {CustomComponentsModule} from '../shared/custom-components/custom-components.module';
 import {CustomCurrencyMaskConfig} from '../shared/custom-mask-configs/custom-currency-mask-config';
+import {BoletoDataVencimentoPipe} from '../shared/custom-pipes/boleto-data-vencimento.pipe';
 import {StatusBoletoIdToDescricaoPipe} from '../shared/custom-pipes/status-boleto-id-to-descricao.pipe';
-import {StringToSlashPipe} from '../shared/custom-pipes/string-to-slash.pipe';
 import {EnumService} from '../shared/enum.service';
 import {RelatorioPagamentoComponent} from './pagamentos/relatorio-pagamento.component';
 import {relatoriosRoutes} from './relatorios.route';
@@ -48,7 +48,7 @@ import {RelatoriosService} from './relatorios.service';
     MultiSelectModule,
     CurrencyMaskModule,
     CalendarModule],
-  declarations: [RelatorioPagamentoComponent, StatusBoletoIdToDescricaoPipe, DotToCommaPipe, StringToSlashPipe],
+  declarations: [RelatorioPagamentoComponent, StatusBoletoIdToDescricaoPipe, DotToCommaPipe, BoletoDataVencimentoPipe],
   providers: [{provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig},
     RelatoriosService, EnumService, ConfirmationService, PessoaJuridicaService, PageNotificationService
   ],
