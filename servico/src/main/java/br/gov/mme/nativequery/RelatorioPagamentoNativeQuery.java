@@ -28,7 +28,7 @@ public class RelatorioPagamentoNativeQuery
     public void appendSelectClause(StringBuilder queryBuilder) {
         queryBuilder.append("SELECT co_Cnpj cnpj, no_Fantasia nomeFantasia, vl_Boleto valorBoleto, ");
         queryBuilder.append("mm_Referencia mesReferencia, aa_Referencia anoReferencia, dt_Vencimento ");
-        queryBuilder.append("dataVencimento, tp_Status statusBoleto ");
+        queryBuilder.append("dataVencimento, tp_Status statusBoleto, tp_Boleto tpBoleto ");
     }
 
     @Override
