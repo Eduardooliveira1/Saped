@@ -119,7 +119,9 @@ public class RelatorioResourceIntTest {
         case (0):
             result.andExpect(jsonPath("$.content[0].dataVencimento")
                     .value(TestUtils.DEFAULT_LOCAL_DATE
-                            .format(TestUtils.DATE_FORMATTER_dd_MM_YYYY)));
+                            .format(TestUtils.DATE_FORMATTER_dd_MM_YYYY)))
+                   .andExpect(jsonPath("$.content[0].dataSegundaVia")
+                          .value("-"));
             break;
         case (1):
             result.andExpect(jsonPath("$.content[0].valorBoleto")
@@ -127,7 +129,10 @@ public class RelatorioResourceIntTest {
             break;
         case (2):
             result.andExpect(jsonPath("$.content[0].mesReferencia")
-                    .value(TestUtils.MES_REF_NOV_2222));
+                    .value(TestUtils.MES_REF_NOV_2222))
+                  .andExpect(jsonPath("$.content[0].dataSegundaVia")
+                          .value(TestUtils.LOCAL_DATE_NOW
+                                  .format(TestUtils.DATE_FORMATTER_dd_MM_YYYY)));
             break;
         case (3):
             result.andExpect(jsonPath("$.content[0].statusBoleto")
@@ -180,7 +185,6 @@ public class RelatorioResourceIntTest {
     @Transactional
     public void listAllPagamentos() throws Exception {
         Boleto boleto = TestUtils.getDefaultBoletoEntity(em);
-        this.boletoRepository.saveAndFlush(boleto);
         StatusBoleto statusBoleto = statusBoletoRepositoy.findAll().get(0);
         TestUtils.performPost(restRelatorioMockMvc, LIST_PAGAMENTOS, 
             getFiltroRelatorioPagamentoListAll(Boolean.FALSE))
@@ -192,6 +196,7 @@ public class RelatorioResourceIntTest {
                 .andExpect(jsonPath("$.content[0].mesReferencia").value(boleto.getMesReferencia()))
                 .andExpect(jsonPath("$.content[0].dataVencimento")
                     .value(boleto.getDataVencimento().format(TestUtils.DATE_FORMATTER_dd_MM_YYYY)))
+                .andExpect(jsonPath("$.content[0].dataSegundaVia").value("-"))
                 .andExpect(jsonPath("$.content[0].statusBoleto").value(statusBoleto.getTpStatusBoleto()
                     .getId()))
                 .andExpect(jsonPath("$.totalPages").value(1))
