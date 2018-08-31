@@ -66,12 +66,11 @@ public class ComunicacaoServiceImpl implements ComunicacaoService {
     private void salvaNotificacaoPessoaJuridica(Notificacao notificacaoSalva, NotificacaoCadastroDTO notificacaoDto) {
         NotificacaoPessoaJuridica notificacaoPessoaJuridica = new NotificacaoPessoaJuridica();
         notificacaoPessoaJuridica.setNotificacaoPessoaJuridicaId(new NotificacaoPessoaJuridicaId());
-        PessoaJuridica pessoaJuridica = new PessoaJuridica();
 
         if (notificacaoDto.getRepresentantes()
             .size() > 0) {
             for (ComunicacaoRepresentantelistaDTO rep : notificacaoDto.getRepresentantes()) {
-                pessoaJuridica = pessoaJuridicaService.findOne(rep.getIdPessoaJuridica());
+                PessoaJuridica pessoaJuridica = pessoaJuridicaService.findOne(rep.getIdPessoaJuridica());
                 notificacaoPessoaJuridica.getNotificacaoPessoaJuridicaId()
                     .setNotificacao(notificacaoSalva);
                 notificacaoPessoaJuridica.getNotificacaoPessoaJuridicaId()

@@ -31,7 +31,7 @@
   <div class="ui-g form-group">
     <div class="ui-g-12 ui-md-12">
       <span class="md-inputfield">
-        <app-custom-input-text [maxLength]="100" [label]="'Assunto'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
+        <app-custom-input-text [maxLength]="100" [label]="'Assunto'"  [showErrorMessageAfterSubmitForm]="submitedForm"
           formControlName="assunto" [(ngModel)]="comunicado.assunto"></app-custom-input-text>
       </span>
     </div>
@@ -39,7 +39,7 @@
   <div class="ui-g form-group">
     <div class="ui-g-12 ui-md-12">
       <span class="md-inputfield">
-        <app-custom-textarea [placeholder]="'Conteúdo'" [errorMessage]="msgPadraoCampoObrigatorio" [showErrorMessageAfterSubmitForm]="submitedForm"
+        <app-custom-textarea [placeholder]="'Conteúdo'"  [showErrorMessageAfterSubmitForm]="submitedForm"
           formControlName="conteudo" [(ngModel)]="comunicado.conteudo"></app-custom-textarea>
       </span>
     </div>
