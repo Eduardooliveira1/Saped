@@ -7,11 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.exceptions.CNPJInvalidoException;
-import br.gov.mme.exceptions.CnpjInvalidoException;
 import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
-import br.gov.mme.exceptions.CreatePJWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentEntityException;
-import br.gov.mme.exceptions.DeleteInexistentPJException;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
@@ -43,7 +40,7 @@ public interface PessoaJuridicaService {
      * @throws CreateEntityWithExistentIdException
      */
     PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridica)
-        throws CnpjInvalidoException, CreatePJWithExistentIdException, CreateEntityWithExistentIdException,
+        throws CreateEntityWithExistentIdException,
         CNPJInvalidoException;
 
     /**
