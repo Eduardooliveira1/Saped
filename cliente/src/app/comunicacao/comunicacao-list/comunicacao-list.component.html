@@ -13,7 +13,7 @@
 <div class="ui-g">
   <div class="ui-g-12">
     <p-dataTable #dataTable [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true" (onLazyLoad)="pesquisar()"
-      [lazy]="true" [totalRecords]="result?.totalElements" [value]="result?.content" emptyMessage="Nenhum resultado encontrado." selectionMode="multiple" [(selection)]="selecao" > 
+      [lazy]="true" [totalRecords]="result?.totalElements" [value]="result?.content" emptyMessage="Nenhum resultado encontrado." selectionMode="multiple" [(selection)]="comunicado.representantes" > 
       <p-column selectionMode="multiple"></p-column>
       <p-column field="email" header="E-mail"></p-column>
       <p-column field="nome" header="Nome"></p-column>
@@ -48,7 +48,7 @@
   <div class="ui-g">
     <div class="ui-g-12">
       <div class="ui-g-12 ui-md-12 ui-lg-1 float-right">
-        <button pButton type="button" (click)="enviarComunicado(selecao)" label="Enviar"></button>
+        <button pButton type="button" (click)="enviarComunicado()" label="Enviar"></button>
       </div>
     </div>
 
