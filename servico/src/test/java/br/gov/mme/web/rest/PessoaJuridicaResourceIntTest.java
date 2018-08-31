@@ -184,9 +184,7 @@ public class PessoaJuridicaResourceIntTest {
                 .setRazaoSocial(TestUtils.DEFAULT_STRING_TAM_9).setSigla(TestUtils.DEFAULT_STRING_TAM_9);
     }
 
-    private static PessoaJuridicaCadastroDTO getPJCadastroWithId() {
-        return getDefaultPessoaJuridicaCadastroDTO().setId(TestUtils.DEFAULT_INVALID_ID);
-    }
+
 
     private static PessoaJuridicaCadastroDTO getPJCadastroWithInvalidCNPJ() {
         return getDefaultPessoaJuridicaCadastroDTO().setCnpj(TestUtils.INVALID_CNPJ);
@@ -230,7 +228,7 @@ public class PessoaJuridicaResourceIntTest {
         String existentIdExceptionMessage = new 
                 CreateEntityWithExistentIdException(ENTITY_NAME).getMessage();
         Object[][] params = new Object[][] {
-                { getPJCadastroWithId(),
+            {TestUtils.getPJCadastroWithId(),
                         existentIdExceptionMessage, },
                 { getPJCadastroWithInvalidCNPJ(),
                         CNPJInvalidoException.MESSAGE }

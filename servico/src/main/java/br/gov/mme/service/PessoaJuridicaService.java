@@ -1,11 +1,11 @@
 package br.gov.mme.service;
 
-
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.exceptions.CNPJInvalidoException;
 import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentEntityException;
@@ -17,16 +17,18 @@ import br.gov.mme.service.impl.PessoaJuridicaServiceImpl;
 
 /**
  * Service Interface for managing PessoaJuridica.
+ * 
  * @see PessoaJuridicaServiceImpl
  */
 public interface PessoaJuridicaService {
 
     /**
      * Lita pessoas jurídicas
+     * 
      * @param pageable
      * @return a lista de pessoa juridica
      */
-    Page<PessoaJuridicaListaDTO> listarPessoasJuridicas(String filtro,Pageable pageable);
+    Page<PessoaJuridicaListaDTO> listarPessoasJuridicas(String filtro, Pageable pageable);
 
     /**
      * Salva pessoa juridica
@@ -38,16 +40,17 @@ public interface PessoaJuridicaService {
      * @throws CreateEntityWithExistentIdException
      */
     PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridica)
-            throws CreateEntityWithExistentIdException, CNPJInvalidoException;
+        throws CreateEntityWithExistentIdException,
+        CNPJInvalidoException;
 
     /**
      * Obtem pessoa pessoa jurídica por id
+     * 
      * @param id
      * @return pessoa juridica
      */
 
     PessoaJuridicaCadastroDTO obterPordId(Long id);
-
 
     /**
      * remover pessoa juridica
@@ -68,4 +71,6 @@ public interface PessoaJuridicaService {
     List<PessoaJuridicaComboDTO> listarTodas();
 
     List<PessoaJuridicaNomeDTO> getNomesByPJ();
+
+    PessoaJuridica findOne(Long idPessoaJuridica);
 }
