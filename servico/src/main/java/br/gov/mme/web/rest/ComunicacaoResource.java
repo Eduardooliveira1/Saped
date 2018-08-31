@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 
 import br.gov.mme.service.ComunicacaoService;
-import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.NotificacaoCadastroDTO;
 import br.gov.mme.web.rest.errors.BadRequestAlertException;
 import br.gov.mme.web.rest.util.HeaderUtil;
@@ -32,8 +31,7 @@ public class ComunicacaoResource {
 
     public static final String ENTITY_NAME = "comunicacao";
 
-    public ComunicacaoResource(ComunicacaoService comunicacaoService,
-                               PessoaJuridicaService pessoaJuridicaService) {
+    public ComunicacaoResource(ComunicacaoService comunicacaoService) {
         this.comunicacaoService = comunicacaoService;
     }
 
