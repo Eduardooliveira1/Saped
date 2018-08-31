@@ -3161,7 +3161,7 @@
 
 body .ui-widget,
 body .ui-widget .ui-widget {
-  font-family: "Roboto","Helvetica Neue",sans-serif;
+  font-family: "Open Sans",sans-serif;
   text-decoration: none; }
 body .ui-widget-content {
   background-color: #ffffff;
@@ -3395,7 +3395,9 @@ body {
       padding: 0;
       line-height: 2.25em; }
     body .ui-button .fa, body .ui-datepicker-buttonpane > button .fa {
-      color: #ffffff; }
+      color: #ffffff; 
+      font-weight: bold;
+    }
     body .ui-button.ui-button-icon-only, body .ui-datepicker-buttonpane > button.ui-button-icon-only {
       -moz-border-radius: 50%;
       -webkit-border-radius: 50%;
@@ -3569,7 +3571,9 @@ body {
       -moz-transition: background-color 0.3s;
       -o-transition: background-color 0.3s;
       -webkit-transition: background-color 0.3s;
-      transition: background-color 0.3s; }
+      transition: background-color 0.3s;
+      background-color: #ffffff;
+     }
       body .ui-chkbox .ui-chkbox-box .ui-chkbox-icon {
         font-size: 1.25em;
         margin-left: -2px;
@@ -4785,7 +4789,7 @@ body .ui-orderlist .ui-orderlist-controls {
     margin-bottom: .5em;
     margin-right: 0; }
 body .ui-paginator {
-  background-color: #00695C;
+  background-color: #3c6a68;
   padding: 0.625em 1em; }
   body .ui-paginator > a {
     box-sizing: border-box;
@@ -4984,7 +4988,7 @@ body .ui-datatable tfoot th {
   border: 1px solid #bdbdbd;
   background-color: #ffffff; }
 body .ui-datatable .ui-datatable-data tr.ui-datatable-even {
-  background-color: #f4f4f4; }
+  background-color: #dfdfdf; }
   body .ui-datatable .ui-datatable-data tr.ui-datatable-even.ui-state-highlight {
     background-color: #CDDC39;
     color: #212121; }
@@ -6034,7 +6038,7 @@ body .ui-draggable-dragging.ui-state-default {
   padding: 0.625em 1em !important;
   background-color: #009688; }
 body .jqplot-target {
-  font-family: "Roboto","Helvetica Neue",sans-serif; }
+  font-family: "Open Sans",sans-serif; }
 body .ui-progressbar {
   height: .5em;
   background-color: #80CBC4;

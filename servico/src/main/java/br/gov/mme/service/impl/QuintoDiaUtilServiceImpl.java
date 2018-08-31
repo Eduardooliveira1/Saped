@@ -45,7 +45,8 @@ public class QuintoDiaUtilServiceImpl implements QuintoDiaUtilService {
 
     private String converteDataParaString(Date data)
     {
-        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+
+        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
         return sdfr.format( data );
     }
 }

@@ -106,6 +106,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
       } else {
         this.subscribeToSaveResponse(this.pessoaJuridicaService.cadastrar(this.pessoaJuridica));
       }
+      this.router.navigate(['pessoa-juridica']);
     } else {
       this.pageNotificationService.addErrorMessage(MensagensUtils.PREENCHA_CAMPOS_OBRIGATORIOS);
       return;

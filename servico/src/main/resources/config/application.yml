@@ -59,6 +59,20 @@ spring:
             naming:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
                 implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    mail:
+        host: smtp.gmail.com
+        #port: 465(SSL) ou 587(TLS)
+        port: 587 
+        username: sapedteste@gmail.com
+        password: sapedteste123
+        properties:
+          mail:
+            smtp:
+                auth: true
+                starttls:
+                    enable: true
+                    required: true
+                quitwait: false
     messages:
         basename: i18n/messages
     mvc:

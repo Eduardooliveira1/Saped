@@ -58,4 +58,10 @@ export class PessoaJuridicaService {
         });
     }
 
-}
+    listarNomes() {
+      return this.http.get(this.resourceUrl + '/nomes').map((res: Response) => {
+        return res.json();
+      });
+    }
+
+};
