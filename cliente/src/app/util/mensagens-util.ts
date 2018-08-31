@@ -39,6 +39,7 @@ export class MensagensUtils {
      * tela login
      */
     public static USUARIO_INFORMAR_NOME = "Por favor, insira o CNPJ."
-    public static USUARIO_INSERIR_SENHA = "Por favor, insira a senha"
+    public static USUARIO_INSERIR_SENHA = "Por favor, insira a senha."
+    public static USUARIO_OU_SENHA_INVALIDOS = "Usuário e/ou senha inválidos.";
 
 }

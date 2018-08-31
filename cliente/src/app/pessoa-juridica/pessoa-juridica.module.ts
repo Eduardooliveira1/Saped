@@ -1,5 +1,5 @@
 import { TokenInterceptor } from './../auth/interceptor';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -33,7 +33,6 @@ import { PessoaRepresentanteListComponentComponent } from './pessoa-representant
     DialogModule,
     InputMaskModule,
     CheckboxModule,
-    HttpClientModule
 
   ],
   declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent, PessoaRepresentanteListComponentComponent],

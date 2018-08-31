@@ -10,7 +10,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const modified = req.clone({setHeaders: {"Authorization": this._buildAuthHeader()}});
+        const modified = req.clone(this.setHeaders());
         return next.handle(modified).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
               // tratar alguma resposta genérica
@@ -24,6 +24,10 @@ export class TokenInterceptor implements HttpInterceptor {
           });
     }
 
+    private setHeaders() {
+      return { setHeaders: {"Authorization": this._buildAuthHeader()} } 
+    }
+    
     private _buildAuthHeader(): string {
         return "Bearer " + localStorage.getItem("id_token");
     }

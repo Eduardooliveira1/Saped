@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 export class LoginLayoutComponent implements OnInit {
 
   usuario: UsuarioLogin = new UsuarioLogin();
-  acessoNegado: boolean = false;
 
   constructor( private loginService: LoginService,
                private router: Router,
@@ -34,12 +33,11 @@ export class LoginLayoutComponent implements OnInit {
     }
 
     this.loginService.efetuarLogin(this.usuario).subscribe((authResult: any) => {
-      this.acessoNegado = false;
       localStorage.setItem('id_token', authResult.id_token);
       this.router.navigateByUrl('');
     }, error => {
       if(error.status === 401) {
-        this.acessoNegado = true;
+        this.pageNotificationService.addErrorMessage(MensagensUtils.USUARIO_OU_SENHA_INVALIDOS);
       }
     });
 

@@ -1,6 +1,7 @@
 package br.gov.mme.config;
 
 import br.gov.mme.config.security.SAPEDMMEAuthenticationConfig;
+import br.gov.mme.exceptions.EncapsuladaException;
 import br.gov.mme.security.AuthoritiesConstants;
 import br.gov.mme.security.jwt.JWTConfigurer;
 import br.gov.mme.security.jwt.TokenProvider;
@@ -114,31 +115,55 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         return auth -> {
             try {
-                auth.ldapAuthentication()
-                        .userSearchBase(applicationProperties.getLdap().getSearchBase())
-                        .userSearchFilter(applicationProperties.getLdap().getSearchFilter())
-                        .groupSearchBase(applicationProperties.getLdap().getGroupBase())
-                        .groupSearchFilter(applicationProperties.getLdap().getGroupFilter())
-                        .contextSource().url(applicationProperties.getLdap().getUrl())
-                        .managerDn(applicationProperties.getLdap().getManagerDn())
-                        .managerPassword(applicationProperties.getLdap().getManagerPassword())
-                        .and()
-                        .userDetailsContextMapper(new LdapUserDetailsMapper(){
-                            @Override
-                            public UserDetails mapUserFromContext(DirContextOperations ctx, String username, Collection<? extends GrantedAuthority> authorities) {
-                                return super.mapUserFromContext(ctx, username, Collections.singletonList(new SimpleGrantedAuthority("INTERNO")));
-                            }
-                        }).passwordCompare().passwordEncoder(new LdapShaPasswordEncoder()).passwordAttribute(applicationProperties.getLdap().getPasswordAttribute());
-            } catch (Exception e) {
+                authLdapAutentication(auth);
+            } catch (EncapsuladaException e) {
                 LOGGER.error(e.getMessage(), e);
             }
             try {
-                auth.jdbcAuthentication().dataSource(pDataSource).usersByUsernameQuery("select co_Cnpj as username, ds_Senha_Acesso as password, 1 as enabled from tb_Pessoa_juridica where co_Cnpj = ?")
-                        .authoritiesByUsernameQuery("select no_Razao_Social as username, 'EXTERNO' as role from tb_Pessoa_juridica where co_Cnpj = ?");
-            } catch (Exception e) {
+                jdbcAuthentication(pDataSource, auth);
+            } catch (EncapsuladaException e) {
                 LOGGER.error(e.getMessage(), e);
             }
         };
+    }
+
+    private void jdbcAuthentication(DataSource pDataSource, AuthenticationManagerBuilder auth) throws EncapsuladaException {
+        try {
+            auth.jdbcAuthentication().dataSource(pDataSource).usersByUsernameQuery("select co_Cnpj as username, ds_Senha_Acesso as password, 1 as enabled from tb_Pessoa_juridica where co_Cnpj = ?")
+                .authoritiesByUsernameQuery(usuarioExternoQuery());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new EncapsuladaException(e);
+        }
+    }
+
+    private String usuarioExternoQuery() {
+        StringBuilder userQuery = new StringBuilder();
+        userQuery.append("select no_Razao_Social as username, ");
+        userQuery.append("'EXTERNO'");
+        userQuery.append(" as role from tb_Pessoa_juridica where co_Cnpj = ?");
+        return userQuery.toString();
+    }
+
+    private void authLdapAutentication(AuthenticationManagerBuilder auth) throws EncapsuladaException {
+        try {
+            auth.ldapAuthentication().userSearchBase(applicationProperties.getLdap().getSearchBase())
+                .userSearchFilter(applicationProperties.getLdap().getSearchFilter())
+                .groupSearchBase(applicationProperties.getLdap().getGroupBase())
+                .groupSearchFilter(applicationProperties.getLdap().getGroupFilter())
+                .contextSource().url(applicationProperties.getLdap().getUrl())
+                .managerDn(applicationProperties.getLdap().getManagerDn())
+                .managerPassword(applicationProperties.getLdap().getManagerPassword())
+                .and().userDetailsContextMapper(new LdapUserDetailsMapper(){
+                    @Override
+                    public UserDetails mapUserFromContext(DirContextOperations ctx, String username, Collection<? extends GrantedAuthority> authorities) {
+                        return super.mapUserFromContext(ctx, username, Collections.singletonList(new SimpleGrantedAuthority(Constants.USUARIO_EXTERNO)));
+                    }
+                }).passwordCompare().passwordEncoder(new LdapShaPasswordEncoder()).passwordAttribute(applicationProperties.getLdap().getPasswordAttribute());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new EncapsuladaException(e);
+        }
     }
 
 }

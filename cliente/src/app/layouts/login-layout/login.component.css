@@ -43,7 +43,7 @@
 .form-login h4{
     color: #10785F;
     border-bottom: solid 1px #10785F;
-    margin: 35px 10px 10px 10px;
+    margin: 50px 10px 10px 10px;
     font-weight: 900 !important;
     font-size: 1.3em;
 }
@@ -61,7 +61,7 @@
 }
 
 .login-botoes{
-    padding-bottom: 5px;
+    padding-bottom: 20px;
 }
 
 @media (max-width: 640px) {
@@ -69,13 +69,4 @@
         width: 80% !important;
         height: 90%
     }
-}
-
-.mensagem-acesso-negado {
-    color: red;
-    visibility: hidden;
-}
-
-.acesso-negado {
-    visibility: visible !important;
 }
