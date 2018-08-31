@@ -37,8 +37,6 @@ import {InicioComponent} from './inicio/inicio.component';
 import {LoginLayoutComponent} from './layouts/login-layout/login-layout.component';
 import {SecuredLayoutComponent} from './layouts/secured-layout/secured-layout.component';
 import {LoginSuccessComponent} from './login-success/login-success.component';
-import {EsqueciASenhaComponent} from './login/esqueci-a-senha-component/esqueci-a-senha.component';
-import {LoginComponent} from './login/login-component/login.component';
 import {LogoutComponent} from './logout/logout.component';
 import {PRIMENG_IMPORTS} from './primeng-imports';
 import {SharedModule as AppSharedModule} from './shared/shared.module';
@@ -74,14 +72,12 @@ import {SharedModule as AppSharedModule} from './shared/shared.module';
     AppRightPanelComponent,
     AppBreadcrumbComponent,
     InlineProfileComponent,
-    LoginComponent,
     LoginSuccessComponent,
     LogoutComponent,
     DiarioErrosComponent,
     InicioComponent,
     SecuredLayoutComponent,
     LoginLayoutComponent,
-    EsqueciASenhaComponent
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

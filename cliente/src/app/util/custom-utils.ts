@@ -1,4 +1,5 @@
-import { SelectItem } from 'primeng/primeng';
+import {SelectItem} from 'primeng/primeng';
+
 export class CustomUtils {
 
   public static CAMPO_VALOR_PADRAO = 'id';
@@ -15,4 +16,9 @@ export class CustomUtils {
     });
     return items;
   }
+
+  public static convert(filtro: any): any {
+    return Object.assign({}, filtro);
+  }
+
 }

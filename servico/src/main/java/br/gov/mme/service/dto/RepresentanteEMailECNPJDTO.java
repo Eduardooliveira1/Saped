@@ -15,6 +15,9 @@ public class RepresentanteEMailECNPJDTO implements Serializable {
         this.email = email;
     }
 
+    public RepresentanteEMailECNPJDTO() {
+    }
+
     public String getCnpj() {
         return cnpj;
     }

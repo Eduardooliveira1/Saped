@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Renderer} from '@angular/core';
 
 @Component({
   selector: 'app-login-layout',
@@ -7,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class LoginLayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(public renderer: Renderer) { }
 
   ngOnInit() {
   }

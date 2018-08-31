@@ -3,7 +3,9 @@ export class PessoaRepresentanteEmailECnpj {
   email: string;
   cnpj: string;
 
-  constructor() {
+  constructor(email: string, cnpj: string) {
+    this.email = email;
+    this.cnpj = cnpj;
   }
 
 }

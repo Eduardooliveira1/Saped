@@ -18,8 +18,10 @@ export class MensagensUtils {
     public static ENUM_NOTIFICACAO_SIM = 'S';
     public static ENUM_NOTIFICACAO_NAO = 'N';
     public static FILTRO_INVALIDO = 'Selecione pelo menos um filtro para realizar a busca.';
+    public static EMAIL_OU_CNPJ_INVALIDO = 'Email e/ou CNPJ inválidos.';
+    public static CONFIRMACAO_ENVIO_ALTERAR_SENHA = 'Senha enviada para o email com sucesso.'
 
-    /**
+  /**
      * pessoa jurídica
      */
     public static CADASTRAR_PJ = 'Cadastrar Pessoa Jurídica';

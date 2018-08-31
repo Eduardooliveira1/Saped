@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {HttpService} from '@basis/angular-components';
 import {environment} from '../../environments/environment.prod';
+import {CustomUtils} from '../util/custom-utils';
 import {PessoaRepresentanteEmailECnpj} from './pessoa-representante-email-e-cnpj';
 
 @Injectable()
@@ -19,21 +20,14 @@ export class PessoaRepresentanteService {
     });
   }
 
-  isEmailECnpjValid(cnpjEEmail: PessoaRepresentanteEmailECnpj) {
+  validaEmailECnpj(cnpjEEmail: PessoaRepresentanteEmailECnpj) {
     let result: boolean;
-    this.http.post(this.resourceUrl, cnpjEEmail).map((res: Response) => {
-        res.json().subscribe((r: boolean) => {
-            result = r;
-          }
-        );
-      }, (err: any) => {
-      console.error(err);
-    }
+    result = false;
+    const copy = CustomUtils.convert(cnpjEEmail);
+    return this.http.post(this.resourceUrl + '/validar-esqueci-a-senha', cnpjEEmail).map((res: Response) => {
+        return res.json();
+      }
     );
-    if (!result) {
-      result = false;
-    }
-    return result;
   }
 
 }

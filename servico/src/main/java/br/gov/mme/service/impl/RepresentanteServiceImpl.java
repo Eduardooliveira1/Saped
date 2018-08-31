@@ -39,9 +39,9 @@ public class RepresentanteServiceImpl implements RepresentanteService {
 
     @Override
     public Boolean verificaCNPJEEmailValidos(RepresentanteEMailECNPJDTO representanteEMailECNPJDTO) {
-        representanteRepository.findEmailECNPJ(representanteEMailECNPJDTO.getEmail(),
+        RepresentanteEMailECNPJDTO dadosRetornados = representanteRepository.findEmailECNPJ(
+                representanteEMailECNPJDTO.getEmail(),
                 representanteEMailECNPJDTO.getCnpj());
-        return (representanteEMailECNPJDTO.getEmail() != null && 
-                representanteEMailECNPJDTO.getCnpj() != null);
+        return (dadosRetornados != null && dadosRetornados.getEmail() != null && dadosRetornados.getCnpj() != null);
     }
 }
