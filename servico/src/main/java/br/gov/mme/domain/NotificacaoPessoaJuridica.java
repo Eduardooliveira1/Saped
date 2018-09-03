@@ -12,13 +12,14 @@ public class NotificacaoPessoaJuridica implements Serializable  {
     private static final long serialVersionUID = 1L;
     
     @EmbeddedId
-    NotificacaoPessoaJuridicaId notificacaoPessoaJuridicaId;
+    private NotificacaoPessoaJuridicaId notificacaoPessoaJuridicaId;
 
-	public NotificacaoPessoaJuridicaId getNotificacaoPessoaJuridicaId() {
-		return notificacaoPessoaJuridicaId;
-	}
-
-	public void setNotificacaoPessoaJuridicaId(NotificacaoPessoaJuridicaId notificacaoPessoaJuridicaId) {
-		this.notificacaoPessoaJuridicaId = notificacaoPessoaJuridicaId;
+    public NotificacaoPessoaJuridicaId getNotificacaoPessoaJuridicaId() {
+        return notificacaoPessoaJuridicaId;
     }
+
+    public void setNotificacaoPessoaJuridicaId(NotificacaoPessoaJuridicaId notificacaoPessoaJuridicaId) {
+        this.notificacaoPessoaJuridicaId = notificacaoPessoaJuridicaId;
+    }
+
 }

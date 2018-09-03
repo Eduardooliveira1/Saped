@@ -77,7 +77,7 @@ export class ComunicacaoListComponent implements OnInit {
       });
   }
 
-  enviarComunicado(selecao) {
+  enviarComunicado() {
     this.submitedForm = true;
     if (this.formComunicacao.valid) {
       this.comunicado.representantes = selecao;
