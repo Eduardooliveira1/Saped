@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Headers, RequestOptions } from '@angular/http';
 
 
  export class sapedUtil{
@@ -17,12 +16,15 @@ import { Headers, RequestOptions } from '@angular/http';
       return "Bearer " + this.obterToken();
   }
 
-  public static insereAutorizacaoHeader(options: RequestOptions) {
-    options.headers =  new Headers();
-    options.headers.append('Authorization', this.buildAuthHeader());
-  }
-
   public static navegarParaLogin(router: Router) {
     router.navigateByUrl('login');
   }
+
+  public static setPageableParams(argument, params: HttpParams) : HttpParams {
+    for (let prop of Object.getOwnPropertyNames(argument)) {
+      params = params.append(prop, argument[prop]);
+    }
+    return params;
+  }
+
 }

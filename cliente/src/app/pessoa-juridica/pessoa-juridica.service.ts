@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-import { RequestOptions } from '@angular/http';
-import { HttpService } from '@basis/angular-components';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment.prod';
 import { Pageable } from '../util/pageable-request';
@@ -14,19 +12,16 @@ export class PessoaJuridicaService {
     resourceUrl = environment.apiUrl + "/pessoa-juridica";
     searchUrl = environment.apiUrl + "/pessoas-juridicas";
 
-    constructor(private http: HttpClient,
-                private httpService: HttpService) { }
+    constructor(private http: HttpClient) { }
  
-    listarDirigentes(filtro: string, pageable: Pageable, callback?: any) {
-
-        const options = new RequestOptions({params: pageable });
-        sapedUtil.insereAutorizacaoHeader(options);
-
+    listarDirigentes(filtro: string, pageable: Pageable, callback?: any) : any {
+        let params = new HttpParams();
         if (filtro) {
-            options.params.append("query", filtro);
+            params = params.append('query', filtro);
         }
 
-        return this.httpService.get(this.searchUrl, options);
+        params = sapedUtil.setPageableParams(pageable, params);
+        return this.http.get(this.searchUrl, {params: params});
     }
 
     cadastrar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
@@ -70,5 +65,4 @@ export class PessoaJuridicaService {
         return res;
       });
     }
-
 };

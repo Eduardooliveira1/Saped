@@ -1,4 +1,3 @@
-import { sapedUtil } from './../../shared/metodos/sapedUtil';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {PageNotificationService} from '@basis/angular-components';
@@ -64,13 +63,9 @@ export class PessoaJuridicaListComponent implements OnInit {
     this.blockUI.start(MensagensUtils.CARREGANDO);
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
       .subscribe(result => {
-
         this.blockUI.stop();
-        this.result = result.json();
+        this.result = result;
       }, error => {
-        if (error.status === 401) {
-          sapedUtil.navegarParaLogin(this.router);
-        }
         this.blockUI.stop();
         this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
       });

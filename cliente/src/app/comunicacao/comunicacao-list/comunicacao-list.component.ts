@@ -1,4 +1,3 @@
-import { sapedUtil } from './../../shared/metodos/sapedUtil';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -67,13 +66,10 @@ export class ComunicacaoListComponent implements OnInit {
     this.comunicacaoService.listarRepresentantes(this.filtro, pageable)
       .subscribe(result => {
         this.blockUI.stop();
-        this.result = result.json();
+        this.result = result;
       }, error => {
         this.blockUI.stop();
         this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
-        if(error.status === 401) {
-          sapedUtil.navegarParaLogin(this.router);
-        }
       });
   }
 

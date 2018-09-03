@@ -122,7 +122,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
       this.pageNotificationService.addSuccessMessage(MensagensUtils.REGISTRO_SALVO);
     }, (res) => {
       this.blockUI.stop();
-        this.pageNotificationService.addErrorMessage(res.json().title);
+        this.pageNotificationService.addErrorMessage(res.title);
     });
   }
 }

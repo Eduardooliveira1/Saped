@@ -1,12 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { sapedUtil } from './../shared/metodos/sapedUtil';
-import { Observable } from 'rxjs/Observable';
-import { HttpService } from '@basis/angular-components';
-import { environment } from './../../environments/environment.prod';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from "@angular/core";
+import { Observable } from 'rxjs/Observable';
 import { Pageable } from '../util/pageable-request';
-import { RequestOptions, Response } from '@angular/http';
-import {ComunicadoCadastro} from './comunicado-cadastro.model'
+import { environment } from './../../environments/environment.prod';
+import { sapedUtil } from './../shared/metodos/sapedUtil';
+import { ComunicadoCadastro } from './comunicado-cadastro.model';
 
 @Injectable()
 export class ComunicacaoService {
@@ -14,16 +12,18 @@ export class ComunicacaoService {
     resourceUrl = environment.apiUrl + "/comunicacao";
     searchUrl = environment.apiUrl + "/representantes";
 
-    constructor(private http: HttpClient, private httpService: HttpService) { }
+    constructor(private http: HttpClient) { }
 
-    listarRepresentantes(filtro: string, pageable: Pageable, callback?: any) {
-        const options = new RequestOptions({ params: pageable });
-        sapedUtil.insereAutorizacaoHeader(options);
+    listarRepresentantes(filtro: string, pageable: Pageable, callback?: any) : any{
 
+        let params = new HttpParams();
         if (filtro) {
-            options.params.append("query", filtro);
+            params = params.append('query', filtro);
         }
-        return this.httpService.get(this.searchUrl, options);
+
+        params = sapedUtil.setPageableParams(pageable, params);
+        return this.http.get(this.searchUrl, {params: params});
+
     }
 
     enviar(notificacao: ComunicadoCadastro): Observable<ComunicadoCadastro> {
