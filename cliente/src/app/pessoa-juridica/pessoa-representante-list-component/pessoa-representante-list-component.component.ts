@@ -115,6 +115,9 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
           if (!this.telefone[control.length - 1].ddd || !this.telefone[control.length - 1].telefone) {
             this.removeUltimoItemDaListaTelefone();
           }
+          this.telefone.forEach(tel => {
+            tel.telefone = tel.telefone.replace('-', '');
+          });
           this.pessoaRepresentante.telefone = this.telefone;
           this.listaRepresentantes.push(this.pessoaRepresentante);
           this.pessoaRepresentante = new PessoaRepresentante();
