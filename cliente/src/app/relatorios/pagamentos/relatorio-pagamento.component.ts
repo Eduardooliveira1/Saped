@@ -1,3 +1,4 @@
+import { sapedUtil } from './../../shared/metodos/sapedUtil';
 import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
@@ -56,11 +57,11 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   }
 
   createDropDowns() {
-    this.enumService.listarEnum(EnumService.STATUS_BOLETO).subscribe(result => {
+    this.enumService.listarEnum(EnumService.STATUS_BOLETO).subscribe((result: any) => {
       this.dropDownStatusBoleto = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
-    this.pessoaJuridicaService.listarNomes().subscribe(result => {
+    this.pessoaJuridicaService.listarNomes().subscribe((result: any) => {
       this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
@@ -104,6 +105,9 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
       this.blockUI.stop();
       this.result = result;
     }, error => {
+      if(error ===401) {
+        sapedUtil.navegarParaLogin(this.router);
+      }
       this.blockUI.stop();
       this.pageNotificationService.addErrorMessage(error.toString() + MensagensUtils.ERRO_CARREGAR_DADOS);
     });

@@ -1,9 +1,10 @@
+import { sapedUtil } from './../shared/metodos/sapedUtil';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '@basis/angular-components';
 import { environment } from './../../environments/environment.prod';
 import { Injectable } from "@angular/core";
 import { Pageable } from '../util/pageable-request';
-import { RequestOptions, Response } from '@angular/http';
+import { RequestOptions, Response, Headers } from '@angular/http';
 import {ComunicadoCadastro} from './comunicado-cadastro.model'
 
 @Injectable()
@@ -15,10 +16,14 @@ export class ComunicacaoService {
     constructor(private http: HttpService) { }
 
     listarRepresentantes(filtro: string, pageable: Pageable, callback?: any) {
+
         const options = new RequestOptions({ params: pageable });
+        sapedUtil.insereAutorizacaoHeader(options);
+
         if (filtro) {
             options.params.append("query", filtro);
         }
+
         return this.http.get(this.searchUrl, options);
     }
 

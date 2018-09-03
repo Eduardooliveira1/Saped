@@ -1,4 +1,5 @@
-import { TokenInterceptor } from './../auth/interceptor';
+import { PessoaRepresentanteService } from './pessoa-representante.service';
+import { TokenInterceptor } from '../auth/interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
@@ -45,6 +46,7 @@ import {PessoaRepresentanteListComponentComponent} from './pessoa-representante-
     InputMaskModule,
     CheckboxModule,
 
+
   ],
   declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent, PessoaRepresentanteListComponentComponent],
   providers:[
@@ -53,7 +55,7 @@ import {PessoaRepresentanteListComponentComponent} from './pessoa-representante-
       useClass: TokenInterceptor,
       multi: true
     },
-      PessoaJuridicaService, EnumService, ConfirmationService,
+      PessoaJuridicaService, EnumService, ConfirmationService, PessoaRepresentanteService,
     CustomDirectivesModule
   ],
   exports: [Ng2BRPipesModule]

@@ -1,6 +1,5 @@
-import {Component, ContentChild, forwardRef, Input, OnInit} from '@angular/core';
-import {FormControlName, NG_VALUE_ACCESSOR} from "@angular/forms";
-import { Placeholder } from '../../../../../node_modules/@angular/compiler/src/i18n/i18n_ast';
+import { Component, ContentChild, forwardRef, Input, OnInit } from '@angular/core';
+import { FormControlName, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
   selector: 'app-custom-textarea',

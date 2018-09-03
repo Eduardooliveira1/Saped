@@ -39,6 +39,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
     private pageNotificationService: PageNotificationService,
     private pessoaJuridicaService: PessoaJuridicaService,
     private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {

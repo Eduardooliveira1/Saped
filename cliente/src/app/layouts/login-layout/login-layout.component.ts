@@ -1,4 +1,4 @@
-import { MensagensUtils } from './../../util/mensagens-util';
+import { MensagensUtils } from '../../util/mensagens-util';
 import { PageNotificationService } from '@basis/angular-components';
 import { Component, OnInit } from '@angular/core';
 import { UsuarioLogin } from '../../usuario-login-model';

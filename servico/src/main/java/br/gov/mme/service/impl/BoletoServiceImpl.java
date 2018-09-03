@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.ListUtils;
 
+import br.com.basis.nativequerybuilder.service.NativeQueryService;
 import br.gov.mme.enumeration.ReportType;
 import br.gov.mme.exceptions.ArquivoDeTipoInvalidoException;
 import br.gov.mme.exceptions.FiltroVazioException;

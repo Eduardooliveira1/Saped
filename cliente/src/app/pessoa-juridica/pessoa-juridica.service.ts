@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { RequestOptions } from '@angular/http';
+import { HttpService } from '@basis/angular-components';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment.prod';
 import { Pageable } from '../util/pageable-request';
+import { sapedUtil } from './../shared/metodos/sapedUtil';
 import { PessoaJuridicaCadastro } from './pessoa-juridica-cadastro.model';
 
 @Injectable()
@@ -12,14 +14,19 @@ export class PessoaJuridicaService {
     resourceUrl = environment.apiUrl + "/pessoa-juridica";
     searchUrl = environment.apiUrl + "/pessoas-juridicas";
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,
+                private httpService: HttpService) { }
  
     listarDirigentes(filtro: string, pageable: Pageable, callback?: any) {
+
+        const options = new RequestOptions({params: pageable });
+        sapedUtil.insereAutorizacaoHeader(options);
+
         if (filtro) {
-            const options = new RequestOptions({ params: pageable });
             options.params.append("query", filtro);
         }
-        return this.http.get(this.searchUrl);
+
+        return this.httpService.get(this.searchUrl, options);
     }
 
     cadastrar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
@@ -60,7 +67,7 @@ export class PessoaJuridicaService {
 
     listarNomes() {
       return this.http.get(this.resourceUrl + '/nomes').map((res: Response) => {
-        return res.json();
+        return res;
       });
     }
 

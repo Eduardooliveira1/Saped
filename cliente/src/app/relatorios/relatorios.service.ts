@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { sapedUtil } from './../shared/metodos/sapedUtil';
 import {Injectable} from '@angular/core';
 import {RequestOptions, Response} from '@angular/http';
 import {HttpService} from '@basis/angular-components';
@@ -20,13 +22,16 @@ export class RelatoriosService {
     return Object.assign({}, filtro);
   }
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpClient,
+              private httpService: HttpService ) {
   }
 
   listarPagamentos(filtro: FiltroRelatorioPagamentos, pageable: Pageable): Observable<Page<RelatorioPagamentoList>> {
     const filtroCopy = RelatoriosService.convert(filtro);
     const options = new RequestOptions({params: {pageable}});
-    return this.http.post(this.pagamentosUrl, filtroCopy, options).map((res: Response) => {
+    sapedUtil.insereAutorizacaoHeader(options);
+
+    return this.httpService.post(this.pagamentosUrl, filtroCopy, options).map((res: Response) => {
       return res.json();
     });
   }

@@ -1,14 +1,15 @@
+import { sapedUtil } from './../../shared/metodos/sapedUtil';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {PageNotificationService} from '@basis/angular-components';
-import {faEdit, faTrashAlt, faUserFriends, faWindowClose} from '@fortawesome/free-solid-svg-icons';
+import {faEdit, faTrashAlt, faUserFriends, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import {BlockUI, NgBlockUI} from 'ng-block-ui';
 import {ConfirmationService, DataTable} from 'primeng/primeng';
 import {MensagensUtils} from '../../util/mensagens-util';
 import {Page} from '../../util/page';
 import {Pageable} from '../../util/pageable-request';
 import {PessoaJuridicaService} from '../pessoa-juridica.service';
-import {PessoaRepresentanteService} from './../pessoa-representante.service';
+import {PessoaRepresentanteService} from '../pessoa-representante.service';
 import {PessoaJuridicaLista} from './pessoa-juridica-lista.model';
 
 @Component({
@@ -62,12 +63,16 @@ export class PessoaJuridicaListComponent implements OnInit {
 
     this.blockUI.start(MensagensUtils.CARREGANDO);
     this.pessoaJuridicaService.listarDirigentes(this.filtro, pageable)
-      .subscribe((result: Page<PessoaJuridicaLista>) => {
+      .subscribe(result => {
+
         this.blockUI.stop();
-        this.result = result;
+        this.result = result.json();
       }, error => {
+        if (error.status === 401) {
+          sapedUtil.navegarParaLogin(this.router);
+        }
         this.blockUI.stop();
-            this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
+        this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
       });
   }
 
