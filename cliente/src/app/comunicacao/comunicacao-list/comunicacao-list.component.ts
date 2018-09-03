@@ -65,15 +65,15 @@ export class ComunicacaoListComponent implements OnInit {
 
     this.blockUI.start(MensagensUtils.CARREGANDO);
     this.comunicacaoService.listarRepresentantes(this.filtro, pageable)
-      .subscribe((result: any) => {
+      .subscribe(result => {
         this.blockUI.stop();
-        this.result = result;
+        this.result = result.json();
       }, error => {
+        this.blockUI.stop();
+        this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
         if(error.status === 401) {
           sapedUtil.navegarParaLogin(this.router);
         }
-        this.blockUI.stop();
-        this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
       });
   }
 
