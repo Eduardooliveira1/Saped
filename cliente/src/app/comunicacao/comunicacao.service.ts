@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { sapedUtil } from './../shared/metodos/sapedUtil';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '@basis/angular-components';
@@ -13,7 +14,8 @@ export class ComunicacaoService {
     resourceUrl = environment.apiUrl + "/comunicacao";
     searchUrl = environment.apiUrl + "/representantes";
 
-    constructor(private http: HttpService) { }
+    constructor(private http: HttpClient,
+        private httpService: HttpService) { }
 
     listarRepresentantes(filtro: string, pageable: Pageable, callback?: any) {
 
@@ -24,13 +26,13 @@ export class ComunicacaoService {
             options.params.append("query", filtro);
         }
 
-        return this.http.get(this.searchUrl, options);
+        return this.httpService.get(this.searchUrl, options);
     }
 
     enviar(notificacao: ComunicadoCadastro): Observable<ComunicadoCadastro> {
         const copy = this.convert(notificacao);
         return this.http.post(this.resourceUrl, copy).map((res) => {
-            return res.json();
+            return res;
         });
     }
 
