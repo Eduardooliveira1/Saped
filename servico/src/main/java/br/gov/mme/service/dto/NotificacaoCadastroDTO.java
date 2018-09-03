@@ -1,5 +1,7 @@
 package br.gov.mme.service.dto;
 
+import br.gov.mme.util.SapedUtil;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -61,11 +63,11 @@ public class NotificacaoCadastroDTO {
     }
 
     public List<ComunicacaoRepresentantelistaDTO> getRepresentantes() {
-        return representantes;
+        return SapedUtil.instanciarLista(representantes);
     }
 
     public void setRepresentantes(List<ComunicacaoRepresentantelistaDTO> representantes) {
-        this.representantes = representantes;
+        this.representantes =  SapedUtil.instanciarLista(representantes);
     }
 
 }
