@@ -1,16 +1,16 @@
-import { PageNotificationService } from '@basis/angular-components';
-import { MensagensUtils } from './../../util/mensagens-util';
-import { NgBlockUI, BlockUI } from 'ng-block-ui';
-import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { PageNotificationService } from '@basis/angular-components';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ConfirmationService, DataTable } from 'primeng/primeng';
+import { Observable } from 'rxjs/Observable';
+import { MensagensUtils } from '../../util/mensagens-util';
+import { Page } from '../../util/page';
 import { Pageable } from '../../util/pageable-request';
 import { ComunicacaoService } from '../comunicacao.service';
-import { DataTable, ConfirmationService } from 'primeng/primeng';
-import { Page } from '../../util/page';
+import { ComunicadoCadastro } from '../comunicado-cadastro.model';
 import { ComunicacaoLista } from './comunicacao-lista.model';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ComunicadoCadastro } from './../comunicado-cadastro.model';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-comunicacao-list',
@@ -66,7 +66,7 @@ export class ComunicacaoListComponent implements OnInit {
     this.comunicacaoService.listarRepresentantes(this.filtro, pageable)
       .subscribe(result => {
         this.blockUI.stop();
-        this.result = result.json();
+        this.result = result;
       }, error => {
         this.blockUI.stop();
         this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
@@ -89,7 +89,7 @@ export class ComunicacaoListComponent implements OnInit {
       this.pageNotificationService.addSuccessMessage(MensagensUtils.REGISTRO_SALVO); 
     }, (res) => {
       this.blockUI.stop();
-      this.pageNotificationService.addErrorMessage(res.json().title);
+      this.pageNotificationService.addErrorMessage(res.title);
     });
   }
 }

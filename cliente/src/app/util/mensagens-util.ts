@@ -29,8 +29,14 @@ export class MensagensUtils {
     /**
      * pessoa representante
      */
-    public static REPRESENTANTE_CONFIRMACAO_INCLUSAO = 'Deseja inserir este representante?';
-    public static REPRESENTANTE_CONFIRMACAO_EXCLUSAO = 'Realmente deseja excluir este representante?';
-    public static REPRESENTANTE_INSERIR_TELEFONE = 'Por favor, preencha os campos DDD e telefone antes de adicionar outro.';
+    public static REPRESENTANTE_CONFIRMACAO_INCLUSAO = "Deseja inserir este representante?";
+    public static REPRESENTANTE_CONFIRMACAO_EXCLUSAO = "Realmente deseja excluir este representante?";
+    public static REPRESENTANTE_INSERIR_TELEFONE = "Por favor, preencha os campos DDD e telefone antes de adicionar outro.";
 
+     /**
+     * tela login
+     */
+    public static USUARIO_INFORMAR_NOME = "Por favor, insira o CNPJ."
+    public static USUARIO_INSERIR_SENHA = "Por favor, insira a senha."
+    public static USUARIO_OU_SENHA_INVALIDOS = "Usuário e/ou senha inválidos.";
 }

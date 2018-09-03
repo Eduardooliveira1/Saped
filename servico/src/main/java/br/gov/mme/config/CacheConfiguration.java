@@ -12,7 +12,6 @@ import io.github.jhipster.config.JHipsterProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -39,13 +38,13 @@ public class CacheConfiguration {
 
     private Registration registration;
 
-    @Value("${application.ip.localAddress}")
-    private String localAddress;
+    private final String localAddress;
 
-    public CacheConfiguration(Environment env, ServerProperties serverProperties, DiscoveryClient discoveryClient) {
+    public CacheConfiguration(Environment env, ServerProperties serverProperties, DiscoveryClient discoveryClient, ApplicationProperties applicationProperties) {
         this.env = env;
         this.serverProperties = serverProperties;
         this.discoveryClient = discoveryClient;
+        this.localAddress = applicationProperties.getLocalAddress();
     }
 
     @Autowired(required = false)

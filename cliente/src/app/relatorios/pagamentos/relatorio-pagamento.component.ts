@@ -1,20 +1,20 @@
-import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {Router} from '@angular/router';
-import {PageNotificationService} from '@basis/angular-components';
-import {BlockUI, NgBlockUI} from 'ng-block-ui';
-import {DataTable, SelectItem} from 'primeng/primeng';
-import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.service';
-import {DateConstants} from '../../shared/constants/date-constants';
-import {CustomInputCurrencyMaskComponent} from '../../shared/custom-components/custom-input-currency-mask/custom-input-currency-mask.component';
-import {EnumService} from '../../shared/enum.service';
-import {CustomUtils} from '../../util/custom-utils';
-import {MensagensUtils} from '../../util/mensagens-util';
-import {Page} from '../../util/page';
-import {Pageable} from '../../util/pageable-request';
-import {RelatoriosService} from '../relatorios.service';
-import {FiltroRelatorioPagamentos} from './filtro-relatorio-pagamento';
-import {RelatorioPagamentoList} from './relatorio-pagamento-list';
+import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { PageNotificationService } from '@basis/angular-components';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { DataTable, SelectItem } from 'primeng/primeng';
+import { PessoaJuridicaService } from '../../pessoa-juridica/pessoa-juridica.service';
+import { DateConstants } from '../../shared/constants/date-constants';
+import { CustomInputCurrencyMaskComponent } from '../../shared/custom-components/custom-input-currency-mask/custom-input-currency-mask.component';
+import { EnumService } from '../../shared/enum.service';
+import { CustomUtils } from '../../util/custom-utils';
+import { MensagensUtils } from '../../util/mensagens-util';
+import { Page } from '../../util/page';
+import { Pageable } from '../../util/pageable-request';
+import { RelatoriosService } from '../relatorios.service';
+import { FiltroRelatorioPagamentos } from './filtro-relatorio-pagamento';
+import { RelatorioPagamentoList } from './relatorio-pagamento-list';
 
 @Component({
   selector: 'app-relatorio-pagamento',
@@ -56,11 +56,11 @@ export class RelatorioPagamentoComponent implements OnInit, OnChanges {
   }
 
   createDropDowns() {
-    this.enumService.listarEnum(EnumService.STATUS_BOLETO).subscribe(result => {
+    this.enumService.listarEnum(EnumService.STATUS_BOLETO).subscribe((result: any) => {
       this.dropDownStatusBoleto = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
-    this.pessoaJuridicaService.listarNomes().subscribe(result => {
+    this.pessoaJuridicaService.listarNomes().subscribe((result: any) => {
       this.dropDownNomePessoaJuridica = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO,
         CustomUtils.CAMPO_VALOR_PADRAO);
     });
