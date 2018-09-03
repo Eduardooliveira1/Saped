@@ -4,7 +4,7 @@ public class EncapsuladaException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    Exception exception;
+    private Exception exception;
 
     public EncapsuladaException(Exception exception){
         super(exception);
