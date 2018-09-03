@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {RequestOptions, Response} from '@angular/http';
-import {HttpService} from '@basis/angular-components';
-import {Observable} from '../../../node_modules/rxjs/Observable';
-import {environment} from '../../environments/environment.prod';
-import {Page} from '../util/page';
-import {Pageable} from '../util/pageable-request';
-import {FiltroRelatorioPagamentos} from './pagamentos/filtro-relatorio-pagamento';
-import {RelatorioPagamentoList} from './pagamentos/relatorio-pagamento-list';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from '../../../node_modules/rxjs/Observable';
+import { environment } from '../../environments/environment.prod';
+import { Page } from '../util/page';
+import { Pageable } from '../util/pageable-request';
+import { sapedUtil } from './../shared/metodos/sapedUtil';
+import { FiltroRelatorioPagamentos } from './pagamentos/filtro-relatorio-pagamento';
+import { RelatorioPagamentoList } from './pagamentos/relatorio-pagamento-list';
 
 @Injectable()
 export class RelatoriosService {
@@ -20,14 +20,18 @@ export class RelatoriosService {
     return Object.assign({}, filtro);
   }
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpClient) {
   }
 
   listarPagamentos(filtro: FiltroRelatorioPagamentos, pageable: Pageable): Observable<Page<RelatorioPagamentoList>> {
     const filtroCopy = RelatoriosService.convert(filtro);
-    const options = new RequestOptions({params: {pageable}});
-    return this.http.post(this.pagamentosUrl, filtroCopy, options).map((res: Response) => {
-      return res.json();
+
+    let params = new HttpParams();
+
+    params = sapedUtil.setPageableParams(pageable, params);
+
+    return this.http.post(this.pagamentosUrl,filtroCopy, {params} ).map((res: any) => {
+      return res;
     });
   }
 

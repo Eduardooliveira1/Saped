@@ -47,6 +47,11 @@ Para subir o cliente, utilizar os comandos dentro do diretório cliente
     $ npm start
 ```` 
 
+Antes de executar o backend, no diretório serviço, execute o seguinte comando:
+```` Java
+    $ mvn clean install
+```` 
+
 O backend pode ser iniciado localmente fora da IDE através do comando dentro do diretório servico:
 
 ```` Java
@@ -59,4 +64,20 @@ Exemplo para utilização fora da IDE:
 ```` Java
     $ ./mvnw -P dev,liquibase
 ```` 
+
+## Fazer Login
+
+Ao rodar o SAPED, a tela de login será aberta. Sabe-se que há dois tipos de usuário no sistema: o interno (funcionário do MME) e o externo (as Pessoas Jurídicas cadastradas). Para conseguir fazer o login, as seguintes etapas devem ser seguidas:
+
+* Usuário Externo: 
+    * Ir ao banco de dados db_Saped e inserir uma senha em Pessoa Jurídica (caso tenha uma cadastrada) na tabela tb_Pessoa_Juridica. Com a nova senha persistida, é só inserir o CNPJ e senha nos campos da tela de login para entrar no sistema como usuário externo.
+* Usuário Interno:
+    * Acessar o link [http://localhost:9980/](http://localhost:9980/), clicar em login e inserir as credenciais:
+        * Login DN: cn=admin,dc=example,dc=org
+        * Password: admin
+    * No menu à esquerda, clicar em  Create new entry here;
+    * Selecione a opção Generic: User Account;
+    * Adiciona um nome e uma senha. No dropdown do lado da senha, selecione a opção sha.
+    * Feito os passos anteriores, basta inserir o usuário e a nova senha para ter acesso ao sistema como um usuário interno.
+
 

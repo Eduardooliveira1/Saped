@@ -18,6 +18,8 @@ logging:
         ROOT: DEBUG
         br.gov.mme: DEBUG
         io.github.jhipster: DEBUG
+        org.springframework.security.ldap: DEBUG
+        org.springframework.security.authentication: DEBUG
 
 eureka:
     instance:
@@ -159,7 +161,3 @@ jhipster:
 # ===================================================================
 
 application:
-    ip:
-        localAddress: 127.0.0.1
-    url:
-        ldap: ldap://172.20.1.50

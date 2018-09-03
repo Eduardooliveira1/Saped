@@ -16,7 +16,7 @@ export class PessoaRepresentanteService {
 
   obterRepresentantes(idPj: number) {
     return this.http.get(`${this.resourceUrl}/${idPj}`).map((res: Response) => {
-      return res.json();
+      return res;
     });
   }
 
