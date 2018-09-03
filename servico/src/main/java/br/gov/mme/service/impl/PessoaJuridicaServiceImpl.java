@@ -15,9 +15,9 @@ import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.domain.Representante;
 import br.gov.mme.domain.Telefone;
 import br.gov.mme.enumeration.FlStatus;
-import br.gov.mme.exceptions.CnpjInvalidoException;
-import br.gov.mme.exceptions.CreatePJWithExistentIdException;
-import br.gov.mme.exceptions.DeleteInexistentPJException;
+import br.gov.mme.exceptions.CNPJInvalidoException;
+import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
+import br.gov.mme.exceptions.DeleteInexistentEntityException;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
@@ -46,7 +46,8 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     public static final String ENTITY_NAME = "pessoa-juridica";
 
     public PessoaJuridicaServiceImpl(PessoaJuridicaRepository pessoaJuridicaRepository,
-            PessoaJuridicaMapper pessoaJuridicaMapper, PessoaRepository pessoaRepository) {
+                                     PessoaJuridicaMapper pessoaJuridicaMapper,
+                                     PessoaRepository pessoaRepository) {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.pessoaJuridicaMapper = pessoaJuridicaMapper;
         this.pessoaRepository = pessoaRepository;
@@ -59,29 +60,32 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         if (StringUtils.isBlank(filtro)) {
             return pessoaJuridicaRepository.listarPessoasJuridicas(PaginationUtil.ignoreCase(pageable));
         } else {
-            return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil.preparaStringLike(filtro),
-                    PaginationUtil.ignoreCase(pageable));
+            return pessoaJuridicaRepository.listarPessoasJuridicasComFiltro(QueryUtil
+                .preparaStringLike(filtro), PaginationUtil.ignoreCase(pageable));
         }
     }
 
     @Override
     public PessoaJuridicaCadastroDTO salvarPessoaJuridica(PessoaJuridicaCadastroDTO pessoaJuridicaDto)
-            throws CreatePJWithExistentIdException, CnpjInvalidoException {
+            throws CreateEntityWithExistentIdException, CNPJInvalidoException
+    {
 
         PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.findByCnpj(pessoaJuridicaDto.getCnpj());
 
-        if (Objects.nonNull(p) && !p.getId().equals(pessoaJuridicaDto.getId())) {
-            throw new CreatePJWithExistentIdException();
+        if (Objects.nonNull(p) && !p.getId()
+            .equals(pessoaJuridicaDto.getId())) {
+            throw new CreateEntityWithExistentIdException(ENTITY_NAME);
         }
 
         if (!ValidatorUtils.cnpjValido(pessoaJuridicaDto.getCnpj())) {
-            throw new CnpjInvalidoException();
+            throw new CNPJInvalidoException();
         }
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaMapper.toEntity(pessoaJuridicaDto);
 
         if (pessoaJuridicaDto.getId() == null) {
-            pessoaJuridica.setPessoa(new Pessoa().setStatus(FlStatus.S).setDataCadastro(LocalDateTime.now()));
+            pessoaJuridica.setPessoa(new Pessoa().setStatus(FlStatus.S)
+                .setDataCadastro(LocalDateTime.now()));
         } else {
             pessoaJuridica.setPessoa(pessoaRepository.findOne(pessoaJuridicaDto.getId()));
         }
@@ -92,12 +96,14 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
     }
 
-    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica){
-        for(Representante representante : pessoaJuridica.getRepresentantes()){
-            if(representante.getId() == null){
-                representante.getPessoa().setStatus(FlStatus.S);
-                representante.getPessoa().setDataCadastro(LocalDateTime.now());
-            }else {
+    private void atribuirRepresentantes(PessoaJuridica pessoaJuridica) {
+        for (Representante representante : pessoaJuridica.getRepresentantes()) {
+            if (representante.getId() == null) {
+                representante.getPessoa()
+                    .setStatus(FlStatus.S);
+                representante.getPessoa()
+                    .setDataCadastro(LocalDateTime.now());
+            } else {
                 representante.setPessoa(pessoaRepository.findOne(representante.getId()));
             }
 
@@ -119,19 +125,19 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     }
 
     @Override
-    public void excluirPessoaJuridica(Long id) throws DeleteInexistentPJException {
+    public void excluirPessoaJuridica(Long id) throws DeleteInexistentEntityException {
         Pessoa pessoa = pessoaRepository.findOne(id);
         if (pessoa == null) {
-            throw new DeleteInexistentPJException();
+            throw new DeleteInexistentEntityException(ENTITY_NAME);
         }
         pessoa.setStatus(FlStatus.N);
         pessoaRepository.save(pessoa);
     }
 
     @Override
-    public void verificaExistenciaNovaPJ(Long id) throws CreatePJWithExistentIdException {
+    public void verificaExistenciaNovaPJ(Long id) throws CreateEntityWithExistentIdException {
         if (id != null) {
-            throw new CreatePJWithExistentIdException();
+            throw new CreateEntityWithExistentIdException(ENTITY_NAME);
         }
     }
 
@@ -143,6 +149,11 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     @Override
     public List<PessoaJuridicaNomeDTO> getNomesByPJ() {
         return pessoaJuridicaRepository.getNomesByPJ();
+    }
+
+    @Override
+    public PessoaJuridica findOne(Long idPessoaJuridica) {
+        return pessoaJuridicaRepository.findOne(idPessoaJuridica);
     }
 
 }

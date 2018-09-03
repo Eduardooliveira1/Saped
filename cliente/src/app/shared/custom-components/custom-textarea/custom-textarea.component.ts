@@ -1,5 +1,6 @@
 import {Component, ContentChild, forwardRef, Input, OnInit} from '@angular/core';
-import {FormControlName, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {FormControlName, NG_VALUE_ACCESSOR} from "@angular/forms";
+import { Placeholder } from '../../../../../node_modules/@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'app-custom-textarea',
@@ -21,6 +22,7 @@ export class CustomTextareaComponent implements OnInit {
     @Input() showLabel: boolean = true;
     @Input() rows: number;
     @Input() cols: number;
+    @Input() placeholder: string = "";
 
     @ContentChild(FormControlName) formControl: FormControlName;
 

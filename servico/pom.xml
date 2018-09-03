@@ -108,6 +108,7 @@
 	</dependencyManagement>
 
 	<dependencies>
+	
 		<dependency>
 			<groupId>br.gov.nuvem</groupId>
 			<artifactId>native-query-builder</artifactId>
@@ -134,7 +135,7 @@
 			<artifactId>spring-test-junit5</artifactId>
 			<version>1.2.0</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
@@ -679,7 +680,7 @@
 							</configOptions>
 						</configuration>
 					</execution>
-				</executions>
+				</executions>  
 			</plugin>
 			<!-- jhipster-needle-maven-add-plugin -->
 		</plugins>

@@ -19,6 +19,7 @@ export const routes: Routes = [
       {path: 'diario-erros', component: DiarioErrosComponent},
       {path: 'pessoa-juridica', loadChildren: 'app/pessoa-juridica/pessoa-juridica.module#PessoaJuridicaModule'},
       {path: 'cadastrar-cobranca', loadChildren: 'app/cadastrar-cobranca/cadastrar-cobranca.module#CadastrarCobrancaModule'},
+      { path: 'comunicacao',loadChildren: 'app/comunicacao/comunicacao.module#ComunicacaoModule'},
       {path: 'relatorios', loadChildren: 'app/relatorios/relatorios.module#RelatoriosModule'},
     ]
   },
@@ -29,7 +30,7 @@ export const routes: Routes = [
       {path: '', loadChildren: 'app/login/login.module#LoginModule'}
     ]
   },
-  {path: '**', redirectTo: ''}
+  { path: '**', redirectTo: '' }
   /* jhipster-needle-add-lazy-module - JHipster will add lazy modules here */
 ];
 

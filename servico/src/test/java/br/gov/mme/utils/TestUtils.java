@@ -31,6 +31,7 @@ import br.gov.mme.enumeration.FlSituacaoBancaria;
 import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.enumeration.TpBoleto;
 import br.gov.mme.enumeration.TpStatusBoleto;
+import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.web.rest.BoletoResourceIntTest;
 import br.gov.mme.web.rest.PessoaJuridicaResourceIntTest;
 import br.gov.mme.web.rest.TestUtil;
@@ -183,6 +184,19 @@ public final class TestUtils {
         saveAndFlush(pessoaJuridica, em);
 
         return pessoaJuridica;
+
+    }
+
+    public static PessoaJuridicaCadastroDTO getPJCadastroWithId() {
+        return getDefaultPessoaJuridicaCadastroDTO().id(DEFAULT_INVALID_ID);
+    }
+
+    public static PessoaJuridicaCadastroDTO getDefaultPessoaJuridicaCadastroDTO() {
+        return new PessoaJuridicaCadastroDTO().setCnpj(DEFAULT_VALID_CNPJ)
+            .setNomeFantasia(DEFAULT_STRING_TAM_9)
+            .setRazaoSocial(DEFAULT_STRING_TAM_9)
+            .setRazaoSocial(DEFAULT_STRING_TAM_9)
+            .setSigla(DEFAULT_STRING_TAM_9);
     }
 
     public static Boleto getDefaultBoletoEntity(EntityManager em) {

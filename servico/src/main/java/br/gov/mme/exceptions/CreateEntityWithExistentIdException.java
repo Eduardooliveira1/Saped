@@ -1,22 +1,18 @@
 package br.gov.mme.exceptions;
 
-public class CreateEntityWithExistentIdException extends Exception {
+public class CreateEntityWithExistentIdException extends EntityModificationException {
     
     private static final long serialVersionUID = 1L;
     
-    private final String message;
+    public static final String MESSAGE = "Descricao: Não foi possível inserir: Id já existe.";
     
-    protected CreateEntityWithExistentIdException(String entity) {
-        this.message = ExceptionMessages.CREATE_EXISTENT_ID.message(entity);
-    }
-    
-    public CreateEntityWithExistentIdException() {
-        this("");
+    public CreateEntityWithExistentIdException(String tabela) {
+        super(tabela);
     }
 
     @Override
     public String getMessage() {
-        return this.message;
+        return super.getMessage() + MESSAGE;
     }
 
 }
