@@ -37,6 +37,9 @@ public class ApplicationProperties {
         private String managerDn;
         private String managerPassword;
         private String passwordAttribute;
+        private String tipo;
+        private Boolean adConvertSubError;
+        private Boolean adUseAuthenticationRequestCredentials;
 
         public String getUrl() {
             return url;
@@ -100,6 +103,30 @@ public class ApplicationProperties {
 
         public void setManagerPassword(String managerPassword) {
             this.managerPassword = managerPassword;
+        }
+
+        public String getTipo() {
+            return tipo;
+        }
+
+        public void setTipo(String tipo) {
+            this.tipo = tipo;
+        }
+
+        public Boolean getAdConvertSubError() {
+            return adConvertSubError;
+        }
+
+        public void setAdConvertSubError(Boolean adConvertSubError) {
+            this.adConvertSubError = adConvertSubError;
+        }
+
+        public Boolean getAdUseAuthenticationRequestCredentials() {
+            return adUseAuthenticationRequestCredentials;
+        }
+
+        public void setAdUseAuthenticationRequestCredentials(Boolean adUseAuthenticationRequestCredentials) {
+            this.adUseAuthenticationRequestCredentials = adUseAuthenticationRequestCredentials;
         }
     }
 

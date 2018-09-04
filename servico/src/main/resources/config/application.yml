@@ -145,11 +145,13 @@ application:
     local-address: "127.0.0.1"
     ldap:
         url: "ldap://localhost:9389"
-        search-base: "dc=example,dc=org"
+        search-base: "dc=example,dc=org" # No caso de AD (example.org) e OPENLDAP (dc=exmaple,dc=org)
         search-filter: "uid={0}"
         group-base: "dc=example,dc=org"
         group-filter: "userid={0}"
         manager-dn: "cn=admin,dc=example,dc=org"
         manager-password: "admin"
         password-attribute: "userPassword"
-
+        tipo: "OPENLDAP" # Tipo pode ser AD ou OPENLDAP
+        ad-convert-sub-error: true
+        ad-use-authentication-request-credentials: true
