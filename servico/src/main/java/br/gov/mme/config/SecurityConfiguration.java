@@ -1,5 +1,6 @@
 package br.gov.mme.config;
 
+import br.gov.mme.config.security.SAPEDActiveDirectoryLdapAuthenticationProvider;
 import br.gov.mme.config.security.SAPEDMMEAuthenticationConfig;
 import br.gov.mme.exceptions.EncapsuladaException;
 import br.gov.mme.security.AuthoritiesConstants;
@@ -139,7 +140,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @ConditionalOnProperty(prefix = "application.ldap", name = "tipo", havingValue = "AD")
     public SAPEDMMEAuthenticationConfig apiAuthenticationConfigAD(DataSource pDataSource) {
         return auth -> {
-            ActiveDirectoryLdapAuthenticationProvider adProvider = new ActiveDirectoryLdapAuthenticationProvider(applicationProperties.getLdap().getSearchBase(), applicationProperties.getLdap().getUrl());
+            SAPEDActiveDirectoryLdapAuthenticationProvider adProvider = new SAPEDActiveDirectoryLdapAuthenticationProvider(applicationProperties.getLdap().getSearchBase(), applicationProperties.getLdap().getUrl());
             adProvider.setSearchFilter(applicationProperties.getLdap().getSearchFilter());
             adProvider.setConvertSubErrorCodesToExceptions(applicationProperties.getLdap().getAdConvertSubError());
             adProvider.setUseAuthenticationRequestCredentials(applicationProperties.getLdap().getAdUseAuthenticationRequestCredentials());
@@ -182,7 +183,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .and().userDetailsContextMapper(new LdapUserDetailsMapper() {
                 @Override
                 public UserDetails mapUserFromContext(DirContextOperations ctx, String username, Collection<? extends GrantedAuthority> authorities) {
-                    return super.mapUserFromContext(ctx, username, Collections.singletonList(new SimpleGrantedAuthority(Constants.USUARIO_EXTERNO)));
+                    return super.mapUserFromContext(ctx, username, Collections.singletonList(new SimpleGrantedAuthority(Constants.USUARIO_INTERNO)));
                 }
             }).passwordCompare().passwordEncoder(new LdapShaPasswordEncoder()).passwordAttribute(applicationProperties.getLdap().getPasswordAttribute());
         } catch (Exception e) {
