@@ -9,7 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import br.gov.mme.domain.Representante;
+import br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO;
+import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
+import br.gov.mme.service.dto.RepresentanteEMailECNPJDTO;
+import br.gov.mme.service.dto.TelefoneListaRepresentanteDTO;
 
 
 @Repository
@@ -27,9 +31,8 @@ public interface RepresentanteRepository extends JpaRepository<Representante, Lo
            "FROM Representante r " +
            "WHERE r.pessoa.email = :email AND r.pessoaJuridica.cnpj = :cnpj")
     RepresentanteEMailECNPJDTO findEmailECNPJ(@Param("email") String email, @Param("cnpj") String cnpj);
-}
 
-    @Query("select new br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO(r.pessoa.id,r.pessoaJuridica.id,r.pessoa.email, r.nome, r.pessoaJuridica.nomeFantasia) from Representante r  ")
+    @Query("select new br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO(r.pessoa.id,r.pessoaJuridica.id,r.pessoa.email, r.nome, r.pessoaJuridica.nomeFantasia) from Representante r")
     Page<ComunicacaoRepresentantelistaDTO> listarRepresentantes(Pageable pageable);
 
     @Query("select new br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO(r.pessoa.id,r.pessoaJuridica.id,r.pessoa.email, r.nome, r.pessoaJuridica.nomeFantasia) from Representante r where "

@@ -1,14 +1,14 @@
-<div class="form-login">
-    <h1>SAPED</h1>
-    <h3>SISTEMA DE ARRECADAÇÃO PARA PESQUISA E DESENVOLVIMENTO</h3>
-    <h4>ESQUECI A SENHA</h4>
+<div class="form-login form-esqueci-senha">
+        <h1>SAPED</h1>
+        <h3>SISTEMA DE ARRECADAÇÃO PARA PESQUISA E DESENVOLVIMENTO</h3>
+        <h4>ESQUECI A SENHA</h4>
 
-    <div class="ui-g">
-        <form [formGroup]="form">
-            <template>
-                <label for="CNPJ">CNPJ</label>
-            </template>
-            <div class="ui-g-12">
+        <div class="ui-g">
+            <form [formGroup]="form">
+                <template>
+                    <label for="CNPJ">CNPJ</label>
+                </template>
+                <div class="ui-g-12">
       <span class="md-inputfield">
           <p-inputMask id="CNPJ" formControlName="cnpj" [(ngModel)]="cnpj" mask="99.999.999/9999-99" slotChar=" "
                        [autoClear]="false"
@@ -18,22 +18,22 @@
           {{getMessagemErroCnpj()}}
         </div>
       </span>
-            </div>
-            <div class="ui-g-12">
+                </div>
+                <div class="ui-g-12">
       <span class="md-inputfield">
           <app-custom-input-text [maxLength]="200" [label]="'E-mail'"
                                  class="ui-inputtext ui-corner-all ui-state-default ui-widget"
                                  [(ngModel)]="eMail" formControlName="email" [errorMessage]="msgPadraoCampoObrigatorio"
                                  [showErrorMessageAfterSubmitForm]="submitedForm"></app-custom-input-text>
       </span>
-            </div>
-        </form>
-    </div>
-    <div class="ui-g login-botoes">
-        <div class="ui-g-5">
-            <p-button class="btn-entrar confirmar-btb" pButton type="button" label="Confirmar"
-                      (onClick)="confirmarAlteracao()"></p-button>
+                </div>
+            </form>
         </div>
-    </div>
+        <div class="ui-g login-botoes">
+            <div class="ui-g-5">
+                <p-button class="btn-entrar confirmar-btb" pButton type="button" label="Confirmar"
+                          (onClick)="confirmarAlteracao()"></p-button>
+            </div>
+        </div>
 </div>
 <basis-page-notification></basis-page-notification>

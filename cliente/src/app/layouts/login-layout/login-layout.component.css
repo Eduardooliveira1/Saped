@@ -7,11 +7,11 @@
     background-position: center;
     background-size: 100% auto;
 }
-.form-login{
+.form-login {
     width: 25%;
-    height: 60%;
+    height: 68%;
     background-color:#FAFAFB;
-    position:absolute; 
+    position:absolute;
     left:0; right:0;
     top:0; bottom:0;
     margin:auto;
