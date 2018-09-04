@@ -21,6 +21,7 @@ logging:
         org.springframework.security.ldap: DEBUG
         org.springframework.security.authentication: DEBUG
         org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider: DEBUG
+        org.springframework.security.ldap.SpringSecurityLdapTemplate: DEBUG
 
 eureka:
     instance:
