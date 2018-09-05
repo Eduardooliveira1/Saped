@@ -1,7 +1,5 @@
-import { PessoaRepresentanteService } from './pessoa-representante.service';
-import { TokenInterceptor } from '../auth/interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {CommonModule} from '@angular/common';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
@@ -18,6 +16,7 @@ import {
   DropdownModule,
   InputMaskModule
 } from 'primeng/primeng';
+import {TokenInterceptor} from '../auth/interceptor';
 import {CustomComponentsModule} from '../shared/custom-components/custom-components.module';
 import {CustomDirectivesModule} from '../shared/custom-directives/custom-directives.module';
 import {EnumService} from '../shared/enum.service';
@@ -26,6 +25,7 @@ import {PessoaJuridicaListComponent} from './pessoa-juridica-list/pessoa-juridic
 import {pessoaJuridicaRoute} from './pessoa-juridica.route';
 import {PessoaJuridicaService} from './pessoa-juridica.service';
 import {PessoaRepresentanteListComponentComponent} from './pessoa-representante-list-component/pessoa-representante-list-component.component';
+import {PessoaRepresentanteService} from './pessoa-representante.service';
 
 @NgModule({
   imports: [
@@ -45,8 +45,7 @@ import {PessoaRepresentanteListComponentComponent} from './pessoa-representante-
     DialogModule,
     InputMaskModule,
     CheckboxModule,
-
-
+    CustomDirectivesModule
   ],
   declarations: [PessoaJuridicaListComponent, PessoaJuridicaFormComponent, PessoaRepresentanteListComponentComponent],
   providers:[

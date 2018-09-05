@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.mme.repository.RepresentanteRepository;
+import br.gov.mme.service.MailSenderService;
 import br.gov.mme.service.RepresentanteService;
 import br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO;
 import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
@@ -28,8 +29,12 @@ public class RepresentanteServiceImpl implements RepresentanteService {
 
     private final RepresentanteRepository representanteRepository;
 
-    public RepresentanteServiceImpl(RepresentanteRepository representanteRepository) {
+    private final MailSenderService mailSenderService;
+
+    public RepresentanteServiceImpl(RepresentanteRepository representanteRepository,
+            MailSenderService mailSenderService) {
         this.representanteRepository = representanteRepository;
+        this.mailSenderService = mailSenderService;
     }
 
     @Override
@@ -48,7 +53,11 @@ public class RepresentanteServiceImpl implements RepresentanteService {
         RepresentanteEMailECNPJDTO dadosRetornados = representanteRepository.findEmailECNPJ(
                 representanteEMailECNPJDTO.getEmail(),
                 representanteEMailECNPJDTO.getCnpj());
-        return (dadosRetornados != null && dadosRetornados.getEmail() != null && dadosRetornados.getCnpj() != null);
+        if (dadosRetornados != null && dadosRetornados.getEmail() != null && dadosRetornados.getCnpj() != null) {
+            this.mailSenderService.enviar(dadosRetornados.getEmail(), "teste", "teste");
+            return true;
+        }
+        return false;
     }
 
     @Override

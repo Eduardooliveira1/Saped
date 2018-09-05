@@ -27,7 +27,7 @@ public interface RepresentanteRepository extends JpaRepository<Representante, Lo
         + " FROM Telefone t WHERE t.pessoaRepresentante.pessoaJuridica.id = :idPj ")
     List<TelefoneListaRepresentanteDTO> findTelefonesByPessoaJuridica(@Param("idPj") Long idPj);
 
-    @Query("SELECT new br.gov.mme.service.dto.RepresentanteEMailECNPJDTO(r.pessoa.email, r.pessoaJuridica.cnpj) " +
+    @Query("SELECT new br.gov.mme.service.dto.RepresentanteEMailECNPJDTO(r.pessoaJuridica.cnpj, r.pessoa.email) " +
            "FROM Representante r " +
            "WHERE r.pessoa.email = :email AND r.pessoaJuridica.cnpj = :cnpj")
     RepresentanteEMailECNPJDTO findEmailECNPJ(@Param("email") String email, @Param("cnpj") String cnpj);

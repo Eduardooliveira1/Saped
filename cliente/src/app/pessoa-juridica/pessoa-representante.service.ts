@@ -1,7 +1,7 @@
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {Response} from '@angular/http';
-import {HttpService} from '@basis/angular-components';
 import {environment} from '../../environments/environment.prod';
 import {CustomUtils} from '../util/custom-utils';
 import {PessoaRepresentanteEmailECnpj} from './pessoa-representante-email-e-cnpj';
@@ -11,7 +11,7 @@ export class PessoaRepresentanteService {
 
   resourceUrl = environment.apiUrl + '/pessoas-representantes';
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpClient) {
   }
 
   obterRepresentantes(idPj: number) {
@@ -21,11 +21,9 @@ export class PessoaRepresentanteService {
   }
 
   validaEmailECnpj(cnpjEEmail: PessoaRepresentanteEmailECnpj) {
-    let result: boolean;
-    result = false;
     const copy = CustomUtils.convert(cnpjEEmail);
-    return this.http.post(this.resourceUrl + '/validar-esqueci-a-senha', cnpjEEmail).map((res: Response) => {
-        return res.json();
+    return this.http.post(this.resourceUrl + '/validar-esqueci-a-senha', copy).map((res: Response) => {
+        return res;
       }
     );
   }

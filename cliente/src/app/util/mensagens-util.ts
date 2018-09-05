@@ -19,7 +19,8 @@ export class MensagensUtils {
     public static ENUM_NOTIFICACAO_NAO = 'N';
     public static FILTRO_INVALIDO = 'Selecione pelo menos um filtro para realizar a busca.';
     public static EMAIL_OU_CNPJ_INVALIDO = 'Email e/ou CNPJ inválidos.';
-    public static CONFIRMACAO_ENVIO_ALTERAR_SENHA = 'Senha enviada para o email com sucesso.'
+    public static CONFIRMACAO_ENVIO_ALTERAR_SENHA = 'Senha enviada para o email com sucesso.';
+    public static CAMPOS_SENHA_DIFERENTES = 'Senhas não coincidem.';
 
   /**
      * pessoa jurídica

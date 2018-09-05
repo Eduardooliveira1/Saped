@@ -32,7 +32,7 @@ export class EsqueciASenhaComponent implements OnInit {
     this.submitedForm = true;
     if (this.cnpj && this.eMail) {
       const pessoaRepresentanteEmailECnpj = new PessoaRepresentanteEmailECnpj(this.eMail, this.cnpj);
-      this.pessoaRepresentanteService.validaEmailECnpj(pessoaRepresentanteEmailECnpj).subscribe((result: boolean) => {
+      this.pessoaRepresentanteService.validaEmailECnpj(pessoaRepresentanteEmailECnpj).subscribe((result: any) => {
         if (result) {
           this.pageNotificationService.addSuccessMessage(MensagensUtils.CONFIRMACAO_ENVIO_ALTERAR_SENHA);
         } else {
