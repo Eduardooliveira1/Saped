@@ -56,11 +56,7 @@ spring:
             hibernate.cache.hazelcast.instance_name: saped
             hibernate.cache.use_minimal_puts: true
             hibernate.cache.hazelcast.use_lite_member: true
-    mail:
-        host: localhost
-        port: 25
-        username:
-        password:
+   
     thymeleaf:
         cache: true
     zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
