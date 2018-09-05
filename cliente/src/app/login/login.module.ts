@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 import {PageNotificationModule, PageNotificationService} from '@basis/angular-components';
 import {ButtonModule} from 'primeng/button';
 import {InputMaskModule, PasswordModule} from 'primeng/primeng';
+import {PessoaJuridicaService} from '../pessoa-juridica/pessoa-juridica.service';
 import {PessoaRepresentanteService} from '../pessoa-juridica/pessoa-representante.service';
 import {CustomComponentsModule} from '../shared/custom-components/custom-components.module';
 // import {url, UrlParamsService} from '../shared/url-params.service';
@@ -18,6 +19,6 @@ import {RedefinirSenhaComponent} from './redefinir-senha-component/redefinir-sen
   imports: [RouterModule.forChild(loginRoute), ButtonModule, CommonModule, FormsModule, PageNotificationModule, ReactiveFormsModule,
     CustomComponentsModule, InputMaskModule, PasswordModule],
   declarations: [LoginComponent, EsqueciASenhaComponent, RedefinirSenhaComponent, CnpjInvalidoComponent],
-  providers: [PessoaRepresentanteService, PageNotificationService]
+  providers: [PessoaRepresentanteService, PageNotificationService, PessoaJuridicaService]
 })
 export class LoginModule { }

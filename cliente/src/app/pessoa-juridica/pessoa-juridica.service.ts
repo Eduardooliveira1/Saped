@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment.prod';
+import {CredenciaisNovaSenha} from '../login/redefinir-senha-component/credenciais-nova-senha';
 import {Pageable} from '../util/pageable-request';
 import {sapedUtil} from './../shared/metodos/sapedUtil';
 import {PessoaJuridicaCadastro} from './pessoa-juridica-cadastro.model';
@@ -33,7 +34,7 @@ export class PessoaJuridicaService {
     }
 
     atualizar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
-        const copy = this.convert(pessoaJuridica);
+        const copy: PessoaJuridicaCadastro = this.convert(pessoaJuridica);
         return this.http.put(this.resourceUrl, copy).map((res: PessoaJuridicaCadastro) => {
             return res;
         });
@@ -49,8 +50,8 @@ export class PessoaJuridicaService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    private convert(pessoaJuridica: PessoaJuridicaCadastro): PessoaJuridicaCadastro {
-        return Object.assign({}, pessoaJuridica);
+    private convert(obj: any): any {
+        return Object.assign({}, obj);
     }
 
     listarTodas() {
@@ -64,4 +65,12 @@ export class PessoaJuridicaService {
         return res;
       });
     }
-};  
+
+    alterarSenha(credenciaisNovaSenha: CredenciaisNovaSenha): Observable<boolean> {
+      const copy: CredenciaisNovaSenha = this.convert(credenciaisNovaSenha);
+        return this.http.post(this.resourceUrl + '/alterar-senha', copy).map((res: boolean) => {
+            return res;
+        });
+    }
+
+}

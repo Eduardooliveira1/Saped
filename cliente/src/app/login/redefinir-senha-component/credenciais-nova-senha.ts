@@ -1,9 +1,10 @@
 export class CredenciaisNovaSenha {
-  senha: string;
+
+  novaSenha: string;
   cnpj: string;
 
-  constructor(senha: string, cnpj: string) {
-    this.senha = senha;
+  constructor(cnpj: string, novaSenha: string) {
+    this.novaSenha = novaSenha;
     this.cnpj = cnpj;
   }
 

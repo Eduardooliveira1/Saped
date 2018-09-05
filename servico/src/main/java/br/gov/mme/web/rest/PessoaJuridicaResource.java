@@ -29,6 +29,7 @@ import com.codahale.metrics.annotation.Timed;
 import br.gov.mme.exceptions.CNPJInvalidoException;
 import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentEntityException;
+import br.gov.mme.exceptions.NullCPNJException;
 import br.gov.mme.service.EnumerationService;
 import br.gov.mme.service.PessoaJuridicaService;
 import br.gov.mme.service.dto.CredenciaisNovaSenhaDTO;
@@ -145,11 +146,16 @@ public class PessoaJuridicaResource {
 
     @PostMapping("/pessoa-juridica/alterar-senha")
     @Timed
-    public ResponseEntity<Boolean> alterarSenha(@Valid @RequestBody CredenciaisNovaSenhaDTO credenciais)
+    public ResponseEntity<?> alterarSenha(@Valid @RequestBody CredenciaisNovaSenhaDTO credenciais)
             throws URISyntaxException {
-
-        return null;
-
+        try {
+            pessoaJuridicaService.alterarSenha(credenciais);
+            return ResponseEntity.ok(null);
+        } catch (NullCPNJException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, e.getMessage()))
+                    .body(null);
+        }
     }
 
 }

@@ -15,6 +15,9 @@ public class CredenciaisNovaSenhaDTO implements Serializable {
         this.novaSenha = novaSenha;
     }
 
+    public CredenciaisNovaSenhaDTO() {
+    }
+
     public String getCnpj() {
         return cnpj;
     }

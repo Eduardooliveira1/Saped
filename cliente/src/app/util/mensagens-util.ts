@@ -22,6 +22,8 @@ export class MensagensUtils {
     public static CONFIRMACAO_ENVIO_ALTERAR_SENHA = 'Senha enviada para o email com sucesso.';
     public static CAMPOS_SENHA_DIFERENTES = 'Senhas não coincidem.';
     public static REDEFINIR_SENHA_LINK_INVALIDO = 'O Link para redefinir senha não é valido';
+    public static SENHA_MENOR_QUE_8 = 'A senha escolhida pelo usuário deve conter no mínimo 8 caracteres.';
+    public static SENHA_ALTERADA = 'Senha alterada com sucesso.';
 
   /**
      * pessoa jurídica

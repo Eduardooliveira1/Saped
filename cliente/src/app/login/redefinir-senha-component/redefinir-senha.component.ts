@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageNotificationService} from '@basis/angular-components';
+import {PessoaJuridicaService} from '../../pessoa-juridica/pessoa-juridica.service';
 import {PessoaRepresentanteService} from '../../pessoa-juridica/pessoa-representante.service';
 import {CnpjConstants} from '../../shared/constants/cnpj-constants';
 import {MensagensUtils} from '../../util/mensagens-util';
@@ -19,7 +20,8 @@ export class RedefinirSenhaComponent implements OnInit {
               private pageNotificationService: PageNotificationService,
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private pessoaJuridicaService: PessoaJuridicaService) {
   }
 
   novaSenha: string;
@@ -35,7 +37,7 @@ export class RedefinirSenhaComponent implements OnInit {
       this.cnpj = params['cnpj'];
     });
     if (!CnpjConstants.isValidNumericCnpj(this.cnpj)) {
-     this.router.navigateByUrl('/login/cnpj-invalido');
+      this.router.navigateByUrl('/login/cnpj-invalido');
     }
     this.buildForm();
   }
@@ -56,12 +58,19 @@ export class RedefinirSenhaComponent implements OnInit {
   confirmarAlteracao() {
     this.submitedForm = true;
     if (this.novaSenha && this.confirmarSenha) {
-        if (this.confirmarSenha !== this.novaSenha) {
-          this.pageNotificationService.addErrorMessage(MensagensUtils.CAMPOS_SENHA_DIFERENTES);
-        } else {
-          this.credenciaisNovaSenha = new CredenciaisNovaSenha(this.novaSenha, this.cnpj);
-        }
+      if (this.confirmarSenha !== this.novaSenha) {
+        this.pageNotificationService.addErrorMessage(MensagensUtils.CAMPOS_SENHA_DIFERENTES);
+      } else if (this.novaSenha.length < 8) {
+        this.pageNotificationService.addErrorMessage(MensagensUtils.SENHA_MENOR_QUE_8);
+      } else {
+        this.credenciaisNovaSenha = new CredenciaisNovaSenha(this.cnpj, this.novaSenha);
+        this.pessoaJuridicaService.alterarSenha(this.credenciaisNovaSenha).subscribe(() =>
+          this.pageNotificationService.addSuccessMessage(MensagensUtils.SENHA_ALTERADA),
+          error => {
+            this.pageNotificationService.addErrorMessage(error.message);
+          });
       }
     }
+  }
 
 }

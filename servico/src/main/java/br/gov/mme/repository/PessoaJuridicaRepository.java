@@ -34,6 +34,7 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
     @Query("select new br.gov.mme.service.dto.PessoaJuridicaCadastroDTO(p.id,p.cnpj, p.sigla, p.nomeFantasia, p.razaoSocial) from PessoaJuridica p where p.pessoa.status = 'S' and p.cnpj = :cnpj")
     PessoaJuridicaCadastroDTO getCadastroDTOByCnpj(@Param("cnpj") String cnpj);
 
+    @Query("from PessoaJuridica where cnpj = :cnpj")
     PessoaJuridica findByCnpj(@Param("cnpj") String cnpj);
 
     @Query("select new br.gov.mme.service.dto.PessoaJuridicaComboDTO(p.id, p.nomeFantasia) from PessoaJuridica p where p.pessoa.status = 'S' order by p.nomeFantasia" )
