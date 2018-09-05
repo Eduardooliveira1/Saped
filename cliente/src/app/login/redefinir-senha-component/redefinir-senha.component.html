@@ -1,0 +1,43 @@
+<div class="form-login form-esqueci-senha">
+    <h1>SAPED</h1>
+    <h3>SISTEMA DE ARRECADAÇÃO PARA PESQUISA E DESENVOLVIMENTO</h3>
+    <h4>REDEFINIR SENHA</h4>
+
+    <div class="ui-g">
+        <form [formGroup]="form">
+            <template>
+                <label for="NOVA_SENHA">Nova Senha</label>
+                <label for="CONFIRMAR_SENHA">Confirmar nova senha</label>
+            </template>
+            <div class="ui-g-12">
+                <span class="md-inputfield">
+                    <input id="NOVA_SENHA" type="password" autocomplete="off" [(ngModel)]="novaSenha"
+                           class="ui-inputtext ui-corner-all ui-state-default ui-widget" formControlName="novaSenha">
+                    <label>Nova Senha</label>
+                    <div *ngIf="campoInvalido('novaSenha')" class="ui-message ui-messages-error">
+                        {{msgPadraoCampoObrigatorio}}
+                    </div>
+                </span>
+            </div>
+            <div class="ui-g-12">
+                <span class="md-inputfield">
+                    <input id="CONFIRMAR_SENHA" type="password" autocomplete="off" [(ngModel)]="confirmarSenha"
+                           class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                           formControlName="confirmarSenha">
+                    <label>Confirmar Senha</label>
+                    <div *ngIf="campoInvalido('confirmarSenha')" class="ui-message ui-messages-error">
+                        {{msgPadraoCampoObrigatorio}}
+                    </div>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="ui-g login-botoes">
+        <div class="ui-g-5">
+        <p-button class="btn-entrar confirmar-btb" pButton type="button" label="Confirmar"
+                  (onClick)="confirmarAlteracao()"></p-button>
+        </div>
+    </div>
+</div>
+<basis-page-notification>
+</basis-page-notification>
