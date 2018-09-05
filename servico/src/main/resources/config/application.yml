@@ -59,6 +59,20 @@ spring:
             naming:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
                 implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    mail:
+        host: smtp.gmail.com
+        #port: 465(SSL) ou 587(TLS)
+        port: 587 
+        username: sapedteste@gmail.com
+        password: sapedteste123
+        properties:
+          mail:
+            smtp:
+                auth: true
+                starttls:
+                    enable: true
+                    required: true
+                quitwait: false
     messages:
         basename: i18n/messages
     mvc:
@@ -128,8 +142,16 @@ liquibase:
 # ===================================================================
 
 application:
-    ip:
-        localAddress: 127.0.0.1
-    url:
-        ldap: ldap://172.20.1.50
-
+    local-address: "127.0.0.1"
+    ldap:
+        url: "ldap://localhost:9389"
+        search-base: "dc=example,dc=org" # No caso de AD (example.org) e OPENLDAP (dc=exmaple,dc=org)
+        search-filter: "uid={0}"
+        group-base: "dc=example,dc=org"
+        group-filter: "userid={0}"
+        manager-dn: "cn=admin,dc=example,dc=org"
+        manager-password: "admin"
+        password-attribute: "userPassword"
+        tipo: "OPENLDAP" # Tipo pode ser AD ou OPENLDAP
+        ad-convert-sub-error: true
+        ad-use-authentication-request-credentials: true

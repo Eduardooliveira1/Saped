@@ -14,6 +14,14 @@ public class EnumerationDTO implements Serializable {
         return id;
     }
 
+    public EnumerationDTO() {
+    }
+
+    public EnumerationDTO(String id, String descricao) {
+        this.id = id;
+        this.descricao = descricao;
+    }
+
     public EnumerationDTO setId(String id) {
         this.id = id;
         return this;

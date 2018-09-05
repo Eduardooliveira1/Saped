@@ -23,7 +23,8 @@ export const routes: Routes = [
       { path: 'diario-erros', component: DiarioErrosComponent },
       { path: 'pessoa-juridica', loadChildren: 'app/pessoa-juridica/pessoa-juridica.module#PessoaJuridicaModule' },
       { path: 'cadastrar-cobranca', loadChildren: 'app/cadastrar-cobranca/cadastrar-cobranca.module#CadastrarCobrancaModule' },
-
+      { path: 'comunicacao',loadChildren: 'app/comunicacao/comunicacao.module#ComunicacaoModule'},
+      { path: 'relatorios', loadChildren: 'app/relatorios/relatorios.module#RelatoriosModule' }
     ]
   },
   {

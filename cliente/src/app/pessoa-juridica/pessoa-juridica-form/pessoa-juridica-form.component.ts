@@ -1,18 +1,17 @@
-import { PessoaRepresentanteListComponentComponent } from '../pessoa-representante-list-component/pessoa-representante-list-component.component';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { PessoaJuridicaService } from '../pessoa-juridica.service';
-import { MensagensUtils } from '../../util/mensagens-util';
-import { CustomUtils } from '../../util/custom-utils';
-import { SelectItem } from 'primeng/primeng';
-import { EnumService } from '../../shared/enum.service';
-import { PessoaJuridicaCadastro } from '../pessoa-juridica-cadastro.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ValidateCnpj } from '../../shared/validators/cnpj.validator';
-import { PageNotificationService } from '@basis/angular-components';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PageNotificationService } from '@basis/angular-components';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { SelectItem } from 'primeng/primeng';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { EnumService } from '../../shared/enum.service';
+import { ValidateCnpj } from '../../shared/validators/cnpj.validator';
+import { CustomUtils } from '../../util/custom-utils';
+import { MensagensUtils } from '../../util/mensagens-util';
+import { PessoaJuridicaCadastro } from '../pessoa-juridica-cadastro.model';
+import { PessoaJuridicaService } from '../pessoa-juridica.service';
 
 @Component({
   selector: 'app-pessoa-juridica-form',
@@ -40,7 +39,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
     private pageNotificationService: PageNotificationService,
     private pessoaJuridicaService: PessoaJuridicaService,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -58,7 +57,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
           this.pessoaJuridica = result
         }, error=>{
           this.blockUI.stop();
-          this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
+            this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CARREGAR_DADOS);
         });
       }
     });
@@ -94,7 +93,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
   }
 
   getTiposEndereco() {
-    this.enumService.listarEnum(EnumService.SERVICO_TIPO_ENDERECO).subscribe(result => {
+    this.enumService.listarEnum(EnumService.SERVICO_TIPO_ENDERECO).subscribe((result: any) => {
       this.tiposEndereco = CustomUtils.entityToDropDown(result, CustomUtils.CAMPO_LABEL_PADRAO, CustomUtils.CAMPO_VALOR_PADRAO);
     })
   }
@@ -108,6 +107,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
       } else {
         this.subscribeToSaveResponse(this.pessoaJuridicaService.cadastrar(this.pessoaJuridica));
       }
+      this.router.navigate(['pessoa-juridica']);
     } else {
       this.pageNotificationService.addErrorMessage(MensagensUtils.PREENCHA_CAMPOS_OBRIGATORIOS);
       return;
@@ -122,8 +122,7 @@ export class PessoaJuridicaFormComponent implements OnInit {
       this.pageNotificationService.addSuccessMessage(MensagensUtils.REGISTRO_SALVO);
     }, (res) => {
       this.blockUI.stop();
-      this.pageNotificationService.addErrorMessage(res.json().title);
+        this.pageNotificationService.addErrorMessage(res.title);
     });
   }
-
 }

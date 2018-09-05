@@ -33,7 +33,7 @@ export class AppMenuComponent implements OnInit {
                     {label: 'Inadiplentes', routerLink: ['/relatorios/indadiplentes']}
                 ]
             },
-            {label: 'Comunicação', routerLink: ['/comunicação']}
+            {label: 'Comunicação', routerLink: ['/comunicacao']}
         ];
     }
 

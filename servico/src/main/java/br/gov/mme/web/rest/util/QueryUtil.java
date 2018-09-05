@@ -10,4 +10,5 @@ public final class QueryUtil {
         StringBuilder sb = new StringBuilder("%").append(texto).append("%");
         return sb.toString();
     }
+
 }

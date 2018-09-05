@@ -1,22 +1,19 @@
 package br.gov.mme.exceptions;
 
-public class DeleteInexistentEntityException extends Exception {
+public class DeleteInexistentEntityException extends EntityModificationException {
 
     private static final long serialVersionUID = 1L;
 
-    private final String message;
-    
-    protected DeleteInexistentEntityException(String entity) {
-        this.message = ExceptionMessages.DELETE_INEXISTENT_ID.message(entity);
-    }
-    
-    public DeleteInexistentEntityException() {
-        this("");
+    public static final String MESSAGE = "Descrição: Não foi possível excluir: Id buscado "
+            + "não está nos registros.";
+
+    public DeleteInexistentEntityException(String tabela) {
+        super(tabela);
     }
 
     @Override
     public String getMessage() {
-        return this.message;
+        return super.getMessage() + MESSAGE;
     }
 
 }
