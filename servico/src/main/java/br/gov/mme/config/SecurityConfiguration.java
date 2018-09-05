@@ -1,5 +1,6 @@
 package br.gov.mme.config;
 
+import br.gov.mme.config.security.SAPEDActiveDirectoryLdapAuthenticationProvider;
 import br.gov.mme.config.security.SAPEDMMEAuthenticationConfig;
 import br.gov.mme.exceptions.EncapsuladaException;
 import br.gov.mme.security.AuthoritiesConstants;
@@ -8,6 +9,7 @@ import br.gov.mme.security.jwt.TokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,6 +28,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
 import org.springframework.security.ldap.userdetails.LdapUserDetailsMapper;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
@@ -111,6 +114,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @return SAPEDMMEAuthenticationConfig
      */
     @Bean
+    @ConditionalOnProperty(prefix = "application.ldap", name = "tipo", havingValue = "OPENLDAP")
     public SAPEDMMEAuthenticationConfig apiAuthenticationConfig(DataSource pDataSource) {
 
         return auth -> {
@@ -127,10 +131,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         };
     }
 
+    /**
+     * Configuração de autenticação de produção
+     *
+     * @return SAPEDMMEAuthenticationConfig
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "application.ldap", name = "tipo", havingValue = "AD")
+    public SAPEDMMEAuthenticationConfig apiAuthenticationConfigAD(DataSource pDataSource) {
+        return auth -> {
+            SAPEDActiveDirectoryLdapAuthenticationProvider adProvider = new SAPEDActiveDirectoryLdapAuthenticationProvider(applicationProperties.getLdap().getSearchBase(), applicationProperties.getLdap().getUrl());
+            adProvider.setSearchFilter(applicationProperties.getLdap().getSearchFilter());
+            adProvider.setConvertSubErrorCodesToExceptions(applicationProperties.getLdap().getAdConvertSubError());
+            adProvider.setUseAuthenticationRequestCredentials(applicationProperties.getLdap().getAdUseAuthenticationRequestCredentials());
+            auth.authenticationProvider(adProvider);
+            try {
+                jdbcAuthentication(pDataSource, auth);
+            } catch (EncapsuladaException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        };
+    }
+
     private void jdbcAuthentication(DataSource pDataSource, AuthenticationManagerBuilder auth) throws EncapsuladaException {
         try {
             auth.jdbcAuthentication().dataSource(pDataSource).usersByUsernameQuery("select co_Cnpj as username, ds_Senha_Acesso as password, 1 as enabled from tb_Pessoa_juridica where co_Cnpj = ?")
-                .authoritiesByUsernameQuery(usuarioExternoQuery());
+                    .authoritiesByUsernameQuery(usuarioExternoQuery());
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             throw new EncapsuladaException(e);
@@ -148,18 +174,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private void authLdapAutentication(AuthenticationManagerBuilder auth) throws EncapsuladaException {
         try {
             auth.ldapAuthentication().userSearchBase(applicationProperties.getLdap().getSearchBase())
-                .userSearchFilter(applicationProperties.getLdap().getSearchFilter())
-                .groupSearchBase(applicationProperties.getLdap().getGroupBase())
-                .groupSearchFilter(applicationProperties.getLdap().getGroupFilter())
-                .contextSource().url(applicationProperties.getLdap().getUrl())
-                .managerDn(applicationProperties.getLdap().getManagerDn())
-                .managerPassword(applicationProperties.getLdap().getManagerPassword())
-                .and().userDetailsContextMapper(new LdapUserDetailsMapper(){
-                    @Override
-                    public UserDetails mapUserFromContext(DirContextOperations ctx, String username, Collection<? extends GrantedAuthority> authorities) {
-                        return super.mapUserFromContext(ctx, username, Collections.singletonList(new SimpleGrantedAuthority(Constants.USUARIO_EXTERNO)));
-                    }
-                }).passwordCompare().passwordEncoder(new LdapShaPasswordEncoder()).passwordAttribute(applicationProperties.getLdap().getPasswordAttribute());
+                    .userSearchFilter(applicationProperties.getLdap().getSearchFilter())
+                    .groupSearchBase(applicationProperties.getLdap().getGroupBase())
+                    .groupSearchFilter(applicationProperties.getLdap().getGroupFilter())
+                    .contextSource().url(applicationProperties.getLdap().getUrl())
+                    .managerDn(applicationProperties.getLdap().getManagerDn())
+                    .managerPassword(applicationProperties.getLdap().getManagerPassword())
+                    .and().userDetailsContextMapper(new LdapUserDetailsMapper() {
+                @Override
+                public UserDetails mapUserFromContext(DirContextOperations ctx, String username, Collection<? extends GrantedAuthority> authorities) {
+                    return super.mapUserFromContext(ctx, username, Collections.singletonList(new SimpleGrantedAuthority(Constants.USUARIO_INTERNO)));
+                }
+            }).passwordCompare().passwordEncoder(new LdapShaPasswordEncoder()).passwordAttribute(applicationProperties.getLdap().getPasswordAttribute());
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             throw new EncapsuladaException(e);
