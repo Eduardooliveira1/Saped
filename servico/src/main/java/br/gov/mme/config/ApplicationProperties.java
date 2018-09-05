@@ -13,6 +13,8 @@ public class ApplicationProperties {
 
     private String localAddress;
 
+    private String frontUrl;
+
     private final Ldap ldap = new Ldap();
 
     public Ldap getLdap() {
@@ -21,6 +23,14 @@ public class ApplicationProperties {
 
     public String getLocalAddress() {
         return localAddress;
+    }
+
+    public String getFrontUrl() {
+        return frontUrl;
+    }
+
+    public void setFrontUrl(String frontUrl) {
+        this.frontUrl = frontUrl;
     }
 
     public void setLocalAddress(String localAddress) {

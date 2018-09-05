@@ -31,6 +31,7 @@ import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentEntityException;
 import br.gov.mme.service.EnumerationService;
 import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.dto.CredenciaisNovaSenhaDTO;
 import br.gov.mme.service.dto.EnumerationDTO;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
@@ -140,6 +141,15 @@ public class PessoaJuridicaResource {
         List<PessoaJuridicaNomeDTO> nomesPessoaJuridica = pessoaJuridicaService.getNomesByPJ();
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(enumerationService
                 .getAllNomesPJ(nomesPessoaJuridica)));
+    }
+
+    @PostMapping("/pessoa-juridica/alterar-senha")
+    @Timed
+    public ResponseEntity<Boolean> alterarSenha(@Valid @RequestBody CredenciaisNovaSenhaDTO credenciais)
+            throws URISyntaxException {
+
+        return null;
+
     }
 
 }

@@ -9,6 +9,8 @@ import br.gov.mme.domain.PessoaJuridica;
 import br.gov.mme.exceptions.CNPJInvalidoException;
 import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentEntityException;
+import br.gov.mme.exceptions.NullCPNJException;
+import br.gov.mme.service.dto.CredenciaisNovaSenhaDTO;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
@@ -73,4 +75,7 @@ public interface PessoaJuridicaService {
     List<PessoaJuridicaNomeDTO> getNomesByPJ();
 
     PessoaJuridica findOne(Long idPessoaJuridica);
+
+    Boolean alterarSenha(CredenciaisNovaSenhaDTO credenciais) throws NullCPNJException;
+
 }

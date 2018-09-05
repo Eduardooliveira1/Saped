@@ -20,5 +20,5 @@ public interface RepresentanteService {
      */
     Page<ComunicacaoRepresentantelistaDTO> listarRepresentantes(String filtro, Pageable pageable);
 
-    Boolean verificaCNPJEEmailValidos(RepresentanteEMailECNPJDTO representanteEMailECNPJDTO);
+    Boolean enviaEmailEverificaValidade(RepresentanteEMailECNPJDTO representanteEMailECNPJDTO);
 }

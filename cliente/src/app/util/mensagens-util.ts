@@ -21,6 +21,7 @@ export class MensagensUtils {
     public static EMAIL_OU_CNPJ_INVALIDO = 'Email e/ou CNPJ inválidos.';
     public static CONFIRMACAO_ENVIO_ALTERAR_SENHA = 'Senha enviada para o email com sucesso.';
     public static CAMPOS_SENHA_DIFERENTES = 'Senhas não coincidem.';
+    public static REDEFINIR_SENHA_LINK_INVALIDO = 'O Link para redefinir senha não é valido';
 
   /**
      * pessoa jurídica

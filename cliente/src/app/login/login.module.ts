@@ -11,13 +11,13 @@ import {CustomComponentsModule} from '../shared/custom-components/custom-compone
 import {EsqueciASenhaComponent} from './esqueci-a-senha-component/esqueci-a-senha.component';
 import {LoginComponent} from './login-component/login.component';
 import {loginRoute} from './login.route';
+import {CnpjInvalidoComponent} from './redefinir-senha-component/cnpj-invalido-component/cnpj-invalido-component';
 import {RedefinirSenhaComponent} from './redefinir-senha-component/redefinir-senha.component';
 
 @NgModule({
   imports: [RouterModule.forChild(loginRoute), ButtonModule, CommonModule, FormsModule, PageNotificationModule, ReactiveFormsModule,
     CustomComponentsModule, InputMaskModule, PasswordModule],
-  declarations: [LoginComponent, EsqueciASenhaComponent, RedefinirSenhaComponent],
-  providers: [PessoaRepresentanteService, PageNotificationService, /*UrlParamsService, UrlParamsService, /*{
-    provide: url, useValue: BASE_URL + 'login/redefinir-senha' }*/]
+  declarations: [LoginComponent, EsqueciASenhaComponent, RedefinirSenhaComponent, CnpjInvalidoComponent],
+  providers: [PessoaRepresentanteService, PageNotificationService]
 })
 export class LoginModule { }

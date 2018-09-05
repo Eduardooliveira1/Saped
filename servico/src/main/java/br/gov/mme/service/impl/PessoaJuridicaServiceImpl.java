@@ -18,9 +18,11 @@ import br.gov.mme.enumeration.FlStatus;
 import br.gov.mme.exceptions.CNPJInvalidoException;
 import br.gov.mme.exceptions.CreateEntityWithExistentIdException;
 import br.gov.mme.exceptions.DeleteInexistentEntityException;
+import br.gov.mme.exceptions.NullCPNJException;
 import br.gov.mme.repository.PessoaJuridicaRepository;
 import br.gov.mme.repository.PessoaRepository;
 import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.dto.CredenciaisNovaSenhaDTO;
 import br.gov.mme.service.dto.PessoaJuridicaCadastroDTO;
 import br.gov.mme.service.dto.PessoaJuridicaComboDTO;
 import br.gov.mme.service.dto.PessoaJuridicaListaDTO;
@@ -70,7 +72,7 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
             throws CreateEntityWithExistentIdException, CNPJInvalidoException
     {
 
-        PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.findByCnpj(pessoaJuridicaDto.getCnpj());
+        PessoaJuridicaCadastroDTO p = pessoaJuridicaRepository.getCadastroDTOByCnpj(pessoaJuridicaDto.getCnpj());
 
         if (Objects.nonNull(p) && !p.getId()
             .equals(pessoaJuridicaDto.getId())) {
@@ -154,6 +156,17 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
     @Override
     public PessoaJuridica findOne(Long idPessoaJuridica) {
         return pessoaJuridicaRepository.findOne(idPessoaJuridica);
+    }
+
+    @Override
+    public Boolean alterarSenha(CredenciaisNovaSenhaDTO credenciais) throws NullCPNJException {
+        PessoaJuridica pj = pessoaJuridicaRepository.findByCnpj(credenciais.getCnpj());
+        if (pj == null) {
+            throw new NullCPNJException();
+        }
+        pj.setSenhaAcesso(credenciais.getNovaSenha());
+        pessoaJuridicaRepository.saveAndFlush(pj);
+        return Boolean.TRUE;
     }
 
 }

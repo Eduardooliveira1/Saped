@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PageNotificationService} from '@basis/angular-components';
-import {Observable} from '../../../../node_modules/rxjs';
 import {PessoaRepresentanteService} from '../../pessoa-juridica/pessoa-representante.service';
-import {UrlParams} from '../../shared/url-params';
-// import {UrlParamsService} from '../../shared/url-params.service';
+import {CnpjConstants} from '../../shared/constants/cnpj-constants';
 import {MensagensUtils} from '../../util/mensagens-util';
+import {CredenciaisNovaSenha} from './credenciais-nova-senha';
 
 @Component({
   selector: 'app-redefinir-a-senha',
@@ -19,9 +18,8 @@ export class RedefinirSenhaComponent implements OnInit {
   constructor(private pessoaRepresentanteService: PessoaRepresentanteService,
               private pageNotificationService: PageNotificationService,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute
-              /* private httpClient: HttpClient/*,
-              private urlParamsService: UrlParamsService*/) {
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   novaSenha: string;
@@ -29,19 +27,16 @@ export class RedefinirSenhaComponent implements OnInit {
   form: FormGroup;
   submitedForm = false;
   msgPadraoCampoObrigatorio = MensagensUtils.CAMPO_OBRIGATORIO;
-  private result: Observable<UrlParams>;
   cnpj: string;
+  credenciaisNovaSenha: CredenciaisNovaSenha;
 
   ngOnInit() {
-    // this.result = this.urlParamsService.search('cnpj');
-    // const data = {cnpj: 'cnpj'};
-    // this.httpClient.get<any>('http://localhost:4200/#/login/redefinir-senha',
-    //   {params: data}).subscribe(restult => {
-    //     this.cnpj = restult;
-    // });
     this.route.queryParams.subscribe(params => {
       this.cnpj = params['cnpj'];
     });
+    if (!CnpjConstants.isValidNumericCnpj(this.cnpj)) {
+     this.router.navigateByUrl('/login/cnpj-invalido');
+    }
     this.buildForm();
   }
 
@@ -63,6 +58,8 @@ export class RedefinirSenhaComponent implements OnInit {
     if (this.novaSenha && this.confirmarSenha) {
         if (this.confirmarSenha !== this.novaSenha) {
           this.pageNotificationService.addErrorMessage(MensagensUtils.CAMPOS_SENHA_DIFERENTES);
+        } else {
+          this.credenciaisNovaSenha = new CredenciaisNovaSenha(this.novaSenha, this.cnpj);
         }
       }
     }

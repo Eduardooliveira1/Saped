@@ -1,10 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from "@angular/core";
-import { Observable } from 'rxjs/Observable';
-import { environment } from '../../environments/environment.prod';
-import { Pageable } from '../util/pageable-request';
-import { sapedUtil } from './../shared/metodos/sapedUtil';
-import { PessoaJuridicaCadastro } from './pessoa-juridica-cadastro.model';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../environments/environment.prod';
+import {Pageable} from '../util/pageable-request';
+import {sapedUtil} from './../shared/metodos/sapedUtil';
+import {PessoaJuridicaCadastro} from './pessoa-juridica-cadastro.model';
 
 @Injectable()
 export class PessoaJuridicaService {
@@ -13,8 +13,8 @@ export class PessoaJuridicaService {
     searchUrl = environment.apiUrl + "/pessoas-juridicas";
 
     constructor(private http: HttpClient) { }
- 
-    listarDirigentes(filtro: string, pageable: Pageable, callback?: any) : any {
+
+    listarDirigentes(filtro: string, pageable: Pageable, callback?: any): any {
         let params = new HttpParams();
         if (filtro) {
             params = params.append('query', filtro);
@@ -26,7 +26,7 @@ export class PessoaJuridicaService {
 
     cadastrar(pessoaJuridica: PessoaJuridicaCadastro): Observable<PessoaJuridicaCadastro> {
         const copy = this.convert(pessoaJuridica);
-        
+
         return this.http.post(this.resourceUrl, copy).map((res : PessoaJuridicaCadastro) => {
             return res;
         });
@@ -50,8 +50,7 @@ export class PessoaJuridicaService {
     }
 
     private convert(pessoaJuridica: PessoaJuridicaCadastro): PessoaJuridicaCadastro {
-        const copy: PessoaJuridicaCadastro = Object.assign({}, pessoaJuridica);
-        return copy;
+        return Object.assign({}, pessoaJuridica);
     }
 
     listarTodas() {
@@ -65,4 +64,4 @@ export class PessoaJuridicaService {
         return res;
       });
     }
-};
+};  

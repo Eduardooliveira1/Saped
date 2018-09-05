@@ -55,7 +55,7 @@ public class PessoaRepresentanteResource {
     @Timed
     public ResponseEntity<Boolean> validarEsqueciASenha(@Valid @RequestBody RepresentanteEMailECNPJDTO representante)
             throws URISyntaxException {
-        Boolean validResponse = representanteService.verificaCNPJEEmailValidos(representante);
+        Boolean validResponse = representanteService.enviaEmailEverificaValidade(representante);
         return ResponseEntity.ok(validResponse);
     }
 

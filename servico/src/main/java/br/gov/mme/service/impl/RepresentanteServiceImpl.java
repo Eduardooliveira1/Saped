@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.mme.repository.RepresentanteRepository;
 import br.gov.mme.service.MailSenderService;
 import br.gov.mme.service.RepresentanteService;
+import br.gov.mme.service.UrlService;
 import br.gov.mme.service.dto.ComunicacaoRepresentantelistaDTO;
 import br.gov.mme.service.dto.PessoaRepresentanteListaDTO;
 import br.gov.mme.service.dto.RepresentanteEMailECNPJDTO;
 import br.gov.mme.service.dto.TelefoneListaRepresentanteDTO;
+import br.gov.mme.service.util.EMailUtils;
 import br.gov.mme.web.rest.util.PaginationUtil;
 import br.gov.mme.web.rest.util.QueryUtil;
 
@@ -31,10 +33,13 @@ public class RepresentanteServiceImpl implements RepresentanteService {
 
     private final MailSenderService mailSenderService;
 
+    private final UrlService urlService;
+
     public RepresentanteServiceImpl(RepresentanteRepository representanteRepository,
-            MailSenderService mailSenderService) {
+            MailSenderService mailSenderService, UrlService urlService) {
         this.representanteRepository = representanteRepository;
         this.mailSenderService = mailSenderService;
+        this.urlService = urlService;
     }
 
     @Override
@@ -49,12 +54,13 @@ public class RepresentanteServiceImpl implements RepresentanteService {
     }
 
     @Override
-    public Boolean verificaCNPJEEmailValidos(RepresentanteEMailECNPJDTO representanteEMailECNPJDTO) {
+    public Boolean enviaEmailEverificaValidade(RepresentanteEMailECNPJDTO representanteEMailECNPJDTO) {
         RepresentanteEMailECNPJDTO dadosRetornados = representanteRepository.findEmailECNPJ(
                 representanteEMailECNPJDTO.getEmail(),
                 representanteEMailECNPJDTO.getCnpj());
         if (dadosRetornados != null && dadosRetornados.getEmail() != null && dadosRetornados.getCnpj() != null) {
-            this.mailSenderService.enviar(dadosRetornados.getEmail(), "teste", "teste");
+            this.mailSenderService.enviar(dadosRetornados.getEmail(), EMailUtils.REDEFINIR_LOGIN_EMAIL_HEADER,
+                    EMailUtils.getRedefinirSenhaEMailMessage(dadosRetornados.getCnpj(), urlService.getFrontUrl()));
             return true;
         }
         return false;
