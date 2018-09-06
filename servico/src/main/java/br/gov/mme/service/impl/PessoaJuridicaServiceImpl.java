@@ -90,7 +90,6 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
                 .setDataCadastro(LocalDateTime.now()));
         } else {
         	pessoaJuridica.setPessoa(pessoaRepository.findOne(pessoaJuridicaDto.getId()));
-        	pessoaJuridica.setRepresentantes(recuperaEAdicionaRepresentantesSalvos(pessoaJuridicaDto.getId(),pessoaJuridica));
         	if(pessoaJuridicaDto.getStatus() != null && pessoaJuridicaDto.getStatus().equals(FlStatus.N)) {
         		pessoaJuridica.getPessoa().setStatus(FlStatus.S);
         		pessoaJuridica.getPessoa().setDataCadastro(LocalDateTime.now());
@@ -98,25 +97,11 @@ public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
         }
 
         atribuirRepresentantes(pessoaJuridica);
-        
-        pessoaJuridicaRepository.flush();
+
         pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
         return pessoaJuridicaMapper.toDto(pessoaJuridica);
     }
 
-    private List<Representante> recuperaEAdicionaRepresentantesSalvos(Long idPessoaJuridica, PessoaJuridica pessoaJuridica) {
-    		PessoaJuridica recuperarPessoaJuridicaSalva =  pessoaJuridicaRepository.findOne(idPessoaJuridica);
-    		
-    		for(Representante rep : pessoaJuridica.getRepresentantes() ) {
-    			if(rep.getId() == null) {
-    				recuperarPessoaJuridicaSalva.getRepresentantes().add(rep);	
-    			}
-           		
-           }
-          
-           return recuperarPessoaJuridicaSalva.getRepresentantes();
-           
-	}
 
 	private void atribuirRepresentantes(PessoaJuridica pessoaJuridica) {
         for (Representante representante : pessoaJuridica.getRepresentantes()) {
