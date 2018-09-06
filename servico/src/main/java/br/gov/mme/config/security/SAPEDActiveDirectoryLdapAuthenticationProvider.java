@@ -3,6 +3,7 @@ package br.gov.mme.config.security;
 import br.gov.mme.config.Constants;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,8 +32,8 @@ public class SAPEDActiveDirectoryLdapAuthenticationProvider extends AbstractLdap
         try {
             return (DirContextOperations) MethodUtils.invokeMethod(provider, true, "doAuthentication", auth);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            logger.error("Erro ao realizar Login LDAP", e);
-            throw new UnsupportedOperationException(e);
+            logger.debug("Erro ao realizar Login AD", e);
+            throw  new BadCredentialsException("Erro ao realizar login no AD", e.getCause());
         }
     }
 
