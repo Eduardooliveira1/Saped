@@ -4,56 +4,61 @@ import br.gov.mme.enumeration.TpStatusBoleto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class CobrancaBoletoDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Date dataVencimento;
-    private Date dataPagamento;
-    private Date dataSegundaVia;
+    private LocalDateTime dataVencimento;
+    private LocalDateTime dataPagamento;
+    private LocalDateTime dataSegundaVia;
     private BigDecimal valorBoleto;
     private String cnpj;
     private TpStatusBoleto statusBoleto;
-    private Date dataHoraStatusBoleto;
     private BigDecimal mesReferencia;
     private BigDecimal anoReferencia;
 
-    public CobrancaBoletoDTO(Date dataVencimento, BigDecimal valorBoleto, String cnpj, TpStatusBoleto statusBoleto, Date dataHoraStatusBoleto, BigDecimal mesReferencia, BigDecimal anoReferencia, Date dataPagamento, Date dataSegundaVia) {
+    public CobrancaBoletoDTO(LocalDateTime dataVencimento,
+                             BigDecimal valorBoleto,
+                             String cnpj,
+                             TpStatusBoleto statusBoleto,
+                             BigDecimal mesReferencia,
+                             BigDecimal anoReferencia,
+                             LocalDateTime dataPagamento,
+                             LocalDateTime dataSegundaVia) {
         this.dataVencimento = dataVencimento;
         this.valorBoleto = valorBoleto;
         this.cnpj = cnpj;
         this.statusBoleto = statusBoleto;
-        this.dataHoraStatusBoleto = dataHoraStatusBoleto;
         this.mesReferencia = mesReferencia;
         this.anoReferencia = anoReferencia;
         this.dataPagamento = dataPagamento;
         this.dataSegundaVia = dataSegundaVia;
     }
 
-    public Date getDataSegundaVia() {
-        return dataSegundaVia;
-    }
-
-    public void setDataSegundaVia(Date dataSegundaVia) {
-        this.dataSegundaVia = dataSegundaVia;
-    }
-
-    public Date getDataVencimento() {
+    public LocalDateTime getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(Date dataVencimento) {
+    public void setDataVencimento(LocalDateTime dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 
-    public Date getDataPagamento() {
+    public LocalDateTime getDataPagamento() {
         return dataPagamento;
     }
 
-    public void setDataPagamento(Date dataPagamento) {
+    public void setDataPagamento(LocalDateTime dataPagamento) {
         this.dataPagamento = dataPagamento;
+    }
+
+    public LocalDateTime getDataSegundaVia() {
+        return dataSegundaVia;
+    }
+
+    public void setDataSegundaVia(LocalDateTime dataSegundaVia) {
+        this.dataSegundaVia = dataSegundaVia;
     }
 
     public BigDecimal getValorBoleto() {
@@ -78,14 +83,6 @@ public class CobrancaBoletoDTO implements Serializable {
 
     public void setStatusBoleto(TpStatusBoleto statusBoleto) {
         this.statusBoleto = statusBoleto;
-    }
-
-    public Date getDataHoraStatusBoleto() {
-        return dataHoraStatusBoleto;
-    }
-
-    public void setDataHoraStatusBoleto(Date dataHoraStatusBoleto) {
-        this.dataHoraStatusBoleto = dataHoraStatusBoleto;
     }
 
     public BigDecimal getMesReferencia() {

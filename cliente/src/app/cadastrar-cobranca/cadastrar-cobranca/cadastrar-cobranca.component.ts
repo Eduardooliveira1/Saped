@@ -1,3 +1,4 @@
+import { FiltroListagemCobranca, DadosGerarBoleto } from './../cobranca-model';
 import { DadosUtils } from '../../util/dados-utils';
 import { CadastarCobrancaService } from '../cadastrar-cobranca.service';
 import { SelectItem } from 'primeng/primeng';
@@ -24,8 +25,10 @@ export class CadastrarCobrancaComponent implements OnInit {
   anosCobranca: SelectItem[];
   anosReferencia: any[] = [];
   listaCobrancas: Cobranca[] = [];
-  anoReferencia: string; 
-  idPessoaJuridicaSelecionada: string;
+  anoReferencia: string = ''; 
+ 
+  filtroListagemCobranca: FiltroListagemCobranca  ;
+  idPjSelecionada: string;
   idCobrancaEmitir : any;
 
   mostrarModalEmitirCobranca = false;
@@ -76,11 +79,13 @@ export class CadastrarCobrancaComponent implements OnInit {
     }
   }
 
-  emitirCobranca() {
-    this.listaCobrancas[this.idCobrancaEmitir]
+  emitirBoleto() {
 
-        this.blockUI.start(MensagensUtils.CARREGANDO);
-      this.cadastarCobrancaService.gerarBoleto(this.listaCobrancas[this.idCobrancaEmitir])
+    this.blockUI.start(MensagensUtils.CARREGANDO);
+    let dadosBoleto = this.listaCobrancas[this.idCobrancaEmitir];
+    let dadosGerarBoleto = new  DadosGerarBoleto(dadosBoleto.idPj,dadosBoleto.dataVencimento, parseInt(dadosBoleto.valor))
+
+      this.cadastarCobrancaService.gerarBoleto(dadosGerarBoleto)
       .subscribe(result => {
         this.blockUI.stop();
         this.listaCobrancas[this.idCobrancaEmitir] = result;
@@ -109,10 +114,12 @@ export class CadastrarCobrancaComponent implements OnInit {
   }
 
   obterListaDeCobrancas() {
-      let anoSelecionado = this.anosCobranca[parseInt(this.anoReferencia)-1].label;
-      this.cadastarCobrancaService.obterCobrancasDoAno(anoSelecionado, this.idPessoaJuridicaSelecionada).subscribe(result=>{
-        this.listaCobrancas = result;
-      });
+      if(this.idPjSelecionada != '' && this.anoReferencia != '') {
+        let filtroListagemCobranca = new FiltroListagemCobranca(this.anosCobranca[parseInt(this.anoReferencia)-1].label, this.idPjSelecionada)
+        this.cadastarCobrancaService.obterCobrancasDoAno(filtroListagemCobranca).subscribe(result=>{
+          this.listaCobrancas = result;
+        });
+      }
   }
 
   atualizaColunaQuintoDiaUtil(quintosdiasUteis: any) {

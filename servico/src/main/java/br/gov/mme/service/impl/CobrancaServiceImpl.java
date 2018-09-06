@@ -1,14 +1,22 @@
 package br.gov.mme.service.impl;
 
+import br.com.basis.nativequerybuilder.service.NativeQueryService;
 import br.gov.mme.enumeration.AcaoGerarBoleto;
 import br.gov.mme.enumeration.TpStatusBoleto;
+import br.gov.mme.nativequery.CobrancaBoletoNativeQuery;
 import br.gov.mme.service.CobrancaService;
 import br.gov.mme.service.dto.CobrancaBoletoDTO;
 import br.gov.mme.service.dto.CobrancaDTO;
+import br.gov.mme.service.dto.DadosGerarBoletoDTO;
+import br.gov.mme.service.dto.FiltroListagemCobrancaDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,32 +28,59 @@ import java.util.NoSuchElementException;
 @Transactional
 public class CobrancaServiceImpl implements CobrancaService {
 
-    @Override
-    public List<CobrancaDTO> obterCobrancasDoAno(int ano, Long idPj) {
-        List<CobrancaDTO> cobrancasDoAno = new ArrayList<>();
-        Date diaAtual = obterDiaAtual();
+    NativeQueryService nativeQueryService;
 
-        List<CobrancaBoletoDTO> boletosCadastradosNoAnoCorrente = obtemBoletosCadastrados(ano, idPj);
+    public CobrancaServiceImpl(NativeQueryService nativeQueryService) {
+        this.nativeQueryService = nativeQueryService;
+    }
+    @SuppressWarnings("unchecked")
+    @Transactional(readOnly = true)
+    private List<CobrancaBoletoDTO> listarBoletosDoAno(FiltroListagemCobrancaDTO filtro) {
+        return (List<CobrancaBoletoDTO>) nativeQueryService
+                .filterList(new CobrancaBoletoNativeQuery(filtro));
+    }
+
+    @Override
+    public List<CobrancaDTO> obterCobrancasDoAno(FiltroListagemCobrancaDTO filtro) {
+        List<CobrancaDTO> cobrancasDoAno = new ArrayList<>();
+        LocalDate diaAtual = obterDiaAtual();
+
+        List<CobrancaBoletoDTO> boletosCadastradosNoAnoCorrente = obtemBoletosCadastrados(filtro);
 
 
         for (int mes = 1; mes <= 12; mes++) {
             CobrancaBoletoDTO dadosBoleto = obtemDadosBoletoMesCorrente(boletosCadastradosNoAnoCorrente, mes);
 
             if (dadosBoleto != null) {
-                cobrancasDoAno.add(criaCobrancaComDadosDoBoleto(dadosBoleto, mes, ano));
+                cobrancasDoAno.add(criaCobrancaComDadosDoBoleto(dadosBoleto, mes, filtro.getAno()));
             } else {
-                cobrancasDoAno.add(cobrançaPadrao(mes, ano, diaAtual, idPj));
+                cobrancasDoAno.add(cobrançaPadrao(mes, filtro.getAno(), diaAtual, filtro.getIdPj()));
             }
         }
         return cobrancasDoAno;
     }
 
-    private CobrancaDTO cobrançaPadrao(int mes, int ano, Date diaAtual, Long idPj) {
+    @Override
+    public CobrancaDTO gerarBoleto(DadosGerarBoletoDTO dadosDoBoleto) {
+        // TODO::Olhar este método do native query
+        CobrancaBoletoDTO boletoGerado = new CobrancaBoletoDTO(LocalDateTime.now(),
+                new BigDecimal(123),
+                "213123123213",
+                TpStatusBoleto.PG,
+                new BigDecimal(9),
+                new BigDecimal(2018),
+                LocalDateTime.now(),
+                LocalDateTime.now());
+        CobrancaDTO cb = criaCobrancaComDadosDoBoleto(boletoGerado,9,2018);
+        return cb;
+    }
+
+    private CobrancaDTO cobrançaPadrao(int mes, long ano, LocalDate diaAtual, Long idPj) {
         CobrancaDTO cobrancaMensal = new CobrancaDTO();
 
-        Date dataVencimento = obterQuintoDiaUtil(mes, ano);
+        LocalDate dataVencimento = obterQuintoDiaUtil(mes, ano);
 
-        if (diaAtual.after(dataVencimento)) {
+        if (diaAtual.isAfter(dataVencimento)) {
             cobrancaMensal.setStatus(TpStatusBoleto.VE);
         } else {
             cobrancaMensal.setStatus(TpStatusBoleto.AV);
@@ -61,13 +96,13 @@ public class CobrancaServiceImpl implements CobrancaService {
         return cobrancaMensal;
     }
 
-    private CobrancaDTO criaCobrancaComDadosDoBoleto(CobrancaBoletoDTO dadosBoleto, int mes, int ano) {
+    private CobrancaDTO criaCobrancaComDadosDoBoleto(CobrancaBoletoDTO dadosBoleto, int mes, long ano) {
 
         CobrancaDTO cobrancaMensal = new CobrancaDTO();
 
         cobrancaMensal.setDataVencimento(converteDataParaString(obterQuintoDiaUtil(mes, ano)));
-        cobrancaMensal.setDataPagamento(converteDataParaString(dadosBoleto.getDataPagamento()));
-        cobrancaMensal.setDataSegundaVia(converteDataParaString(dadosBoleto.getDataSegundaVia()));
+        cobrancaMensal.setDataPagamento(converteDataParaString(dadosBoleto.getDataPagamento().toLocalDate()));
+        cobrancaMensal.setDataSegundaVia(converteDataParaString(dadosBoleto.getDataSegundaVia().toLocalDate()));
         //TODO::Olhar se tem data da segunda via na tabela
         cobrancaMensal.setValor(dadosBoleto.getValorBoleto().toString());
         cobrancaMensal.setAcaoGerar(obterAcaoGerarBoleto(dadosBoleto));
@@ -129,59 +164,44 @@ public class CobrancaServiceImpl implements CobrancaService {
     }
 
 
-    private List<CobrancaBoletoDTO> obtemBoletosCadastrados(int ano, Long idPj) {
-        //TODO:: obtém todos os boletos relacionados à uma pessoa jurídica (idPj) no determinado ano (list cobrança)
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        //TODO:: REMOVER ESTA LISTA E ESTA COBRANCA QUE SÃO GERADAS NAS PRÓXIMAS LINHAS
-        List<CobrancaBoletoDTO> boletosCadastrados = new ArrayList<>();
-        CobrancaBoletoDTO boletoCobranca = new CobrancaBoletoDTO(today.getTime(),
-                                                                new BigDecimal(123),
-                                                            "123455687877",
-                                                                TpStatusBoleto.PG,
-                                                                today.getTime(), new BigDecimal(8),
-                                                                new BigDecimal(2018),
-                                                                today.getTime(),today.getTime());
-
-        boletosCadastrados.add(boletoCobranca);
-        return boletosCadastrados;
+    private List<CobrancaBoletoDTO> obtemBoletosCadastrados(FiltroListagemCobrancaDTO filtro) {
+        List<CobrancaBoletoDTO> cb = new ArrayList<>();
+        return cb;
+        //TODO::OLhar a exceção que está dando no nativequery
+        //return listarBoletosDoAno(filtro);
     }
 
-    private String converteDataParaString(Date data) {
-        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
-        return sdfr.format(data);
+    private String converteDataParaString(LocalDate data) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return  data.format(formatter);
     }
 
-    public Date obterQuintoDiaUtil(int mes, int ano) {
+    public LocalDate obterQuintoDiaUtil(int mes, long ano) {
 
         int contadorDeDiasUteis = 0;
-        Date quintoDiaUtil = new Date();
-
-        Calendar calendario = Calendar.getInstance();
+        LocalDate quintoDiaUtil = null;
+        LocalDate diaDoMes;
 
         for (int dia = 1; dia <= 31; dia++) {
-            calendario = setaDia(calendario, dia, mes, ano);
-            if ((calendario.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
-                    && (calendario.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)) {
+            diaDoMes = setaDia(dia, mes, ano);
+            if ((diaDoMes.getDayOfWeek() != DayOfWeek.SATURDAY)
+                    && (diaDoMes.getDayOfWeek() != DayOfWeek.SUNDAY)) {
                 contadorDeDiasUteis++;
                 if (contadorDeDiasUteis == 5) {
-                    quintoDiaUtil = calendario.getTime();
+                    quintoDiaUtil = diaDoMes;
+                    break;
                 }
             }
         }
-        return quintoDiaUtil;
+
+        return quintoDiaUtil ;
     }
 
-    private Date obterDiaAtual() {
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        return today.getTime();
+    private LocalDate obterDiaAtual() {
+        return LocalDate.now();
     }
 
-    private Calendar setaDia(Calendar calendario, int dia, int mes, int ano) {
-        calendario.set(Calendar.YEAR, ano);
-        calendario.set(Calendar.MONTH, mes - 1);
-        calendario.set(Calendar.DAY_OF_MONTH, dia);
-        return calendario;
+    private LocalDate setaDia(int dia, int mes, long ano) {
+        return LocalDate.of((int )ano, mes, dia);
     }
 }

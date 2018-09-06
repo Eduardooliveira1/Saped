@@ -11,43 +11,122 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
-    private final Ip ip = new Ip();
+    private String localAddress;
 
-    private final Url url = new Url();
+    private final Ldap ldap = new Ldap();
 
-    public Ip getIp() {
-        return ip;
+    public Ldap getLdap() {
+        return ldap;
     }
 
-    public Url getUrl() {
-        return url;
+    public String getLocalAddress() {
+        return localAddress;
     }
 
-    public static class Ip {
-
-        private String localAddress;
-
-        public String getLocalAddress() {
-            return localAddress;
-        }
-
-        public void setLocalAddress(String localAddress) {
-            this.localAddress = localAddress;
-        }
-
+    public void setLocalAddress(String localAddress) {
+        this.localAddress = localAddress;
     }
 
-    public static class Url {
+    public static class Ldap {
 
-        private String ldap;
+        private String url;
+        private String searchBase;
+        private String searchFilter;
+        private String groupBase;
+        private String groupFilter;
+        private String managerDn;
+        private String managerPassword;
+        private String passwordAttribute;
+        private String tipo;
+        private Boolean adConvertSubError;
+        private Boolean adUseAuthenticationRequestCredentials;
 
-
-        public String getLdap() {
-            return ldap;
+        public String getUrl() {
+            return url;
         }
 
-        public void setLdap(String ldap) {
-            this.ldap = ldap;
+        public String getSearchBase() {
+            return searchBase;
+        }
+
+        public String getSearchFilter() {
+            return searchFilter;
+        }
+
+        public String getPasswordAttribute() {
+            return passwordAttribute;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public void setSearchBase(String searchBase) {
+            this.searchBase = searchBase;
+        }
+
+        public void setSearchFilter(String searchFilter) {
+            this.searchFilter = searchFilter;
+        }
+
+        public void setPasswordAttribute(String passwordAttribute) {
+            this.passwordAttribute = passwordAttribute;
+        }
+
+        public String getGroupBase() {
+            return groupBase;
+        }
+
+        public void setGroupBase(String groupBase) {
+            this.groupBase = groupBase;
+        }
+
+        public String getGroupFilter() {
+            return groupFilter;
+        }
+
+        public void setGroupFilter(String groupFilter) {
+            this.groupFilter = groupFilter;
+        }
+
+        public String getManagerDn() {
+            return managerDn;
+        }
+
+        public void setManagerDn(String managerDn) {
+            this.managerDn = managerDn;
+        }
+
+        public String getManagerPassword() {
+            return managerPassword;
+        }
+
+        public void setManagerPassword(String managerPassword) {
+            this.managerPassword = managerPassword;
+        }
+
+        public String getTipo() {
+            return tipo;
+        }
+
+        public void setTipo(String tipo) {
+            this.tipo = tipo;
+        }
+
+        public Boolean getAdConvertSubError() {
+            return adConvertSubError;
+        }
+
+        public void setAdConvertSubError(Boolean adConvertSubError) {
+            this.adConvertSubError = adConvertSubError;
+        }
+
+        public Boolean getAdUseAuthenticationRequestCredentials() {
+            return adUseAuthenticationRequestCredentials;
+        }
+
+        public void setAdUseAuthenticationRequestCredentials(Boolean adUseAuthenticationRequestCredentials) {
+            this.adUseAuthenticationRequestCredentials = adUseAuthenticationRequestCredentials;
         }
     }
 

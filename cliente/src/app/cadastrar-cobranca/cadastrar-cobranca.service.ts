@@ -1,34 +1,34 @@
-import { Cobranca } from './cobranca-model';
-import { HttpService } from '@basis/angular-components';
-import { environment } from '../../environments/environment.prod';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Cobranca, FiltroListagemCobranca, DadosGerarBoleto } from './cobranca-model';
 import { Injectable } from "@angular/core";
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable()
 export class CadastarCobrancaService {
 
     searchUrl = environment.apiUrl + "/listagem-cobranca";
-    resourceUrl = "/boleto";
+    resourceUrl = environment.apiUrl + "/gerar-boleto";
     
-    constructor(private http: HttpService) { }
+    constructor(private http: HttpClient) { }
 
     obterQuintosDiasUtis(ano: string) {
         return this.http.get(`${this.searchUrl}/${ano}`).map((res: Response) => {
-            return res.json();
+            return res;
         });
     }
 
-    obterCobrancasDoAno(ano: string, idPessoaJuridica: string) {
-        return this.http.get(`${this.searchUrl}/${ano}/${idPessoaJuridica}`).map((res: Response) => {
-            return res.json();
+    obterCobrancasDoAno(filtroListagemCobranca: FiltroListagemCobranca) : any{
+        return this.http.post(this.searchUrl, filtroListagemCobranca).map((res: Response) => {
+            debugger;
+            return res;
         });
     }
 
-    gerarBoleto(cobranca: Cobranca): Observable<Cobranca> {
-
-        return this.http.post(this.resourceUrl+"/gerar-boleto", cobranca).map((res : Response) => {
-            return res.json();
+    gerarBoleto(dadosDoBoleto: DadosGerarBoleto): Observable<Cobranca> {
+        return this.http.post(this.resourceUrl, dadosDoBoleto).map((res : Cobranca) => {
+            return res;
         });
     }
     

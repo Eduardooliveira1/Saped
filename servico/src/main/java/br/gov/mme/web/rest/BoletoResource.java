@@ -1,9 +1,12 @@
 package br.gov.mme.web.rest;
 
 import br.gov.mme.service.BoletoService;
-import br.gov.mme.service.PessoaJuridicaService;
+import br.gov.mme.service.CobrancaService;
 import br.gov.mme.service.dto.CobrancaDTO;
+import br.gov.mme.service.dto.DadosGerarBoletoDTO;
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,28 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 
-/**
- * REST controller for managing PessoaJuridicaResource.
- *
- * @see PessoaJuridicaService
- */
 @RestController
 @RequestMapping("/api/")
 public class BoletoResource {
 
-    private final BoletoService boletoService;
+    private final CobrancaService cobrancaService;
 
-    public BoletoResource(BoletoService boletoService) {
-        this.boletoService = boletoService;
+    public BoletoResource(
+                          CobrancaService cobrancaService) {
+        this.cobrancaService = cobrancaService;
     }
 
-    @PostMapping("/boleto/gerar-boleto")
+    @PostMapping("/gerar-boleto")
     @Timed
-    public CobrancaDTO gerarBoleto(
-            //TODO::Ajustar esta função e ver o que será de fato retornado.
-            @Valid @RequestBody CobrancaDTO cobranca) throws URISyntaxException {
-            boletoService.gerarBoleto(cobranca);
-            CobrancaDTO  result = new CobrancaDTO();
-            return result;
+    public ResponseEntity<CobrancaDTO> gerarBoleto(@Valid @RequestBody DadosGerarBoletoDTO dadosDoBoleto) throws URISyntaxException {
+        CobrancaDTO cobrancaGerada = cobrancaService.gerarBoleto(dadosDoBoleto);
+        return new ResponseEntity<>(cobrancaGerada, HttpStatus.OK);
     }
 }

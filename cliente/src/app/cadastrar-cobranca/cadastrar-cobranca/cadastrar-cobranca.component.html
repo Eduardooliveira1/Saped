@@ -9,7 +9,7 @@
             <span>Empresa:</span>
           </div>
           <div class="ui-g-8">  
-            <p-dropdown [required]="true" [(ngModel)]="idPessoaJuridicaSelecionada" [showClear]="true" [options]="pessoasJuridicasCadastradas" placeholder="Selecione"></p-dropdown>
+            <p-dropdown [required]="true" (ngModelChange)="obterListaDeCobrancas()" [(ngModel)]="idPjSelecionada"  [showClear]="true" [options]="pessoasJuridicasCadastradas" placeholder="Selecione"></p-dropdown>
           </div>
       </div>
       <div class="ui-g-4">
@@ -17,7 +17,7 @@
             <span>Ano:</span>
           </div>
           <div class="ui-g-8">
-              <p-dropdown [required]="true" [showClear]="true" [options]="anosCobranca" [(ngModel)]="anoReferencia" (ngModelChange)="obterListaDeCobrancas  ()" placeholder="Selecione" ></p-dropdown>
+              <p-dropdown [required]="true" [showClear]="true" [options]="anosCobranca" [(ngModel)]="anoReferencia" (ngModelChange)="obterListaDeCobrancas()" placeholder="Selecione" ></p-dropdown>
           </div>
       </div>
     </div>
@@ -88,7 +88,7 @@
 
   <p-footer>
       <button type="button" class="ui-button-secondary" pButton  (click)="cancelar()" label="Cancelar"></button>
-      <button type="button" pButton icon="ui-icon-receipt" class="botao-modal-emitir-cobranca" (click)="emitirCobranca()" label="Emitir" ></button>
+      <button type="button" pButton icon="ui-icon-receipt" class="botao-modal-emitir-cobranca" (click)="emitirBoleto()" label="Emitir" ></button>
   </p-footer>
 </p-dialog>
 

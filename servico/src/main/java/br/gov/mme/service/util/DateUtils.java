@@ -11,7 +11,6 @@ public final class DateUtils {
     private static final Logger log = LoggerFactory.getLogger(DateUtils.class);
 
     private DateUtils() {
-
     }
 
     public static String convertMesReferenciaToString(Integer mesReferencia) {
@@ -28,8 +27,8 @@ public final class DateUtils {
         return convertMesReferenciaToString(mesReferencia) + "/" + anoReferencia;
     }
 
-    public static String converNumberToDate(String data) {
-        return data.substring(4, 8) + "-" + data.substring(2, 4) + "-" + data.substring(0, 2);
+    public static String convertDateTimeToDate(String data) {
+        return data.substring(0, 10);
     }
 
 }
