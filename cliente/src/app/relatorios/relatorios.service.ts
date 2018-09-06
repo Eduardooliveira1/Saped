@@ -1,12 +1,12 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from '../../../node_modules/rxjs';
-import {environment} from '../../environments/environment.prod';
-import {sapedUtil} from '../shared/metodos/sapedUtil';
-import {Page} from '../util/page';
-import {Pageable} from '../util/pageable-request';
-import {FiltroRelatorioPagamentos} from './pagamentos/filtro-relatorio-pagamento';
-import {RelatorioPagamentoList} from './pagamentos/relatorio-pagamento-list';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from '../../../node_modules/rxjs/Observable';
+import { environment } from '../../environments/environment.prod';
+import { Page } from '../util/page';
+import { Pageable } from '../util/pageable-request';
+import { sapedUtil } from './../shared/metodos/sapedUtil';
+import { FiltroRelatorioPagamentos } from './pagamentos/filtro-relatorio-pagamento';
+import { RelatorioPagamentoList } from './pagamentos/relatorio-pagamento-list';
 
 @Injectable()
 export class RelatoriosService {
@@ -30,7 +30,7 @@ export class RelatoriosService {
 
     params = sapedUtil.setPageableParams(pageable, params);
 
-    return this.http.post(this.pagamentosUrl, filtroCopy, {params} ).map((res: any) => {
+    return this.http.post(this.pagamentosUrl,filtroCopy, {params} ).map((res: any) => {
       return res;
     });
   }
