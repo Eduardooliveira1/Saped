@@ -120,9 +120,9 @@ export class PessoaJuridicaFormComponent implements OnInit {
       this.blockUI.stop();
       this.pessoaJuridica = res;
       this.pageNotificationService.addSuccessMessage(MensagensUtils.REGISTRO_SALVO);
-    }, (res) => {
+    }, (error) => {
       this.blockUI.stop();
-        this.pageNotificationService.addErrorMessage(res.title);
+        this.pageNotificationService.addErrorMessage(MensagensUtils.ERRO_CADASTRO_DUPLICADO);
     });
   }
 }

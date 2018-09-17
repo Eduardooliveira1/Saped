@@ -18,6 +18,7 @@ export class MensagensUtils {
     public static ENUM_NOTIFICACAO_SIM = 'S';
     public static ENUM_NOTIFICACAO_NAO = 'N';
     public static FILTRO_INVALIDO = 'Selecione pelo menos um filtro para realizar a busca.';
+    public static ERRO_CADASTRO_DUPLICADO = "CNPJ já existente";
 
     /**
      * pessoa jurídica

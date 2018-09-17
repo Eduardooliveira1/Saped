@@ -130,7 +130,7 @@ jhipster:
 
 
 liquibase:
-  enabled: false
+  enabled: true
 
 # ===================================================================
 # Application specific properties
