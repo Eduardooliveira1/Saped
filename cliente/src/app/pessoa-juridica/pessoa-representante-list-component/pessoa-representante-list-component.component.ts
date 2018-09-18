@@ -83,9 +83,13 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
   telefoneIsValid() {
     const control = <FormArray>this.formDinamico.controls['itemRows'];
     const ultimoTelefone = this.telefone[control.length - 1];
+    if(ultimoTelefone.telefone === undefined || ultimoTelefone.ddd === undefined) {
+      return false;
+
+    } 
     const tamTel = ultimoTelefone.telefone.replace(/[^\d]/g, '').length;
 
-    return ultimoTelefone != null &&
+    return ultimoTelefone != null && 
       ultimoTelefone.telefone != null &&
       (tamTel === 8 || tamTel === 9) &&
       ultimoTelefone.ddd != null &&
@@ -103,7 +107,7 @@ export class PessoaRepresentanteListComponentComponent implements OnInit {
 
   incluirRepresentante() {
     this.submitedForm = true;
-
+    
     if (this.form.valid && this.telefoneIsValid()) {
       this.confirmationService.confirm({
         message: MensagensUtils.REPRESENTANTE_CONFIRMACAO_INCLUSAO,
