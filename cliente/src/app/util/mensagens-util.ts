@@ -18,14 +18,14 @@ export class MensagensUtils {
     public static ENUM_NOTIFICACAO_SIM = 'S';
     public static ENUM_NOTIFICACAO_NAO = 'N';
     public static FILTRO_INVALIDO = 'Selecione pelo menos um filtro para realizar a busca.';
-    public static ERRO_CADASTRO_DUPLICADO = "CNPJ já existente";
-
+    
     /**
      * pessoa jurídica
      */
     public static CADASTRAR_PJ = 'Cadastrar Pessoa Jurídica';
     public static CNPJ_INVALIDO = 'CNPJ inválido.';
     public static EDITAR_PJ = 'Editar Pessoa Jurídica';
+    public static ERRO_CADASTRO_DUPLICADO = "CNPJ já existente";
 
     /**
      * pessoa representante

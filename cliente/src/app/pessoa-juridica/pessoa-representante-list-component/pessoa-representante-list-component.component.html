@@ -70,7 +70,7 @@
                 <div *ngFor="let itemrow of formDinamico.controls.itemRows.controls; let i=index"  [formGroupName]="i">
                     <div class="ui-g-4 form-group">
                         <span class="md-inputfield">
-                          <p-inputMask mask="99" [(ngModel)]="telefone[i].ddd" placeholder="DDD" [required]="true" formControlName="ddd" ></p-inputMask>
+                          <p-inputMask mask="( 99 )" [(ngModel)]="telefone[i].ddd" placeholder="DDD" [required]="true" formControlName="ddd" ></p-inputMask>
                         </span>  
                       </div>
                       <div class="ui-g-6 form-group">
@@ -82,7 +82,7 @@
                 </div>
               </div>
               <div class="ui-g-2">
-                  <i class="material-icons botao-adicionar-telefone" (click)="adicionarTelefone()">add_circle_outline</i>
+                  <i class="material-icons botao-adicionar-telefone cursor-pointer" (click)="adicionarTelefone()">add_circle_outline</i>
               </div>
             </form>
       </div>
